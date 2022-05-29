@@ -15,5 +15,6 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld
         public static readonly Texture2D mostlyTransparentWhite = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 1f, 1f, 0.05f));
 
         public static readonly Texture2D scienceIcon = ContentFinder<Texture2D>.Get("scienceIcon", true);
+        public static readonly Texture2D scienceIconDark = ContentFinder<Texture2D>.Get("scienceIconDark", true);
     }
 }

@@ -13,6 +13,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
     public static class ResearchOpportunityPrefabs
     {
         public static Dictionary<ResearchProjectDef, List<ResearchOpportunity>> Opportunities { get; private set; }
+        public static Dictionary<ResearchProjectDef, Dictionary<ResearchOpportunityCategoryDef, float>> OpportunityTotals { get; private set; }
 
         public static void GenerateAllImplicitOpportunities()
         {
@@ -20,11 +21,15 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 return;
 
             Opportunities = new Dictionary<ResearchProjectDef, List<ResearchOpportunity>>();
+            OpportunityTotals = new Dictionary<ResearchProjectDef, Dictionary<ResearchOpportunityCategoryDef, float>>();
 
             foreach (var project in DefDatabase<ResearchProjectDef>.AllDefsListForReading)
             {
                 if (!Opportunities.ContainsKey(project))
                     Opportunities[project] = new List<ResearchOpportunity>();
+                if (!OpportunityTotals.ContainsKey(project))
+                    OpportunityTotals[project] = new Dictionary<ResearchOpportunityCategoryDef, float>();
+
                 var projectOpportunities = Opportunities[project];
 
                 var factory = new MasterFactory();
@@ -49,7 +54,9 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                     {
                         var anyOpportunities = projectOpportunities.Any(o => o.def.GetCategory(relation) == category && o.relation == relation);
                         if (anyOpportunities)
+                        {
                             totalMultiplier += category.targetFractionMultiplier;
+                        }
                     }
                 }
 

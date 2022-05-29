@@ -79,6 +79,7 @@
     <Compile Include="OpportunityComps\ResearchOpportunityComp.cs" />
     <Compile Include="Rimworld\MiscData\IngredientCountExposable.cs" />
     <Compile Include="Rimworld\UI\MainTabWindow_ResearchReinvented.cs" />
+    <Compile Include="Rimworld\UI\Widgets_Extra.cs" />
     <Compile Include="Rimworld\WorkGivers\WorkGiver_AnalyseBkp.cs" />
     <Compile Include="Rimworld\WorkGivers\WorkGiver_Analyse.cs" />
     <Compile Include="Rimworld\WorkGivers\WorkGiver_AnalyseTerrain.cs" />

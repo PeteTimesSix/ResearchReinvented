@@ -139,5 +139,10 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             else
                 return null;
         }
+
+        /*public float GetCategoryProgressFraction(ResearchOpportunityCategoryDef category)
+        {
+            category.targetFractionMultiplier 
+        }*/
     }
 }

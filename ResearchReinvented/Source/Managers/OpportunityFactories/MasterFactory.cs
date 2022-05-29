@@ -133,9 +133,11 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
 
             var allThings = new HashSet<ThingDef>();
 
+            //var directSet = collections.GetSet(ResearchRelation.Direct);
+
             foreach (var set in collections.GetSets()) 
             {
-                foreach (var productionFacility in set.forProductionFacilityAnalysis)
+                foreach (var productionFacility in set.forProductionFacilityAnalysis.Where(facility => !project.UnlockedDefs.Contains(facility))) //dont include tables we're trying to invent
                 {
                     allThings.Add(productionFacility);
                     yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseProductionFacility, set.relation, new ROComp_RequiresThing(productionFacility));
