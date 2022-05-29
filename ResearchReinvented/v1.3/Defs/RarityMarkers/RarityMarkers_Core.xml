@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  
+	<PeteTimesSix.ResearchReinvented.Defs.RaresListDef>
+		<defName>RR_core_raresList</defName>
+		<things>
+			<li>AIPersonaCore</li>
+		</things>
+	</PeteTimesSix.ResearchReinvented.Defs.RaresListDef>
+</Defs>

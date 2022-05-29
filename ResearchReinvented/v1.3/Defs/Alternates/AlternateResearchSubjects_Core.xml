@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_core_ancientCryptosleep</defName>
+		<originals>
+			<li>CryptosleepCasket</li>
+		</originals>
+		<alternates>
+			<li>AncientCryptosleepCasket</li>
+		</alternates>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_core_ancientLights</defName>
+		<originals>
+			<li>StandingLamp</li>
+			<li>StandingLamp_Red</li>
+			<li>StandingLamp_Green</li>
+			<li>StandingLamp_Blue</li>
+		</originals>
+		<alternates>
+			<li>AncientLamppost</li>
+		</alternates>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_core_ancientObstructions</defName>
+		<originals>
+			<li>Barricade</li>
+		</originals>
+		<alternates>
+			<li>AncientConcreteBarrier</li>
+		</alternates>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+</Defs>

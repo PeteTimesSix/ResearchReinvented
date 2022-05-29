@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+ <StatDef>
+    <defName>FieldResearchSpeedMultiplier</defName>
+    <label>field research speed multiplier</label>
+    <description>Affects how fast this person performs research in the field.</description>
+    <category>PawnWork</category>
+    <defaultBaseValue>0.5</defaultBaseValue>
+    <minValue>0.5</minValue>
+    <toStringStyle>PercentZero</toStringStyle>
+    <scenarioRandomizable>false</scenarioRandomizable>
+    <displayPriorityInCategory>4500</displayPriorityInCategory>
+  </StatDef> 
+</Defs>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef Name="ResearchOpportunityCategoryBase" Abstract="True">
+		<targetFractionMultiplier>1.0</targetFractionMultiplier>
+		<targetIterations>1.0</targetIterations>
+		<overflowMultiplier>1.5</overflowMultiplier>
+		<infiniteOverflow>false</infiniteOverflow>
+		<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
+		<defName>Theory</defName>
+		<label>theory</label>
+		<targetFractionMultiplier>0.0</targetFractionMultiplier>
+		<targetIterations>1.0</targetIterations>
+		<infiniteOverflow>true</infiniteOverflow>
+		<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
+		<priority>1000</priority>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
+		<defName>Prototyping</defName>
+		<label>prototyping</label>
+		<targetIterations>2.0</targetIterations>
+		<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
+		<priority>800</priority>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
+		<defName>Tooling</defName>
+		<label>tooling</label>
+		<targetIterations>2.0</targetIterations>
+		<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
+		<priority>700</priority>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
+		<defName>ReverseEngineering</defName>
+		<label>reverse engineering</label>
+		<targetIterations>4.0</targetIterations>
+		<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
+		<priority>600</priority>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
+		<defName>ForwardEngineering</defName>
+		<label>production experience</label>
+		<targetIterations>15.0</targetIterations>
+		<researchSpeedMultiplier>2.0</researchSpeedMultiplier>
+		<priority>599</priority>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
+		<defName>Logistics</defName>
+		<label>logistics</label>
+		<targetIterations>2.0</targetIterations>
+		<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
+		<priority>500</priority>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
+		<defName>Geology</defName>
+		<label>geology</label>
+		<targetIterations>5.0</targetIterations>
+		<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
+		<priority>400</priority>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
+		<defName>Biology</defName>
+		<label>biology</label>
+		<targetIterations>5.0</targetIterations>
+		<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
+		<priority>350</priority>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
+		<defName>Chemistry</defName>
+		<label>chemistry</label>
+		<targetIterations>5.0</targetIterations>
+		<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
+		<priority>340</priority>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
+		<defName>Gastronomy</defName>
+		<label>gastronomy</label>
+		<targetIterations>10.0</targetIterations>
+		<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
+		<priority>320</priority>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
+		<defName>Material</defName>
+		<label>material studies</label>
+		<targetIterations>5.0</targetIterations>
+		<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
+		<priority>300</priority>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+	
+</Defs>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+	<name>Research Reinvented</name>
+	<author>PeteTimesSix</author>  
+	<packageId>PeteTimesSix.ResearchReinvented</packageId>
+	<supportedVersions>
+		<li>1.3</li>
+	</supportedVersions>
+	<url>https://github.com/PeteTimesSix/ResearchReinvented</url>
+	<modDependencies>
+      <li>
+        <packageId>brrainz.harmony</packageId>
+        <displayName>Harmony</displayName>
+        <steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+      </li>
+    </modDependencies>
+	<loadAfter>
+		<li>brrainz.harmony</li>
+	</loadAfter>
+	<description>
+ &lt;i&gt;More to come ...?&lt;/i&gt;
+	</description>
+</ModMetaData>

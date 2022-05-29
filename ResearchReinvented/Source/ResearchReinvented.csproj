@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C1B28428-5A33-4A00-B4D9-6E38D6D7B442}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PeteTimesSix.ResearchReinvented</RootNamespace>
+    <AssemblyName>ResearchReinvented</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>embedded</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\v1.3\Assemblies\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\v1.1\Assemblies\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DefOfs\ApparelLayerDefOf_Custom.cs" />
+    <Compile Include="DefOfs\EffecterDefOf_Custom.cs" />
+    <Compile Include="DefOfs\StatDefOf_Custom.cs" />
+    <Compile Include="DefOfs\ThingDefOf_Custom.cs" />
+    <Compile Include="Defs\AlternateResearchSubjectDef.cs" />
+    <Compile Include="Defs\RaresListDef.cs" />
+    <Compile Include="Defs\SpecialResearchOpportunityDef.cs" />
+    <Compile Include="HarmonyPatches\ApparelLayerDef_Patches.cs" />
+    <Compile Include="HarmonyPatches\Pawn_JobTracker_Patches.cs" />
+    <Compile Include="HarmonyPatches\TestPatch.cs" />
+    <Compile Include="HarmonyPatches\Toils_Haul_Patches.cs" />
+    <Compile Include="Managers\OpportunityFactories\MasterFactory.cs" />
+    <Compile Include="Managers\OpportunityFactories\OF_CompProps.cs" />
+    <Compile Include="Managers\OpportunityFactories\OF_Plants.cs" />
+    <Compile Include="Managers\OpportunityFactories\OF_Recipes.cs" />
+    <Compile Include="Managers\OpportunityFactories\OF_Unlocks.cs" />
+    <Compile Include="OpportunityComps\ROComp_RequiresTerrain.cs" />
+    <Compile Include="OpportunityComps\ROComp_RequiresThing.cs" />
+    <Compile Include="OpportunityComps\ROComp_RequiresIngredients.cs" />
+    <Compile Include="OpportunityComps\ROComp_RequiresNothing.cs" />
+    <Compile Include="Rimworld\Comps\CompProperties\CompProperties_ResearchKit.cs" />
+    <Compile Include="Rimworld\Comps\Comp_ResearchKit.cs" />
+    <Compile Include="Rimworld\DefModExtensions\RarityMarker.cs" />
+    <Compile Include="Rimworld\JobDrivers\JobDriver_Analyse.cs" />
+    <Compile Include="Rimworld\JobDrivers\JobDriver_AnalyseTerrain.cs" />
+    <Compile Include="Rimworld\JobDrivers\JobDriver_AnalyseInPlace.cs" />
+    <Compile Include="Rimworld\JobDrivers\JobDriver_ResearchRR.cs" />
+    <Compile Include="Rimworld\JobDrivers\JobDriver_RRBase.cs" />
+    <Compile Include="Rimworld\Jobs\Job_Research_RR.cs" />
+    <Compile Include="Rimworld\Jobs\RR_JobDefOf.cs" />
+    <Compile Include="Rimworld\Jobs\TypedJobMaker.cs" />
+    <Compile Include="Rimworld\MiscData\FieldResearchHelper.cs" />
+    <Compile Include="Rimworld\RR_UniqueIDsManager.cs" />
+    <Compile Include="Rimworld\Toils\Toils_ClearArea.cs" />
+    <Compile Include="Rimworld\Toils\Toils_Goto_Custom.cs" />
+    <Compile Include="Rimworld\UI\MainButtonWorker_ToggleResearchReinventedTab.cs" />
+    <Compile Include="Rimworld\ResearchManagerAccess.cs" />
+    <Compile Include="OpportunityComps\ResearchOpportunityComp.cs" />
+    <Compile Include="Rimworld\MiscData\IngredientCountExposable.cs" />
+    <Compile Include="Rimworld\UI\MainTabWindow_ResearchReinvented.cs" />
+    <Compile Include="Rimworld\WorkGivers\WorkGiver_AnalyseBkp.cs" />
+    <Compile Include="Rimworld\WorkGivers\WorkGiver_Analyse.cs" />
+    <Compile Include="Rimworld\WorkGivers\WorkGiver_AnalyseTerrain.cs" />
+    <Compile Include="Rimworld\WorkGivers\WorkGiver_ResearcherRR.cs" />
+    <Compile Include="Rimworld\WorkGivers\WorkGiver_AnalyseInPlace.cs" />
+    <Compile Include="StatWorkers\StatWorker_RemoteResearchSpeedFactor.cs" />
+    <Compile Include="Utilities\Debug.cs" />
+    <Compile Include="Opportunities\ResearchOpportunity.cs" />
+    <Compile Include="Managers\ResearchOpportunityManager.cs" />
+    <Compile Include="Managers\ResearchOpportunityPrefabs.cs" />
+    <Compile Include="Defs\ResearchOpportunityCategoryDef.cs" />
+    <Compile Include="Defs\ResearchOpportunityTypeDef.cs" />
+    <Compile Include="Managers\OpportunityFactories\ResearchOpportunityFactory_Old.cs" />
+    <Compile Include="DefOfs\ResearchOpportunityTypeDefOf.cs" />
+    <Compile Include="ResearchReinventedMod.cs" />
+    <Compile Include="ResearchReinvented_Settings.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rimworld\DebugMenuEntries.cs" />
+    <Compile Include="Rimworld\Extensions.cs" />
+    <Compile Include="Rimworld\MiscData\PatchOperationMultiplyValue.cs" />
+    <Compile Include="Rimworld\Tests.cs" />
+    <Compile Include="Rimworld\Textures.cs" />
+    <Compile Include="Utilities\ExposableList.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Install.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Misc-Tests\" />
+    <Folder Include="Rimworld\StatWorkers\" />
+    <Folder Include="Rimworld\UI\Dialogs\" />
+    <Folder Include="Rimworld\UI\ITabs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Krafs.Rimworld.Ref">
+      <Version>1.3.3326</Version>
+      <ExcludeAssets>runtime</ExcludeAssets>
+      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Lib.Harmony">
+      <Version>2.2.1</Version>
+      <ExcludeAssets>runtime</ExcludeAssets>
+      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>PATH
+
+"$(ProjectDir)Install.bat" $(ConfigurationName) "$(ProjectDir)" "$(ProjectName)" "About Assemblies Defs Languages Textures v1.3" "LoadFolders.xml"
+
+</PostBuildEvent>
+  </PropertyGroup>
+</Project>
