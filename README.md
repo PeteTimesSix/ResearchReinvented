@@ -1,5 +1,5 @@
 
-# Research Reinvented
+# Research Reinvented    [![Badge Mod]][RimWorld]
 
 *A mod that adds a more interesting research system.*
 
@@ -7,3 +7,7 @@
 
 
 <!----------------------------------------------------------------------------->
+
+[Badge Mod]: https://img.shields.io/badge/Mod-RimWorld-cecece?style=for-the-badge
+
+[RimWorld]: https://store.steampowered.com/app/294100/RimWorld/
