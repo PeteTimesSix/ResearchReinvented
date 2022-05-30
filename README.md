@@ -1,4 +1,9 @@
-# ResearchReinvented
-A mod for Rimworld that implements a more interesting research system.
 
-TODO: Description.
+# Research Reinvented
+
+*A mod that adds a more interesting research system.*
+
+<br>
+
+
+<!----------------------------------------------------------------------------->
