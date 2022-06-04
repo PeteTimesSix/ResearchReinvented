@@ -83,9 +83,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             }
 
             Widgets.DrawLineHorizontal(titlebarRect.x, titlebarRect.y + titlebarRect.height, titlebarRect.width);
-
             DrawOpportunitisList(contentRect, opportunityCategories, opportunities);
-
             Text.Font = cachedStyle;
             Text.Anchor = cachedAnchor;
         }
