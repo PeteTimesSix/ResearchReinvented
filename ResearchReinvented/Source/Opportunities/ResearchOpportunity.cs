@@ -83,7 +83,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
         {
             get 
             {
-                return $"{def.label}: {requirement.ShortDesc} ({currentProgress} / {maximumProgress})";
+                return $"{def.GetCategory(relation).label} - {def.label}: {requirement.ShortDesc} ({currentProgress} / {maximumProgress})";
             }
         }
 

@@ -46,14 +46,17 @@
     <Compile Include="Defs\AlternateResearchSubjectDef.cs" />
     <Compile Include="Defs\RaresListDef.cs" />
     <Compile Include="Defs\SpecialResearchOpportunityDef.cs" />
-    <Compile Include="HarmonyPatches\ApparelLayerDef_Patches.cs" />
+    <Compile Include="Extensions\RecipeDefExtensions.cs" />
+    <Compile Include="HarmonyPatches\BillStack_DoListing_Patches.cs" />
+    <Compile Include="HarmonyPatches\GenRecipe_PostProcessProduct_Patches.cs" />
+    <Compile Include="HarmonyPatches\ModCompatibility\Dubs_Mint_Menus\Patch_BillStack_DoListing_Patches.cs" />
     <Compile Include="HarmonyPatches\Pawn_JobTracker_Patches.cs" />
-    <Compile Include="HarmonyPatches\TestPatch.cs" />
-    <Compile Include="HarmonyPatches\Toils_Haul_Patches.cs" />
+    <Compile Include="HarmonyPatches\RecipeDef_Patches.cs" />
     <Compile Include="Managers\OpportunityFactories\MasterFactory.cs" />
     <Compile Include="Managers\OpportunityFactories\OF_CompProps.cs" />
     <Compile Include="Managers\OpportunityFactories\OF_Plants.cs" />
     <Compile Include="Managers\OpportunityFactories\OF_Recipes.cs" />
+    <Compile Include="Managers\OpportunityFactories\OF_Specials.cs" />
     <Compile Include="Managers\OpportunityFactories\OF_Unlocks.cs" />
     <Compile Include="OpportunityComps\ROComp_RequiresTerrain.cs" />
     <Compile Include="OpportunityComps\ROComp_RequiresThing.cs" />
@@ -86,6 +89,7 @@
     <Compile Include="Rimworld\WorkGivers\WorkGiver_ResearcherRR.cs" />
     <Compile Include="Rimworld\WorkGivers\WorkGiver_AnalyseInPlace.cs" />
     <Compile Include="StatWorkers\StatWorker_RemoteResearchSpeedFactor.cs" />
+    <Compile Include="Utilities\CircularBuffer.cs" />
     <Compile Include="Utilities\Debug.cs" />
     <Compile Include="Opportunities\ResearchOpportunity.cs" />
     <Compile Include="Managers\ResearchOpportunityManager.cs" />
@@ -103,6 +107,7 @@
     <Compile Include="Rimworld\Tests.cs" />
     <Compile Include="Rimworld\Textures.cs" />
     <Compile Include="Utilities\ExposableList.cs" />
+    <Compile Include="Utilities\TranspilerUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Install.bat" />

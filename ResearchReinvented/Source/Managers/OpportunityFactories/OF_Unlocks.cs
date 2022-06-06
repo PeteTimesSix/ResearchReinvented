@@ -11,7 +11,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
 {
     public static class OF_Unlocks
     {
-        public static void MakeFromUnlocks(ResearchProjectDef project, ResearchRelation relation, OpportunityFactoryCollectionsSetForRelation collections)
+        public static void MakeFromUnlocks(ResearchProjectDef project, OpportunityFactoryCollectionsSetForRelation collections)
         {
             if(project.UnlockedDefs != null)
             {

@@ -40,19 +40,18 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override bool ShouldSkip(Pawn pawn, bool forced = false)
 		{
-			Log.Message("checking if should skip");
 			ResearchProjectDef currentProj = Find.ResearchManager.currentProj;
 			if (currentProj == null)
 				return true;
 
-			Log.Message("has prereqs: "+ currentProj.HasAnyPrerequisites());
+			/*Log.Message("has prereqs: "+ currentProj.HasAnyPrerequisites());
 			Log.Message("found kits: " + FieldResearchHelper.GetValidResearchKits(pawn, currentProj).Count());
 			foreach(var kit in FieldResearchHelper.GetValidResearchKits(pawn, currentProj))
-				Log.Message("kit: " + kit.LabelCap);
+				Log.Message("kit: " + kit.LabelCap);*/
 
 			if (currentProj.HasAnyPrerequisites() && !FieldResearchHelper.GetValidResearchKits(pawn, currentProj).Any())
 			{
-				Log.Message("skipped due to lack of kit");
+				//Log.Message("skipped due to lack of kit");
 				return true;
 			}
 

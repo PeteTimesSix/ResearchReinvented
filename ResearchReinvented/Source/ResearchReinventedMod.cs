@@ -48,7 +48,8 @@ namespace PeteTimesSix.ResearchReinvented
         {
             var harmony = new Harmony("PeteTimesSix.ResearchReinvented");
             harmony.PatchAll();
-            //Toils_Haul_Patches.DoPatch(harmony);
+
+            //ITab_Bills_FillTab_Patches.DoPatch(harmony);
 
             AddRarityModExtensions();
             AssociateKitsWithResearchProjects();

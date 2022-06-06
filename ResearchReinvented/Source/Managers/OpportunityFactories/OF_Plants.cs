@@ -11,7 +11,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
 {
     public static class OF_Plants
     {
-        public static void MakeFromPlants(ResearchProjectDef project, ResearchRelation relation, OpportunityFactoryCollectionsSetForRelation collections)
+        public static void MakeFromPlants(ResearchProjectDef project, OpportunityFactoryCollectionsSetForRelation collections)
         {
             if (project.UnlockedDefs != null)
             {

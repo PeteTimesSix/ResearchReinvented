@@ -11,7 +11,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
 {
     public static class OF_CompProps
     {
-        public static void MakeFromFuel(ResearchProjectDef project, ResearchRelation relation, OpportunityFactoryCollectionsSetForRelation collections)
+        public static void MakeFromFuel(ResearchProjectDef project, OpportunityFactoryCollectionsSetForRelation collections)
         {
             if (project.UnlockedDefs != null)
             {

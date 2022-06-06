@@ -13,7 +13,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
 {
     public class OF_Recipes
     {
-        public static void MakeFromRecipes(ResearchProjectDef project, ResearchRelation relation, OpportunityFactoryCollectionsSetForRelation collections)
+        public static void MakeFromRecipes(ResearchProjectDef project, OpportunityFactoryCollectionsSetForRelation collections)
         {
             HashSet<ThingDef> users = new HashSet<ThingDef>();
             HashSet<IngredientCount> ingredients = new HashSet<IngredientCount>();

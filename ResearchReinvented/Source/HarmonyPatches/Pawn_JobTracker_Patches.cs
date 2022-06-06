@@ -21,7 +21,6 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches
                 return;
             if (__instance.curJob.def.defName.Contains("RR_"))
             {
-                //Log.Message($"prefix met for job {__instance.curJob} (load id: {__instance.curJob.GetUniqueLoadID()})");
                 ResearchOpportunityManager.instance.ClearAssociatedJobWithOpportunity(___pawn, __instance.curJob);
             }
         }

@@ -263,9 +263,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
         private void DrawIconForOpportunity(ResearchOpportunity opportunity, Rect iconBox)
         {
+            Def onlyDef = null;
             if (opportunity.requirement is ROComp_RequiresThing requiresThingComp)
             {
                 Widgets.DefIcon(iconBox, requiresThingComp.targetDef);
+                onlyDef = requiresThingComp.targetDef;
             }
             else if (opportunity.requirement is ROComp_RequiresIngredients requiresIngredientsComp)
             {
@@ -289,10 +291,17 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             else if (opportunity.requirement is ROComp_RequiresTerrain requiresTerrainComp)
             {
                 Widgets.DefIcon(iconBox, requiresTerrainComp.terrainDef);
+                onlyDef = requiresTerrainComp.terrainDef;
             }
             else
             {
                 Widgets.DrawTextureFitted(iconBox, Textures.scienceIconDark, 1f);
+            }
+
+            if (onlyDef != null)
+            {
+                if (Widgets.ButtonInvisible(iconBox))
+                    Find.WindowStack.Add(new Dialog_InfoCard(onlyDef));
             }
         }
     }

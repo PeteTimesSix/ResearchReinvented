@@ -20,6 +20,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
         internal HashSet<ThingDef> forIngredientsAnalysis = new HashSet<ThingDef>();
         internal HashSet<ThingDef> forHarvestProductAnalysis = new HashSet<ThingDef>();
         internal HashSet<ThingDef> forFuelAnalysis = new HashSet<ThingDef>();
+        internal HashSet<SpecialResearchOpportunityDef> specials = new HashSet<SpecialResearchOpportunityDef>();
 
         public ResearchRelation relation;
 
@@ -35,6 +36,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             forIngredientsAnalysis.AddRange(GetAlternates(forIngredientsAnalysis, isDirectRelation));
             forHarvestProductAnalysis.AddRange(GetAlternates(forHarvestProductAnalysis, isDirectRelation));
             forFuelAnalysis.AddRange(GetAlternates(forFuelAnalysis, isDirectRelation));
+
         }
         public IEnumerable<ThingDef> GetAlternates(HashSet<ThingDef> originals, bool isDirectRelation, bool isAnalysis = false)
         {
@@ -64,6 +66,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             forIngredientsAnalysis.ExceptWith(other.forIngredientsAnalysis);
             forHarvestProductAnalysis.ExceptWith(other.forHarvestProductAnalysis);
             forFuelAnalysis.ExceptWith(other.forFuelAnalysis);
+            specials.ExceptWith(other.specials);
         }
     }
 
@@ -128,14 +131,14 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
         {
             yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.BasicResearch, ResearchRelation.Direct, new ROComp_RequiresNothing());
 
-            var specials = new HashSet<SpecialResearchOpportunityDef>();
-            specials.AddRange(DefDatabase<SpecialResearchOpportunityDef>.AllDefsListForReading.Where(o => o.originalProject == project));
+            //var specials = new HashSet<SpecialResearchOpportunityDef>();
+            //specials.AddRange(DefDatabase<SpecialResearchOpportunityDef>.AllDefsListForReading.Where(o => o.originalProject == project));
 
             var allThings = new HashSet<ThingDef>();
 
             //var directSet = collections.GetSet(ResearchRelation.Direct);
 
-            foreach (var set in collections.GetSets()) 
+            foreach (var set in collections.GetSets())
             {
                 foreach (var productionFacility in set.forProductionFacilityAnalysis.Where(facility => !project.UnlockedDefs.Contains(facility))) //dont include tables we're trying to invent
                 {
@@ -170,18 +173,19 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                     foreach (var opportunity in OpportunitiesFromFuelAnalysis(project, fuel, set.relation))
                         yield return opportunity;
                 }
-                
+
+                foreach (var special in set.specials)
+                {
+                    foreach (var opportunity in OpportunitiesFromSpecialOpportunityDef(project, special, set.relation))
+                        yield return opportunity;
+                }
             }
 
-            specials.AddRange(DefDatabase<SpecialResearchOpportunityDef>.AllDefsListForReading.Where(s => s.originals != null && s.originals.Intersect(allThings).Any()));
-            foreach (var special in specials)
-            {
-                foreach (var opportunity in OpportunitiesFromSpecialOpportunityDef(project, special))
-                    yield return opportunity;
-            }
+            //specials.AddRange(DefDatabase<SpecialResearchOpportunityDef>.AllDefsListForReading.Where(s => s.originals != null && s.originals.Intersect(allThings).Any()));
+            
         }
 
-        public IEnumerable<ResearchOpportunity> OpportunitiesFromSpecialOpportunityDef(ResearchProjectDef project, SpecialResearchOpportunityDef special)
+        public IEnumerable<ResearchOpportunity> OpportunitiesFromSpecialOpportunityDef(ResearchProjectDef project, SpecialResearchOpportunityDef special, ResearchRelation relation)
         {
             if (special.alternates != null) 
             {
@@ -189,14 +193,14 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                 {
                     if (special.opportunityType != null)
                     { 
-                        var opportunity = new ResearchOpportunity(project, special.opportunityType, special.relation, new ROComp_RequiresThing(alternate), special.importanceMultiplier);
+                        var opportunity = new ResearchOpportunity(project, special.opportunityType, relation, new ROComp_RequiresThing(alternate), special.importanceMultiplier);
                         if (special.rareForThis)
                             opportunity.rare = true;
                         yield return opportunity;
                     }
                     else
                     {
-                        foreach (var standardOpportunity in OpportunitiesFromDirectAnalysis(project, alternate, special.relation))
+                        foreach (var standardOpportunity in OpportunitiesFromDirectAnalysis(project, alternate, relation))
                         {
                             standardOpportunity.importance = special.importanceMultiplier;
                             yield return standardOpportunity;
@@ -211,14 +215,14 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                 {
                     if (special.opportunityType != null)
                     {
-                        var opportunity = new ResearchOpportunity(project, special.opportunityType, special.relation, new ROComp_RequiresTerrain(alternate), special.importanceMultiplier);
+                        var opportunity = new ResearchOpportunity(project, special.opportunityType, relation, new ROComp_RequiresTerrain(alternate), special.importanceMultiplier);
                         if (special.rareForThis)
                             opportunity.rare = true;
                         yield return opportunity;
                     }
                     else
                     {
-                        foreach (var standardOpportunity in OpportunitiesFromDirectAnalysis(project, alternate, special.relation))
+                        foreach (var standardOpportunity in OpportunitiesFromDirectAnalysis(project, alternate, relation))
                         {
                             standardOpportunity.importance = special.importanceMultiplier;
                             yield return standardOpportunity;
@@ -304,10 +308,11 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
 
         public void FillCollections(ResearchProjectDef project)
         {
-            OF_Recipes.MakeFromRecipes(project, ResearchRelation.Direct, collections.GetSet(ResearchRelation.Direct));
-            OF_Unlocks.MakeFromUnlocks(project, ResearchRelation.Direct, collections.GetSet(ResearchRelation.Direct));
-            OF_Plants.MakeFromPlants(project, ResearchRelation.Direct, collections.GetSet(ResearchRelation.Direct));
-            OF_CompProps.MakeFromFuel(project, ResearchRelation.Direct, collections.GetSet(ResearchRelation.Direct));
+            OF_Recipes.MakeFromRecipes(project, collections.GetSet(ResearchRelation.Direct));
+            OF_Unlocks.MakeFromUnlocks(project, collections.GetSet(ResearchRelation.Direct));
+            OF_Plants.MakeFromPlants(project, collections.GetSet(ResearchRelation.Direct));
+            OF_CompProps.MakeFromFuel(project, collections.GetSet(ResearchRelation.Direct));
+            OF_Specials.MakeFromSpecials(project, collections.GetSet(ResearchRelation.Direct));
 
             {
                 var prerequisites = new List<ResearchProjectDef>();
@@ -322,9 +327,24 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                         continue;
 
                     //OF_Recipes.MakeFromRecipes(prerequisite, ResearchRelation.Ancestor, collections.GetSet(ResearchRelation.Ancestor));
-                    OF_Unlocks.MakeFromUnlocks(prerequisite, ResearchRelation.Ancestor, collections.GetSet(ResearchRelation.Ancestor));
+                    OF_Unlocks.MakeFromUnlocks(prerequisite, collections.GetSet(ResearchRelation.Ancestor));
+                    OF_Specials.MakeFromSpecials(prerequisite, collections.GetSet(ResearchRelation.Ancestor));
                 }
             }
+
+            /*{
+                var descendants = new List<ResearchProjectDef>();
+                foreach(var candidate in DefDatabase<ResearchProjectDef>.AllDefsListForReading.Where(p => p != project && (p.prerequisites?.Contains(project) ?? false) || p.hiddenPrerequisites?.Contains(project) ?? false)))
+
+                foreach (var prerequisite in prerequisites)
+                {
+                    if (prerequisite == project)
+                        continue;
+
+                    //OF_Recipes.MakeFromRecipes(prerequisite, ResearchRelation.Ancestor, collections.GetSet(ResearchRelation.Ancestor));
+                    OF_Unlocks.MakeFromUnlocks(prerequisite, collections.GetSet(ResearchRelation.Ancestor));
+                }
+            }*/
 
             /*discard what we dont want to generate from*/
             collections.GetSet(ResearchRelation.Ancestor).forIngredientsAnalysis.Clear();

@@ -13,12 +13,30 @@ namespace PeteTimesSix.ResearchReinvented.Defs
     {
         public ResearchOpportunityTypeDef opportunityType;
         public ResearchProjectDef originalProject;
-        public ResearchRelation relation = ResearchRelation.Direct;
+        //public ResearchRelation relation = ResearchRelation.Direct;
+        public bool forDirect = true;
+        public bool forAncestor = false;
+        public bool forDescendant = false;
         public List<ThingDef> originals;
         public List<ThingDef> alternates;
         public List<TerrainDef> alternateTerrains;
         public float importanceMultiplier = 1f;
         public bool rareForThis = false;
         public bool markAsRare = false;
+
+        public bool IsForRelation(ResearchRelation relation)
+        {
+            switch (relation)
+            {
+                case ResearchRelation.Ancestor:
+                    return forAncestor;
+                case ResearchRelation.Direct:
+                    return forDirect;
+                case ResearchRelation.Descendant:
+                    return forDescendant;
+                default:
+                    throw new ArgumentException("Invalid relation");
+            }
+        }
     }
 }
