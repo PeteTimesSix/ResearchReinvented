@@ -1,4 +1,5 @@
 ﻿using PeteTimesSix.ResearchReinvented.Defs;
+using PeteTimesSix.ResearchReinvented.Extensions;
 using PeteTimesSix.ResearchReinvented.Managers;
 using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.OpportunityComps;

@@ -17,12 +17,10 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches
         [HarmonyPrefix]
         public static void Prefix(Pawn_JobTracker __instance, Pawn ___pawn)
         {
-            if (__instance == null || ___pawn == null || __instance.curJob?.def?.defName == null)
+            if (__instance == null || ___pawn == null || __instance.curJob == null)
                 return;
-            if (__instance.curJob.def.defName.Contains("RR_"))
-            {
-                ResearchOpportunityManager.instance.ClearAssociatedJobWithOpportunity(___pawn, __instance.curJob);
-            }
+
+            ResearchOpportunityManager.instance.ClearAssociatedJobWithOpportunity(___pawn, __instance.curJob);
         }
     }
 }

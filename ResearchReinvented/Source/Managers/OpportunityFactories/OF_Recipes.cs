@@ -1,4 +1,5 @@
 ﻿using PeteTimesSix.ResearchReinvented.DefOfs;
+using PeteTimesSix.ResearchReinvented.Extensions;
 using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.OpportunityComps;
 using PeteTimesSix.ResearchReinvented.Rimworld;
@@ -54,9 +55,30 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             }
             var ingredientThings = rawIngredients.Select(c => c.ThingDef).ToHashSet();
 
+            users = FilterProducersToPlausiblyUnlocked(project, users);
+
             collections.forProductionFacilityAnalysis.AddRange(users);
             collections.forDirectAnalysis.AddRange(products);
             collections.forIngredientsAnalysis.AddRange(ingredientThings);
+        }
+
+        private static HashSet<ThingDef> FilterProducersToPlausiblyUnlocked(ResearchProjectDef project, HashSet<ThingDef> users)
+        {
+            var resultSet = new HashSet<ThingDef>();
+            foreach (var thingDef in users) 
+            {
+                if(thingDef.researchPrerequisites != null)
+                {
+                    if (project.RequiredToUnlock(thingDef.researchPrerequisites)) 
+                    {
+                        //Log.Message($"skipping {thingDef} as a production facility, {project} is required to ever build it");
+                        continue;
+                    }
+                }
+
+                resultSet.Add(thingDef);
+            }
+            return resultSet;
         }
 
         private static HashSet<RecipeDef> GatherDirectRecipes(ResearchProjectDef project)
@@ -88,23 +110,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                 {
                     if (thing.AllRecipes != null)
                     {
-                        /*foreach(var recipe in thing.AllRecipes) 
-                        {
-                            if (recipe.ProducedThingDef?.defName == "Chemfuel")
-                            {
-                                Log.Message($"checking recipe for " + (recipe.ProducedThingDef != null ? recipe.ProducedThingDef.defName : "Multiple things"));
-                                Log.Message($"unlocked specifically by {project.defName}: {recipe.UnlockedSpecificallyBy(project)}");
-                                Log.Message($"has no research prereqs: {recipe.HasNoResearchPrerequisites()}");
-                                Log.Message($"unlocked ONLY by things in {project.defName}: {recipe.UnlocksOnlyWith(unlockedThings)}");
-                                foreach(var user in recipe.AllRecipeUsers) 
-                                {
-                                    Log.Message($"has recipe user {user.defName}");
-                                }
-                            }
-                            //if (recipe.UnlockedSpecificallyBy(project) || recipe.HasNoResearchPrerequisites() && recipe.UnlocksOnlyWith(unlockedThings))
-                            //    recipes.Add(recipe);
-                        }*/
-                        recipes.AddRange(thing.AllRecipes.Where(r => r.UnlockedSpecificallyBy(project) || (r.HasNoResearchPrerequisites() && r.UnlocksOnlyWith(unlockedThings))));
+                        recipes.AddRange(thing.AllRecipes.Where(r => r.IsAvailableOnlyForPrototyping()));
                     }
                 }
             }

@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\v1.1\Assemblies\</OutputPath>
+    <OutputPath>..\v1.3\Assemblies\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -46,11 +46,19 @@
     <Compile Include="Defs\AlternateResearchSubjectDef.cs" />
     <Compile Include="Defs\RaresListDef.cs" />
     <Compile Include="Defs\SpecialResearchOpportunityDef.cs" />
+    <Compile Include="Extensions\BuildableDefExtensions.cs" />
     <Compile Include="Extensions\RecipeDefExtensions.cs" />
-    <Compile Include="HarmonyPatches\BillStack_DoListing_Patches.cs" />
-    <Compile Include="HarmonyPatches\GenRecipe_PostProcessProduct_Patches.cs" />
+    <Compile Include="Extensions\ResearchProjectDefExtensions.cs" />
+    <Compile Include="Extensions\ThingDefExtensions.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\BillStack_DoListing_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\Designators_GizmoOnGUI_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\Designator_Build_Visible_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\Frame_CompleteConstruction_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\WorkToBuild_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\GenRecipe_PostProcessProduct_Patches.cs" />
     <Compile Include="HarmonyPatches\ModCompatibility\Dubs_Mint_Menus\Patch_BillStack_DoListing_Patches.cs" />
     <Compile Include="HarmonyPatches\Pawn_JobTracker_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\PrototypeUtilities.cs" />
     <Compile Include="HarmonyPatches\RecipeDef_Patches.cs" />
     <Compile Include="Managers\OpportunityFactories\MasterFactory.cs" />
     <Compile Include="Managers\OpportunityFactories\OF_CompProps.cs" />
@@ -77,6 +85,7 @@
     <Compile Include="Rimworld\RR_UniqueIDsManager.cs" />
     <Compile Include="Rimworld\Toils\Toils_ClearArea.cs" />
     <Compile Include="Rimworld\Toils\Toils_Goto_Custom.cs" />
+    <Compile Include="Rimworld\Toils\Toils_Haul_Custom.cs" />
     <Compile Include="Rimworld\UI\MainButtonWorker_ToggleResearchReinventedTab.cs" />
     <Compile Include="Rimworld\ResearchManagerAccess.cs" />
     <Compile Include="OpportunityComps\ResearchOpportunityComp.cs" />
@@ -102,7 +111,7 @@
     <Compile Include="ResearchReinvented_Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rimworld\DebugMenuEntries.cs" />
-    <Compile Include="Rimworld\Extensions.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Rimworld\MiscData\PatchOperationMultiplyValue.cs" />
     <Compile Include="Rimworld\Tests.cs" />
     <Compile Include="Rimworld\Textures.cs" />

@@ -22,7 +22,6 @@
 		<defName>Prototyping</defName>
 		<label>prototyping</label>
 		<targetIterations>2.0</targetIterations>
-		<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
 		<priority>800</priority>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
 	

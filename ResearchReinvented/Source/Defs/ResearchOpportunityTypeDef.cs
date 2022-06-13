@@ -9,11 +9,19 @@ using Verse;
 
 namespace PeteTimesSix.ResearchReinvented.Defs
 {
+	public enum HandlingMode 
+	{
+		Inactive,
+		Job,
+		Special_Prototype
+	}
+
     public class ResearchOpportunityTypeDef : Def
     {
-        public JobDef jobDef;
+		public HandlingMode handledBy = HandlingMode.Inactive;
+		public JobDef jobDef;
 
-        public string header_Direct;
+		public string header_Direct;
         public string header_Ancestor;
         public string header_Descendant;
 

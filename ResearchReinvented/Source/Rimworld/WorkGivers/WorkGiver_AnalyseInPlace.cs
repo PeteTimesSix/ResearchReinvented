@@ -1,4 +1,6 @@
 ﻿using PeteTimesSix.ResearchReinvented.DefOfs;
+using PeteTimesSix.ResearchReinvented.Defs;
+using PeteTimesSix.ResearchReinvented.Extensions;
 using PeteTimesSix.ResearchReinvented.Managers;
 using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.OpportunityComps;
@@ -23,10 +25,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public static Type DriverClass = typeof(JobDriver_AnalyseInPlace);
 
+		private static IEnumerable<ResearchOpportunity> MatchingOpportunities => ResearchOpportunityManager.instance.CurrentOpportunities.Where(o => o.def.handledBy == HandlingMode.Job && o.def.jobDef?.driverClass == DriverClass).Where(o => !o.IsFinished);
+
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
-			var opportunities = ResearchOpportunityManager.instance.CurrentOpportunities.Where(o => o.def.jobDef.driverClass == DriverClass).Where(o => !o.IsFinished);
-			var analysableThings = opportunities.Select(o => (o.requirement as ROComp_RequiresThing).targetDef);
+			var analysableThings = MatchingOpportunities.Select(o => (o.requirement as ROComp_RequiresThing).targetDef);
 			var lister = pawn.Map.listerThings;
 
 			List<Thing> things = new List<Thing>();
@@ -44,19 +47,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			if (currentProj == null)
 				return true;
 
-			/*Log.Message("has prereqs: "+ currentProj.HasAnyPrerequisites());
-			Log.Message("found kits: " + FieldResearchHelper.GetValidResearchKits(pawn, currentProj).Count());
-			foreach(var kit in FieldResearchHelper.GetValidResearchKits(pawn, currentProj))
-				Log.Message("kit: " + kit.LabelCap);*/
-
 			if (currentProj.HasAnyPrerequisites() && !FieldResearchHelper.GetValidResearchKits(pawn, currentProj).Any())
 			{
-				//Log.Message("skipped due to lack of kit");
 				return true;
 			}
 
-			var opportunities = ResearchOpportunityManager.instance.CurrentOpportunities.Where(o => o.def.jobDef.driverClass == DriverClass).Where(o => !o.IsFinished);
-			var analysableThings = opportunities.Select(o => (o.requirement as ROComp_RequiresThing).targetDef);
+			var analysableThings = MatchingOpportunities.Select(o => (o.requirement as ROComp_RequiresThing).targetDef);
 			return !analysableThings.Any();
 		}
 
@@ -66,8 +62,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			if (currentProj == null)
 				return false;
 
-			var opportunities = ResearchOpportunityManager.instance.CurrentOpportunities.Where(o => o.def.jobDef.driverClass == DriverClass).Where(o => !o.IsFinished);
-			var opportunity = opportunities.FirstOrDefault(o => (o.requirement as ROComp_RequiresThing).targetDef == thing.def);
+			var opportunity = MatchingOpportunities.FirstOrDefault(o => (o.requirement as ROComp_RequiresThing).targetDef == thing.def);
 			if (opportunity == null)
 				return false;
 			else
@@ -79,8 +74,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override Job JobOnThing(Pawn pawn, Thing thing, bool forced = false)
 		{
-			var opportunities = ResearchOpportunityManager.instance.CurrentOpportunities.Where(o => o.def.jobDef.driverClass == DriverClass).Where(o => !o.IsFinished);
-			var opportunity = opportunities.FirstOrDefault(o => (o.requirement as ROComp_RequiresThing).targetDef == thing.def);
+			var opportunity = MatchingOpportunities.FirstOrDefault(o => (o.requirement as ROComp_RequiresThing).targetDef == thing.def);
 			if (opportunity == null)
 			{
 				//Log.Warning($"Found a job at {thing.Label} but then could not create it!");
@@ -96,8 +90,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override float GetPriority(Pawn pawn, TargetInfo target)
 		{
-			var opportunities = ResearchOpportunityManager.instance.CurrentOpportunities.Where(o => o.def.jobDef.driverClass == DriverClass).Where(o => !o.IsFinished);
-			var opportunity = opportunities.First(o => (o.requirement as ROComp_RequiresThing).targetDef == target.Thing.def);
+			var opportunity = MatchingOpportunities.First(o => (o.requirement as ROComp_RequiresThing).targetDef == target.Thing.def);
 
 			return pawn.GetStatValue(StatDefOf_Custom.FieldResearchSpeedMultiplier, true) * opportunity.def.GetCategory(opportunity.relation).researchSpeedMultiplier;
 		}

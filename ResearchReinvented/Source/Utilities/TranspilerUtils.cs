@@ -40,7 +40,6 @@ namespace PeteTimesSix.ResearchReinvented.Utilities
                 return false;
             for (int i = 0; i < targetInstructions.Length; i++)
             {
-                //Log.Message($"comparing {targetInstructions[i]} to {instructions[i]}");
                 if (targetInstructions[i].opcode != instructions[i].opcode)
                     return false;
                 if (targetInstructions[i].operand != instructions[i].operand)
@@ -48,7 +47,12 @@ namespace PeteTimesSix.ResearchReinvented.Utilities
                     if (!ignoreMissingLabelOperands)
                         return false;
                     else
-                        return targetInstructions[i].operand != null || !(instructions[i].operand is Label);
+                    {
+                        if (targetInstructions[i].operand != null)
+                            return false;
+                        else
+                            return (instructions[i].operand is Label);
+                    }
                 }
             }
             return true;

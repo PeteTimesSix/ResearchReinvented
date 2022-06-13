@@ -8,15 +8,10 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 
-namespace PeteTimesSix.ResearchReinvented.Rimworld
+namespace PeteTimesSix.ResearchReinvented.Extensions
 {
-    public static class Extensions
+    public static class SmallExtensions
     {
-        public static Rect ContractedBy(this Rect rect, float marginX, float marginY) 
-        {
-            return new Rect(rect.x + marginX, rect.y + marginY, rect.width - marginX * 2, rect.height - marginY * 2);
-        }
-
         public static Rect OffsetBy(this Rect rect, float x, float y)
         {
             return new Rect(rect.x + x, rect.y + y, rect.width, rect.height);
@@ -28,36 +23,10 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld
             var forbidComp = bench.GetComp<CompForbiddable>();
 
             return bench.Spawned && (powerComp == null || powerComp.PowerOn) && (forbidComp == null || !forbidComp.Forbidden) && bench.Faction == Faction.OfPlayer;
-        }
-	}
-
-    public static class ThingDefExtentions 
-    {
-        public static bool IsRawFood(this ThingDef x) 
-        {
-            return x.IsNutritionGivingIngestible && !x.IsCorpse && x.ingestible.HumanEdible && x.ingestible.preferability < FoodPreferability.MealAwful;
-        }
-
-        public static bool IsInstantBuild(this ThingDef x)
-        {
-            if(x is BuildableDef asBuildable)
-            {
-                if (asBuildable.GetStatValueAbstract(StatDefOf.WorkToBuild) == 0f)
-                    return true;
-            }
-            return false;
-        }
-    }
-
-	public static class ResearchProjectDefExtensions 
-	{
-		public static bool HasAnyPrerequisites(this ResearchProjectDef project) 
-		{
-			return project.requiredResearchBuilding != null || !project.requiredResearchFacilities.NullOrEmpty();
 		}
 	}
 
-    public static class ReipeDefExtensions 
+    /*public static class ReipeDefExtensions 
     {
 		public static bool HasNoResearchPrerequisites(this RecipeDef recipe) 
 		{
@@ -111,7 +80,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld
 				}
 			}
 			return !recipe.fromIdeoBuildingPreceptOnly || (ModsConfig.IdeologyActive && IdeoUtility.PlayerHasPreceptForBuilding(recipe.ProducedThingDef));*/
-		}
+		/*}
 
 		public static bool AvailableWith(this RecipeDef recipe, ResearchProjectDef project)
 		{
@@ -151,9 +120,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld
 				}
 			}
 			return !recipe.fromIdeoBuildingPreceptOnly || (ModsConfig.IdeologyActive && IdeoUtility.PlayerHasPreceptForBuilding(recipe.ProducedThingDef));
-		}
+		}*/
 
-		private static bool UnlockedByIdeology(this RecipeDef recipe) 
+		/*private static bool UnlockedByIdeology(this RecipeDef recipe) 
 		{
 			foreach (Ideo ideo in Faction.OfPlayer.ideos.AllIdeos)
 			{
@@ -179,5 +148,5 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld
 			}
 			return false;
 		}
-	}
+	}*/
 }

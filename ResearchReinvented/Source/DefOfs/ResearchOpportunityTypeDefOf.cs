@@ -37,10 +37,14 @@ namespace PeteTimesSix.ResearchReinvented.DefOfs
 
         public static ResearchOpportunityTypeDef BasicResearch;
 
+        public static ResearchOpportunityTypeDef PrototypeConstruction;
+        public static ResearchOpportunityTypeDef PrototypeTerrainConstruction;
+        public static ResearchOpportunityTypeDef PrototypeProduction;
 
         static ResearchOpportunityTypeDefOf()
         {
             DefOfHelper.EnsureInitializedInCtor(typeof(ResearchOpportunityTypeDefOf));
         }
+
     }
 }

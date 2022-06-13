@@ -16,7 +16,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.Toils
 			Toil toil = new Toil();
 			toil.initAction = delegate ()
 			{
-				Log.Message("clearing cells");
+				//Log.Message("clearing cells");
 				Pawn actor = toil.actor;
 				var underlyingBuilding = actor.jobs.curJob.GetTarget(buildingIndex).Thing;
 				var ingredientPlaceCells = IngredientPlaceCellsInOrder(underlyingBuilding);
@@ -24,10 +24,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.Toils
 					return;
 				var cell = ingredientPlaceCells.First();
 				IEnumerable<Thing> obstructions = cell.GetThingList(actor.MapHeld).Where(t => t != underlyingBuilding);
-				Log.Message("obstruction count:"+obstructions.Count());
 				if (obstructions.Any())
 				{
-					Log.Message("obstructions: " + String.Join(", ", obstructions.Select(o => o.LabelCap)));
+					//Log.Message("obstructions: " + String.Join(", ", obstructions.Select(o => o.LabelCap)));
 
 					var cellsToPlaceIn = IngredientPlaceCellsInOrder(underlyingBuilding).Skip(1);
 					var enumerator = cellsToPlaceIn.GetEnumerator();
@@ -44,8 +43,28 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.Toils
 							var candidate = enumerator.Current;
 							if (IsEmptyEnoughSpot(obstruction, underlyingBuilding.MapHeld, candidate))
 							{
-								obstruction.Position = candidate;
-								break;
+								var thingsAlreadyAt = candidate.GetThingList(actor.MapHeld).Where(t => t.def.EverHaulable).ToList();
+                                if (thingsAlreadyAt.Any())
+								{
+									var fullyAbsorbed = false;
+									foreach (var thing in thingsAlreadyAt)
+									{
+										fullyAbsorbed = thing.TryAbsorbStack(obstruction, true);
+										if (fullyAbsorbed)
+											break;
+									}
+									if (fullyAbsorbed)
+									{
+										//Log.Message($"{obstruction} absorbed into stack(s) at {candidate}");
+										break;
+									}
+								}
+                                else
+								{
+									//Log.Message($"relocating {obstruction} to {candidate}");
+									obstruction.Position = candidate;
+									break;
+								}
 							}
 						}
 					}
@@ -57,28 +76,28 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.Toils
 
 		private static IEnumerable<IntVec3> IngredientPlaceCellsInOrder(Thing destination, int fallBackRadius = 15)
 		{
-			Log.Message("gathering cells");
+			//Log.Message("gathering cells");
 			var interactCell = destination.Position;
 			IBillGiver billGiver = destination as IBillGiver;
 			var cellsAlreadySent = new List<IntVec3>();
 			IEnumerable<IntVec3> desiredPlaceCells;
 			if (billGiver != null)
 			{
-				Log.Message("using billGiver cells");
+				//Log.Message("using billGiver cells");
 				interactCell = (billGiver as Thing).InteractionCell;
 				desiredPlaceCells = billGiver.IngredientStackCells.OrderBy(c => c.LengthHorizontalSquared);
 			}
             else 
 			{
-				Log.Message("defaulting to covered cells");
+				//Log.Message("defaulting to covered cells");
 				desiredPlaceCells = GenAdj.CellsOccupiedBy(destination).OrderBy(c => c.DistanceTo(destination.Position));
 			}
 
-			Log.Message("candidates (ordered): " + String.Join(", ", desiredPlaceCells.Select(c => c.ToString())));
+			//Log.Message("candidates (ordered): " + String.Join(", ", desiredPlaceCells.Select(c => c.ToString())));
 
 			foreach (var cell in desiredPlaceCells)
 			{
-				Log.Message("yielding candidate "+cell);
+				//Log.Message("yielding candidate "+cell);
 				yield return cell;
 			}
 			cellsAlreadySent.AddRange(desiredPlaceCells);
@@ -88,7 +107,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.Toils
 				var cell = interactCell + GenRadial.RadialPattern[i];
                 if (!cellsAlreadySent.Contains(cell))
 				{
-					Log.Message("yielding backup candidate " + cell);
+					//Log.Message("yielding backup candidate " + cell);
 					Building edifice = cell.GetEdifice(destination.Map);
 					if (edifice == null || edifice.def.passability != Traversability.Impassable || edifice.def.surfaceType != SurfaceType.None)
 					{
@@ -98,46 +117,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.Toils
 			}
 		}
 
-		/*private static bool TryFindSpotToPlaceHaulableCloseTo(Thing haulable, Map map, IntVec3 origin, out IntVec3 spot)
-		{
-			Region region = origin.GetRegion(map, RegionType.Set_Passable);
-			if (region == null)
-			{
-				spot = origin;
-				return false;
-			}
-			TraverseParms traverseParms = TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly);
-			IntVec3? foundCell = null;
-			RegionTraverser.BreadthFirstTraverse(region, (Region from, Region r) => r.Allows(traverseParms, false), (Region r) =>
-			{
-				var candidates = r.Cells.ToList();
-				candidates.Sort((IntVec3 a, IntVec3 b) => a.DistanceToSquared(origin).CompareTo(b.DistanceToSquared(origin)));
-				foreach (var candidate in candidates)
-				{
-					if (IsEmptyEnoughSpot(haulable, map, candidate))
-					{
-						foundCell = candidate;
-						return true;
-					}
-				}
-				return false;
-			}, 100, RegionType.Set_Passable);
-
-			if (foundCell.HasValue)
-			{
-				spot = foundCell.Value;
-				return true;
-			}
-
-			spot = origin;
-			return false;
-		}*/
-
 		private static bool IsEmptyEnoughSpot(Thing haulable, Map map, IntVec3 c)
 		{
 			if (GenPlace.HaulPlaceBlockerIn(haulable, c, map, true) != null)
 			{
-				Log.Message("blocked by haulPlaceBlockerIn");
+				//Log.Message("blocked by haulPlaceBlockerIn");
 				return false;
 			}
 			/*if (!c.Standable(map))
@@ -147,16 +131,17 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.Toils
 			}*/
 			if (c == haulable.Position && haulable.Spawned)
 			{
-				Log.Message("blocked by being the original position");
+				//Log.Message("blocked by being the original position");
 				return false;
 			}
 			if (c.ContainsStaticFire(map))
 			{
+				//Log.Message("blocked by fire");
 				return false;
 			}
 			if (haulable != null && haulable.def.BlocksPlanting(false) && map.zoneManager.ZoneAt(c) is Zone_Growing)
 			{
-				Log.Message("blocked by plants????");
+				//Log.Message("blocked by plants????");
 				return false;
 			}
 			/*if (haulable.def.passability != Traversability.Standable)
@@ -174,7 +159,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.Toils
 			Building edifice = c.GetEdifice(map);
 			if(edifice != null && edifice is Building_Trap)
             {
-				Log.Message("blocked by trap");
+				//Log.Message("blocked by trap");
 				return false;
 			}
 			return true;

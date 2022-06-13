@@ -1,4 +1,5 @@
 ﻿using PeteTimesSix.ResearchReinvented.DefOfs;
+using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Managers;
 using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.OpportunityComps;
@@ -25,6 +26,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
         private Dictionary<Pawn, List<Building_ResearchBench>> cachedBenches = new Dictionary<Pawn, List<Building_ResearchBench>>();
         private List<ThingDef> cachedAnalyzables = new List<ThingDef>();
 
+        private static IEnumerable<ResearchOpportunity> MatchingOpportunities => ResearchOpportunityManager.instance.CurrentOpportunities.Where(o => o.def.handledBy == HandlingMode.Job && o.def.jobDef?.driverClass == DriverClass).Where(o => !o.IsFinished);
+
         public override ThingRequest PotentialWorkThingRequest
         {
             get
@@ -41,8 +44,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
         {
             if (Find.ResearchManager.currentProj == null)
                 return true;
-            var opportunities = ResearchOpportunityManager.instance.CurrentOpportunities.Where(o => o.def.jobDef.driverClass == DriverClass).Where(o => !o.IsFinished);
-            var analysableThings = opportunities.Select(o => (o.requirement as ROComp_RequiresThing).targetDef);
+            var analysableThings = MatchingOpportunities.Select(o => (o.requirement as ROComp_RequiresThing).targetDef);
             return !analysableThings.Any();
         }
 
@@ -91,42 +93,15 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
                 return null;
             else
             {
-                var opportunities = ResearchOpportunityManager.instance.CurrentOpportunities.Where(o => o.def.jobDef.driverClass == DriverClass).Where(o => !o.IsFinished);
-                var opportunity = opportunities.First(o => (o.requirement as ROComp_RequiresThing).targetDef == thing.def);
-
-                Log.Message("making job for " + thing.def.defName);
+                var opportunity = MatchingOpportunities.First(o => (o.requirement as ROComp_RequiresThing).targetDef == thing.def);
 
                 Job job = JobMaker.MakeJob(opportunity.def.jobDef, thing, expiryInterval: 1500, checkOverrideOnExpiry: true);
                 job.targetB = bestBench;
                 ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
-                //ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
                 job.count = 1;
                 return job;
             }
         }
-
-        /*public override float GetPriority(Pawn pawn, TargetInfo target)
-        {
-            return target.Thing.GetStatValue(StatDefOf.ResearchSpeedFactor, true);
-        }*/
-
-        /*public Thing ClosestSuitableAnalysableThing(IEnumerable<ThingDef> analysableThings, Thing researchBench, Pawn pawn)
-        {
-            ThingRequest request = ThingRequest.ForGroup(ThingRequestGroup.ResearchBench);
-            TraverseParms traverseParms = new TraverseParms()
-            {
-                pawn = pawn,
-                mode = TraverseMode.ByPawn,
-                maxDanger = Danger.Unspecified,
-                fenceBlocked = false,
-                canBashFences = false,
-                canBashDoors = false
-            };
-            return GenClosest.ClosestThingReachable(researchBench.Position, researchBench.Map, ThingRequest.ForGroup(ThingRequestGroup.HaulableEver), PathEndMode.Touch, traverseParms, validator: (Thing checkedThing) => { 
-                return !checkedThing.IsForbidden(pawn) && analysableThings.Contains(checkedThing.def); 
-            });
-            //return GenClosest.ClosestThingReachable(thing.Position, thing.Map, request, PathEndMode.Touch, traverseParms);
-        }*/
 
 
         private List<Building_ResearchBench> GetUsableResearchBenches(Pawn pawn)
@@ -166,8 +141,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
             {
                 cachedAnalyzables.Clear();
                 
-                var opportunities = ResearchOpportunityManager.instance.CurrentOpportunities.Where(o => o.def.jobDef.driverClass == DriverClass).Where(o => !o.IsFinished);
-                var analysableThings = opportunities.Select(o => (o.requirement as ROComp_RequiresThing).targetDef);
+                var analysableThings = MatchingOpportunities.Select(o => (o.requirement as ROComp_RequiresThing).targetDef);
 
                 analyzablesCachedOnTick = Find.TickManager.TicksGame;
                 cachedAnalyzables = analysableThings.ToList();

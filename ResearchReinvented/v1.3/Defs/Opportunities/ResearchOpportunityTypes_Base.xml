@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef Name="ResearchOpportunityBase" Abstract="True">
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef Name="JobBasedOpportunity" ParentName="ResearchOpportunityBase" Abstract="True">
+		<handledBy>Job</handledBy>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef Name="PrototypeOpportunity" ParentName="ResearchOpportunityBase" Abstract="True">
+		<handledBy>Special_Prototype</handledBy>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+</Defs>

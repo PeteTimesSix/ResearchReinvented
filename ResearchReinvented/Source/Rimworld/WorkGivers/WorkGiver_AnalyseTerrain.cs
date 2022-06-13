@@ -1,4 +1,6 @@
 ﻿using PeteTimesSix.ResearchReinvented.DefOfs;
+using PeteTimesSix.ResearchReinvented.Defs;
+using PeteTimesSix.ResearchReinvented.Extensions;
 using PeteTimesSix.ResearchReinvented.Managers;
 using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.OpportunityComps;
@@ -25,10 +27,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
         public static Type DriverClass = typeof(JobDriver_AnalyseTerrain);
 
+		private static IEnumerable<ResearchOpportunity> MatchingOpportunities => ResearchOpportunityManager.instance.CurrentOpportunities.Where(o => o.def.handledBy == HandlingMode.Job && o.def.jobDef?.driverClass == DriverClass).Where(o => !o.IsFinished);
+
 		public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)
 		{
-			var opportunities = ResearchOpportunityManager.instance.CurrentOpportunities.Where(o => o.def.jobDef.driverClass == DriverClass).Where(o => !o.IsFinished);
-			var analysableTerrains = opportunities.Select(o => (o.requirement as ROComp_RequiresTerrain).terrainDef);
+			var analysableTerrains = MatchingOpportunities.Select(o => (o.requirement as ROComp_RequiresTerrain).terrainDef);
 			return pawn.Map.areaManager.Home.ActiveCells.Where(c => (analysableTerrains.Contains(c.GetTerrain(pawn.Map))));
 		}
 
@@ -41,8 +44,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			if (currentProj.HasAnyPrerequisites() && !FieldResearchHelper.GetValidResearchKits(pawn, currentProj).Any())
 				return true;
 
-			var opportunities = ResearchOpportunityManager.instance.CurrentOpportunities.Where(o => o.def.jobDef.driverClass == DriverClass).Where(o => !o.IsFinished);
-			var analysableTerrains = opportunities.Select(o => (o.requirement as ROComp_RequiresTerrain).terrainDef);
+			var analysableTerrains = MatchingOpportunities.Select(o => (o.requirement as ROComp_RequiresTerrain).terrainDef);
 			return !analysableTerrains.Any();
 		}
 
@@ -52,8 +54,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			if (currentProj == null)
 				return false;
 
-			var opportunities = ResearchOpportunityManager.instance.CurrentOpportunities.Where(o => o.def.jobDef.driverClass == DriverClass).Where(o => !o.IsFinished);
-			var opportunity = opportunities.FirstOrDefault(o => (o.requirement as ROComp_RequiresTerrain).terrainDef == cell.GetTerrain(pawn.Map));
+			var opportunity = MatchingOpportunities.FirstOrDefault(o => (o.requirement as ROComp_RequiresTerrain).terrainDef == cell.GetTerrain(pawn.Map));
 			if (opportunity == null)
 				return false;
 			else
@@ -64,8 +65,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override Job JobOnCell(Pawn pawn, IntVec3 cell, bool forced = false)
 		{
-			var opportunities = ResearchOpportunityManager.instance.CurrentOpportunities.Where(o => o.def.jobDef.driverClass == DriverClass).Where(o => !o.IsFinished);
-			var opportunity = opportunities.FirstOrDefault(o => (o.requirement as ROComp_RequiresTerrain).terrainDef == cell.GetTerrain(pawn.Map));
+			var opportunity = MatchingOpportunities.FirstOrDefault(o => (o.requirement as ROComp_RequiresTerrain).terrainDef == cell.GetTerrain(pawn.Map));
 			if (opportunity == null)
 			{
 				//Log.Warning($"Found a job at {thing.Label} but then could not create it!");
@@ -81,8 +81,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override float GetPriority(Pawn pawn, TargetInfo target)
 		{
-			var opportunities = ResearchOpportunityManager.instance.CurrentOpportunities.Where(o => o.def.jobDef.driverClass == DriverClass).Where(o => !o.IsFinished);
-			var opportunity = opportunities.First(o => (o.requirement as ROComp_RequiresTerrain).terrainDef == target.Cell.GetTerrain(pawn.Map));
+			var opportunity = MatchingOpportunities.First(o => (o.requirement as ROComp_RequiresTerrain).terrainDef == target.Cell.GetTerrain(pawn.Map));
 
 			var cell = target.Cell;
 			var dist = cell.DistanceTo(pawn.Position);

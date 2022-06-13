@@ -1,5 +1,6 @@
 ﻿using PeteTimesSix.ResearchReinvented.DefOfs;
 using PeteTimesSix.ResearchReinvented.Defs;
+using PeteTimesSix.ResearchReinvented.Extensions;
 using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.OpportunityComps;
 using PeteTimesSix.ResearchReinvented.Rimworld;
@@ -276,7 +277,12 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                 else if (!asThing.EverHaulable)
                 {
                     if (!asThing.IsInstantBuild())
+                    {
                         yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseInPlace, relation, new ROComp_RequiresThing(asThing));
+
+                        if (relation == ResearchRelation.Direct && asThing.BuildableByPlayer)
+                            yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeConstruction, relation, new ROComp_RequiresThing(asThing));
+                    }
                 }
                 else
                 {
@@ -293,14 +299,22 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                     //everything else
                     else 
                         yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.Analyse, relation, new ROComp_RequiresThing(asThing));
+
+                    if (relation == ResearchRelation.Direct && asThing.BuildableByPlayer)
+                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeProduction, relation, new ROComp_RequiresThing(asThing));
                 }
+
             }
             else if (reverseEngineerable is TerrainDef asTerrain)
             {
                 if (asTerrain.IsSoil)
                     yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseSoil, relation, new ROComp_RequiresTerrain(asTerrain));
                 else if (asTerrain.BuildableByPlayer)
+                {
                     yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseFloor, relation, new ROComp_RequiresTerrain(asTerrain));
+                    if (relation == ResearchRelation.Direct && asTerrain.BuildableByPlayer)
+                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeTerrainConstruction, relation, new ROComp_RequiresTerrain(asTerrain));
+                }
                 else
                     yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseTerrain, relation, new ROComp_RequiresTerrain(asTerrain));
             } 

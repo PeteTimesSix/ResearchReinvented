@@ -24,30 +24,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.Comps
 
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
-            var benchHyperlink = new Dialog_InfoCard.Hyperlink(Props.substitutedResearchBench, -1);
-			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Equivalent research bench", Props.substitutedResearchBench.LabelCap, "This kit provives portable versions of the tools avaiable at this type of research bench.", -1, hyperlinks: new List<Dialog_InfoCard.Hyperlink>() { benchHyperlink });
-
-			if (!Props.substitutedFacilities.NullOrEmpty())
-			{
-				List<Dialog_InfoCard.Hyperlink> hyperlinks = new List<Dialog_InfoCard.Hyperlink>();
-				List<string> labels = new List<string>();
-				foreach (var facility in Props.substitutedFacilities)
-				{
-					hyperlinks.Add(new Dialog_InfoCard.Hyperlink(facility, -1));
-					labels.Add(facility.LabelCap);
-				}
-
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Equivalent research facilities", string.Join(", ", labels), "This kit provives portable versions of these research facilities.", -1, hyperlinks: hyperlinks);
-            }
-
             if (Props.remotesThrough != null)
             {
-                var remoteHyperlink = new Dialog_InfoCard.Hyperlink(Props.remotesThrough, -1);
-                yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Remote connection facility", Props.remotesThrough.LabelCap, "This kit connects to research benches (and their networked facilities) through this facility.", -1, hyperlinks: new List<Dialog_InfoCard.Hyperlink>() { remoteHyperlink });
-
                 var remoteFactor = GetRemoteResearchSpeedFactor();
                 var remoteFactorString = remoteFactor > 1f ? remoteFactor.ToStringPercent() : "None";
-                yield return new StatDrawEntry(StatCategoryDefOf.EquippedStatOffsets, "Research speed factor (via uplink)", remoteFactorString, "Research speed multiplier provided by remote connection to the research facility.", -1);
+                yield return new StatDrawEntry(StatCategoryDefOf.EquippedStatOffsets, "RR_UplinkResearchSpeedFactor".Translate(), remoteFactorString, "RR_UplinkResearchSpeedFactor_desc".Translate(), -1);
             }
         }
         public bool MeetsProjectRequirements(ResearchProjectDef project)

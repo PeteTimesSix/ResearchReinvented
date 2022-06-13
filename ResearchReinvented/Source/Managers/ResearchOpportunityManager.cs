@@ -24,6 +24,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
         public ResearchProjectDef CurrentProject { get { return _currentProject; } }
 
         private Dictionary<int, ResearchOpportunity> _jobToOpportunityMap = new Dictionary<int, ResearchOpportunity>();
+
         private static readonly List<ResearchOpportunity> ListEmpty = new List<ResearchOpportunity>();
 
         public IReadOnlyCollection<ResearchOpportunity> CurrentOpportunities
@@ -121,7 +122,10 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
         public void AssociateJobWithOpportunity(Pawn pawn, Job job, ResearchOpportunity opportunity)
         {
-            _jobToOpportunityMap[job.loadID] = opportunity;
+            if (opportunity != null)
+                _jobToOpportunityMap[job.loadID] = opportunity;
+            else
+                Log.Warning($"attempted to associate job {job} for {pawn} with null opportunity");
             //Log.Message($"pawn {pawn} associated job {job} (load id: {job.GetUniqueLoadID()}) with opportunity {opportunity} (load id: {opportunity.GetUniqueLoadID()})");
         }
 
@@ -134,7 +138,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
         public ResearchOpportunity GetOpportunityForJob(Job job)
         {
-            if (this._jobToOpportunityMap.TryGetValue(job.loadID, out ResearchOpportunity result))
+            if (_jobToOpportunityMap.TryGetValue(job.loadID, out ResearchOpportunity result))
                 return result;
             else
                 return null;

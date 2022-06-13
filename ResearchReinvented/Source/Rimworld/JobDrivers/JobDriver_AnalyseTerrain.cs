@@ -56,7 +56,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 				num *= speedMult;
 				num *= FieldResearchHelper.GetFieldResearchSpeedFactor(actor, opportunity.project);
 				actor.skills.Learn(SkillDefOf.Intellectual, 0.1f * speedMult, false);
-				bool finished = opportunity.ResearchPerformed(num, actor);
+				bool finished = opportunity.ResearchTickPerformed(num, actor);
 				if (finished)
 					this.ReadyForNextToil();
 			}; 

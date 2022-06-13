@@ -67,7 +67,6 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
                     Job job = JobMaker.MakeJob(opportunity.def.jobDef, thing, expiryInterval: 1500, checkOverrideOnExpiry: true);
                     job.targetB = targetThing;
                     ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
-                    //ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
                     job.count = 1;
                     return job;
                 }
@@ -91,7 +90,6 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
             return GenClosest.ClosestThingReachable(researchBench.Position, researchBench.Map, ThingRequest.ForGroup(ThingRequestGroup.HaulableEver), PathEndMode.Touch, traverseParms, validator: (Thing checkedThing) => { 
                 return !checkedThing.IsForbidden(pawn) && analysableThings.Contains(checkedThing.def); 
             });
-            //return GenClosest.ClosestThingReachable(thing.Position, thing.Map, request, PathEndMode.Touch, traverseParms);
         }
 
         public override float GetPriority(Pawn pawn, TargetInfo target)

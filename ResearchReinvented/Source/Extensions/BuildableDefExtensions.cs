@@ -9,19 +9,20 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 {
 	public static class BuildableDefExtensions
 	{
-		public static bool IsAvailableOnlyForPrototyping(this BuildableDef buildable)
-		{
-			return !buildable.IsResearchFinished && buildable.IsAvailableForPrototyping();
-		}
 
-
-		public static bool IsAvailableForPrototyping(this BuildableDef buildable)
+		public static bool IsAvailableOnlyForPrototyping(this BuildableDef def)
 		{
-			if (buildable.researchPrerequisites != null)
+			if (def.researchPrerequisites != null)
 			{
-				return buildable.researchPrerequisites.Any(r => !r.IsFinished && Find.ResearchManager.currentProj != r);
+				var unfinishedPreregs = def.researchPrerequisites.Where((ResearchProjectDef r) => !r.IsFinished);
+				if (!unfinishedPreregs.Any())
+					return false;
+				if (unfinishedPreregs.Any((ResearchProjectDef r) => Find.ResearchManager.currentProj != r))
+					return false;
+
+				return true;
 			}
-			return true;
+			return false;
 		}
 	}
 }

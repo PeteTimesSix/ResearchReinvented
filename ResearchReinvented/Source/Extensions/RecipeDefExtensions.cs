@@ -16,7 +16,7 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 		}
 
 
-        public static bool IsAvailableForPrototyping(this RecipeDef recipe) 
+        private static bool IsAvailableForPrototyping(this RecipeDef recipe) 
         {
 			if (recipe.researchPrerequisite != null && !recipe.researchPrerequisite.IsFinished && Find.ResearchManager.currentProj != recipe.researchPrerequisite)
 			{
@@ -24,23 +24,23 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 			}
 			if (recipe.memePrerequisitesAny != null)
 			{
-				bool flag = false;
+				bool memePreregMet = false;
 				foreach (MemeDef memeDef in recipe.memePrerequisitesAny)
 				{
 					if (Faction.OfPlayer.ideos.HasAnyIdeoWithMeme(memeDef))
 					{
-						flag = true;
+						memePreregMet = true;
 						break;
 					}
 				}
-				if (!flag)
+				if (!memePreregMet)
 				{
 					return false;
 				}
 			}
 			if (recipe.researchPrerequisites != null)
 			{
-				if (recipe.researchPrerequisites.Any((ResearchProjectDef r) => !r.IsFinished && Find.ResearchManager.currentProj != recipe.researchPrerequisite))
+				if (recipe.researchPrerequisites.Any((ResearchProjectDef r) => !r.IsFinished && Find.ResearchManager.currentProj != r))
 				{
 					return false;
 				}
@@ -49,14 +49,14 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 			{
 				if (recipe.factionPrerequisiteTags.Any((string tag) => Faction.OfPlayer.def.recipePrerequisiteTags == null || !Faction.OfPlayer.def.recipePrerequisiteTags.Contains(tag)))
 				{
-					if (!somethingSomethingIdeo(recipe))
+					if (!UnlockedByIdeology(recipe))
 						return false;
 				}
 			}
 			return !recipe.fromIdeoBuildingPreceptOnly || (ModsConfig.IdeologyActive && IdeoUtility.PlayerHasPreceptForBuilding(recipe.ProducedThingDef));
 		}
 
-		private static bool somethingSomethingIdeo(this RecipeDef recipe) 
+		private static bool UnlockedByIdeology(this RecipeDef recipe)
 		{
 			foreach (Ideo ideo in Faction.OfPlayer.ideos.AllIdeos)
 			{
@@ -66,20 +66,15 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 					{
 						foreach (PreceptApparelRequirement preceptApparelRequirement in precept_Role.apparelRequirements)
 						{
-							ThingDef thingDef = preceptApparelRequirement.requirement.AllRequiredApparel(Gender.None).FirstOrDefault<ThingDef>();
+							ThingDef thingDef = preceptApparelRequirement.requirement.AllRequiredApparel(Gender.None).FirstOrDefault();
 							if (thingDef == null)
 							{
 								Log.Error("Apparel requirement for role " + precept_Role.Label + " is null");
 							}
-							using (List<ThingDefCountClass>.Enumerator enumerator4 = recipe.products.GetEnumerator())
+							foreach (var product in recipe.products)
 							{
-								while (enumerator4.MoveNext())
-								{
-									if (enumerator4.Current.thingDef == thingDef)
-									{
-										return true;
-									}
-								}
+								if (product.thingDef == thingDef)
+									return true;
 							}
 						}
 					}

@@ -34,38 +34,4 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.Toils
 			return toil;
 		}
 	}
-
-	public static class Toils_Haul_Custom
-	{
-		public static Toil FindStorageForThing(TargetIndex thingIndex, TargetIndex destinationCellIndex)
-		{
-			Toil toil = new Toil();
-			toil.initAction = delegate ()
-			{
-				Pawn actor = toil.actor;
-				Job job = actor.jobs.curJob;
-				Thing thing = actor.CurJob.GetTarget(thingIndex).Thing;
-				StoreUtility.TryFindBestBetterStoreCellFor(thing, actor, actor.Map, StoragePriority.Unstored, actor.Faction, out IntVec3 foundCell, true);
-				if (foundCell.IsValid)
-				{
-					//actor.carryTracker.TryStartCarry(thing);
-					job.SetTarget(destinationCellIndex, new LocalTargetInfo(foundCell));
-					job.SetTarget(thingIndex, new LocalTargetInfo(thing));
-					job.count = 99999;
-					return;
-				}
-				else if (!GenPlace.TryPlaceThing(thing, actor.PositionHeld, actor.Map, ThingPlaceMode.Near, null, null, default(Rot4)))
-				{
-					Log.Error($"Store toil of {job} could not fallback drop {thing} near {actor.PositionHeld}");
-					actor.jobs.EndCurrentJob(JobCondition.Succeeded, true, true);
-				}
-			};
-			toil.defaultCompleteMode = ToilCompleteMode.Instant;
-			toil.FailOnDespawnedOrNull(thingIndex);
-			return toil;
-		}
-	}
-
-
-	
 }

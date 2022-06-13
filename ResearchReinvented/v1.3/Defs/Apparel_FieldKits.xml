@@ -77,8 +77,8 @@
     </equippedStatOffsets>
 	<comps>
       <li Class="PeteTimesSix.ResearchReinvented.Rimworld.Comps.CompProperties.CompProperties_ResearchKit">
-			<fieldworkEffect>HiTechResearchKitEffect</fieldworkEffect>
-			<substitutedResearchBench>HiTechResearchBench</substitutedResearchBench>
+		<fieldworkEffect>HiTechResearchKitEffect</fieldworkEffect>
+		<substitutedResearchBench>HiTechResearchBench</substitutedResearchBench>
 	  </li>
     </comps>
     <recipeMaker>

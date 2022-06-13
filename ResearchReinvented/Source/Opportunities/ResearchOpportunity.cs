@@ -102,11 +102,16 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             Scribe_Values.Look(ref relation, "relation");
         }
 
-        public bool ResearchPerformed(float amount, Pawn researcher)
+        public bool ResearchTickPerformed(float amount, Pawn researcher)
         {
             if (Find.ResearchManager.currentProj == null) //current project either unset or finished this tick
                 return true;
             amount *= 0.00825f;
+            return ResearchPerformed(amount, researcher);
+        }
+
+        private bool ResearchPerformed(float amount, Pawn researcher)
+        {
             amount *= Find.Storyteller.difficulty.researchSpeedFactor;
             if (researcher != null && researcher.Faction != null)
             {
@@ -117,8 +122,8 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
                 amount *= 500f;
             }
 
-            if (currentProgress + amount >= maximumProgress)
-                amount = maximumProgress - currentProgress;
+            if (currentProgress + amount >= MaximumProgress)
+                amount = MaximumProgress - currentProgress;
             currentProgress += amount;
             if (researcher != null)
             {
@@ -134,6 +139,26 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             }
 
             return project.IsFinished || this.IsFinished;
+        }
+
+        public bool ResearchChunkPerformed(Pawn researcher)
+        {
+            if (Find.ResearchManager.currentProj == null) //current project either unset or finished this tick
+                return true;
+
+            var amount = MaximumProgress / def.GetCategory(relation).targetIterations;
+            if (!StatDefOf.ResearchSpeed.Worker.IsDisabledFor(researcher))
+            {
+                amount *= researcher.GetStatValue(StatDefOf.ResearchSpeed, true);
+            }
+            else 
+            {
+                Log.Warning($"Pawn {researcher} did research chunk despite being incapable of research");
+                amount = 0;
+            }
+
+            Log.Message($"permorming research chunk for {ShortDesc} : amount {amount} ({MaximumProgress} / {def.GetCategory(relation).targetIterations})");
+            return ResearchPerformed(amount, researcher);
         }
 
         public override string ToString()

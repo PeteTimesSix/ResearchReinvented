@@ -15,6 +15,7 @@ using PeteTimesSix.ResearchReinvented.DefOfs;
 using PeteTimesSix.ResearchReinvented.Rimworld.Comps.CompProperties;
 using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Rimworld.DefModExtensions;
+using PeteTimesSix.ResearchReinvented.Rimworld.Comps;
 
 namespace PeteTimesSix.ResearchReinvented
 {
@@ -60,26 +61,50 @@ namespace PeteTimesSix.ResearchReinvented
 
         private static void AssociateKitsWithResearchProjects()
         {
-            var researchKits = DefDatabase<ThingDef>.AllDefsListForReading.Where(d => d.HasComp(typeof(CompProperties_ResearchKit)));
-            foreach(var kit in researchKits)
+            var researchKits = DefDatabase<ThingDef>.AllDefsListForReading.Where(d => d.HasComp(typeof(Comp_ResearchKit)));
+            foreach (var kit in researchKits)
             {
                 var kitComp = kit.GetCompProperties<CompProperties_ResearchKit>();
 
-                if (kit.researchPrerequisites == null)
-                    kit.researchPrerequisites = new List<ResearchProjectDef>();
+                var prerequisites = new HashSet<ResearchProjectDef>();
 
                 if (kitComp.substitutedResearchBench.researchPrerequisites != null)
-                    kit.researchPrerequisites.AddRange(kitComp.substitutedResearchBench.researchPrerequisites);
+                    prerequisites.AddRange(kitComp.substitutedResearchBench.researchPrerequisites);
 
                 if (kitComp.remotesThrough != null && kitComp.remotesThrough.researchPrerequisites != null)
-                    kit.researchPrerequisites.AddRange(kitComp.remotesThrough.researchPrerequisites);
+                    prerequisites.AddRange(kitComp.remotesThrough.researchPrerequisites);
 
                 if (kitComp.substitutedFacilities != null) 
                 {
                     foreach (var facility in kitComp.substitutedFacilities)
                     {
                         if (facility.researchPrerequisites != null)
-                            kit.researchPrerequisites.AddRange(kitComp.substitutedResearchBench.researchPrerequisites);
+                            prerequisites.AddRange(facility.researchPrerequisites);
+                    }
+                }
+
+                if (prerequisites.Any())
+                {
+                    if (kit.researchPrerequisites == null)
+                        kit.researchPrerequisites = new List<ResearchProjectDef>();
+
+                    kit.researchPrerequisites.AddRange(prerequisites); 
+
+                    if(kit.recipeMaker != null)
+                    {
+                        if (kit.recipeMaker.researchPrerequisites == null)
+                            kit.recipeMaker.researchPrerequisites = new List<ResearchProjectDef>();
+
+                        kit.recipeMaker.researchPrerequisites.AddRange(prerequisites);
+                    }
+
+                    //except the recipeMaker has probably already made the recipes, so lets fix those up too
+                    foreach(var recipe in DefDatabase<RecipeDef>.AllDefsListForReading.Where(r => r.ProducedThingDef == kit))
+                    {
+                        if (recipe.researchPrerequisites == null)
+                            recipe.researchPrerequisites = new List<ResearchProjectDef>();
+
+                        recipe.researchPrerequisites.AddRange(prerequisites);
                     }
                 }
             }

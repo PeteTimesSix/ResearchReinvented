@@ -10,10 +10,10 @@ using Verse;
 using UnityEngine;
 using PeteTimesSix.ResearchReinvented.Extensions;
 
-namespace PeteTimesSix.ResearchReinvented.HarmonyPatches
+namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 {
     [HarmonyPatch(typeof(BillStack), nameof(BillStack.DoListing))]
-    public static class Patch_BillStack_DoListing_Patches 
+    public static class Patch_BillStack_DoListing_Patches
     {
         [HarmonyPrefix]
         public static void Prefix(BillStack __instance, ref Func<List<FloatMenuOption>> recipeOptionsMaker) 
@@ -46,7 +46,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches
             {
                 if (recipe.IsAvailableOnlyForPrototyping() && recipe.AvailableOnNow(asThing, null))
                 {
-                    var option = (new FloatMenuOption("[Prototype] " + recipe.LabelCap, () => OnClick(billGiver, asThing, recipe, null), recipe.UIIconThing, MenuOptionPriority.Default, null, null, 29f, (Rect rect) => ExtraPartOnGUI(rect, recipe, null), null, true, 0));
+                    var option = (new FloatMenuOption("RR_PrototypePrefix".Translate() + " " + recipe.LabelCap, () => OnClick(billGiver, asThing, recipe, null), recipe.UIIconThing, MenuOptionPriority.Default, null, null, 29f, (Rect rect) => ExtraPartOnGUI(rect, recipe, null), null, true, 0));
                     retList.Add(option);
                     foreach (Ideo ideo in Faction.OfPlayer.ideos.AllIdeos)
                     {
@@ -54,7 +54,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches
                         {
                             if (precept_Building.ThingDef == recipe.ProducedThingDef)
 							{
-                                var preceptOption = (new FloatMenuOption("[Prototype] " + "RecipeMake".Translate(precept_Building.def.LabelCap).CapitalizeFirst(), () => OnClick(billGiver, asThing, recipe, precept_Building), recipe.UIIconThing, MenuOptionPriority.Default, null, null, 29f, (Rect rect) => ExtraPartOnGUI(rect, recipe, precept_Building), null, true, 0));
+                                var preceptOption = (new FloatMenuOption("RR_PrototypePrefix".Translate() + " " + "RecipeMake".Translate(precept_Building.def.LabelCap).CapitalizeFirst(), () => OnClick(billGiver, asThing, recipe, precept_Building), recipe.UIIconThing, MenuOptionPriority.Default, null, null, 29f, (Rect rect) => ExtraPartOnGUI(rect, recipe, precept_Building), null, true, 0));
                                 retList.Add(option);
                             }
                         }

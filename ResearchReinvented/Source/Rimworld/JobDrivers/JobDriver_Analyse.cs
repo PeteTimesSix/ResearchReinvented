@@ -68,7 +68,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
                 num *= ResearchBench.GetStatValue(StatDefOf.ResearchSpeedFactor, true);
                 actor.skills.Learn(SkillDefOf.Intellectual, 0.1f * speedMult, false);
                 actor.GainComfortFromCellIfPossible(true);
-                bool finished = opportunity.ResearchPerformed(num, actor);
+                bool finished = opportunity.ResearchTickPerformed(num, actor);
                 if (finished)
                     this.ReadyForNextToil();
             };
