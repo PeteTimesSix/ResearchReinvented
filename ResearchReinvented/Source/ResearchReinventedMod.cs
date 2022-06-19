@@ -128,7 +128,7 @@ namespace PeteTimesSix.ResearchReinvented
                         MarkAsRare(thing);
                 }
             }
-            foreach (var special in DefDatabase<SpecialResearchOpportunityDef>.AllDefsListForReading.Where(a => a.markAsRare))
+            /*foreach (var special in DefDatabase<SpecialResearchOpportunityDef>.AllDefsListForReading.Where(a => a.markAsRare))
             {
                 if (special.alternates != null)
                 {
@@ -140,7 +140,7 @@ namespace PeteTimesSix.ResearchReinvented
                     foreach (var terrain in special.alternateTerrains)
                         MarkAsRare(terrain);
                 }
-            }
+            }*/
         }
 
         private static void MarkAsRare(Def def)

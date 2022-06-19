@@ -1,4 +1,7 @@
-﻿using System;
+﻿using PeteTimesSix.ResearchReinvented.Defs;
+using PeteTimesSix.ResearchReinvented.Managers;
+using PeteTimesSix.ResearchReinvented.OpportunityComps;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +23,9 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 				if (unfinishedPreregs.Any((ResearchProjectDef r) => Find.ResearchManager.currentProj != r))
 					return false;
 
-				return true;
+				return ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities(true)
+					.Where(o => o.def.handledBy == HandlingMode.Special_Prototype && o.requirement.MetBy(def))
+					.Any();
 			}
 			return false;
 		}

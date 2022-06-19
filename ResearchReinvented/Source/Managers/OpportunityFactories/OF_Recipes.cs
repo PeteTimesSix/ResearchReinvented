@@ -20,7 +20,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             HashSet<IngredientCount> ingredients = new HashSet<IngredientCount>();
             HashSet<ThingDef> products = new HashSet<ThingDef>();
 
-            foreach (var recipe in GatherDirectRecipes(project)) 
+            foreach (var recipe in GatherDirectRecipes(project).Where(r => r.PassesIdeoCheck())) 
             {
                 users.AddRange(recipe.AllRecipeUsers);
                 if (recipe.products != null)
@@ -29,12 +29,12 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                     ingredients.AddRange(recipe.ingredients);
             }
 
-            foreach (var recipe in GatherCreationRecipes(project))
+            foreach (var recipe in GatherCreationRecipes(project).Where(r => r.PassesIdeoCheck()))
             {
                 users.AddRange(recipe.AllRecipeUsers);
             }
 
-            foreach (var recipe in GatherNewImpliedRecipes(project).Where(r => r.products != null))
+            foreach (var recipe in GatherNewImpliedRecipes(project).Where(r => r.products != null).Where(r => r.PassesIdeoCheck()))
             {
                 if (recipe.products != null)
                     products.AddRange(recipe.products.Select(p => p.thingDef));

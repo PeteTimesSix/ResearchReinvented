@@ -110,7 +110,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
             if (!found)
             {
-                Log.Warning("failed to apply prespawn patch (instructions not found)");
+                //Log.Warning("failed to apply prespawn patch (instructions not found)");
                 foreach (var instruction in iteratedOver)
                     yield return instruction;
 
@@ -146,17 +146,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
         private static void PostSpawn(Frame frame, Thing product, Pawn worker)
         {
-            var breakDownComp = product.TryGetComp<CompBreakdownable>();
-            if (breakDownComp != null)
-            {
-                breakDownComp.DoBreakdown();
-            }
-            var refuelComp = product.TryGetComp<CompRefuelable>();
-            if (refuelComp != null)
-            {
-                refuelComp.ConsumeFuel(float.MaxValue);
-            }
-
+            PrototypeUtilities.DoPrototypeBadComps(product);
             PrototypeUtilities.DoPostFinishThingResearch(product, worker, frame.WorkToBuild);
         }
 

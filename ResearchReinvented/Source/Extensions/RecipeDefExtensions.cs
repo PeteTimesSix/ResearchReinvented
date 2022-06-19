@@ -1,4 +1,6 @@
-﻿using RimWorld;
+﻿using PeteTimesSix.ResearchReinvented.Defs;
+using PeteTimesSix.ResearchReinvented.Managers;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +12,25 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 {
     public static class RecipeDefExtensions
     {
+		public static bool PassesIdeoCheck(this RecipeDef recipe)
+        {
+			if (!ModsConfig.IdeologyActive)
+				return true;
+			if (recipe.memePrerequisitesAny == null)
+				return true;
+			return recipe.memePrerequisitesAny.Any(mp => Faction.OfPlayer.ideos.HasAnyIdeoWithMeme(mp));
+        }
+
 		public static bool IsAvailableOnlyForPrototyping(this RecipeDef recipe) 
 		{
-			return !recipe.AvailableNow && recipe.IsAvailableForPrototyping();
+			bool canBePrototyped = !recipe.AvailableNow && recipe.IsAvailableForPrototyping();
+
+			if (!canBePrototyped)
+				return false;
+			else
+				return ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities(true)
+					.Where(o => o.def.handledBy == HandlingMode.Special_Prototype && o.requirement.MetBy(recipe.ProducedThingDef))
+					.Any();
 		}
 
 

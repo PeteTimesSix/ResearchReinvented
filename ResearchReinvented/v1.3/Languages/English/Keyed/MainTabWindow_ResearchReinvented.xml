@@ -5,4 +5,14 @@
 	<RR_disable_compact_mode>Details mode</RR_disable_compact_mode>
 	<RR_uncollapse_category>Expand</RR_uncollapse_category>
 	<RR_collapse_category>Collapse</RR_collapse_category>
+	
+	<RR_OpportunityBlocked_Finished_short>Done</RR_OpportunityBlocked_Finished_short>
+	<RR_OpportunityBlocked_ResearchTooLow_short>Locked </RR_OpportunityBlocked_ResearchTooLow_short>
+	<RR_OpportunityBlocked_ResearchTooHigh_short>Not useful</RR_OpportunityBlocked_ResearchTooHigh_short>
+	<RR_OpportunityBlocked_ReasonUnknown_short>Locked ???</RR_OpportunityBlocked_ReasonUnknown_short>
+	
+	<RR_OpportunityBlocked_Finished>Finished</RR_OpportunityBlocked_Finished>
+	<RR_OpportunityBlocked_ResearchTooLow>Locked\nMore overall progress needed</RR_OpportunityBlocked_ResearchTooLow>
+	<RR_OpportunityBlocked_ResearchTooHigh>Locked\nNothing more to learn</RR_OpportunityBlocked_ResearchTooHigh>
+	<RR_OpportunityBlocked_ReasonUnknown>Locked\nREASON UNKNOWN REPORT AS BUG</RR_OpportunityBlocked_ReasonUnknown>
 </LanguageData>

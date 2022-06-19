@@ -26,7 +26,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
         private Dictionary<Pawn, List<Building_ResearchBench>> cachedBenches = new Dictionary<Pawn, List<Building_ResearchBench>>();
         private List<ThingDef> cachedAnalyzables = new List<ThingDef>();
 
-        private static IEnumerable<ResearchOpportunity> MatchingOpportunities => ResearchOpportunityManager.instance.CurrentOpportunities.Where(o => o.def.handledBy == HandlingMode.Job && o.def.jobDef?.driverClass == DriverClass).Where(o => !o.IsFinished);
+        private static IEnumerable<ResearchOpportunity> MatchingOpportunities => ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities().Where(o => o.def.handledBy == HandlingMode.Job && o.def.jobDef?.driverClass == DriverClass);
 
         public override ThingRequest PotentialWorkThingRequest
         {
@@ -44,8 +44,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
         {
             if (Find.ResearchManager.currentProj == null)
                 return true;
-            var analysableThings = MatchingOpportunities.Select(o => (o.requirement as ROComp_RequiresThing).targetDef);
-            return !analysableThings.Any();
+
+            return !MatchingOpportunities.Any();
         }
 
         public override bool HasJobOnThing(Pawn pawn, Thing thing, bool forced = false)
@@ -75,7 +75,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
             if (!researchBenches.Any())
                 return null;
 
-            var analysableThings = cachedAnalyzables;
+            var analysableThings = GetAnalyzables();
 
             if (!analysableThings.Contains(thing.def))
                 return null;
@@ -93,8 +93,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
                 return null;
             else
             {
-                var opportunity = MatchingOpportunities.First(o => (o.requirement as ROComp_RequiresThing).targetDef == thing.def);
-
+                var opportunity = MatchingOpportunities.First(o => o.requirement.MetBy(thing.def));
                 Job job = JobMaker.MakeJob(opportunity.def.jobDef, thing, expiryInterval: 1500, checkOverrideOnExpiry: true);
                 job.targetB = bestBench;
                 ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
@@ -141,7 +140,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
             {
                 cachedAnalyzables.Clear();
                 
-                var analysableThings = MatchingOpportunities.Select(o => (o.requirement as ROComp_RequiresThing).targetDef);
+                var analysableThings = MatchingOpportunities.Select(o => (o.requirement as ROComp_RequiresThing).thingDef);
 
                 analyzablesCachedOnTick = Find.TickManager.TicksGame;
                 cachedAnalyzables = analysableThings.ToList();

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Verse;
 
 namespace PeteTimesSix.ResearchReinvented.OpportunityComps
 {
@@ -20,6 +21,7 @@ namespace PeteTimesSix.ResearchReinvented.OpportunityComps
         public override bool TargetIsNull => false;
 
         public override bool IsRare => false;
+        public override bool MetBy(Def def) => false;
 
         public ROComp_RequiresNothing()
         {

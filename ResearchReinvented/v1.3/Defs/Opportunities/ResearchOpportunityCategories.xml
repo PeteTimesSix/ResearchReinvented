@@ -6,6 +6,7 @@
 		<overflowMultiplier>1.5</overflowMultiplier>
 		<infiniteOverflow>false</infiniteOverflow>
 		<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
+		<availableAtOverallProgress>0.0~1.0</availableAtOverallProgress>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
 
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
@@ -23,6 +24,7 @@
 		<label>prototyping</label>
 		<targetIterations>2.0</targetIterations>
 		<priority>800</priority>
+		<availableAtOverallProgress>0.3~1.0</availableAtOverallProgress>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">

@@ -1,4 +1,5 @@
-﻿using PeteTimesSix.ResearchReinvented.Opportunities;
+﻿using PeteTimesSix.ResearchReinvented.Extensions;
+using PeteTimesSix.ResearchReinvented.Opportunities;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -17,8 +18,11 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             {
                 HashSet<IngredientCount> ingredientCounts = new HashSet<IngredientCount>();
 
-                foreach (var unlock in project.UnlockedDefs) 
+                foreach (var unlock in project.UnlockedDefs)
                 {
+                    if (!unlock.PassesIdeoCheck())
+                        continue;
+
                     if (unlock is RecipeDef asRecipe)
                     {
                         ingredientCounts.AddRange(asRecipe.ingredients);

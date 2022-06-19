@@ -23,6 +23,8 @@ namespace PeteTimesSix.ResearchReinvented.Defs
         public bool infiniteOverflow;
         public float researchSpeedMultiplier;
 
+        public FloatRange availableAtOverallProgress;
+
         public int priority;
     }
 }

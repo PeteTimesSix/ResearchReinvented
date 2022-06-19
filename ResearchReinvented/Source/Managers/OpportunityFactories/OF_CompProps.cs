@@ -1,4 +1,5 @@
-﻿using PeteTimesSix.ResearchReinvented.Opportunities;
+﻿using PeteTimesSix.ResearchReinvented.Extensions;
+using PeteTimesSix.ResearchReinvented.Opportunities;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -17,12 +18,13 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             {
                 foreach (var unlock in project.UnlockedDefs.Where(u => u is ThingDef asThing).Cast<ThingDef>())
                 {
+                    if (!unlock.PassesIdeoCheck())
+                        continue;
+
+                    var fuelComp = unlock.GetCompProperties<CompProperties_Refuelable>();
+                    if (fuelComp != null)
                     {
-                        var fuelComp = unlock.GetCompProperties<CompProperties_Refuelable>();
-                        if (fuelComp != null)
-                        {
-                            collections.forFuelAnalysis.AddRange(fuelComp.fuelFilter.AllowedThingDefs);
-                        }
+                        collections.forFuelAnalysis.AddRange(fuelComp.fuelFilter.AllowedThingDefs);
                     }
                 }
             }

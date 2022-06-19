@@ -4,7 +4,7 @@
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>RR_FieldResearchKitSimple</defName>
     <label>simple field research kit</label>
-    <description>Simple field research kit</description>
+    <description>This basic field research kit contains the tools necessary to perform research in the field, where a researcher does not have access to a full-sized research bench.</description>
     <techLevel>Neolithic</techLevel>
 	<equippedStatOffsets>
       <FieldResearchSpeedMultiplier>0.25</FieldResearchSpeedMultiplier>
@@ -39,6 +39,7 @@
     <graphicData>
       <texPath>Things/Items/SimpleResearchKit</texPath>
       <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.85</drawSize>
     </graphicData>
     <tickerType>Normal</tickerType>
     <statBases>
@@ -70,7 +71,7 @@
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>RR_FieldResearchKitHiTech</defName>
     <label>field research kit</label>
-    <description>Field research kit</description>
+    <description>This advanced field research kit contains the tools necessary to perform research in the field, where a researcher does not have access to a full-sized research bench. The advanced tools in this kit allow researching technologies that would ordinarily require a hi-tech research bench.</description>
     <techLevel>Industrial</techLevel>
 	<equippedStatOffsets>
       <FieldResearchSpeedMultiplier>0.5</FieldResearchSpeedMultiplier>
@@ -104,6 +105,7 @@
     <graphicData>
       <texPath>Things/Items/HiTechResearchKit</texPath>
       <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.85</drawSize>
     </graphicData>
     <tickerType>Normal</tickerType>
     <statBases>
@@ -135,7 +137,7 @@
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>RR_FieldResearchKitMultiAnalyzer</defName>
     <label>field research analyzer-kit</label>
-    <description>Field research analyzer-kit</description>
+    <description>This advanced field research kit contains the tools necessary to perform research in the field, where a researcher does not have access to a full-sized research bench. The advanced tools in this kit allow researching technologies that would ordinarily require a hi-tech research bench. An expansion module contains a portable microanalyzer.</description>
     <techLevel>Industrial</techLevel>
 	<equippedStatOffsets>
       <FieldResearchSpeedMultiplier>0.5</FieldResearchSpeedMultiplier>
@@ -172,6 +174,7 @@
     <graphicData>
       <texPath>Things/Items/MultiAnalyzerResearchKit</texPath>
       <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.85</drawSize>
     </graphicData>
     <tickerType>Normal</tickerType>
     <statBases>
@@ -203,14 +206,14 @@
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>RR_FieldResearchKitRemote</defName>
     <label>remote field research kit</label>
-    <description>Remote field research kit</description>
+    <description>This advanced field research kit contains the tools necessary to perform research in the field, where a researcher does not have access to a full-sized research bench. The advanced tools in this kit allow researching technologies that would ordinarily require a hi-tech research bench. An expansion module contains an uplink system that allows remote usage of local research benches by connecting to their microanalyzer.</description>
     <techLevel>Spacer</techLevel>
 	<equippedStatOffsets>
       <FieldResearchSpeedMultiplier>0.5</FieldResearchSpeedMultiplier>
     </equippedStatOffsets>
 	<comps>
       <li Class="PeteTimesSix.ResearchReinvented.Rimworld.Comps.CompProperties.CompProperties_ResearchKit">
-			<fieldworkEffect>HiTechResearchKitEffect</fieldworkEffect>
+			<fieldworkEffect>MultiAnalyzerResearchKitEffect</fieldworkEffect>
 			<substitutedResearchBench>HiTechResearchBench</substitutedResearchBench>
 			<remotesThrough>MultiAnalyzer</remotesThrough>
 	  </li>
@@ -238,6 +241,7 @@
     <graphicData>
       <texPath>Things/Items/RemoteResearchKit</texPath>
       <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.85</drawSize>
     </graphicData>
     <tickerType>Normal</tickerType>
     <statBases>

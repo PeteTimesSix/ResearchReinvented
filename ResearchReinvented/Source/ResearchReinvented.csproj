@@ -47,6 +47,7 @@
     <Compile Include="Defs\RaresListDef.cs" />
     <Compile Include="Defs\SpecialResearchOpportunityDef.cs" />
     <Compile Include="Extensions\BuildableDefExtensions.cs" />
+    <Compile Include="Extensions\DefExtensions.cs" />
     <Compile Include="Extensions\RecipeDefExtensions.cs" />
     <Compile Include="Extensions\ResearchProjectDefExtensions.cs" />
     <Compile Include="Extensions\ThingDefExtensions.cs" />
@@ -92,7 +93,6 @@
     <Compile Include="Rimworld\MiscData\IngredientCountExposable.cs" />
     <Compile Include="Rimworld\UI\MainTabWindow_ResearchReinvented.cs" />
     <Compile Include="Rimworld\UI\Widgets_Extra.cs" />
-    <Compile Include="Rimworld\WorkGivers\WorkGiver_AnalyseBkp.cs" />
     <Compile Include="Rimworld\WorkGivers\WorkGiver_Analyse.cs" />
     <Compile Include="Rimworld\WorkGivers\WorkGiver_AnalyseTerrain.cs" />
     <Compile Include="Rimworld\WorkGivers\WorkGiver_ResearcherRR.cs" />
@@ -105,7 +105,6 @@
     <Compile Include="Managers\ResearchOpportunityPrefabs.cs" />
     <Compile Include="Defs\ResearchOpportunityCategoryDef.cs" />
     <Compile Include="Defs\ResearchOpportunityTypeDef.cs" />
-    <Compile Include="Managers\OpportunityFactories\ResearchOpportunityFactory_Old.cs" />
     <Compile Include="DefOfs\ResearchOpportunityTypeDefOf.cs" />
     <Compile Include="ResearchReinventedMod.cs" />
     <Compile Include="ResearchReinvented_Settings.cs" />

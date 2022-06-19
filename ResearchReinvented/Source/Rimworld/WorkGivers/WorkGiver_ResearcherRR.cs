@@ -50,7 +50,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			{
 				return false;
 			}
-			var opportunity = ResearchOpportunityManager.instance.CurrentOpportunities.Where(o => o.def.jobDef.driverClass == DriverClass).Where(o => !o.IsFinished).FirstOrDefault();
+			var opportunity = ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities().Where(o => o.def.jobDef.driverClass == DriverClass).FirstOrDefault();
 			if (opportunity == null)
 			{
 				Log.Warning("found no research opportunities when looking for a research job on a research bench => the basic research should always be available!");
@@ -68,7 +68,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override Job JobOnThing(Pawn pawn, Thing thing, bool forced = false)
 		{
-			var opportunity = ResearchOpportunityManager.instance.CurrentOpportunities.Where(o => o.def.jobDef.driverClass == DriverClass).Where(o => !o.IsFinished).FirstOrDefault();
+			var opportunity = ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities().Where(o => o.def.jobDef.driverClass == DriverClass).FirstOrDefault();
 			if (opportunity == null)
 			{
 				Log.Warning("found no research opportunities when looking for a research job on a research bench => the basic research should always be available!");

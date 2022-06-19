@@ -37,6 +37,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
         public static Color DARKEN_COLOR = new Color(0f, 0f, 0f, 0.25f);
 
+        public static Color UNAVAILABLE_FINISHED = new Color(0.7f, 1f, 0.7f, 1f);
+        public static Color UNAVAILABLE_BLOCKED = new Color(1.0f, 0.5f, 0.5f, 1f);
+
         protected override float Margin => MARGIN;
 
         public override Vector2 RequestedTabSize
@@ -61,8 +64,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
             var fullRect = inRect;
             //Rect fullRect = new Rect(0f, TITLEBAR_HEIGHT, this.size.x, this.size.y - TITLEBAR_HEIGHT).Rounded();
-            IReadOnlyCollection<ResearchOpportunityCategoryDef> opportunityCategories = ResearchOpportunityManager.instance.CurrentOpportunityCategories;
-            IReadOnlyCollection<ResearchOpportunity> opportunities = ResearchOpportunityManager.instance.CurrentOpportunities;
+            IReadOnlyCollection<ResearchOpportunityCategoryDef> opportunityCategories = ResearchOpportunityManager.instance.AllCurrentOpportunityCategories;
+            IReadOnlyCollection<ResearchOpportunity> opportunities = ResearchOpportunityManager.instance.AllCurrentOpportunities;
 
             var titlebarRect = fullRect.TopPartPixels(TITLEBAR_HEIGHT);
             var footerRect = fullRect.BottomPartPixels(FOOTER_HEIGHT);
@@ -151,7 +154,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
                 float heightTotalLocal = 0f;
                 float horizontalOffset = 0f;
 
-                foreach (var opportunity in matchingOpportunitites)
+                foreach (var opportunity in matchingOpportunitites.OrderByDescending(o => o.MaximumProgress))
                 {
                     if (compactMode)
                         DrawOpportunityEntryCompact(startPosition, ref heightTotalLocal, ref horizontalOffset, odd, opportunity);
@@ -199,17 +202,32 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             labelBox.height = (float)(Text.LineHeightOf(GameFont.Tiny) * Math.Ceiling(labelBox.height / Text.LineHeightOf(GameFont.Tiny))) + 1f;
             Widgets_Extra.LabelFitHeightAware(labelBox, $"{opportunity.requirement.ShortDesc.CapitalizeFirst()}");
 
+            if (ResearchReinventedMod.Settings.debugPrintouts)
+            {
+                Text.Anchor = TextAnchor.MiddleCenter;
+                GUI.color = Color.green;
+                if (opportunity.IsAlternate)
+                {
+                    GUI.DrawTexture(textBoxInternal, TexUI.GrayTextBG);
+                    Widgets_Extra.LabelFitHeightAware(textBoxInternal, $"ALT");
+                }
+                GUI.color = Color.white;
+            }
+
             Text.Anchor = TextAnchor.LowerCenter;
             if (!opportunity.def.GetCategory(opportunity.relation).infiniteOverflow)
             {
                 //{Progress} "X.x%"
-                Widgets_Extra.LabelFitHeightAware(textBoxInternal.BottomHalf().Rounded(), $"{Math.Round(opportunity.ProgressFraction * 100, 1)}%");
+                Widgets_Extra.LabelFitHeightAware(textBoxInternal, $"{Math.Round(opportunity.ProgressFraction * 100, 1)}%");
             }
             else
             {
                 //{Progress} "X / Y"
-                Widgets_Extra.LabelFitHeightAware(textBoxInternal.BottomHalf().Rounded(), $"{Math.Round(opportunity.Progress, 0)} / {Math.Round(opportunity.MaximumProgress, 0)}");
+                Widgets_Extra.LabelFitHeightAware(textBoxInternal, $"{Math.Round(opportunity.Progress, 0)} / {Math.Round(opportunity.MaximumProgress, 0)}");
             }
+
+            if (opportunity.CurrentAvailability != OpportunityAvailability.Available)
+                DoUnavailabilityLabel(opportunity.CurrentAvailability, textBoxInternal.ContractedBy(2f), true);
 
             Text.Anchor = TextAnchor.MiddleLeft;
 
@@ -221,6 +239,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             }
         }
 
+
         private void DrawOpportunityEntry(Rect templateRect, ref float heightTotal, bool odd, ResearchOpportunity opportunity)
         {
             Color borderColor = odd ? new Color(0.4f, 0.4f, 0.4f) : new Color(0.5f, 0.5f, 0.5f);
@@ -228,6 +247,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             Color progressColor = odd ? new Color(0.2f, 0.2f, 0.8f) : new Color(0.25f, 0.25f, 0.8f);
             Rect textRect = new Rect(templateRect.x + ICON_SIZE + ICON_GAP, templateRect.y + heightTotal, templateRect.width - (ICON_SIZE + ICON_GAP), ROW_HEIGHT).Rounded();
             Rect iconRect = new Rect(templateRect.x, templateRect.y + heightTotal, ICON_SIZE, ICON_SIZE).Rounded();
+            Rect wholeRect = new Rect(templateRect.x, templateRect.y + heightTotal, templateRect.width, ROW_HEIGHT).Rounded();
             //Rect textRect = textRectTemplate.OffsetBy(0f, heightTotal);
             //Rect iconRect = iconRectTemplate.OffsetBy(0f, heightTotal);
 
@@ -244,18 +264,41 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             Widgets.DrawBoxSolid(progressRect, progressColor);
             Rect textBoxInternal = textRect.ContractedBy(2f, 0f).Rounded();
 
+
+            Text.Anchor = TextAnchor.MiddleLeft;
+
             //{Opportunity name}
             Widgets_Extra.LabelFitHeightAware(textBoxInternal.TopHalf().Rounded(), $"{opportunity.def.GetHeaderCap(opportunity.relation)}");
             //{Requirements description (usually ThingDef name)}
             Widgets_Extra.LabelFitHeightAware(textBoxInternal.BottomHalf().Rounded(), $"{opportunity.requirement.ShortDesc.CapitalizeFirst()}");
-            Text.Anchor = TextAnchor.MiddleRight;
 
+            if (ResearchReinventedMod.Settings.debugPrintouts)
+            {
+                Text.Anchor = TextAnchor.MiddleCenter;
+                GUI.color = Color.green;
+                if (opportunity.IsAlternate)
+                {
+                    GUI.DrawTexture(textBoxInternal.TopHalf().RightHalf(), TexUI.GrayTextBG);
+                    Widgets_Extra.LabelFitHeightAware(textBoxInternal.TopHalf().RightHalf(), $"ALT");
+                }
+                GUI.DrawTexture(textBoxInternal.TopHalf().LeftHalf(), TexUI.GrayTextBG);
+                Widgets_Extra.LabelFitHeightAware(textBoxInternal.TopHalf().LeftHalf(), $"{opportunity.relation}");
+                GUI.DrawTexture(textBoxInternal.BottomHalf(), TexUI.GrayTextBG);
+                Widgets_Extra.LabelFitHeightAware(textBoxInternal.BottomHalf(), $"{opportunity.debug_source}");
+                GUI.color = Color.white;
+            }
+
+            Text.Anchor = TextAnchor.MiddleRight;
             //{Progress} "X.x%"
             if (!opportunity.def.GetCategory(opportunity.relation).infiniteOverflow)
                 Widgets_Extra.LabelFitHeightAware(textBoxInternal.BottomHalf().Rounded(), $"{Math.Round(opportunity.ProgressFraction * 100, 1)}%");
 
             //{Progress} "X / Y"
             Widgets_Extra.LabelFitHeightAware(textBoxInternal.TopHalf().Rounded(), $"{Math.Round(opportunity.Progress, 0)} / {Math.Round(opportunity.MaximumProgress, 0)}");
+
+
+            if (opportunity.CurrentAvailability != OpportunityAvailability.Available)
+                DoUnavailabilityLabel(opportunity.CurrentAvailability, wholeRect.ContractedBy(2f), false);
 
             Text.Anchor = TextAnchor.MiddleLeft;
 
@@ -267,8 +310,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             Def onlyDef = null;
             if (opportunity.requirement is ROComp_RequiresThing requiresThingComp)
             {
-                Widgets.DefIcon(iconBox, requiresThingComp.targetDef);
-                onlyDef = requiresThingComp.targetDef;
+                Widgets.DefIcon(iconBox, requiresThingComp.thingDef);
+                onlyDef = requiresThingComp.thingDef;
             }
             else if (opportunity.requirement is ROComp_RequiresIngredients requiresIngredientsComp)
             {
@@ -304,6 +347,36 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
                 if (Widgets.ButtonInvisible(iconBox))
                     Find.WindowStack.Add(new Dialog_InfoCard(onlyDef));
             }
+        }
+        private static void DoUnavailabilityLabel(OpportunityAvailability availability, Rect textBox, bool compact)
+        {
+            Text.Anchor = TextAnchor.MiddleCenter;
+            string reason;
+            switch (availability)
+            {
+                case OpportunityAvailability.Finished:
+                    GUI.color = UNAVAILABLE_FINISHED;
+                    reason = compact ? "RR_OpportunityBlocked_Finished_short" : "RR_OpportunityBlocked_Finished";
+                    break;
+                case OpportunityAvailability.ResearchTooLow:
+                    GUI.color = UNAVAILABLE_BLOCKED;
+                    reason = compact ? "RR_OpportunityBlocked_ResearchTooLow_short" : "RR_OpportunityBlocked_ResearchTooLow";
+                    break;
+                case OpportunityAvailability.ResearchTooHigh:
+                    GUI.color = UNAVAILABLE_BLOCKED;
+                    reason = compact ? "RR_OpportunityBlocked_ResearchTooHigh_short" : "RR_OpportunityBlocked_ResearchTooHigh";
+                    break;
+                case OpportunityAvailability.UnavailableReasonUnknown:
+                default:
+                    GUI.color = UNAVAILABLE_BLOCKED;
+                    reason = compact ? "RR_OpportunityBlocked_ReasonUnknown_short" : "RR_OpportunityBlocked_ReasonUnknown";
+                    break;
+            }
+            reason = reason.Translate();
+            GUI.DrawTexture(textBox, TexUI.GrayTextBG);
+            Widgets_Extra.LabelFitHeightAware(textBox, reason);
+            GUI.color = Color.white;
+            Text.Anchor = TextAnchor.MiddleLeft;
         }
     }
 }

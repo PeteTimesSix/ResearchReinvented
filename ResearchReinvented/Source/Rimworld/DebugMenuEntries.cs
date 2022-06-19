@@ -15,8 +15,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld
         [DebugAction(category = CATEGORY, actionType = DebugActionType.Action)]
         static void ToggleDebugPrintouts() 
         {
-            Debug.debugPrintouts = !Debug.debugPrintouts;
-            string state = Debug.debugPrintouts ? "on" : "off";
+            ResearchReinventedMod.Settings.debugPrintouts = !ResearchReinventedMod.Settings.debugPrintouts;
+            string state = ResearchReinventedMod.Settings.debugPrintouts ? "on" : "off";
             Log.Message($"Toggled debug printouts {state}");
         }
     }

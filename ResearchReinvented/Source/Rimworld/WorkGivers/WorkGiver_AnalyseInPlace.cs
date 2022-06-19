@@ -25,11 +25,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public static Type DriverClass = typeof(JobDriver_AnalyseInPlace);
 
-		private static IEnumerable<ResearchOpportunity> MatchingOpportunities => ResearchOpportunityManager.instance.CurrentOpportunities.Where(o => o.def.handledBy == HandlingMode.Job && o.def.jobDef?.driverClass == DriverClass).Where(o => !o.IsFinished);
+		private static IEnumerable<ResearchOpportunity> MatchingOpportunities => ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities().Where(o => o.def.handledBy == HandlingMode.Job && o.def.jobDef?.driverClass == DriverClass);
 
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
-			var analysableThings = MatchingOpportunities.Select(o => (o.requirement as ROComp_RequiresThing).targetDef);
+			var analysableThings = MatchingOpportunities.Select(o => (o.requirement as ROComp_RequiresThing).thingDef);
 			var lister = pawn.Map.listerThings;
 
 			List<Thing> things = new List<Thing>();
@@ -52,8 +52,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 				return true;
 			}
 
-			var analysableThings = MatchingOpportunities.Select(o => (o.requirement as ROComp_RequiresThing).targetDef);
-			return !analysableThings.Any();
+			return !MatchingOpportunities.Any();
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing thing, bool forced = false)
@@ -62,7 +61,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			if (currentProj == null)
 				return false;
 
-			var opportunity = MatchingOpportunities.FirstOrDefault(o => (o.requirement as ROComp_RequiresThing).targetDef == thing.def);
+			var opportunity = MatchingOpportunities.FirstOrDefault(o => o.requirement.MetBy(thing.def));
 			if (opportunity == null)
 				return false;
 			else
@@ -74,7 +73,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override Job JobOnThing(Pawn pawn, Thing thing, bool forced = false)
 		{
-			var opportunity = MatchingOpportunities.FirstOrDefault(o => (o.requirement as ROComp_RequiresThing).targetDef == thing.def);
+			var opportunity = MatchingOpportunities.FirstOrDefault(o => o.requirement.MetBy(thing.def));
 			if (opportunity == null)
 			{
 				//Log.Warning($"Found a job at {thing.Label} but then could not create it!");
@@ -90,7 +89,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override float GetPriority(Pawn pawn, TargetInfo target)
 		{
-			var opportunity = MatchingOpportunities.First(o => (o.requirement as ROComp_RequiresThing).targetDef == target.Thing.def);
+			var opportunity = MatchingOpportunities.FirstOrDefault(o => o.requirement.MetBy(target.Thing.def));
 
 			return pawn.GetStatValue(StatDefOf_Custom.FieldResearchSpeedMultiplier, true) * opportunity.def.GetCategory(opportunity.relation).researchSpeedMultiplier;
 		}

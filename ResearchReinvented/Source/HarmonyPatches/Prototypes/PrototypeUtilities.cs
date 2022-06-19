@@ -30,6 +30,24 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             }
         }
 
+        public static void DoPrototypeBadComps(Thing product)
+        {
+            bool isPrototype = product.def.IsAvailableOnlyForPrototyping();
+            if (isPrototype)
+            {
+                var breakDownComp = product.TryGetComp<CompBreakdownable>();
+                if (breakDownComp != null)
+                {
+                    breakDownComp.DoBreakdown();
+                }
+                var refuelComp = product.TryGetComp<CompRefuelable>();
+                if (refuelComp != null)
+                {
+                    refuelComp.ConsumeFuel(float.MaxValue);
+                }
+            }
+        }
+
         public static QualityCategory DoPrototypeQualityDecreaseThing(QualityCategory category, Thing product, Pawn worker)
         {
             bool isPrototype = product.def.IsAvailableOnlyForPrototyping();
@@ -37,7 +55,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             {
                 byte asByte = (byte)category;
                 var adjusted = (QualityCategory)Math.Max((byte)0, (byte)Math.Round((float)asByte * PROTOTYPE_QUALITY_MULTIPLIER));
-                Log.Message($"adjusted quality for product {product} (worker {worker}): {category} to {adjusted}");
+                //Log.Message($"adjusted quality for product {product} (worker {worker}): {category} to {adjusted}");
                 return adjusted;
             }
             return category;
@@ -50,7 +68,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             {
                 byte asByte = (byte)category;
                 var adjusted = (QualityCategory)Math.Max((byte)0, (byte)Math.Round((float)asByte * PROTOTYPE_QUALITY_MULTIPLIER));
-                Log.Message($"adjusted quality for product {product} (recipe: {recipe} worker {worker}): {category} to {adjusted}");
+                //Log.Message($"adjusted quality for product {product} (recipe: {recipe} worker {worker}): {category} to {adjusted}");
                 return adjusted;
             }
             return category;
@@ -61,16 +79,15 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             bool isPrototype = product.def.IsAvailableOnlyForPrototyping() || (usedRecipe != null && usedRecipe.IsAvailableOnlyForPrototyping());
             if (isPrototype)
             {
-                var opportunity = ResearchOpportunityManager.instance.CurrentOpportunities
-                    .Where(o => o.def.handledBy == HandlingMode.Special_Prototype && o.requirement is ROComp_RequiresThing)
-                    .Where(o => (o.requirement as ROComp_RequiresThing).targetDef == product.def)
-                    .Where(o => !o.IsFinished).FirstOrDefault();
+                var opportunity = ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
+                    .Where(o => o.def.handledBy == HandlingMode.Special_Prototype && o.requirement.MetBy(product.def))
+                    .FirstOrDefault();
 
                 if (opportunity != null)
                 {
-                    opportunity.ResearchChunkPerformed(worker);
+                    opportunity.ResearchChunkPerformed(totalWork, worker);
                     var xp = totalWork;
-                    Log.Message($"adding {xp} to intellectual skill");
+                    //Log.Message($"adding {xp} to intellectual skill");
                     worker.skills.Learn(SkillDefOf.Intellectual, xp, false);
                 }
             }
@@ -81,16 +98,15 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             bool isPrototype = terrainDef.IsAvailableOnlyForPrototyping();
             if (isPrototype)
             {
-                var opportunity = ResearchOpportunityManager.instance.CurrentOpportunities
-                    .Where(o => o.def.handledBy == HandlingMode.Special_Prototype && o.requirement is ROComp_RequiresTerrain)
-                    .Where(o => (o.requirement as ROComp_RequiresTerrain).terrainDef == terrainDef)
-                    .Where(o => !o.IsFinished).FirstOrDefault();
+                var opportunity = ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
+                    .Where(o => o.def.handledBy == HandlingMode.Special_Prototype && o.requirement.MetBy(terrainDef))
+                    .FirstOrDefault();
 
                 if (opportunity != null)
                 {
-                    opportunity.ResearchChunkPerformed(worker);
+                    opportunity.ResearchChunkPerformed(totalWork, worker);
                     var xp = totalWork;
-                    Log.Message($"adding {xp} to intellectual skill");
+                    //Log.Message($"adding {xp} to intellectual skill");
                     worker.skills.Learn(SkillDefOf.Intellectual, xp, false);
                 }
             }

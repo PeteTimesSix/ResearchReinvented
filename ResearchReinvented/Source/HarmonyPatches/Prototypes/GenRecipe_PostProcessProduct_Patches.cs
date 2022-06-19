@@ -20,6 +20,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         public static void Postfix(Thing product, RecipeDef recipeDef, Pawn worker, Precept_ThingStyle precept = null) 
         {
             PrototypeUtilities.DoPrototypeHealthDecrease(product);
+            PrototypeUtilities.DoPrototypeBadComps(product);
             PrototypeUtilities.DoPostFinishThingResearch(product, worker, recipeDef.WorkAmountTotal(product.Stuff), recipeDef);
         }
 

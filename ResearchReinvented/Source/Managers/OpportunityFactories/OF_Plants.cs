@@ -1,4 +1,5 @@
-﻿using PeteTimesSix.ResearchReinvented.Opportunities;
+﻿using PeteTimesSix.ResearchReinvented.Extensions;
+using PeteTimesSix.ResearchReinvented.Opportunities;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,9 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             {
                 foreach (var unlock in project.UnlockedDefs.Where(u => u is ThingDef asThing && typeof(Plant).IsAssignableFrom(asThing.thingClass)))
                 {
+                    if (!unlock.PassesIdeoCheck())
+                        continue;
+
                     var plant = (unlock as ThingDef);
                     var product = plant.plant?.harvestedThingDef;
                     if (product != null)

@@ -14,6 +14,8 @@ namespace PeteTimesSix.ResearchReinvented.OpportunityComps
         public abstract bool TargetIsNull { get; }
         public abstract bool IsRare { get; }
 
+        public abstract bool MetBy(Def def);
+
         public virtual void ExposeData()
         {
         }

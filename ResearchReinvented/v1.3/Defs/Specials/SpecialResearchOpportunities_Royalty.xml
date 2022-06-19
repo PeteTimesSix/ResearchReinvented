@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>  
-	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef MayRequire="ludeon.rimworld.royalty">
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase" MayRequire="ludeon.rimworld.royalty">
 		<defName>RR_royal_shields</defName>
 		<originalProject>ShieldBelt</originalProject>
 		<alternates>
@@ -9,7 +9,7 @@
 		</alternates>
 	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
 	
-	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef MayRequire="ludeon.rimworld.royalty">
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase" MayRequire="ludeon.rimworld.royalty">
 		<defName>RR_royal_mechanoidTurret</defName>
 		<originals>
 			<li>Turret_MiniTurret</li>
@@ -21,7 +21,7 @@
 	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
 	
 	
-	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef MayRequire="ludeon.rimworld.royalty">
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase" MayRequire="ludeon.rimworld.royalty">
 		<defName>RR_royal_mechCluster</defName>
 		<originals>
 			<li>Ship_ComputerCore</li>
@@ -33,7 +33,7 @@
 		<importanceMultiplier>0.5</importanceMultiplier>
 	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
 	
-	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef MayRequire="ludeon.rimworld.royalty">
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase" MayRequire="ludeon.rimworld.royalty">
 		<defName>RR_royal_powerCell</defName>
 		<originals>
 			<li>Ship_Engine</li>
@@ -45,7 +45,7 @@
 		<importanceMultiplier>0.5</importanceMultiplier>
 	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
 	
-	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef MayRequire="ludeon.rimworld.royalty">
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase" MayRequire="ludeon.rimworld.royalty">
 		<defName>RR_royal_toxicSpewer</defName>
 		<originalProject>VenomSynthesis</originalProject>
 		<alternates>
@@ -54,7 +54,7 @@
 		<rareForThis>true</rareForThis>
 	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
 	
-	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef MayRequire="ludeon.rimworld.royalty">
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase" MayRequire="ludeon.rimworld.royalty">
 		<defName>RR_royal_smokeSpewer</defName>
 		<originalProject>SmokepopBelt</originalProject>
 		<alternates>
@@ -64,7 +64,7 @@
 	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
 	
 	
-	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef MayRequire="ludeon.rimworld.royalty">
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase" MayRequire="ludeon.rimworld.royalty">
 		<defName>RR_royal_madIntelligence</defName>
 		<originalProject>ShipComputerCore</originalProject>
 		<alternates>
@@ -73,7 +73,7 @@
 		<rareForThis>true</rareForThis>
 	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
 	
-	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef MayRequire="ludeon.rimworld.royalty">
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase" MayRequire="ludeon.rimworld.royalty">
 		<defName>RR_royal_EMP</defName>
 		<originals>
 			<li>Shell_EMP</li>

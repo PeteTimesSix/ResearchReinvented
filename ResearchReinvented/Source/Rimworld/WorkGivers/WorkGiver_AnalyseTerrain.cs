@@ -27,7 +27,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
         public static Type DriverClass = typeof(JobDriver_AnalyseTerrain);
 
-		private static IEnumerable<ResearchOpportunity> MatchingOpportunities => ResearchOpportunityManager.instance.CurrentOpportunities.Where(o => o.def.handledBy == HandlingMode.Job && o.def.jobDef?.driverClass == DriverClass).Where(o => !o.IsFinished);
+		private static IEnumerable<ResearchOpportunity> MatchingOpportunities => ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities().Where(o => o.def.handledBy == HandlingMode.Job && o.def.jobDef?.driverClass == DriverClass);
 
 		public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)
 		{
@@ -44,8 +44,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			if (currentProj.HasAnyPrerequisites() && !FieldResearchHelper.GetValidResearchKits(pawn, currentProj).Any())
 				return true;
 
-			var analysableTerrains = MatchingOpportunities.Select(o => (o.requirement as ROComp_RequiresTerrain).terrainDef);
-			return !analysableTerrains.Any();
+			return !MatchingOpportunities.Any();
 		}
 
         public override bool HasJobOnCell(Pawn pawn, IntVec3 cell, bool forced = false)
@@ -54,7 +53,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			if (currentProj == null)
 				return false;
 
-			var opportunity = MatchingOpportunities.FirstOrDefault(o => (o.requirement as ROComp_RequiresTerrain).terrainDef == cell.GetTerrain(pawn.Map));
+			var terrainAt = cell.GetTerrain(pawn.Map);
+			var opportunity = MatchingOpportunities.FirstOrDefault(o => o.requirement.MetBy(terrainAt));
 			if (opportunity == null)
 				return false;
 			else
@@ -81,7 +81,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override float GetPriority(Pawn pawn, TargetInfo target)
 		{
-			var opportunity = MatchingOpportunities.First(o => (o.requirement as ROComp_RequiresTerrain).terrainDef == target.Cell.GetTerrain(pawn.Map));
+			var terrainAt = target.Cell.GetTerrain(pawn.Map);
+			var opportunity = MatchingOpportunities.First(o => o.requirement.MetBy(terrainAt));
 
 			var cell = target.Cell;
 			var dist = cell.DistanceTo(pawn.Position);

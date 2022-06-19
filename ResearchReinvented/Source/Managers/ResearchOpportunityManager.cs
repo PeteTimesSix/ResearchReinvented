@@ -19,6 +19,9 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
         private List<ResearchOpportunity> _currentOpportunities = new List<ResearchOpportunity>();
 
+        private List<ResearchOpportunity> _allGeneratedOpportunities = new List<ResearchOpportunity>();
+        private List<ResearchProjectDef> _allProjectsWithGeneratedOpportunities = new List<ResearchProjectDef>();
+
 
         private ResearchProjectDef _currentProject;
         public ResearchProjectDef CurrentProject { get { return _currentProject; } }
@@ -27,7 +30,16 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
         private static readonly List<ResearchOpportunity> ListEmpty = new List<ResearchOpportunity>();
 
-        public IReadOnlyCollection<ResearchOpportunity> CurrentOpportunities
+        public IEnumerable<ResearchOpportunity> GetCurrentlyAvailableOpportunities(bool includeFinished = false)
+        {
+            if(!includeFinished)
+                return AllCurrentOpportunities.Where(o => o.CurrentAvailability == OpportunityAvailability.Available);
+            else
+                return AllCurrentOpportunities.Where(o => o.CurrentAvailability == OpportunityAvailability.Available || o.CurrentAvailability == OpportunityAvailability.Finished);
+
+        }
+
+        public IReadOnlyCollection<ResearchOpportunity> AllCurrentOpportunities
         {
             get 
             {
@@ -45,12 +57,12 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             }
         }
 
-        public IReadOnlyCollection<ResearchOpportunityCategoryDef> CurrentOpportunityCategories
+        public IReadOnlyCollection<ResearchOpportunityCategoryDef> AllCurrentOpportunityCategories
         {
             get
             {
                 HashSet<ResearchOpportunityCategoryDef> categories = new HashSet<ResearchOpportunityCategoryDef>();
-                foreach(var opportunity in CurrentOpportunities) 
+                foreach(var opportunity in AllCurrentOpportunities) 
                 {
                     foreach(var category in opportunity.def.GetAllCategories())
                     {
@@ -74,8 +86,10 @@ namespace PeteTimesSix.ResearchReinvented.Managers
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Collections.Look(ref _currentOpportunities, "_currentOpportunities", LookMode.Deep);
+            Scribe_Collections.Look(ref _allGeneratedOpportunities, "_allGeneratedOpportunities", LookMode.Deep);
+            Scribe_Collections.Look(ref _currentOpportunities, "_currentOpportunities", LookMode.Reference);
             Scribe_Collections.Look(ref _jobToOpportunityMap, "_jobToOpportunityMap", LookMode.Value, LookMode.Reference, ref wList1, ref wList2);
+            Scribe_Collections.Look(ref _allProjectsWithGeneratedOpportunities, "_allProjectsWithGeneratedOpportunities", LookMode.Def);
             Scribe_Defs.Look(ref _currentProject, "currentProject");
         }
 
@@ -86,7 +100,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 _jobToOpportunityMap = new Dictionary<int, ResearchOpportunity>();
             //if (_pawnToOpportunityMap == null)
             //    _pawnToOpportunityMap = new Dictionary<Pawn, ResearchOpportunity>();
-            ResearchOpportunityPrefabs.GenerateAllImplicitOpportunities();
+            //ResearchOpportunityPrefabs.GenerateAllImplicitOpportunities();
         }
 
         public override void GameComponentUpdate()
@@ -105,17 +119,28 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             _currentOpportunities = new List<ResearchOpportunity>();
             if (project == null)
                 return;
-            foreach (var opportunity in ResearchOpportunityPrefabs.Opportunities[project])
-            {
-                _currentOpportunities.Add(opportunity);
-            }
 
-            if (Debug.debugPrintouts) 
+            if (_allProjectsWithGeneratedOpportunities.Contains(project)) 
             {
-                Debug.LogMessage($"Listing generated opportunities for current project {_currentProject.label}...");
-                foreach (var opportunity in _currentOpportunities)
+                var matches = _allGeneratedOpportunities.Where(o => o.project == project);
+                _currentOpportunities.Clear();
+                _currentOpportunities.AddRange(matches);
+            }
+            else 
+            {
+                var newOpportunities = ResearchOpportunityPrefabs.MakeOpportunitiesForProject(project);
+                _currentOpportunities.Clear();
+                _currentOpportunities.AddRange(newOpportunities);
+                _allGeneratedOpportunities.AddRange(newOpportunities);
+                _allProjectsWithGeneratedOpportunities.Add(project);
+
+                if (ResearchReinventedMod.Settings.debugPrintouts)
                 {
-                    Debug.LogMessage($" |-- {opportunity.ShortDesc}");
+                    Debug.LogMessage($"Listing generated opportunities for current project {_currentProject.label}...");
+                    foreach (var opportunity in newOpportunities)
+                    {
+                        Debug.LogMessage($" |-- {opportunity.ShortDesc}");
+                    }
                 }
             }
         }

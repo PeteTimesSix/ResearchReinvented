@@ -23,36 +23,66 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
         Descendant
     }
 
+    public enum OpportunityAvailability 
+    {
+        Available,
+        Finished,
+        ResearchTooLow,
+        ResearchTooHigh,
+        UnavailableReasonUnknown
+    }
+
     public class ResearchOpportunity : IExposable, ILoadReferenceable
     {
         public ResearchProjectDef project;
         public ResearchOpportunityTypeDef def;
 
         public ResearchOpportunityComp requirement;
+        public List<MemeDef> memePrerequisites;
+
+        public string debug_source;
 
         private float maximumProgress = 0;
         private float currentProgress = 0;
+        private bool isForcedRare;
+        private bool isAlternate;
 
+        public ResearchRelation relation = ResearchRelation.Direct;
         public float importance;
 
-        public float Progress => currentProgress;
 
         public int loadID = -1;
 
-        public ResearchRelation relation = ResearchRelation.Direct;
 
+        public float Progress => currentProgress;
         public float MaximumProgress => def.GetCategory(relation).infiniteOverflow ? (project.baseCost - project.ProgressReal + Progress) : maximumProgress;
         public float ProgressFraction => Progress / MaximumProgress;
         public bool IsFinished => ProgressFraction >= 1f;
 
-        public bool rare;
+        public bool IsRare => isForcedRare ? true : requirement.IsRare;
+
+        public bool IsAlternate => isAlternate;
+
+        public OpportunityAvailability CurrentAvailability
+        {
+            get
+            {
+                if (IsFinished)
+                    return OpportunityAvailability.Finished;
+                if (project.ProgressPercent < def.GetCategory(relation).availableAtOverallProgress.min)
+                    return OpportunityAvailability.ResearchTooLow;
+                if (project.ProgressPercent > def.GetCategory(relation).availableAtOverallProgress.max)
+                    return OpportunityAvailability.ResearchTooHigh;
+                return OpportunityAvailability.Available;
+            }
+        }
 
         public ResearchOpportunity() 
         {
             //deserialization only
         }
 
-        public ResearchOpportunity(ResearchProjectDef project, ResearchOpportunityTypeDef def, ResearchRelation relation, ResearchOpportunityComp requirement, float importance = 1f, bool? rareOverride = null)
+        public ResearchOpportunity(ResearchProjectDef project, ResearchOpportunityTypeDef def, ResearchRelation relation, ResearchOpportunityComp requirement, string debug_source, float importance = 1f, bool forceRare = false, bool isAlternate = false)
         {
             this.project = project;
             this.def = def;
@@ -60,24 +90,28 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             this.relation = relation;
             this.loadID = RR_UniqueIDsManager.instance.GetNextResearchOpportunityID();
             this.importance = importance;
-            if (rareOverride.HasValue)
-                this.rare = rareOverride.Value;
-            else
-                this.rare = requirement.IsRare;
+            this.isForcedRare = forceRare;
+            this.isAlternate = isAlternate;
+            this.debug_source = debug_source; 
         }
 
-        public void AdjustMaxProgress(float fractionMultiplierTotal, float importanceCategoryTotal) 
+        public void SetMaxProgress(float maxProgress) 
+        {
+            maximumProgress = maxProgress; 
+        }
+
+        /*public void AdjustMaxProgress(float fractionMultiplierTotal, float importanceCategoryTotal) 
         {
             float categoryTargetFraction = def.GetCategory(relation).targetFractionMultiplier / fractionMultiplierTotal;
             categoryTargetFraction *= def.GetCategory(relation).overflowMultiplier;
             var maxProgress = def.GetCategory(relation).infiniteOverflow ? float.MaxValue : project.baseCost * categoryTargetFraction;
-            if (!this.rare)
+            if (!this.isRare)
             {
                 maxProgress /= Mathf.Min(importanceCategoryTotal, def.GetCategory(relation).targetIterations);
                 maxProgress *= importance;
             }
             maximumProgress = Mathf.Min(maxProgress, project.baseCost);
-        }
+        }*/
 
         public TaggedString ShortDesc 
         {
@@ -93,6 +127,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             Scribe_Defs.Look(ref def, "def");
 
             Scribe_Deep.Look(ref requirement, "requirement");
+            Scribe_Collections.Look(ref memePrerequisites, "memePrerequisites", LookMode.Def);
 
             Scribe_Values.Look(ref maximumProgress, "maximumProgress");
             Scribe_Values.Look(ref currentProgress, "currentProgress");
@@ -100,6 +135,10 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             Scribe_Values.Look(ref loadID, "loadID");
 
             Scribe_Values.Look(ref relation, "relation");
+            Scribe_Values.Look(ref importance, "importance");
+
+            Scribe_Values.Look(ref isForcedRare, "isForcedRare");
+            Scribe_Values.Look(ref isAlternate, "isAlternate");
         }
 
         public bool ResearchTickPerformed(float amount, Pawn researcher)
@@ -141,15 +180,16 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             return project.IsFinished || this.IsFinished;
         }
 
-        public bool ResearchChunkPerformed(Pawn researcher)
+        public bool ResearchChunkPerformed(float workAmount, Pawn researcher)
         {
             if (Find.ResearchManager.currentProj == null) //current project either unset or finished this tick
                 return true;
 
-            var amount = MaximumProgress / def.GetCategory(relation).targetIterations;
-            if (!StatDefOf.ResearchSpeed.Worker.IsDisabledFor(researcher))
+            var amount = MaximumProgress; // / def.GetCategory(relation).targetIterations;
+            var researchFactor = ResearchReinventedMod.Settings.prototypeResearchSpeedFactor;
+            if (researchFactor > 0 && !StatDefOf.ResearchSpeed.Worker.IsDisabledFor(researcher))
             {
-                amount *= researcher.GetStatValue(StatDefOf.ResearchSpeed, true);
+                amount *= (1f - researchFactor) + (researchFactor * researcher.GetStatValue(StatDefOf.ResearchSpeed, true));
             }
             else 
             {
@@ -157,7 +197,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
                 amount = 0;
             }
 
-            Log.Message($"permorming research chunk for {ShortDesc} : amount {amount} ({MaximumProgress} / {def.GetCategory(relation).targetIterations})");
+            Log.Message($"permorming research chunk for {ShortDesc} : amount {amount} ({MaximumProgress})");
             return ResearchPerformed(amount, researcher);
         }
 

@@ -25,6 +25,7 @@ namespace PeteTimesSix.ResearchReinvented.OpportunityComps
         public override bool TargetIsNull => terrainDef is null;
 
         public override bool IsRare => terrainDef.HasModExtension<RarityMarker>();
+        public override bool MetBy(Def def) => def == terrainDef;
 
         public ROComp_RequiresTerrain() 
         {

@@ -13,7 +13,7 @@ namespace PeteTimesSix.ResearchReinvented.Defs
     {
         public ResearchOpportunityTypeDef opportunityType;
         public ResearchProjectDef originalProject;
-        //public ResearchRelation relation = ResearchRelation.Direct;
+        public ResearchRelation? relationOverride = null;
         public bool forDirect = true;
         public bool forAncestor = false;
         public bool forDescendant = false;
@@ -22,7 +22,7 @@ namespace PeteTimesSix.ResearchReinvented.Defs
         public List<TerrainDef> alternateTerrains;
         public float importanceMultiplier = 1f;
         public bool rareForThis = false;
-        public bool markAsRare = false;
+        public bool markAsAlternate = false;
 
         public bool IsForRelation(ResearchRelation relation)
         {

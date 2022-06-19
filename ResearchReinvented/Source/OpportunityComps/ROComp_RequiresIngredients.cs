@@ -25,6 +25,7 @@ namespace PeteTimesSix.ResearchReinvented.OpportunityComps
 
         public override bool TargetIsNull => ingredients is null;
         public override bool IsRare => false;
+        public override bool MetBy(Def def) => false;
 
         public ROComp_RequiresIngredients() : base()
         {

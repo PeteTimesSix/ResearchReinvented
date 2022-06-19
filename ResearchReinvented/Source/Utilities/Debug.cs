@@ -9,11 +9,9 @@ namespace PeteTimesSix.ResearchReinvented
 {
     public static class Debug
     {
-        public static bool debugPrintouts = true;
-
         public static void LogMessage(string str) 
         {
-            if (debugPrintouts)
+            if (ResearchReinventedMod.Settings.debugPrintouts)
                 Log.Message("[RR]:" + str);
         }
 

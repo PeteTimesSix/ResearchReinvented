@@ -13,18 +13,19 @@ namespace PeteTimesSix.ResearchReinvented.OpportunityComps
 {
     class ROComp_RequiresThing : ResearchOpportunityComp
     {
-        public ThingDef targetDef;
+        public ThingDef thingDef;
 
         public override string ShortDesc
         {
             get
             {
-                return String.Concat(targetDef.label);
+                return String.Concat(thingDef.label);
             }
         }
-        public override bool TargetIsNull => targetDef is null;
+        public override bool TargetIsNull => thingDef is null;
 
-        public override bool IsRare => targetDef.HasModExtension<RarityMarker>();
+        public override bool IsRare => thingDef.HasModExtension<RarityMarker>();
+        public override bool MetBy(Def def) => def == thingDef;
 
         public ROComp_RequiresThing() 
         {
@@ -33,13 +34,13 @@ namespace PeteTimesSix.ResearchReinvented.OpportunityComps
 
         public ROComp_RequiresThing(ThingDef targetDef)
         {
-            this.targetDef = targetDef;
+            this.thingDef = targetDef;
         }
 
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Defs.Look(ref targetDef, "targetDef");
+            Scribe_Defs.Look(ref thingDef, "targetDef");
         }
     }
 }
