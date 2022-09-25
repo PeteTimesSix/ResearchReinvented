@@ -31,7 +31,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             }
         }*/
 
-        public static List<ResearchOpportunity> MakeOpportunitiesForProject(ResearchProjectDef project)
+        public static (List<ResearchOpportunity> opportunities, List<ResearchOpportunityCategoryTotalsStore> categoryStores) MakeOpportunitiesForProject(ResearchProjectDef project)
         {
             if (ResearchReinventedMod.Settings.debugPrintouts)
             {
@@ -70,19 +70,28 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 }
             }
 
+            List<ResearchOpportunityCategoryTotalsStore> totalStores = new List<ResearchOpportunityCategoryTotalsStore>();
+
             foreach (var category in categories)
             {
                 var matchingOpportunities = projectOpportunities.Where(o => o.def.GetCategory(o.relation) == category);
                 if (!matchingOpportunities.Any())
                     continue;
 
-                float categoryResearchPoints = ((projectResearchPoints / totalMultiplier) * category.targetFractionMultiplier) * category.overflowMultiplier;
+                var totalsStore = new ResearchOpportunityCategoryTotalsStore();
+                totalStores.Add(totalsStore);
+
+                totalsStore.project = project;
+                totalsStore.category = category;
+                totalsStore.baseResearchPoints = ((projectResearchPoints / totalMultiplier) * category.targetFractionMultiplier);
+                totalsStore.allResearchPoints = totalsStore.baseResearchPoints * category.overflowMultiplier;
+
                 var categoryImportanceTotal = matchingOpportunities.Sum(o => o.importance);
                 var matchingOpportunityTypes = matchingOpportunities.Select(o => o.def).ToHashSet();
 
                 foreach (var type in matchingOpportunityTypes)
                 {
-                    float typeResearchPoints = categoryResearchPoints / matchingOpportunityTypes.Count();
+                    float typeResearchPoints = totalsStore.allResearchPoints / matchingOpportunityTypes.Count();
 
                     var matchingOpportunitiesOfType = matchingOpportunities.Where(o => o.def == type);
                     var matchCount = matchingOpportunitiesOfType.Count(); //attempt to make rares as valuable for research as all other options combined
@@ -112,7 +121,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 }
             }
 
-            return projectOpportunities;
+            return (projectOpportunities, totalStores);
         }
     }
 }

@@ -40,6 +40,7 @@ namespace PeteTimesSix.ResearchReinvented.Utilities
                 return false;
             for (int i = 0; i < targetInstructions.Length; i++)
             {
+                //Log.Message($"{i}: comparing {targetInstructions[i]} to {instructions[i]}");
                 if (targetInstructions[i].opcode != instructions[i].opcode)
                     return false;
                 if (targetInstructions[i].operand != instructions[i].operand)

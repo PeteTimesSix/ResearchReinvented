@@ -34,7 +34,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             recipeOptionsMaker = newRecipeOptionsMaker;
         }
 
-        private static List<FloatMenuOption> GetAvailablePrototypeOptions(IBillGiver billGiver)
+        internal static List<FloatMenuOption> GetAvailablePrototypeOptions(IBillGiver billGiver)
         {
             var asThing = billGiver as Thing;
             if (asThing == null)

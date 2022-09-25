@@ -51,13 +51,14 @@
     <Compile Include="Extensions\RecipeDefExtensions.cs" />
     <Compile Include="Extensions\ResearchProjectDefExtensions.cs" />
     <Compile Include="Extensions\ThingDefExtensions.cs" />
+    <Compile Include="HarmonyPatches\ModCompatibility\OptionalPatches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\BillStack_DoListing_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\Designators_GizmoOnGUI_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\Designator_Build_Visible_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\Frame_CompleteConstruction_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\WorkToBuild_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\GenRecipe_PostProcessProduct_Patches.cs" />
-    <Compile Include="HarmonyPatches\ModCompatibility\Dubs_Mint_Menus\Patch_BillStack_DoListing_Patches.cs" />
+    <Compile Include="HarmonyPatches\ModCompatibility\Dubs_Mint_Menus\DMM_Patch_BillStack_DoListing_Patches.cs" />
     <Compile Include="HarmonyPatches\Pawn_JobTracker_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\PrototypeUtilities.cs" />
     <Compile Include="HarmonyPatches\RecipeDef_Patches.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Managers\OpportunityFactories\OF_Recipes.cs" />
     <Compile Include="Managers\OpportunityFactories\OF_Specials.cs" />
     <Compile Include="Managers\OpportunityFactories\OF_Unlocks.cs" />
+    <Compile Include="Opportunities\ResearchOpportunityCategoryTotalsStore.cs" />
     <Compile Include="OpportunityComps\ROComp_RequiresTerrain.cs" />
     <Compile Include="OpportunityComps\ROComp_RequiresThing.cs" />
     <Compile Include="OpportunityComps\ROComp_RequiresIngredients.cs" />
@@ -128,7 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Krafs.Rimworld.Ref">
-      <Version>1.3.3326</Version>
+      <Version>1.3.3389</Version>
       <ExcludeAssets>runtime</ExcludeAssets>
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

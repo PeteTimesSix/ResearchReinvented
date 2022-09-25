@@ -47,10 +47,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			if (currentProj == null)
 				return true;
 
-			if (currentProj.HasAnyPrerequisites() && !FieldResearchHelper.GetValidResearchKits(pawn, currentProj).Any())
-			{
-				return true;
-			}
+			
 
 			return !MatchingOpportunities.Any();
 		}
@@ -65,10 +62,19 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			if (opportunity == null)
 				return false;
 			else
-				return
-					pawn.CanReserve(thing, 1, -1, null, forced) &&
-					(!thing.def.hasInteractionCell || pawn.CanReserveSittableOrSpot(thing.InteractionCell, forced)) &&
-					new HistoryEvent(HistoryEventDefOf.Researching, pawn.Named(HistoryEventArgsNames.Doer)).Notify_PawnAboutToDo_Job();
+			{
+				if (!pawn.CanReserve(thing, 1, -1, null, forced))
+					return false;
+				else if (!(!thing.def.hasInteractionCell || pawn.CanReserveSittableOrSpot(thing.InteractionCell, forced)))
+					return false; 
+				else if (currentProj.HasAnyPrerequisites() && !FieldResearchHelper.GetValidResearchKits(pawn, currentProj).Any())
+				{
+					JobFailReason.Is("Need a research kit capable of analysis", null);
+					return false;
+				}
+				else
+					return new HistoryEvent(HistoryEventDefOf.Researching, pawn.Named(HistoryEventArgsNames.Doer)).Notify_PawnAboutToDo_Job();
+			}
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing thing, bool forced = false)

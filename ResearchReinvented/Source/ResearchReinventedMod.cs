@@ -16,6 +16,7 @@ using PeteTimesSix.ResearchReinvented.Rimworld.Comps.CompProperties;
 using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Rimworld.DefModExtensions;
 using PeteTimesSix.ResearchReinvented.Rimworld.Comps;
+using PeteTimesSix.ResearchReinvented.HarmonyPatches.ModCompatibility;
 
 namespace PeteTimesSix.ResearchReinvented
 {
@@ -50,12 +51,11 @@ namespace PeteTimesSix.ResearchReinvented
             var harmony = new Harmony("PeteTimesSix.ResearchReinvented");
             harmony.PatchAll();
 
-            //ITab_Bills_FillTab_Patches.DoPatch(harmony);
+            OptionalPatches.Patch(harmony);
 
             AddRarityModExtensions();
             AssociateKitsWithResearchProjects();
 
-            //harmony.PatchAll(Assembly.GetExecutingAssembly());
             ResearchReinventedMod.Settings = ResearchReinventedMod.ModSingleton.GetSettings<ResearchReinvented_Settings>();
         }
 

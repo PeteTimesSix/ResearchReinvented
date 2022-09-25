@@ -29,10 +29,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		private static IEnumerable<ResearchOpportunity> MatchingOpportunities => ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities().Where(o => o.def.handledBy == HandlingMode.Job && o.def.jobDef?.driverClass == DriverClass);
 
-		public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)
+
+        public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)
 		{
-			var analysableTerrains = MatchingOpportunities.Select(o => (o.requirement as ROComp_RequiresTerrain).terrainDef);
-			return pawn.Map.areaManager.Home.ActiveCells.Where(c => (analysableTerrains.Contains(c.GetTerrain(pawn.Map))));
+			//var analysableTerrains = MatchingOpportunities.Select(o => (o.requirement as ROComp_RequiresTerrain).terrainDef);
+			return pawn.Map.areaManager.Home.ActiveCells;//.Where(c => (analysableTerrains.Contains(c.GetTerrain(pawn.Map))));
 		}
 
 		public override bool ShouldSkip(Pawn pawn, bool forced = false)

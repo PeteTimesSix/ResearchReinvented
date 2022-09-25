@@ -63,7 +63,7 @@
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="JobBasedOpportunity">
 		<defName>AnalysePlant</defName>
-		<jobDef>RR_Analyse</jobDef>
+		<jobDef>RR_AnalyseInPlace</jobDef>
 		<header_Direct>observe plant growth (at location)</header_Direct>
 		<shortDesc_Direct>Analyse a plant to figure out stuff.</shortDesc_Direct>
 		<category_Direct>Biology</category_Direct>

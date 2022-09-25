@@ -29,6 +29,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
         Finished,
         ResearchTooLow,
         ResearchTooHigh,
+        CategoryFinished,
         UnavailableReasonUnknown
     }
 
@@ -69,11 +70,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             {
                 if (IsFinished)
                     return OpportunityAvailability.Finished;
-                if (project.ProgressPercent < def.GetCategory(relation).availableAtOverallProgress.min)
-                    return OpportunityAvailability.ResearchTooLow;
-                if (project.ProgressPercent > def.GetCategory(relation).availableAtOverallProgress.max)
-                    return OpportunityAvailability.ResearchTooHigh;
-                return OpportunityAvailability.Available;
+                return def.GetCategory(relation).GetCurrentAvailability(this);
             }
         }
 
