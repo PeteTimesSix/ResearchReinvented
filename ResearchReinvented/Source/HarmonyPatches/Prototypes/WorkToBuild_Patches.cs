@@ -14,9 +14,12 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
     public static class Frame_WorkToBuild_Patches
     {
         [HarmonyPostfix]
-        public static float Postfix(float __result, Frame __instance) 
+        public static float Postfix(float __result, Frame __instance)
         {
-            if(!__instance.def.entityDefToBuild.IsAvailableOnlyForPrototyping())
+            if (Current.ProgramState != ProgramState.Playing) //only modify during game
+                return __result;
+
+            if (!__instance.def.entityDefToBuild.IsAvailableOnlyForPrototyping())
                 return __result;
             else 
             {
@@ -31,6 +34,9 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         [HarmonyPostfix]
         public static float Postfix(float __result, RecipeDef __instance)
         {
+            if (Current.ProgramState != ProgramState.Playing) //only modify during game
+                return __result;
+
             if (!__instance.IsAvailableOnlyForPrototyping())
                 return __result;
             else
