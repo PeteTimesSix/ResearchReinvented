@@ -1,7 +1,7 @@
 
 # Research Reinvented    [![Badge License]][License]   [![Badge Mod]][RimWorld]
 
-*A Mod To Add A More Interesting Research System.*
+*Adds a more interesting research system.*
 
 <br>
 
