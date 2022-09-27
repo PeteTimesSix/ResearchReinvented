@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<RR_setting_defaultCompactMode>Research window defaults to compact mode</RR_setting_defaultCompactMode>
+	<RR_setting_defaultCompactMode_tooltip>When enabled, the research opportunities list window will default to compact mode.</RR_setting_defaultCompactMode_tooltip>
+	
+	
+	<RR_setting_kitlessResearch>Allow field research without research kit</RR_setting_kitlessResearch>
+	<RR_setting_kitlessResearch_tooltip>When enabled, field research can be performed without any research kit for research projects that only require a simple research table/kit.</RR_setting_kitlessResearch_tooltip>
+	
+	<RR_setting_basicResearchSpeedMult>Research theory speed multiplier</RR_setting_basicResearchSpeedMult>
+	<RR_setting_basicResearchSpeedMult_tooltip>Theoretical research speed will be multiplied by this percentage.</RR_setting_basicResearchSpeedMult_tooltip>
+</LanguageData>

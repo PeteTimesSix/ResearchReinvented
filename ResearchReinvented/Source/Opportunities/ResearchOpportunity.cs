@@ -30,6 +30,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
         ResearchTooLow,
         ResearchTooHigh,
         CategoryFinished,
+        ResearchPrerequisitesNotMet,
         UnavailableReasonUnknown
     }
 
@@ -39,7 +40,8 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
         public ResearchOpportunityTypeDef def;
 
         public ResearchOpportunityComp requirement;
-        public List<MemeDef> memePrerequisites;
+        //public List<ResearchProjectDef> otherResearchPrerequisites;
+        //public List<MemeDef> memePrerequisites;
 
         public string debug_source;
 
@@ -70,7 +72,17 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             {
                 if (IsFinished)
                     return OpportunityAvailability.Finished;
-                return def.GetCategory(relation).GetCurrentAvailability(this);
+                var categoryAvailable = def.GetCategory(relation).GetCurrentAvailability(this);
+                return categoryAvailable;
+                /*if(categoryAvailable == OpportunityAvailability.Available)
+                {
+                    if (def.handledBy == HandlingMode.Special_Prototype)
+                    {
+                        if (otherResearchPrerequisites.Any(r => !r.IsFinished))
+                            return OpportunityAvailability.ResearchPrerequisitesNotMet;
+                    }
+                }
+                return OpportunityAvailability.Available;*/
             }
         }
 
@@ -124,7 +136,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             Scribe_Defs.Look(ref def, "def");
 
             Scribe_Deep.Look(ref requirement, "requirement");
-            Scribe_Collections.Look(ref memePrerequisites, "memePrerequisites", LookMode.Def);
+            //Scribe_Collections.Look(ref otherResearchPrerequisites, "otherResearchPrerequisites", LookMode.Def);
 
             Scribe_Values.Look(ref maximumProgress, "maximumProgress");
             Scribe_Values.Look(ref currentProgress, "currentProgress");
@@ -194,7 +206,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
                 amount = 0;
             }
 
-            Log.Message($"permorming research chunk for {ShortDesc} : amount {amount} ({MaximumProgress})");
+            //Log.Message($"permorming research chunk for {ShortDesc} : amount {amount} ({MaximumProgress})");
             return ResearchPerformed(amount, researcher);
         }
 

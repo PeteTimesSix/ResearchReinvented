@@ -117,7 +117,9 @@
     <Compile Include="Rimworld\Tests.cs" />
     <Compile Include="Rimworld\Textures.cs" />
     <Compile Include="Utilities\ExposableList.cs" />
+    <Compile Include="Utilities\ListingExtensions.cs" />
     <Compile Include="Utilities\TranspilerUtils.cs" />
+    <Compile Include="Utilities\UIComponents.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Install.bat" />

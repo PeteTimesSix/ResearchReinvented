@@ -11,7 +11,7 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 	{
 		public static bool HasAnyPrerequisites(this ResearchProjectDef project)
 		{
-			return project.requiredResearchBuilding != null || !project.requiredResearchFacilities.NullOrEmpty();
+			return project.requiredResearchBuilding != null || !project.requiredResearchFacilities.NullOrEmpty() || !ResearchReinventedMod.Settings.kitlessResearch;
 		}
 
 		public static bool RequiredToUnlock(this ResearchProjectDef project, IEnumerable<ResearchProjectDef> prerequisites) 

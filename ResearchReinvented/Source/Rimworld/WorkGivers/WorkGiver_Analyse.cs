@@ -63,43 +63,27 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
             if (!analysableThings.Contains(thing.def))
                 return false;
 
+            var bestBench = researchBenches.First();
+
+            if (!(pawn.CanReserveSittableOrSpot(bestBench.InteractionCell, forced) && 
+                pawn.CanReserve(thing, 1, -1, null, forced) && 
+                new HistoryEvent(HistoryEventDefOf.Researching, pawn.Named(HistoryEventArgsNames.Doer)).Notify_PawnAboutToDo_Job()))
+                return false;
+
             return true;
         }
 
         public override Job JobOnThing(Pawn pawn, Thing thing, bool forced = false)
         {
-            ResearchProjectDef currentProj = Find.ResearchManager.currentProj;
-            if (currentProj == null)
-                return null;
             var researchBenches = GetUsableResearchBenches(pawn).Where(bench => pawn.CanReserve(bench));
-            if (!researchBenches.Any())
-                return null;
-
-            var analysableThings = GetAnalyzables();
-
-            if (!analysableThings.Contains(thing.def))
-                return null;
-
             var bestBench = researchBenches.First();
 
-            //var closestBench = GenClosest.ClosestThing_Global(thing.Position, researchBenches) as Building_ResearchBench;
-
-            var canDo =
-                pawn.CanReserveSittableOrSpot(bestBench.InteractionCell, forced) &&
-                pawn.CanReserve(thing, 1, -1, null, forced) &&
-                new HistoryEvent(HistoryEventDefOf.Researching, pawn.Named(HistoryEventArgsNames.Doer)).Notify_PawnAboutToDo_Job();
-
-            if (!canDo)
-                return null;
-            else
-            {
-                var opportunity = MatchingOpportunities.First(o => o.requirement.MetBy(thing.def));
-                Job job = JobMaker.MakeJob(opportunity.def.jobDef, thing, expiryInterval: 1500, checkOverrideOnExpiry: true);
-                job.targetB = bestBench;
-                ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
-                job.count = 1;
-                return job;
-            }
+            var opportunity = MatchingOpportunities.First(o => o.requirement.MetBy(thing.def));
+            Job job = JobMaker.MakeJob(opportunity.def.jobDef, thing, expiryInterval: 1500, checkOverrideOnExpiry: true);
+            job.targetB = bestBench;
+            ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
+            job.count = 1;
+            return job;
         }
 
 

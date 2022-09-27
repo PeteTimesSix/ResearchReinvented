@@ -16,8 +16,15 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 {
     class MainTabWindow_ResearchReinvented : MainTabWindow
     {
-        private List<ResearchOpportunityCategoryDef> collapsedCategories = new List<ResearchOpportunityCategoryDef>();
-        private bool compactMode = false;
+        public List<ResearchOpportunityCategoryDef> collapsedCategories = new List<ResearchOpportunityCategoryDef>();
+        //public static bool compactMode = false;
+
+        private static bool? compactMode = null;
+        public static bool CompactMode
+        {
+            get => compactMode.HasValue ? compactMode.Value : ResearchReinventedMod.Settings.defaultCompactMode;
+            set => compactMode = value;
+        }
 
         public Vector2 scrollPos = new Vector2(0f, 0f);
         public float innerRectSizeCache = 0f;
@@ -53,6 +60,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
         public MainTabWindow_ResearchReinvented() 
         {
             this.doCloseX = true;
+            if (!precachedTranslations)
+                PrecacheTranslations();
         }
 
         public override void DoWindowContents(Rect inRect)
@@ -78,12 +87,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             titlebarCentralRect.x += CLOSEBUTTON_BOUNDING_BOX_SIZE;
 
             Text.Anchor = TextAnchor.UpperCenter;
-            Widgets.Label(titlebarCentralRect, Find.ResearchManager.currentProj != null ? Find.ResearchManager.currentProj.LabelCap : "RR_no_project_selected".Translate());
+            Widgets.Label(titlebarCentralRect, Find.ResearchManager.currentProj != null ? Find.ResearchManager.currentProj.LabelCap.ToString() : RR_no_project_selected);
 
             Text.Anchor = TextAnchor.MiddleLeft;
-            if (Widgets.ButtonText(titlebarRect.LeftPartPixels(COMPACTMODE_BUTTON_WIDTH), compactMode ? "RR_disable_compact_mode".Translate() : "RR_enable_compact_mode".Translate()))
+            if (Widgets.ButtonText(titlebarRect.LeftPartPixels(COMPACTMODE_BUTTON_WIDTH), CompactMode ? RR_disable_compact_mode : RR_enable_compact_mode))
             {
-                compactMode = !compactMode;
+                CompactMode = !CompactMode;
             }
 
             Widgets.DrawLineHorizontal(titlebarRect.x, titlebarRect.y + titlebarRect.height, titlebarRect.width);
@@ -142,7 +151,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             bool collapsed = collapsedCategories.Contains(category);
 
             Text.Anchor = TextAnchor.LowerCenter;
+            GUI.color = category.color;
             Widgets.Label(headerRect, category.LabelCap);
+            GUI.color = Color.white;
             Text.Anchor = TextAnchor.LowerRight;
             if (!category.infiniteOverflow)
             {
@@ -156,13 +167,15 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             }
 
             Text.Anchor = TextAnchor.MiddleLeft;
-            if(Widgets.ButtonText(headerRect.LeftPartPixels(COLLAPSE_BUTTON_WIDTH), collapsed ? "RR_uncollapse_category".Translate() : "RR_collapse_category".Translate()))
+            if(Widgets.ButtonText(headerRect.LeftPartPixels(COLLAPSE_BUTTON_WIDTH), collapsed ? RR_uncollapse_category : RR_collapse_category))
             {
                 if(collapsed)
                     collapsedCategories.Remove(category);
                 else
                     collapsedCategories.Add(category);
             }
+
+            TooltipHandler.TipRegion(headerRect, category.description);
 
             heightTotal += headerRect.height + ROW_GAP;
             Widgets.DrawLineHorizontal(headerRect.x + 1f, headerRect.y + headerRect.height, headerRect.width - 2f);
@@ -178,7 +191,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
                 foreach (var opportunity in matchingOpportunitites.OrderByDescending(o => o.MaximumProgress))
                 {
-                    if (compactMode)
+                    if (CompactMode)
                         DrawOpportunityEntryCompact(wrapperRect, startPosition, ref heightTotalLocal, ref horizontalOffset, odd, opportunity);
                     else
                         DrawOpportunityEntry(wrapperRect, startPosition, ref heightTotalLocal, odd, opportunity);
@@ -186,7 +199,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
                 }
 
                 //need to newline in compact mode (but only if we didnt JUST newline)
-                if (compactMode && horizontalOffset != 0f)
+                if (CompactMode && horizontalOffset != 0f)
                 {
                     heightTotalLocal += ICON_LARGE_SIZE + ROW_GAP;
                 }
@@ -374,6 +387,54 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
                     Find.WindowStack.Add(new Dialog_InfoCard(onlyDef));
             }
         }
+
+        private static bool precachedTranslations = false;
+
+        private static string RR_no_project_selected;
+
+        private static string RR_disable_compact_mode;
+        private static string RR_enable_compact_mode;
+
+        private static string RR_uncollapse_category;
+        private static string RR_collapse_category;
+
+        private static string RR_OpportunityBlocked_Finished_short;
+        private static string RR_OpportunityBlocked_CategoryFinished_short;
+        private static string RR_OpportunityBlocked_ResearchTooLow_short;
+        private static string RR_OpportunityBlocked_ResearchTooHigh_short;
+        private static string RR_OpportunityBlocked_ReasonUnknown_short;
+
+        private static string RR_OpportunityBlocked_Finished;
+        private static string RR_OpportunityBlocked_CategoryFinished;
+        private static string RR_OpportunityBlocked_ResearchTooLow;
+        private static string RR_OpportunityBlocked_ResearchTooHigh;
+        private static string RR_OpportunityBlocked_ReasonUnknown;
+
+        private static void PrecacheTranslations()
+        {
+            RR_no_project_selected = "RR_no_project_selected".Translate();
+
+            RR_disable_compact_mode = "RR_disable_compact_mode".Translate();
+            RR_enable_compact_mode = "RR_enable_compact_mode".Translate();
+
+            RR_uncollapse_category = "RR_uncollapse_category".Translate();
+            RR_collapse_category = "RR_collapse_category".Translate();
+
+            RR_OpportunityBlocked_Finished_short = "RR_OpportunityBlocked_Finished_short".Translate();
+            RR_OpportunityBlocked_CategoryFinished_short = "RR_OpportunityBlocked_CategoryFinished_short".Translate();
+            RR_OpportunityBlocked_ResearchTooLow_short = "RR_OpportunityBlocked_ResearchTooLow_short".Translate();
+            RR_OpportunityBlocked_ResearchTooHigh_short = "RR_OpportunityBlocked_ResearchTooHigh_short".Translate();
+            RR_OpportunityBlocked_ReasonUnknown_short = "RR_OpportunityBlocked_ReasonUnknown_short".Translate();
+
+            RR_OpportunityBlocked_Finished = "RR_OpportunityBlocked_Finished".Translate();
+            RR_OpportunityBlocked_CategoryFinished = "RR_OpportunityBlocked_CategoryFinished".Translate();
+            RR_OpportunityBlocked_ResearchTooLow = "RR_OpportunityBlocked_ResearchTooLow".Translate();
+            RR_OpportunityBlocked_ResearchTooHigh = "RR_OpportunityBlocked_ResearchTooHigh".Translate();
+            RR_OpportunityBlocked_ReasonUnknown = "RR_OpportunityBlocked_ReasonUnknown".Translate();
+
+        }
+
+
         private static void DoUnavailabilityLabel(OpportunityAvailability availability, Rect textBox, bool compact)
         {
             Text.Anchor = TextAnchor.MiddleCenter;
@@ -382,27 +443,27 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             {
                 case OpportunityAvailability.Finished:
                     GUI.color = UNAVAILABLE_FINISHED;
-                    reason = compact ? "RR_OpportunityBlocked_Finished_short" : "RR_OpportunityBlocked_Finished";
+                    reason = compact ? RR_OpportunityBlocked_Finished_short : RR_OpportunityBlocked_Finished;
                     break;
                 case OpportunityAvailability.CategoryFinished:
                     GUI.color = UNAVAILABLE_FINISHED;
-                    reason = compact ? "RR_OpportunityBlocked_CategoryFinished_short" : "RR_OpportunityBlocked_CategoryFinished";
+                    reason = compact ? RR_OpportunityBlocked_CategoryFinished_short : RR_OpportunityBlocked_CategoryFinished;
                     break;
                 case OpportunityAvailability.ResearchTooLow:
                     GUI.color = UNAVAILABLE_BLOCKED;
-                    reason = compact ? "RR_OpportunityBlocked_ResearchTooLow_short" : "RR_OpportunityBlocked_ResearchTooLow";
+                    reason = compact ? RR_OpportunityBlocked_ResearchTooLow_short : RR_OpportunityBlocked_ResearchTooLow;
                     break;
                 case OpportunityAvailability.ResearchTooHigh:
                     GUI.color = UNAVAILABLE_BLOCKED;
-                    reason = compact ? "RR_OpportunityBlocked_ResearchTooHigh_short" : "RR_OpportunityBlocked_ResearchTooHigh";
+                    reason = compact ? RR_OpportunityBlocked_ResearchTooHigh_short : RR_OpportunityBlocked_ResearchTooHigh;
                     break;
                 case OpportunityAvailability.UnavailableReasonUnknown:
                 default:
                     GUI.color = UNAVAILABLE_BLOCKED;
-                    reason = compact ? "RR_OpportunityBlocked_ReasonUnknown_short" : "RR_OpportunityBlocked_ReasonUnknown";
+                    reason = compact ? RR_OpportunityBlocked_ReasonUnknown_short : RR_OpportunityBlocked_ReasonUnknown;
                     break;
             }
-            reason = reason.Translate();
+            //reason = reason.Translate();
             GUI.DrawTexture(textBox, TexUI.GrayTextBG);
             Widgets_Extra.LabelFitHeightAware(textBox, reason);
             GUI.color = Color.white;

@@ -67,17 +67,10 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		public override Job JobOnCell(Pawn pawn, IntVec3 cell, bool forced = false)
 		{
 			var opportunity = MatchingOpportunities.FirstOrDefault(o => (o.requirement as ROComp_RequiresTerrain).terrainDef == cell.GetTerrain(pawn.Map));
-			if (opportunity == null)
-			{
-				//Log.Warning($"Found a job at {thing.Label} but then could not create it!");
-				return null;
-			}
-			else
-			{
-				Job job = JobMaker.MakeJob(opportunity.def.jobDef, cell, expiryInterval: 1500, checkOverrideOnExpiry: true);
-				ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
-				return job;
-			}
+
+			Job job = JobMaker.MakeJob(opportunity.def.jobDef, cell, expiryInterval: 1500, checkOverrideOnExpiry: true);
+			ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
+			return job;
 		}
 
 		public override float GetPriority(Pawn pawn, TargetInfo target)

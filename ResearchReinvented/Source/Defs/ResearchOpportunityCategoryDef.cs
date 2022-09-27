@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using Verse;
 
 namespace PeteTimesSix.ResearchReinvented.Defs
@@ -27,6 +28,8 @@ namespace PeteTimesSix.ResearchReinvented.Defs
         public FloatRange availableAtOverallProgress;
 
         public int priority;
+
+        public Color color;
 
         public OpportunityAvailability GetCurrentAvailability(ResearchOpportunity asker){ 
             if (asker.project.ProgressPercent < availableAtOverallProgress.min)

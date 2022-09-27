@@ -69,7 +69,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 					return false; 
 				else if (currentProj.HasAnyPrerequisites() && !FieldResearchHelper.GetValidResearchKits(pawn, currentProj).Any())
 				{
-					JobFailReason.Is("Need a research kit capable of analysis", null);
+					JobFailReason.Is("RR_jobFail_needResearchKit".Translate(), null);
 					return false;
 				}
 				else
@@ -80,17 +80,10 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		public override Job JobOnThing(Pawn pawn, Thing thing, bool forced = false)
 		{
 			var opportunity = MatchingOpportunities.FirstOrDefault(o => o.requirement.MetBy(thing.def));
-			if (opportunity == null)
-			{
-				//Log.Warning($"Found a job at {thing.Label} but then could not create it!");
-				return null;
-			}
-			else
-			{
-				Job job = JobMaker.MakeJob(opportunity.def.jobDef, thing, expiryInterval: 1500, checkOverrideOnExpiry: true);
-				ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
-				return job;
-			}
+
+			Job job = JobMaker.MakeJob(opportunity.def.jobDef, thing, expiryInterval: 1500, checkOverrideOnExpiry: true);
+			ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
+			return job;
 		}
 
 		public override float GetPriority(Pawn pawn, TargetInfo target)
