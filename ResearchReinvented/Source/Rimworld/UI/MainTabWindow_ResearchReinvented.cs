@@ -16,7 +16,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 {
     class MainTabWindow_ResearchReinvented : MainTabWindow
     {
-        public List<ResearchOpportunityCategoryDef> collapsedCategories = new List<ResearchOpportunityCategoryDef>();
+        public HashSet<ResearchOpportunityCategoryDef> collapsedCategories = new HashSet<ResearchOpportunityCategoryDef>();
         //public static bool compactMode = false;
 
         private static bool? compactMode = null;
@@ -29,8 +29,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
         public Vector2 scrollPos = new Vector2(0f, 0f);
         public float innerRectSizeCache = 0f;
 
-        public const float COMPACTMODE_BUTTON_WIDTH = 100f;
-        public const float COLLAPSE_BUTTON_WIDTH = 100f;
+        public const float SCROLLBAR_WIDTH = 18f;
+        public const float COMPACTMODE_BUTTON_WIDTH = 70f;
+        public const float COLLAPSE_BUTTON_WIDTH = 85f;
         public const float CLOSEBUTTON_BOUNDING_BOX_SIZE = 26f - MARGIN;
         public const float TITLEBAR_HEIGHT = 30f;
         public const float FOOTER_HEIGHT = 30f;
@@ -40,7 +41,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
         public const float ICON_GAP = 5f;
         public const float ICON_SIZE = ROW_HEIGHT;
         public const float ICON_LARGE_SIZE = 62f;
-        public const float MARGIN = 5f;
+        public const float MARGIN = 2f;
+        public const float MARGIN_INTERNAL = 2f;
 
         public static Color DARKEN_COLOR = new Color(0f, 0f, 0f, 0.25f);
 
@@ -81,16 +83,24 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             var contentRect = new Rect(fullRect);
             contentRect.y = TITLEBAR_HEIGHT + 1f;
             contentRect.height -= (TITLEBAR_HEIGHT + 2f + FOOTER_HEIGHT);
+            contentRect = contentRect.ContractedBy(MARGIN_INTERNAL);
 
             var titlebarCentralRect = new Rect(titlebarRect);
             titlebarCentralRect.width -= CLOSEBUTTON_BOUNDING_BOX_SIZE * 2; //account for the close button
             titlebarCentralRect.x += CLOSEBUTTON_BOUNDING_BOX_SIZE;
 
-            Text.Anchor = TextAnchor.UpperCenter;
+            Text.Anchor = TextAnchor.MiddleCenter;
             Widgets.Label(titlebarCentralRect, Find.ResearchManager.currentProj != null ? Find.ResearchManager.currentProj.LabelCap.ToString() : RR_no_project_selected);
 
             Text.Anchor = TextAnchor.MiddleLeft;
-            if (Widgets.ButtonText(titlebarRect.LeftPartPixels(COMPACTMODE_BUTTON_WIDTH), CompactMode ? RR_disable_compact_mode : RR_enable_compact_mode))
+            if (Widgets.ButtonText(titlebarRect.LeftPartPixels(COLLAPSE_BUTTON_WIDTH + MARGIN_INTERNAL), collapsedCategories.Any() ? RR_uncollapse_all : RR_collapse_all))
+            {
+                if(collapsedCategories.Any())
+                    collapsedCategories.Clear();
+                else
+                    collapsedCategories.AddRange(DefDatabase<ResearchOpportunityCategoryDef>.AllDefsListForReading);
+            }
+            if (Widgets.ButtonText(titlebarCentralRect.RightPartPixels(COMPACTMODE_BUTTON_WIDTH), CompactMode ? RR_disable_compact_mode : RR_enable_compact_mode))
             {
                 CompactMode = !CompactMode;
             }
@@ -115,8 +125,10 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             Rect internalRect = new Rect(listRect.x, listRect.y, listRect.width, listRect.height).Rounded();
 
             internalRect.height = innerRectSizeCache;
-            if (listRect.height < internalRect.height) 
-                internalRect.width -= 20f; //clear space for scrollbar
+
+            bool hasScrollbar = listRect.height < internalRect.height;
+            if (hasScrollbar) 
+                internalRect.width -= SCROLLBAR_WIDTH; //clear space for scrollbar
 
             Widgets.BeginScrollView(listRect, ref scrollPos, internalRect);
 
@@ -127,7 +139,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
                 var matchingOpportunitites = opportunities.Where(o => o.def.GetCategory(o.relation) == opportunityCategory);
                 if (matchingOpportunitites.Any())
                 {
-                    DrawOpportunityCategory(listRect, internalRect, ref heightTotal, project, opportunityCategory, matchingOpportunitites);
+                    DrawOpportunityCategory(listRect, internalRect, hasScrollbar, ref heightTotal, project, opportunityCategory, matchingOpportunitites);
                 }
             }
             innerRectSizeCache = heightTotal;
@@ -135,7 +147,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             Widgets.EndScrollView();
         }
 
-        private void DrawOpportunityCategory(Rect wrapperRect, Rect internalRect, ref float heightTotal, ResearchProjectDef project, ResearchOpportunityCategoryDef category, IEnumerable<ResearchOpportunity> matchingOpportunitites)
+        private void DrawOpportunityCategory(Rect wrapperRect, Rect internalRect, bool hasScrollbar, ref float heightTotal, ResearchProjectDef project, ResearchOpportunityCategoryDef category, IEnumerable<ResearchOpportunity> matchingOpportunitites)
         {
             var totalsStore = ResearchOpportunityManager.instance.GetTotalsStore(project, category);
 
@@ -150,9 +162,14 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
             bool collapsed = collapsedCategories.Contains(category);
 
+            var headerTextRect = headerRect;
+            if (hasScrollbar)
+            {
+                headerTextRect.width += SCROLLBAR_WIDTH; //recenter headers
+            }
             Text.Anchor = TextAnchor.LowerCenter;
             GUI.color = category.color;
-            Widgets.Label(headerRect, category.LabelCap);
+            Widgets.Label(headerTextRect, category.LabelCap);
             GUI.color = Color.white;
             Text.Anchor = TextAnchor.LowerRight;
             if (!category.infiniteOverflow)
@@ -191,7 +208,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
                 foreach (var opportunity in matchingOpportunitites.OrderByDescending(o => o.MaximumProgress))
                 {
-                    if (CompactMode)
+                    if (CompactMode && matchingOpportunitites.Count() > 1)
                         DrawOpportunityEntryCompact(wrapperRect, startPosition, ref heightTotalLocal, ref horizontalOffset, odd, opportunity);
                     else
                         DrawOpportunityEntry(wrapperRect, startPosition, ref heightTotalLocal, odd, opportunity);
@@ -399,6 +416,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
         private static string RR_uncollapse_category;
         private static string RR_collapse_category;
 
+        private static string RR_uncollapse_all;
+        private static string RR_collapse_all;
+
         private static string RR_OpportunityBlocked_Finished_short;
         private static string RR_OpportunityBlocked_CategoryFinished_short;
         private static string RR_OpportunityBlocked_ResearchTooLow_short;
@@ -420,6 +440,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
             RR_uncollapse_category = "RR_uncollapse_category".Translate();
             RR_collapse_category = "RR_collapse_category".Translate();
+
+            RR_uncollapse_all = "RR_uncollapse_all".Translate();
+            RR_collapse_all = "RR_collapse_all".Translate();
 
             RR_OpportunityBlocked_Finished_short = "RR_OpportunityBlocked_Finished_short".Translate();
             RR_OpportunityBlocked_CategoryFinished_short = "RR_OpportunityBlocked_CategoryFinished_short".Translate();

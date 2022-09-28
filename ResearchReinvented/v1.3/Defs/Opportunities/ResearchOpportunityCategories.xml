@@ -29,7 +29,7 @@
 		<priority>800</priority>
 		<availableAtOverallProgress>0.3~1.0</availableAtOverallProgress>
 		<color>(187,250,200)</color>
-		<description>Construction of prototypes. Prototypes take much longer to produce and are typically of lower quality due to their experimental nature.</description>
+		<description>Construction of prototypes. Prototypes take much longer to produce and are typically of lower quality due to their experimental nature. The researcher will require both research skill as well as the product's applicable work skill.</description>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">

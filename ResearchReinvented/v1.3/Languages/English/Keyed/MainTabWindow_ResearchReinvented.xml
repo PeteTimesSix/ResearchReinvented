@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
 	<RR_no_project_selected>No active project</RR_no_project_selected>
-	<RR_enable_compact_mode>Compact mode</RR_enable_compact_mode>
-	<RR_disable_compact_mode>Details mode</RR_disable_compact_mode>
+	<RR_enable_compact_mode>Compact</RR_enable_compact_mode>
+	<RR_disable_compact_mode>Details</RR_disable_compact_mode>
 	<RR_uncollapse_category>Expand</RR_uncollapse_category>
 	<RR_collapse_category>Collapse</RR_collapse_category>
+	<RR_uncollapse_all>Expand All</RR_uncollapse_all>
+	<RR_collapse_all>Collapse All</RR_collapse_all>
 	
 	<RR_OpportunityBlocked_Finished_short>Done</RR_OpportunityBlocked_Finished_short>
 	<RR_OpportunityBlocked_CategoryFinished_short>Done</RR_OpportunityBlocked_CategoryFinished_short>

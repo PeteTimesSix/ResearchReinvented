@@ -130,7 +130,7 @@
 		<jobDef>RR_Analyse</jobDef>
 		<header_Direct>fuel efficiency analysis</header_Direct>
 		<shortDesc_Direct>Analyse materials to figure out stuff.</shortDesc_Direct>
-		<category_Direct>Chemistry</category_Direct>
+		<category_Direct>Logistics</category_Direct>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="JobBasedOpportunity">
