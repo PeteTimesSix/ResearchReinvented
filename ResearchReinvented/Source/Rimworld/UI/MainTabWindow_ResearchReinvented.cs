@@ -226,11 +226,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
                 progressRect.width *= opportunity.ProgressFraction;
                 Widgets.DrawBoxSolid(progressRect, progressColor);
 
-                try
-                {
-                    DrawIconForOpportunity(opportunity, iconBoxInner);
-                }
-                catch (Exception e) { } //failing to draw an icon isnt exactly the worst thing.
+                DrawIconForOpportunity(opportunity, iconBoxInner);
 
                 Widgets.DrawBoxSolid(fullRect.ContractedBy(2f).Rounded(), DARKEN_COLOR);
 
@@ -297,11 +293,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
                 Widgets.DrawBoxSolid(iconRect.ContractedBy(2f).Rounded(), bgColor);
                 Rect iconBoxInner = iconRect.ContractedBy(5f).Rounded();
 
-                try
-                {
-                    DrawIconForOpportunity(opportunity, iconBoxInner);
-                }
-                catch (Exception e) { } //failing to draw an icon isnt exactly the worst thing.
+                DrawIconForOpportunity(opportunity, iconBoxInner);
 
                 Widgets.DrawBoxSolid(textRect, borderColor);
                 Widgets.DrawBoxSolid(textRect.ContractedBy(2f).Rounded(), bgColor);
