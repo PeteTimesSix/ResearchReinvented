@@ -25,14 +25,16 @@ namespace PeteTimesSix.ResearchReinvented
         public static ResearchReinventedMod ModSingleton { get; private set; }
         public static ResearchReinvented_Settings Settings { get; internal set; }
 
+        public static Harmony Harmony { get; internal set; }
+
         public ResearchReinventedMod(ModContentPack content) : base(content)
         {
             ModSingleton = this;
 
-            var harmony = new Harmony("PeteTimesSix.ResearchReinvented");
-            harmony.PatchAll();
+            Harmony = new Harmony("PeteTimesSix.ResearchReinvented");
+            Harmony.PatchAll();
 
-            OptionalPatches.Patch(harmony);
+            OptionalPatches.Patch(Harmony);
         }
 
         public override string SettingsCategory()
@@ -53,6 +55,8 @@ namespace PeteTimesSix.ResearchReinvented
 
         static ResearchReinvented_PostInit()
         {
+            OptionalPatches.PatchDelayed(ResearchReinventedMod.Harmony);
+
             AddRarityModExtensions();
             AssociateKitsWithResearchProjects();
 

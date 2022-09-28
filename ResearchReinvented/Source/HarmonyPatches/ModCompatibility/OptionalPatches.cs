@@ -14,12 +14,17 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.ModCompatibility
         public static void Patch(Harmony harmony) 
         {
             //Log.Warning("Doing optional patches...");
-            if (ModLister.GetActiveModWithIdentifier("dubwise.dubsmintmenus") != null) 
+        }
+        public static void PatchDelayed(Harmony harmony)
+        {
+            //Log.Warning("Doing delayed optional patches...");
+            if (ModLister.GetActiveModWithIdentifier("dubwise.dubsmintmenus") != null)
             {
                 //Log.Warning("Doing Dubs Mint menu patches...");
                 Patch_DubsMintMenus(harmony);
             }
         }
+
 
         private static void Patch_DubsMintMenus(Harmony harmony)
         {
