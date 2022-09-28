@@ -54,19 +54,35 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			if (currentProj == null)
 				return false;
 
+			if (cacheBuiltOnTick != Current.Game.tickManager.TicksAbs)
+			{
+				BuildCache();
+			}
+
 			var terrainAt = cell.GetTerrain(pawn.Map);
-			var opportunity = MatchingOpportunities.FirstOrDefault(o => o.requirement.MetBy(terrainAt));
+			if (!opportunityCache.ContainsKey(terrainAt))
+				return false;
+			//var opportunity = opportunityCache[terrainAt].First();
+			/*var opportunity = opportunityCache[terrainAt].FirstOrDefault(o => o.CurrentAvailability == OpportunityAvailability.Available);
 			if (opportunity == null)
 				return false;
-			else
-				return
-					pawn.CanReserve(cell, 1, -1, null, forced) &&
-					new HistoryEvent(HistoryEventDefOf.Researching, pawn.Named(HistoryEventArgsNames.Doer)).Notify_PawnAboutToDo_Job();
+			else*/
+			return
+				pawn.CanReserve(cell, 1, -1, null, forced) &&
+				new HistoryEvent(HistoryEventDefOf.Researching, pawn.Named(HistoryEventArgsNames.Doer)).Notify_PawnAboutToDo_Job();
 		}
 
 		public override Job JobOnCell(Pawn pawn, IntVec3 cell, bool forced = false)
 		{
-			var opportunity = MatchingOpportunities.FirstOrDefault(o => (o.requirement as ROComp_RequiresTerrain).terrainDef == cell.GetTerrain(pawn.Map));
+			if(cacheBuiltOnTick != Current.Game.tickManager.TicksAbs)
+            {
+				BuildCache();
+            }
+
+			var terrainAt = cell.GetTerrain(pawn.Map);
+			var opportunity = opportunityCache[terrainAt].First();
+			//var opportunity = opportunityCache[terrainAt].FirstOrDefault(o => o.CurrentAvailability == OpportunityAvailability.Available);
+			//var opportunity = MatchingOpportunities.FirstOrDefault(o => o.requirement.MetBy(terrainAt));//MatchingOpportunities.FirstOrDefault(o => (o.requirement as ROComp_RequiresTerrain).terrainDef == cell.GetTerrain(pawn.Map));
 
 			Job job = JobMaker.MakeJob(opportunity.def.jobDef, cell, expiryInterval: 1500, checkOverrideOnExpiry: true);
 			ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
@@ -76,7 +92,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		public override float GetPriority(Pawn pawn, TargetInfo target)
 		{
 			var terrainAt = target.Cell.GetTerrain(pawn.Map);
-			var opportunity = MatchingOpportunities.First(o => o.requirement.MetBy(terrainAt));
+			var opportunity = opportunityCache[terrainAt].First();
+			//var opportunity = MatchingOpportunities.First(o => o.requirement.MetBy(terrainAt));
 
 			var cell = target.Cell;
 			var dist = cell.DistanceTo(pawn.Position);
@@ -88,6 +105,30 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			prio += Rand.Range(0f, 0.25f); //randomize a bit
 
 			return prio * pawn.GetStatValue(StatDefOf_Custom.FieldResearchSpeedMultiplier, true) * opportunity.def.GetCategory(opportunity.relation).researchSpeedMultiplier;
+		}
+
+
+		//cache is built once per tick, to avoid working on already finished opportunities or opportunities from a different project
+		public static int cacheBuiltOnTick = -1;
+		public static Dictionary<TerrainDef, HashSet<ResearchOpportunity>> opportunityCache = new Dictionary<TerrainDef, HashSet<ResearchOpportunity>>();
+
+		public static void BuildCache()
+		{
+			opportunityCache.Clear();
+			foreach (var opportunity in MatchingOpportunities.Where(o => o.requirement is ROComp_RequiresTerrain))
+			{
+				var terrainDef = (opportunity.requirement as ROComp_RequiresTerrain).terrainDef;
+				if (!opportunityCache.ContainsKey(terrainDef))
+					opportunityCache[terrainDef] = new HashSet<ResearchOpportunity>();
+
+				opportunityCache[terrainDef].Add(opportunity);
+			}
+			/*foreach(var terrain in opportunityCache.Keys) 
+			{
+				Log.Warning($"{terrain.defName} maps to: {string.Join(", ", opportunityCache[terrain].Select(o => $"{o.ToString()} {o.CurrentAvailability}"))}");
+			}*/
+			cacheBuiltOnTick = Current.Game.tickManager.TicksAbs;
+			//Log.Message("built terrain opportunity cache on tick " + cacheBuiltOnTick);
 		}
 	}
 }

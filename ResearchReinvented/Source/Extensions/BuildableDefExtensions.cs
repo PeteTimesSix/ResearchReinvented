@@ -1,5 +1,6 @@
 ﻿using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Managers;
+using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.OpportunityComps;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,23 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 {
 	public static class BuildableDefExtensions
 	{
+		private static IEnumerable<ResearchOpportunity> PrototypeOpportunities => ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities(true).Where(o => o.def.handledBy == HandlingMode.Special_Prototype);
+
+		public static int cacheBuiltOnTick = -1; 
+		private static List<ResearchOpportunity> _prototypeOpportunitiesCache = new List<ResearchOpportunity>();
+		private static IEnumerable<ResearchOpportunity> PrototypeOpportunitiesCached 
+		{
+            get 
+			{
+				if (cacheBuiltOnTick != Current.Game.tickManager.TicksAbs)
+				{
+					_prototypeOpportunitiesCache.Clear();
+					_prototypeOpportunitiesCache = PrototypeOpportunities.ToList();
+					cacheBuiltOnTick = Current.Game.tickManager.TicksAbs;
+				}
+				return _prototypeOpportunitiesCache;
+			}
+		}
 
 		public static bool IsAvailableOnlyForPrototyping(this BuildableDef def)
 		{
@@ -23,9 +41,7 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 				if (unfinishedPreregs.Any((ResearchProjectDef r) => Find.ResearchManager.currentProj != r))
 					return false;
 
-				return ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities(true)
-					.Where(o => o.def.handledBy == HandlingMode.Special_Prototype && o.requirement.MetBy(def))
-					.Any();
+				return PrototypeOpportunitiesCached.Any(o => o.requirement.MetBy(def));
 			}
 			return false;
 		}
