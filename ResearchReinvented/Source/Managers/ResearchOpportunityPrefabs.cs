@@ -60,14 +60,15 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
             foreach (var category in categories)
             {
-                foreach (ResearchRelation relation in Enum.GetValues(typeof(ResearchRelation)))
+                var anyOpportunities = projectOpportunities.Any(o => o.def.GetCategory(o.relation) == category/* && o.relation == relation*/);
+                if (anyOpportunities)
                 {
-                    var anyOpportunities = projectOpportunities.Any(o => o.def.GetCategory(relation) == category && o.relation == relation);
-                    if (anyOpportunities)
-                    {
-                        totalMultiplier += category.targetFractionMultiplier;
-                    }
+                    totalMultiplier += category.targetFractionMultiplier;
                 }
+                /*foreach (ResearchRelation relation in Enum.GetValues(typeof(ResearchRelation)))
+                {
+                    
+                }*/
             }
 
             List<ResearchOpportunityCategoryTotalsStore> totalStores = new List<ResearchOpportunityCategoryTotalsStore>();
@@ -75,15 +76,15 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             foreach (var category in categories)
             {
                 var matchingOpportunities = projectOpportunities.Where(o => o.def.GetCategory(o.relation) == category);
-                if (!matchingOpportunities.Any())
-                    continue;
-
 
                 var totalsStore = new ResearchOpportunityCategoryTotalsStore() { project = project, category = category };
                 totalsStore.baseResearchPoints = ((projectResearchPoints / totalMultiplier) * category.targetFractionMultiplier);
                 totalsStore.allResearchPoints = totalsStore.baseResearchPoints * category.overflowMultiplier;
 
                 totalStores.Add(totalsStore);
+
+                if (!matchingOpportunities.Any())
+                    continue;
 
                 var categoryImportanceTotal = matchingOpportunities.Sum(o => o.importance);
                 var matchingOpportunityTypes = matchingOpportunities.Select(o => o.def).ToHashSet();
