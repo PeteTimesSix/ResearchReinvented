@@ -11,5 +11,16 @@
     <toStringStyle>PercentZero</toStringStyle>
     <scenarioRandomizable>false</scenarioRandomizable>
     <displayPriorityInCategory>4500</displayPriorityInCategory>
+    <parts> 
+      <li Class="StatPart_Quality">
+        <factorAwful>0.70</factorAwful>
+        <factorPoor>0.85</factorPoor>
+        <factorNormal>1.00</factorNormal>
+        <factorGood>1.05</factorGood>
+        <factorExcellent>1.10</factorExcellent>
+        <factorMasterwork>1.15</factorMasterwork>
+        <factorLegendary>1.25</factorLegendary>
+      </li>
+    </parts>
   </StatDef> 
 </Defs>

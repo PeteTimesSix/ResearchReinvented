@@ -53,6 +53,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                     if (Find.ResearchManager.currentProj != _currentProject || _currentOpportunities == null) 
                     {
                         _currentOpportunities.Clear();
+                        _jobToOpportunityMap.Clear();
                         GenerateOpportunities(Find.ResearchManager.currentProj, false);
                     }
                     return _currentOpportunities;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   
-  <ThingDef ParentName="ApparelNoQualityBase">
+  <ThingDef ParentName="ApparelBase">
     <defName>RR_FieldResearchKitSimple</defName>
     <label>simple field research kit</label>
     <description>This basic field research kit contains the tools necessary to perform research in the field, where a researcher does not have access to a full-sized research bench.</description>
@@ -43,7 +43,7 @@
     </graphicData>
     <tickerType>Normal</tickerType>
     <statBases>
-      <WorkToMake>280</WorkToMake>
+      <WorkToMake>1500</WorkToMake>
       <Mass>2</Mass>
       <Flammability>0.6</Flammability>
       <EquipDelay>2</EquipDelay>
@@ -68,7 +68,7 @@
     </apparel>
   </ThingDef>
   
-  <ThingDef ParentName="ApparelNoQualityBase">
+  <ThingDef ParentName="ApparelBase">
     <defName>RR_FieldResearchKitHiTech</defName>
     <label>field research kit</label>
     <description>This advanced field research kit contains the tools necessary to perform research in the field, where a researcher does not have access to a full-sized research bench. The advanced tools in this kit allow researching technologies that would ordinarily require a hi-tech research bench.</description>
@@ -109,7 +109,7 @@
     </graphicData>
     <tickerType>Normal</tickerType>
     <statBases>
-      <WorkToMake>400</WorkToMake>
+      <WorkToMake>2000</WorkToMake>
       <Mass>3</Mass>
       <Flammability>0.4</Flammability>
       <EquipDelay>2</EquipDelay>
@@ -134,7 +134,7 @@
     </apparel>
   </ThingDef>
   
-  <ThingDef ParentName="ApparelNoQualityBase">
+  <ThingDef ParentName="ApparelBase">
     <defName>RR_FieldResearchKitMultiAnalyzer</defName>
     <label>field research analyzer-kit</label>
     <description>This advanced field research kit contains the tools necessary to perform research in the field, where a researcher does not have access to a full-sized research bench. The advanced tools in this kit allow researching technologies that would ordinarily require a hi-tech research bench. An expansion module contains a portable microanalyzer.</description>
@@ -178,7 +178,7 @@
     </graphicData>
     <tickerType>Normal</tickerType>
     <statBases>
-      <WorkToMake>500</WorkToMake>
+      <WorkToMake>3000</WorkToMake>
       <Mass>3</Mass>
       <Flammability>0.4</Flammability>
       <EquipDelay>2</EquipDelay>
@@ -203,7 +203,7 @@
     </apparel>
   </ThingDef>
   
-  <ThingDef ParentName="ApparelNoQualityBase">
+  <ThingDef ParentName="ApparelBase">
     <defName>RR_FieldResearchKitRemote</defName>
     <label>remote field research kit</label>
     <description>This advanced field research kit contains the tools necessary to perform research in the field, where a researcher does not have access to a full-sized research bench. The advanced tools in this kit allow researching technologies that would ordinarily require a hi-tech research bench. An expansion module contains an uplink system that allows remote usage of local research benches by connecting to their microanalyzer.</description>
@@ -245,7 +245,7 @@
     </graphicData>
     <tickerType>Normal</tickerType>
     <statBases>
-      <WorkToMake>500</WorkToMake>
+      <WorkToMake>3000</WorkToMake>
       <Mass>3</Mass>
       <Flammability>0.4</Flammability>
       <EquipDelay>2</EquipDelay>
