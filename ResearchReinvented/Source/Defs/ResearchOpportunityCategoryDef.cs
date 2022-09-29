@@ -32,11 +32,21 @@ namespace PeteTimesSix.ResearchReinvented.Defs
         public Color color;
 
         public OpportunityAvailability GetCurrentAvailability(ResearchOpportunity asker){ 
+            if(asker?.project == null)
+            {
+                Log.Error($"research opportunity {asker} in category {this} has null research project");
+                return OpportunityAvailability.UnavailableReasonUnknown;
+            }
             if (asker.project.ProgressPercent < availableAtOverallProgress.min)
                 return OpportunityAvailability.ResearchTooLow;
             if (asker.project.ProgressPercent > availableAtOverallProgress.max)
                 return OpportunityAvailability.ResearchTooHigh;
             var totalsStore = ResearchOpportunityManager.instance.GetTotalsStore(asker.project, this);
+            if (totalsStore == null)
+            {
+                Log.Error($"research opportunity {asker} in category {this} has missing totals score");
+                return OpportunityAvailability.UnavailableReasonUnknown;
+            }
             if (!infiniteOverflow && GetCurrentTotal() >= totalsStore.allResearchPoints)
                 return OpportunityAvailability.CategoryFinished;
             return OpportunityAvailability.Available;

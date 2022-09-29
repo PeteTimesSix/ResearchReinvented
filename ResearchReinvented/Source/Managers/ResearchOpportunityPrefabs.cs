@@ -78,13 +78,12 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 if (!matchingOpportunities.Any())
                     continue;
 
-                var totalsStore = new ResearchOpportunityCategoryTotalsStore();
-                totalStores.Add(totalsStore);
 
-                totalsStore.project = project;
-                totalsStore.category = category;
+                var totalsStore = new ResearchOpportunityCategoryTotalsStore() { project = project, category = category };
                 totalsStore.baseResearchPoints = ((projectResearchPoints / totalMultiplier) * category.targetFractionMultiplier);
                 totalsStore.allResearchPoints = totalsStore.baseResearchPoints * category.overflowMultiplier;
+
+                totalStores.Add(totalsStore);
 
                 var categoryImportanceTotal = matchingOpportunities.Sum(o => o.importance);
                 var matchingOpportunityTypes = matchingOpportunities.Select(o => o.def).ToHashSet();

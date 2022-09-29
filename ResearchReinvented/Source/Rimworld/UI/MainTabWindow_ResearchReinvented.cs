@@ -152,6 +152,16 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             var totalsStore = ResearchOpportunityManager.instance.GetTotalsStore(project, category);
 
             Rect headerRect = new Rect(internalRect.x, internalRect.y + heightTotal, internalRect.width, HEADER_ROW_HEIGHT).Rounded();
+
+            if (totalsStore == null)
+            {
+                GUI.color = Color.red;
+                Widgets.Label(headerRect, $"Category {category.LabelCap} totalsStore missing!");
+                GUI.color = Color.white;
+                heightTotal += headerRect.height + ROW_GAP;
+                return;
+            }
+
             //Rect textRectStart = new Rect(internalRect.x + ICON_SIZE + ICON_GAP, internalRect.y + heightTotal, internalRect.width - (ICON_SIZE + ICON_GAP), ROW_HEIGHT).Rounded();
             //Rect iconRectStart = new Rect(internalRect.x, internalRect.y + heightTotal, ICON_SIZE, ICON_SIZE).Rounded();
 
@@ -161,6 +171,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             //Widgets.DrawBoxSolid(progressRect, progressColor);
 
             bool collapsed = collapsedCategories.Contains(category);
+
 
             var headerTextRect = headerRect;
             if (hasScrollbar)

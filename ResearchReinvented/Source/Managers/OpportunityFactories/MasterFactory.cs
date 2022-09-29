@@ -131,6 +131,9 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
 
         public IEnumerable<ResearchOpportunity> GenerateOpportunities(ResearchProjectDef project) 
         {
+            if (project == null)
+                return new List<ResearchOpportunity>();
+
             FillCollections(project);
 
             return MakeOpportunities(project);
