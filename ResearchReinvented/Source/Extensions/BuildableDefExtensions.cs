@@ -21,11 +21,11 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 		{
             get 
 			{
-				if (cacheBuiltOnTick != Current.Game.tickManager.TicksAbs)
+				if (cacheBuiltOnTick != Find.TickManager.TicksAbs)
 				{
 					_prototypeOpportunitiesCache.Clear();
 					_prototypeOpportunitiesCache = PrototypeOpportunities.ToList();
-					cacheBuiltOnTick = Current.Game.tickManager.TicksAbs;
+					cacheBuiltOnTick = Find.TickManager.TicksAbs;
 				}
 				return _prototypeOpportunitiesCache;
 			}

@@ -58,8 +58,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			if (currentProj == null)
 				return false;
 
-			var opportunity = MatchingOpportunities.FirstOrDefault(o => o.requirement.MetBy(thing.def));
-			if (opportunity == null)
+			if (cacheBuiltOnTick != Find.TickManager.TicksAbs)
+			{
+				BuildCache();
+			}
+
+			if (!opportunityCache.ContainsKey(thing.def))
 				return false;
 			else
 			{
@@ -79,7 +83,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override Job JobOnThing(Pawn pawn, Thing thing, bool forced = false)
 		{
-			var opportunity = MatchingOpportunities.FirstOrDefault(o => o.requirement.MetBy(thing.def));
+			if (cacheBuiltOnTick != Find.TickManager.TicksAbs)
+			{
+				BuildCache();
+			}
+
+			var opportunity = opportunityCache[thing.def].First();
 
 			Job job = JobMaker.MakeJob(opportunity.def.jobDef, thing, expiryInterval: 1500, checkOverrideOnExpiry: true);
 			ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
@@ -88,9 +97,31 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override float GetPriority(Pawn pawn, TargetInfo target)
 		{
-			var opportunity = MatchingOpportunities.FirstOrDefault(o => o.requirement.MetBy(target.Thing.def));
+			var opportunity = opportunityCache[target.Thing.def].First();
 
 			return pawn.GetStatValue(StatDefOf_Custom.FieldResearchSpeedMultiplier, true) * opportunity.def.GetCategory(opportunity.relation).researchSpeedMultiplier;
+		}
+
+		//cache is built once per tick, to avoid working on already finished opportunities or opportunities from a different project
+		public static int cacheBuiltOnTick = -1;
+		public static Dictionary<ThingDef, HashSet<ResearchOpportunity>> opportunityCache = new Dictionary<ThingDef, HashSet<ResearchOpportunity>>();
+
+		public static void BuildCache()
+		{
+			opportunityCache.Clear();
+			if (Find.ResearchManager.currentProj == null)
+				return;
+
+			foreach (var opportunity in MatchingOpportunities.Where(o => o.requirement is ROComp_RequiresThing))
+			{
+				var thingDef = (opportunity.requirement as ROComp_RequiresThing).thingDef;
+				if (!opportunityCache.ContainsKey(thingDef))
+					opportunityCache[thingDef] = new HashSet<ResearchOpportunity>();
+
+				opportunityCache[thingDef].Add(opportunity);
+			}
+
+			cacheBuiltOnTick = Find.TickManager.TicksAbs;
 		}
 	}
 }

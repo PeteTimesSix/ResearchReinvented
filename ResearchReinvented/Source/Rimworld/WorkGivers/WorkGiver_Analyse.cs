@@ -21,11 +21,6 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
         public static Type DriverClass = typeof(JobDriver_Analyse);
 
-        private int benchesCachedOnTick = -1;
-        private int analyzablesCachedOnTick = -1;
-        private Dictionary<Pawn, List<Building_ResearchBench>> cachedBenches = new Dictionary<Pawn, List<Building_ResearchBench>>();
-        private List<ThingDef> cachedAnalyzables = new List<ThingDef>();
-
         private static IEnumerable<ResearchOpportunity> MatchingOpportunities => ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities().Where(o => o.def.handledBy == HandlingMode.Job && o.def.jobDef?.driverClass == DriverClass);
 
         public override ThingRequest PotentialWorkThingRequest
@@ -53,16 +48,18 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
             ResearchProjectDef currentProj = Find.ResearchManager.currentProj;
             if (currentProj == null)
                 return false;
-            var researchBenches = GetUsableResearchBenches(pawn).Where(bench => pawn.CanReserve(bench));
 
+            if (cacheBuiltOnTick != Find.TickManager.TicksAbs)
+            {
+                BuildCache();
+            }
+
+            if (!opportunityCache.ContainsKey(thing.def))
+                return false;
+
+            var researchBenches = GetUsableResearchBenches(pawn).Where(bench => pawn.CanReserve(bench));
             if (!researchBenches.Any())
                 return false;
-
-            var analysableThings = GetAnalyzables();
-
-            if (!analysableThings.Contains(thing.def))
-                return false;
-
             var bestBench = researchBenches.First();
 
             if (!(pawn.CanReserveSittableOrSpot(bestBench.InteractionCell, forced) && 
@@ -75,10 +72,16 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
         public override Job JobOnThing(Pawn pawn, Thing thing, bool forced = false)
         {
+            if (cacheBuiltOnTick != Find.TickManager.TicksAbs)
+            {
+                BuildCache();
+            }
+
             var researchBenches = GetUsableResearchBenches(pawn).Where(bench => pawn.CanReserve(bench));
             var bestBench = researchBenches.First();
 
-            var opportunity = MatchingOpportunities.First(o => o.requirement.MetBy(thing.def));
+            var opportunity = opportunityCache[thing.def].First();
+
             Job job = JobMaker.MakeJob(opportunity.def.jobDef, thing, expiryInterval: 1500, checkOverrideOnExpiry: true);
             job.targetB = bestBench;
             ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
@@ -86,20 +89,38 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
             return job;
         }
 
+        //cache is built once per tick, to avoid working on already finished opportunities or opportunities from a different project
+        public static int cacheBuiltOnTick = -1;
+        public static Dictionary<Pawn, List<Building_ResearchBench>> benchCache = new Dictionary<Pawn, List<Building_ResearchBench>>();
+        public static Dictionary<ThingDef, HashSet<ResearchOpportunity>> opportunityCache = new Dictionary<ThingDef, HashSet<ResearchOpportunity>>();
 
-        private List<Building_ResearchBench> GetUsableResearchBenches(Pawn pawn)
+        public static void BuildCache()
+        {
+            benchCache.Clear();
+            opportunityCache.Clear();
+            if (Find.ResearchManager.currentProj == null)
+                return;
+
+            foreach (var opportunity in MatchingOpportunities.Where(o => o.requirement is ROComp_RequiresThing))
+            {
+                var thingDef = (opportunity.requirement as ROComp_RequiresThing).thingDef;
+                if (!opportunityCache.ContainsKey(thingDef))
+                    opportunityCache[thingDef] = new HashSet<ResearchOpportunity>();
+
+                opportunityCache[thingDef].Add(opportunity);
+            }
+
+            cacheBuiltOnTick = Find.TickManager.TicksAbs;
+        }
+
+
+        public static List<Building_ResearchBench> GetUsableResearchBenches(Pawn pawn)
         {
             ResearchProjectDef currentProj = Find.ResearchManager.currentProj;
             if (currentProj == null)
                 return new List<Building_ResearchBench>();
 
-            if (benchesCachedOnTick != Find.TickManager.TicksGame)
-            {
-                cachedBenches.Clear();
-                benchesCachedOnTick = Find.TickManager.TicksGame;
-
-            }
-            if (!cachedBenches.ContainsKey(pawn))
+            if (!benchCache.ContainsKey(pawn))
             {
                 var benches = pawn.MapHeld.listerThings.ThingsInGroup(ThingRequestGroup.ResearchBench)
                     .Cast<Building_ResearchBench>()
@@ -107,14 +128,13 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
                     .Where(bench => pawn.CanReach(new LocalTargetInfo(bench), PathEndMode.InteractionCell, Danger.Unspecified))
                     .OrderByDescending(bench => bench.GetStatValue(StatDefOf.ResearchSpeedFactor))
                     .ToList();
-                cachedBenches[pawn] = benches;
+                benchCache[pawn] = benches;
                 return benches;
             }
-            return cachedBenches[pawn];
+            return benchCache[pawn];
         }
 
-
-        private List<ThingDef> GetAnalyzables()
+        /*private List<ThingDef> GetAnalyzables()
         {
             ResearchProjectDef currentProj = Find.ResearchManager.currentProj;
             if (currentProj == null)
@@ -131,7 +151,6 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
             }
 
             return cachedAnalyzables;
-        }
-
+        }*/
     }
 }

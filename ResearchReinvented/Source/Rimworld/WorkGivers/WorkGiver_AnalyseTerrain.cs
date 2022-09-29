@@ -54,7 +54,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			if (currentProj == null)
 				return false;
 
-			if (cacheBuiltOnTick != Current.Game.tickManager.TicksAbs)
+			if (cacheBuiltOnTick != Find.TickManager.TicksAbs)
 			{
 				BuildCache();
 			}
@@ -74,7 +74,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override Job JobOnCell(Pawn pawn, IntVec3 cell, bool forced = false)
 		{
-			if(cacheBuiltOnTick != Current.Game.tickManager.TicksAbs)
+			if(cacheBuiltOnTick != Find.TickManager.TicksAbs)
             {
 				BuildCache();
             }
@@ -115,6 +115,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		public static void BuildCache()
 		{
 			opportunityCache.Clear();
+			if (Find.ResearchManager.currentProj == null)
+				return;
+
 			foreach (var opportunity in MatchingOpportunities.Where(o => o.requirement is ROComp_RequiresTerrain))
 			{
 				var terrainDef = (opportunity.requirement as ROComp_RequiresTerrain).terrainDef;
@@ -127,7 +130,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			{
 				Log.Warning($"{terrain.defName} maps to: {string.Join(", ", opportunityCache[terrain].Select(o => $"{o.ToString()} {o.CurrentAvailability}"))}");
 			}*/
-			cacheBuiltOnTick = Current.Game.tickManager.TicksAbs;
+			cacheBuiltOnTick = Find.TickManager.TicksAbs;
 			//Log.Message("built terrain opportunity cache on tick " + cacheBuiltOnTick);
 		}
 	}
