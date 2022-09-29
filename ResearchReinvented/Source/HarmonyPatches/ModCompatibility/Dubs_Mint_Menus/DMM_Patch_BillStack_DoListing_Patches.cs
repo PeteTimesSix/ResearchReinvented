@@ -13,14 +13,16 @@ using System.Reflection.Emit;
 using PeteTimesSix.ResearchReinvented.Utilities;
 using PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes;
 using Verse.Sound;
+using static HarmonyLib.AccessTools;
 
 namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.ModCompatibility.Dubs_Mint_Menus
 {
     public static class DMM_Patch_BillStack_DoListing_Patches 
     {
-        private delegate void DoRowDelegate(RecipeDef recipe, HashSet<Building> selectedTables, Precept_Building shittyPrecept = null);
+        public delegate void DoRowDelegate(RecipeDef recipe, HashSet<Building> selectedTables, Precept_Building shittyPrecept = null);
 
-        private static DoRowDelegate method_DoRow;
+        public static DoRowDelegate method_DoRow;
+        public static FieldRef<Rect> GizmoListRect { get; set; }
 
         public static IEnumerable<CodeInstruction> Doink_Transpiler(IEnumerable<CodeInstruction> instructions) 
         {
@@ -192,6 +194,11 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.ModCompatibility.Dubs_M
 
             var rect = lister.GetRect(0);
             var actualRect = new Rect(rect.x, rect.y - height, rect.width, height);
+
+            if (!actualRect.Overlaps(GizmoListRect.Invoke()))
+            {
+                return;
+            }
 
             var font = Text.Font;
             var anchor = Text.Anchor;
