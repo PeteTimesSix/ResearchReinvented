@@ -55,8 +55,8 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 				PrototypeOpportunitiesMappedCache[def] = FindPrototypeOpportunity(def);
 			}
 			var opportunity = PrototypeOpportunitiesMappedCache[def];
-			Log.Message("all non-null opportunities: " + string.Join(",", PrototypeOpportunitiesMappedCache.Where(kv => kv.Value != null).Select((kv) => kv.Key.ToString() + " " + kv.Value?.ToString())));
-			Log.Message("opportunity: " + opportunity);
+			//Log.Message("all non-null opportunities: " + string.Join(",", PrototypeOpportunitiesMappedCache.Where(kv => kv.Value != null).Select((kv) => kv.Key.ToString() + " " + kv.Value?.ToString())));
+			//Log.Message("opportunity: " + opportunity);
 			if (opportunity == null)
 				return false;
 			if (!evenIfFinished)
