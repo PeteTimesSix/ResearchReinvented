@@ -159,7 +159,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.ModCompatibility.Dubs_M
 
                 foreach (var recipe in building.def.AllRecipes)
                 {
-                    if (recipe.IsAvailableOnlyForPrototyping() && recipe.AvailableOnNow(building, null))
+                    if (recipe.IsAvailableOnlyForPrototyping(true) && recipe.AvailableOnNow(building, null))
                     {
                         prototypeRecipes.Add(recipe);
                     }

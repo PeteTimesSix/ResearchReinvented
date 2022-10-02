@@ -64,7 +64,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
         private static bool GetIsAvailableForPrototyping(BuildableDef buildable)
         {
-            return buildable.IsAvailableOnlyForPrototyping();
+            return buildable.IsAvailableOnlyForPrototyping(true);
         }
     }
 }

@@ -110,7 +110,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                 {
                     if (thing.AllRecipes != null)
                     {
-                        recipes.AddRange(thing.AllRecipes.Where(r => r.IsAvailableOnlyForPrototyping()));
+                        recipes.AddRange(thing.AllRecipes.Where(r => r.IsAvailableOnlyForPrototyping(true)));
                     }
                 }
             }

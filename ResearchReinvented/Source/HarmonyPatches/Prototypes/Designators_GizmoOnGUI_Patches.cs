@@ -17,7 +17,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         [HarmonyPostfix]
         public static void Postfix(GizmoResult __result, Designator_Build __instance, BuildableDef ___entDef, Vector2 topLeft, float maxWidth)
         {
-            if (__instance.PlacingDef.IsAvailableOnlyForPrototyping())
+            if (__instance.PlacingDef.IsAvailableOnlyForPrototyping(true))
             {
                 var width = __instance.GetWidth(maxWidth);
                 DrawPrototypeLabel(topLeft, width);
@@ -53,7 +53,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         {
             if (___activeDesignator != null && ___activeDesignator is Designator_Place placeDesignator)
             {
-                if (placeDesignator.PlacingDef.IsAvailableOnlyForPrototyping())
+                if (placeDesignator.PlacingDef.IsAvailableOnlyForPrototyping(true))
                 {
                     var width = __instance.GetWidth(maxWidth);
                     Designator_Build_GizmoOnGUI_Patches.DrawPrototypeLabel(topLeft, width);

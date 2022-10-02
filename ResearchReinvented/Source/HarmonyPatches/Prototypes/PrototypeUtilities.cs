@@ -63,7 +63,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
         public static QualityCategory DoPrototypeQualityDecreaseRecipe(QualityCategory category, Thing product, RecipeDef recipe, Pawn worker)
         {
-            bool isPrototype = recipe.IsAvailableOnlyForPrototyping();
+            bool isPrototype = recipe.IsAvailableOnlyForPrototyping(true);
             if (isPrototype)
             {
                 byte asByte = (byte)category;
@@ -76,7 +76,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
         public static void DoPostFinishThingResearch(Thing product, Pawn worker, float totalWork, RecipeDef usedRecipe = null)
         {
-            bool isPrototype = product.def.IsAvailableOnlyForPrototyping() || (usedRecipe != null && usedRecipe.IsAvailableOnlyForPrototyping());
+            bool isPrototype = product.def.IsAvailableOnlyForPrototyping() || (usedRecipe != null && usedRecipe.IsAvailableOnlyForPrototyping(true));
             if (isPrototype)
             {
                 var opportunity = ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
@@ -95,7 +95,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
         public static void DoPostFinishTerrainResearch(TerrainDef terrainDef, Pawn worker, float totalWork)
         {
-            bool isPrototype = terrainDef.IsAvailableOnlyForPrototyping();
+            bool isPrototype = terrainDef.IsAvailableOnlyForPrototyping(true);
             if (isPrototype)
             {
                 var opportunity = ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()

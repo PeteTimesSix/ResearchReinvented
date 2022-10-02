@@ -19,7 +19,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             if (Current.ProgramState != ProgramState.Playing) //only modify during game
                 return __result;
 
-            if (!__instance.def.entityDefToBuild.IsAvailableOnlyForPrototyping())
+            if (!__instance.def.entityDefToBuild.IsAvailableOnlyForPrototyping(true))
                 return __result;
             else 
             {
@@ -37,7 +37,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             if (Current.ProgramState != ProgramState.Playing) //only modify during game
                 return __result;
 
-            if (!__instance.IsAvailableOnlyForPrototyping())
+            if (!__instance.IsAvailableOnlyForPrototyping(true))
                 return __result;
             else
             {

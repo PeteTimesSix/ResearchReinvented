@@ -50,6 +50,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.Comps
 
             if (project.requiredResearchFacilities != null)
             {
+                if (Props.substitutedFacilities == null)
+                    return false;
+
                 foreach (var requiredFacility in project.requiredResearchFacilities)
                 {
                     if (!Props.substitutedFacilities.Contains(requiredFacility))

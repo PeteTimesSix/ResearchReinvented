@@ -73,8 +73,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 				if (finished)
 					this.ReadyForNextToil();
 			}; 
-			research.FailOn(() => Find.ResearchManager.currentProj != currentProject);
-			research.AddEndCondition(() => opportunity.IsFinished ? JobCondition.Succeeded : JobCondition.Ongoing);
+			research.FailOn(() => Find.ResearchManager.currentProj != currentProject || opportunity.CurrentAvailability != OpportunityAvailability.Available);
+			research.AddEndCondition(() => opportunity.IsFinished || opportunity.CurrentAvailability != OpportunityAvailability.Available ? JobCondition.Succeeded : JobCondition.Ongoing);
 			yield return research;
 
 			yield return Toils_Jump.JumpIf(walkTo, () => { return !ResearchOpportunityManager.instance.GetOpportunityForJob(job).IsFinished; });
