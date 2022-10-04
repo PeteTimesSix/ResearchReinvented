@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Verse;
 using Verse.AI;
+using PeteTimesSix.ResearchReinvented.Utilities;
 
 namespace PeteTimesSix.ResearchReinvented.Rimworld.Toils
 {
@@ -17,11 +18,13 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.Toils
 			toil.initAction = delegate ()
 			{
 				Pawn actor = toil.actor;
-				var adjCells = GenAdj.CellsAdjacent8Way(actor.jobs.curJob.GetTarget(ind).Thing).InRandomOrder(); //
-				var reachable = adjCells.Where(c => c.Standable(actor.Map)).Where(c => actor.Map.reachability.CanReach(actor.Position, c, PathEndMode.OnCell, TraverseMode.PassDoors));
+				var reachable = AdjacencyHelper.GenReachableAdjacentCells(actor.jobs.curJob.GetTarget(ind).Thing, actor);
+				//var adjCells = GenAdj.CellsAdjacent8Way(actor.jobs.curJob.GetTarget(ind).Thing); 
+				//var reachable = adjCells.Where(c => c.Standable(actor.Map)).Where(c => actor.CanReach(c, PathEndMode.OnCell, Danger.Deadly));
+				// //var reachable = adjCells.Where(c => c.Standable(actor.Map)).Where(c => actor.Map.reachability.CanReach(actor.Position, c, PathEndMode.OnCell, TraverseMode.PassDoors));
 				if(reachable.Any())
                 {
-					var cell = reachable.First();
+					var cell = reachable.InRandomOrder().First(); //path next to, but not always the same spot
 					actor.pather.StartPath(cell, PathEndMode.OnCell);
 				}
                 else 

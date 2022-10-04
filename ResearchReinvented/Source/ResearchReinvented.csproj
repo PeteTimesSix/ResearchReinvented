@@ -100,6 +100,7 @@
     <Compile Include="Rimworld\WorkGivers\WorkGiver_ResearcherRR.cs" />
     <Compile Include="Rimworld\WorkGivers\WorkGiver_AnalyseInPlace.cs" />
     <Compile Include="StatWorkers\StatWorker_RemoteResearchSpeedFactor.cs" />
+    <Compile Include="Utilities\AdjacencyHelper.cs" />
     <Compile Include="Utilities\CircularBuffer.cs" />
     <Compile Include="Utilities\Debug.cs" />
     <Compile Include="Opportunities\ResearchOpportunity.cs" />

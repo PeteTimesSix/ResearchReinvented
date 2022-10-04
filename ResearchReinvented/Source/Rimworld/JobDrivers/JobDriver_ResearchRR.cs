@@ -52,8 +52,16 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 				bool finished = opportunity.ResearchTickPerformed(num, actor);
 				if (finished)
 					this.ReadyForNextToil();
-			}; 
-			research.FailOn(() => Find.ResearchManager.currentProj != currentProject || opportunity.CurrentAvailability != OpportunityAvailability.Available);
+			};
+			research.FailOn(() => Find.ResearchManager.currentProj != currentProject);
+			research.FailOn(() => {
+				CompPowerTrader comp = ResearchBench.GetComp<CompPowerTrader>();
+				if (comp != null && !comp.PowerOn)
+					return true;
+				else
+					return false;
+			});
+			research.FailOn(() => opportunity.CurrentAvailability != OpportunityAvailability.Available);
 			research.AddEndCondition(() => opportunity.IsFinished || opportunity.CurrentAvailability != OpportunityAvailability.Available ? JobCondition.Succeeded : JobCondition.Ongoing);
 			research.WithEffect(EffecterDefOf.Research, ResearchBenchIndex);
 			research.AddFailCondition(() => !ResearchBench.CanUseNow());

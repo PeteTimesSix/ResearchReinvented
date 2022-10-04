@@ -74,7 +74,15 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
             };
             research.WithEffect(EffecterDefOf.Research, ResearchBenchIndex);
             //research.FailOnDespawnedNullOrForbiddenPlacedThings();                                    //TODO: this is hardcoded nonsense, see Toils_Haul: Action<Thing, int> placedAction = null;
-            research.FailOn(() => Find.ResearchManager.currentProj != currentProject || opportunity.CurrentAvailability != OpportunityAvailability.Available);
+            research.FailOn(() => Find.ResearchManager.currentProj != currentProject);
+            research.FailOn(() => {
+                CompPowerTrader comp = ResearchBench.GetComp<CompPowerTrader>();
+                if (comp != null && !comp.PowerOn)
+                    return true;
+                else
+                    return false;
+            });
+            research.FailOn(() => opportunity.CurrentAvailability != OpportunityAvailability.Available);
             research.AddEndCondition(() => opportunity.IsFinished || opportunity.CurrentAvailability != OpportunityAvailability.Available ? JobCondition.Succeeded : JobCondition.Ongoing);
             //research.FailOnCannotTouch(ResearchBenchIndex, PathEndMode.InteractionCell);
             research.WithProgressBar(ResearchBenchIndex, () =>

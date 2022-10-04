@@ -6,6 +6,7 @@ using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.OpportunityComps;
 using PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers;
 using PeteTimesSix.ResearchReinvented.Rimworld.MiscData;
+using PeteTimesSix.ResearchReinvented.Utilities;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -69,9 +70,20 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			{
 				if (!pawn.CanReserve(thing, 1, -1, null, forced))
 					return false;
-				else if (!(!thing.def.hasInteractionCell || pawn.CanReserveSittableOrSpot(thing.InteractionCell, forced)))
-					return false; 
-				else if (currentProj.HasAnyPrerequisites() && !FieldResearchHelper.GetValidResearchKits(pawn, currentProj).Any())
+
+				if (thing.def.hasInteractionCell)
+				{
+					if (!pawn.CanReserveSittableOrSpot(thing.InteractionCell, forced))
+						return false;
+				}
+				else
+				{
+					var reachable = AdjacencyHelper.GenReachableAdjacentCells(thing, pawn);
+					if (!reachable.Any())
+						return false;
+				}
+				
+				if (currentProj.HasAnyPrerequisites() && !FieldResearchHelper.GetValidResearchKits(pawn, currentProj).Any())
 				{
 					JobFailReason.Is("RR_jobFail_needResearchKit".Translate(), null);
 					return false;
