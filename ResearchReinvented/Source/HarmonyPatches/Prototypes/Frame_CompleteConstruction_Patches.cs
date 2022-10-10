@@ -37,7 +37,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
             var add_prototype_decrease_instructions = new CodeInstruction[] {
                 //value is on stack
-                new CodeInstruction(OpCodes.Ldloc_3),
+                new CodeInstruction(OpCodes.Ldloc_S, (byte)4),
                 new CodeInstruction(OpCodes.Ldarg_1),
                 new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Frame_CompleteConstruction_Patches), nameof(Frame_CompleteConstruction_Patches.PostQuality))),
             };
@@ -50,7 +50,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
             if (!found)
             {
-                Log.Warning("failed to apply patch (instructions not found)");
+                Log.Warning("failed to apply quality patch (instructions not found)");
                 goto finalize;
             }
             else
@@ -78,8 +78,10 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         {
             var enumerator = instructions.GetEnumerator();
 
+            byte localIndex = 4;
+
             var spawn_instructions = new CodeInstruction[] {
-                new CodeInstruction(OpCodes.Ldloc_3),
+                new CodeInstruction(OpCodes.Ldloc_S, localIndex),
                 new CodeInstruction(OpCodes.Ldarg_0),
                 new CodeInstruction(OpCodes.Call, AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Position))),
                 new CodeInstruction(OpCodes.Ldloc_1),
@@ -93,14 +95,14 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
             var add_prespawn_instructions = new CodeInstruction[] {
                 new CodeInstruction(OpCodes.Ldarg_0),
-                new CodeInstruction(OpCodes.Ldloc_3),
+                new CodeInstruction(OpCodes.Ldloc_S, localIndex),
                 new CodeInstruction(OpCodes.Ldarg_1),
                 new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Frame_CompleteConstruction_Patches), nameof(Frame_CompleteConstruction_Patches.PreSpawn))),
             };
 
             var add_postspawn_instructions = new CodeInstruction[] {
                 new CodeInstruction(OpCodes.Ldarg_0),
-                new CodeInstruction(OpCodes.Ldloc_3),
+                new CodeInstruction(OpCodes.Ldloc_S, localIndex),
                 new CodeInstruction(OpCodes.Ldarg_1),
                 new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Frame_CompleteConstruction_Patches), nameof(Frame_CompleteConstruction_Patches.PostSpawn))),
             };
@@ -110,7 +112,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
             if (!found)
             {
-                //Log.Warning("failed to apply prespawn patch (instructions not found)");
+                Log.Warning("failed to apply prespawn patch (instructions not found)");
                 foreach (var instruction in iteratedOver)
                     yield return instruction;
 
