@@ -10,7 +10,7 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 {
     public static class ThingDefExtensions
     {
-        public static bool IsRawFood(this ThingDef x)
+        public static bool IsTrulyRawFood(this ThingDef x)
         {
             return x.IsNutritionGivingIngestible && !x.IsCorpse && x.ingestible.HumanEdible && x.ingestible.preferability < FoodPreferability.MealAwful;
         }

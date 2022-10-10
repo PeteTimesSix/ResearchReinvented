@@ -19,13 +19,14 @@ namespace PeteTimesSix.ResearchReinvented.OpportunityComps
         {
             get
             {
-                return String.Concat(thingDef.label);
+                return String.Concat(thingDef?.label);
             }
         }
         public override bool TargetIsNull => thingDef is null;
 
         public override bool IsRare => thingDef.HasModExtension<RarityMarker>();
         public override bool MetBy(Def def) => def == thingDef;
+        public override bool IsValid => thingDef != null;
 
         public ROComp_RequiresThing() 
         {

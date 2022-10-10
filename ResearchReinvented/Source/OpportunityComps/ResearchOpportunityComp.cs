@@ -13,6 +13,7 @@ namespace PeteTimesSix.ResearchReinvented.OpportunityComps
         public abstract string ShortDesc { get; }
         public abstract bool TargetIsNull { get; }
         public abstract bool IsRare { get; }
+        public abstract bool IsValid { get; }
 
         public abstract bool MetBy(Def def);
 

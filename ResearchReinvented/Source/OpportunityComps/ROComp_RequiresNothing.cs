@@ -22,6 +22,7 @@ namespace PeteTimesSix.ResearchReinvented.OpportunityComps
 
         public override bool IsRare => false;
         public override bool MetBy(Def def) => false;
+        public override bool IsValid => true;
 
         public ROComp_RequiresNothing()
         {

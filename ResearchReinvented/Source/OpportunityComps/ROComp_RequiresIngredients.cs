@@ -19,13 +19,14 @@ namespace PeteTimesSix.ResearchReinvented.OpportunityComps
         {
             get
             {
-                return String.Concat(this.ingredients.Select(i => i.Value.Summary));
+                return String.Concat(ingredients?.Select(i => i.Value.Summary));
             }
         }
 
         public override bool TargetIsNull => ingredients is null;
         public override bool IsRare => false;
         public override bool MetBy(Def def) => false;
+        public override bool IsValid => ingredients != null;
 
         public ROComp_RequiresIngredients() : base()
         {

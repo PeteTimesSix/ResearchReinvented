@@ -19,6 +19,8 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         private static float PROTOTYPE_HEALTH_MULTIPLIER = 0.3f;
 
         public static float PROTOTYPE_WORK_MULTIPLIER = 3.0f;
+        public static float PROTOTYPE_FUEL_DISPOSABLE_MULTIPLIER = 0.75f;
+        public static float PROTOTYPE_FUEL_REFUELABLE_MULTIPLIER = 0.95f;
 
 
         public static void DoPrototypeHealthDecrease(Thing product)
@@ -43,7 +45,10 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
                 var refuelComp = product.TryGetComp<CompRefuelable>();
                 if (refuelComp != null)
                 {
-                    refuelComp.ConsumeFuel(float.MaxValue);
+                    if (!(refuelComp.props as CompProperties_Refuelable).destroyOnNoFuel)
+                        refuelComp.ConsumeFuel(refuelComp.Fuel * PROTOTYPE_FUEL_DISPOSABLE_MULTIPLIER);
+                    else
+                        refuelComp.ConsumeFuel(refuelComp.Fuel * PROTOTYPE_FUEL_REFUELABLE_MULTIPLIER);
                 }
             }
         }

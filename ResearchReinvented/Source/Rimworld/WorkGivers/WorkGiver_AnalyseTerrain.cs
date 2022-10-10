@@ -120,7 +120,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 			foreach (var opportunity in MatchingOpportunities.Where(o => o.requirement is ROComp_RequiresTerrain))
 			{
-				var terrainDef = (opportunity.requirement as ROComp_RequiresTerrain).terrainDef;
+				var terrainDef = (opportunity.requirement as ROComp_RequiresTerrain)?.terrainDef;
+				if (terrainDef == null)
+				{
+					Log.ErrorOnce($"RR: current research project {Find.ResearchManager.currentProj} generated a WorkGiver_Analyze opportunity with null requirement!", Find.ResearchManager.currentProj.debugRandomId);
+					continue;
+				}
 				if (!opportunityCache.ContainsKey(terrainDef))
 					opportunityCache[terrainDef] = new HashSet<ResearchOpportunity>();
 

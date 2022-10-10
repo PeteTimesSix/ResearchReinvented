@@ -103,7 +103,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
             foreach (var opportunity in MatchingOpportunities.Where(o => o.requirement is ROComp_RequiresThing))
             {
-                var thingDef = (opportunity.requirement as ROComp_RequiresThing).thingDef;
+                var thingDef = (opportunity.requirement as ROComp_RequiresThing)?.thingDef;
+                if(thingDef == null) 
+                {
+                    Log.ErrorOnce($"RR: current research project {Find.ResearchManager.currentProj} generated a WorkGiver_Analyze opportunity with null requirement!", Find.ResearchManager.currentProj.debugRandomId);
+                    continue;
+                }
                 if (!opportunityCache.ContainsKey(thingDef))
                     opportunityCache[thingDef] = new HashSet<ResearchOpportunity>();
 

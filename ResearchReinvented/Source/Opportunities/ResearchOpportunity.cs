@@ -66,6 +66,8 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
 
         public bool IsAlternate => isAlternate;
 
+        public bool IsValid => requirement != null && requirement.IsValid;
+
         public OpportunityAvailability CurrentAvailability
         {
             get

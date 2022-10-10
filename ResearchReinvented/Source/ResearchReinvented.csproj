@@ -31,16 +31,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefOfs\ApparelLayerDefOf_Custom.cs" />
     <Compile Include="DefOfs\EffecterDefOf_Custom.cs" />
+    <Compile Include="DefOfs\ResearchOpportunityCategoryDefOf.cs" />
     <Compile Include="DefOfs\StatDefOf_Custom.cs" />
     <Compile Include="DefOfs\ThingDefOf_Custom.cs" />
     <Compile Include="Defs\AlternateResearchSubjectDef.cs" />
@@ -134,11 +138,9 @@
   <ItemGroup>
     <PackageReference Include="Krafs.Rimworld.Ref">
       <Version>1.3.3389</Version>
-      <ExcludeAssets>runtime</ExcludeAssets>
-      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Lib.Harmony">
-      <Version>2.2.1</Version>
+      <Version>2.2.2</Version>
       <ExcludeAssets>runtime</ExcludeAssets>
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -147,7 +149,7 @@
   <PropertyGroup>
     <PostBuildEvent>PATH
 
-"$(ProjectDir)Install.bat" $(ConfigurationName) "$(ProjectDir)" "$(ProjectName)" "About Assemblies Defs Languages Textures v1.3" "LoadFolders.xml"
+"$(ProjectDir)Install.bat" $(ConfigurationName) "$(ProjectDir)" "$(ProjectName)" "About Assemblies Defs Languages Textures v1.3 v1.4" "LoadFolders.xml"
 
 </PostBuildEvent>
   </PropertyGroup>

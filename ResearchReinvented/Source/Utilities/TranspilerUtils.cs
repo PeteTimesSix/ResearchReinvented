@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,6 +46,24 @@ namespace PeteTimesSix.ResearchReinvented.Utilities
                     return false;
                 if (targetInstructions[i].operand != instructions[i].operand)
                 {
+                    if (instructions[i].operand is LocalBuilder localBuilder && targetInstructions[i].operand != null)
+                    {
+                        try
+                        {
+                            int inty = Convert.ToInt32(targetInstructions[i].operand);
+                            if (localBuilder.LocalIndex == inty)
+                            {
+                                //Log.Message($"matched operand {localBuilder} via local index");
+                                continue;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Log.Error($"Failed to convert operand to Int32 while checking localIndex ({e.Message})");
+                            return false;
+                        }
+                        return false;
+                    }
                     if (!ignoreMissingLabelOperands)
                         return false;
                     else

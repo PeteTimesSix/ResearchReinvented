@@ -46,15 +46,17 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             {
                 if (recipe.IsAvailableOnlyForPrototyping(true) && recipe.AvailableOnNow(asThing, null))
                 {
-                    var option = (new FloatMenuOption("RR_PrototypePrefix".Translate() + " " + recipe.LabelCap, () => OnClick(billGiver, asThing, recipe, null), recipe.UIIconThing, MenuOptionPriority.Default, null, null, 29f, (Rect rect) => ExtraPartOnGUI(rect, recipe, null), null, true, 0));
+                    var option = new FloatMenuOption("RR_PrototypePrefix".Translate() + " " + recipe.LabelCap, () => OnClick(billGiver, asThing, recipe, null), recipe.UIIconThing, extraPartWidth: 29f, extraPartOnGUI: (Rect rect) => ExtraPartOnGUI(rect, recipe, null));
+                    //var option = (new FloatMenuOption("RR_PrototypePrefix".Translate() + " " + recipe.LabelCap, () => OnClick(billGiver, asThing, recipe, null), recipe.UIIconThing, MenuOptionPriority.Default, null, null, , null, true, 0));
                     retList.Add(option);
                     foreach (Ideo ideo in Faction.OfPlayer.ideos.AllIdeos)
                     {
                         foreach (Precept_Building precept_Building in ideo.cachedPossibleBuildings)
                         {
                             if (precept_Building.ThingDef == recipe.ProducedThingDef)
-							{
-                                var preceptOption = (new FloatMenuOption("RR_PrototypePrefix".Translate() + " " + "RecipeMake".Translate(precept_Building.def.LabelCap).CapitalizeFirst(), () => OnClick(billGiver, asThing, recipe, precept_Building), recipe.UIIconThing, MenuOptionPriority.Default, null, null, 29f, (Rect rect) => ExtraPartOnGUI(rect, recipe, precept_Building), null, true, 0));
+                            {
+                                var preceptOption = new FloatMenuOption("RR_PrototypePrefix".Translate() + " " + "RecipeMake".Translate(precept_Building.def.LabelCap).CapitalizeFirst(), () => OnClick(billGiver, asThing, recipe, precept_Building), recipe.UIIconThing, extraPartWidth: 29f, extraPartOnGUI: (Rect rect) => ExtraPartOnGUI(rect, recipe, precept_Building));
+                                //var preceptOption = (new FloatMenuOption("RR_PrototypePrefix".Translate() + " " + "RecipeMake".Translate(precept_Building.def.LabelCap).CapitalizeFirst(), () => OnClick(billGiver, asThing, recipe, precept_Building), recipe.UIIconThing, MenuOptionPriority.Default, null, null, 29f, (Rect rect) => ExtraPartOnGUI(rect, recipe, precept_Building), null, true, 0));
                                 retList.Add(option);
                             }
                         }
