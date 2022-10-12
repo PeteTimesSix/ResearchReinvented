@@ -114,6 +114,21 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             base.GameComponentUpdate();
         }
 
+        // mahenry00 - Not sure this is the right spot to put this.
+        public override void LoadedGame()
+        {
+            base.LoadedGame();
+            _allGeneratedOpportunities = _allGeneratedOpportunities
+            .Where(o =>
+            {
+                if (!o.IsValid)
+                    Log.Warning($"[RR]: Research opportunity invalid, loadID: {o.loadID}, project: {o.project.label}");
+
+                return o.IsValid;
+            })
+            .ToList();
+        }
+
         public void FinishProject(ResearchProjectDef project, bool doCompletionDialog = false, Pawn researcher = null)
         {
             Find.ResearchManager.FinishProject(project, doCompletionDialog, researcher);

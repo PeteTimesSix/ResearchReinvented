@@ -26,20 +26,20 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public static Type DriverClass = typeof(JobDriver_AnalyseInPlace);
 
-		private static IEnumerable<ResearchOpportunity> MatchingOpportunities => ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities().Where(o => o.def.handledBy == HandlingMode.Job && o.def.jobDef?.driverClass == DriverClass);
+		private static IEnumerable<ResearchOpportunity> MatchingOpportunities => ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities().Where(o => o.IsValid && o.def.handledBy == HandlingMode.Job && o.def.jobDef?.driverClass == DriverClass);
 
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
-			var analysableThings = MatchingOpportunities.Select(o => (o.requirement as ROComp_RequiresThing).thingDef);
-			var lister = pawn.Map.listerThings;
+            var analysableThings = MatchingOpportunities.Select(o => (o.requirement as ROComp_RequiresThing).thingDef);
+            var lister = pawn.Map.listerThings;
 
-			List<Thing> things = new List<Thing>();
+            List<Thing> things = new List<Thing>();
 			foreach(var def in analysableThings)
-			{
-				things.AddRange(lister.ThingsOfDef(def).Where(t => !t.IsForbidden(pawn)));
-			}
+            {
+                things.AddRange(lister.ThingsOfDef(def).Where(t => !t.IsForbidden(pawn)));
+            }
 
-			return things;
+            return things;
         }
 
 		public override bool ShouldSkip(Pawn pawn, bool forced = false)
