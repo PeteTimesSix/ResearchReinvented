@@ -82,7 +82,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
             var opportunity = opportunityCache[thing.def].First();
 
-            Job job = JobMaker.MakeJob(opportunity.def.jobDef, thing, expiryInterval: 1500, checkOverrideOnExpiry: true);
+            Job job = JobMaker.MakeJob(opportunity.def.jobDef, thing, expiryInterval: 20000, checkOverrideOnExpiry: true);
             job.targetB = bestBench;
             ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
             job.count = 1;
