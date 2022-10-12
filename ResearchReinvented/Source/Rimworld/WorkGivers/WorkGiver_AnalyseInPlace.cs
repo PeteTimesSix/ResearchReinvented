@@ -40,7 +40,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			}
 
 			return things;
-		}
+        }
 
 		public override bool ShouldSkip(Pawn pawn, bool forced = false)
 		{
@@ -48,7 +48,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			if (currentProj == null)
 				return true;
 
-
+			
 
 			return !MatchingOpportunities.Any();
 		}
@@ -82,7 +82,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 					if (!reachable.Any())
 						return false;
 				}
-
+				
 				if (currentProj.HasAnyPrerequisites() && !FieldResearchHelper.GetValidResearchKits(pawn, currentProj).Any())
 				{
 					JobFailReason.Is("RR_jobFail_needResearchKit".Translate(), null);
