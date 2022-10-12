@@ -70,7 +70,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		{
 			var opportunity = ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities().Where(o => o.def.jobDef.driverClass == DriverClass).FirstOrDefault();
 
-			Job job = JobMaker.MakeJob(opportunity.def.jobDef, thing, expiryInterval: 1500, checkOverrideOnExpiry: true);
+			Job job = JobMaker.MakeJob(opportunity.def.jobDef, thing, expiryInterval: 3000, checkOverrideOnExpiry: true);
 			ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
 			return job;
 		}
