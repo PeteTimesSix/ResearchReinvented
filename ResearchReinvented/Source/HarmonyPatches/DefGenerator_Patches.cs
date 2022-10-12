@@ -13,8 +13,8 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches
     [HarmonyPatch(typeof(DefGenerator), nameof(DefGenerator.GenerateImpliedDefs_PreResolve))]
     public static class DefGenerator_PreResolve_Patches
     {
-        [HarmonyPostfix]
-        public static void Postfix()
+        [HarmonyPrefix]
+        public static void Prefix()
         {
             foreach(var alternateDef in AlternateResearchSubjectDefGenerator.AncientAlternateDefs()) 
             {

@@ -28,7 +28,7 @@ namespace PeteTimesSix.ResearchReinvented.DefGenerators
                 if (unancientName[0] == '_') //sometimes people separate with underscores
                     unancientName = unancientName.Substring(1);
 
-                var unancientMatchingThings = DefDatabase<ThingDef>.AllDefsListForReading.Where(d => d.defName.ToLowerInvariant().Contains(unancientName) && d != ancientThing);
+                var unancientMatchingThings = DefDatabase<ThingDef>.AllDefsListForReading.Where(d => d.defName.ToLowerInvariant() == unancientName && d != ancientThing);
                 foreach (var unancientThing in unancientMatchingThings)
                 {
                     AlternateResearchSubjectsDef altDef = new AlternateResearchSubjectsDef();
@@ -37,7 +37,9 @@ namespace PeteTimesSix.ResearchReinvented.DefGenerators
                     altDef.alternates = new List<ThingDef>() { ancientThing };
                     altDef.modContentPack = ResearchReinventedMod.ModSingleton.Content;
 
-                    Debug.LogMessage($"Associating ancient {ancientThing} with non-ancient {unancientThing} as ({altDef.defName})");
+                    Log.Message($"Associating ancient {ancientThing} with non-ancient {unancientThing} as ({altDef.defName})");
+
+                    //Debug.LogMessage
                     yield return altDef;
                 }
             }
