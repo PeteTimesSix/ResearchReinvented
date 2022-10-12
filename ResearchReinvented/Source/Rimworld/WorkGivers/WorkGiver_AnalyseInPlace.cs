@@ -30,17 +30,17 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
-            var analysableThings = MatchingOpportunities.Select(o => (o.requirement as ROComp_RequiresThing).thingDef);
-            var lister = pawn.Map.listerThings;
+			var analysableThings = MatchingOpportunities.Select(o => (o.requirement as ROComp_RequiresThing).thingDef);
+			var lister = pawn.Map.listerThings;
 
-            List<Thing> things = new List<Thing>();
+			List<Thing> things = new List<Thing>();
 			foreach(var def in analysableThings)
-            {
-                things.AddRange(lister.ThingsOfDef(def).Where(t => !t.IsForbidden(pawn)));
-            }
+			{
+				things.AddRange(lister.ThingsOfDef(def).Where(t => !t.IsForbidden(pawn)));
+			}
 
-            return things;
-        }
+			return things;
+		}
 
 		public override bool ShouldSkip(Pawn pawn, bool forced = false)
 		{
@@ -48,7 +48,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			if (currentProj == null)
 				return true;
 
-			
+
 
 			return !MatchingOpportunities.Any();
 		}
@@ -82,7 +82,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 					if (!reachable.Any())
 						return false;
 				}
-				
+
 				if (currentProj.HasAnyPrerequisites() && !FieldResearchHelper.GetValidResearchKits(pawn, currentProj).Any())
 				{
 					JobFailReason.Is("RR_jobFail_needResearchKit".Translate(), null);
