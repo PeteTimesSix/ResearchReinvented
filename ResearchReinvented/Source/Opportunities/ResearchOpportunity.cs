@@ -26,6 +26,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
     public enum OpportunityAvailability 
     {
         Available,
+        Disabled,
         Finished,
         ResearchTooLow,
         ResearchTooHigh,

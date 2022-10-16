@@ -7,6 +7,29 @@
 	<RR_setting_kitlessResearch>Allow field research without research kit</RR_setting_kitlessResearch>
 	<RR_setting_kitlessResearch_tooltip>When enabled, field research can be performed without any research kit for research projects that only require a simple research table/kit.</RR_setting_kitlessResearch_tooltip>
 	
-	<RR_setting_basicResearchSpeedMult>Research theory speed multiplier</RR_setting_basicResearchSpeedMult>
-	<RR_setting_basicResearchSpeedMult_tooltip>Theoretical research speed will be multiplied by this percentage.</RR_setting_basicResearchSpeedMult_tooltip>
+	<RR_setting_category_selector>Select category</RR_setting_category_selector>
+	
+	<RR_setting_category_enabled>Category enabled</RR_setting_category_enabled>
+	<RR_setting_category_enabled_tooltip>Toggle this to disable this category of research opportunities entirely.</RR_setting_category_enabled_tooltip>
+	
+	<RR_setting_category_availableAtOverallProgress>Available at overall progress</RR_setting_category_availableAtOverallProgress>
+	<RR_setting_category_availableAtOverallProgress_tooltip>Controls during which phase of research is this category available.</RR_setting_category_availableAtOverallProgress_tooltip>
+	
+	<RR_setting_category_targetIterations>Target iterations</RR_setting_category_targetIterations>
+	<RR_setting_category_targetIterations_tooltip>The maximum individual opportunities required to complete this category.</RR_setting_category_targetIterations_tooltip>
+		
+	<RR_setting_category_targetFractionMultiplier>Target fraction multiplier</RR_setting_category_targetFractionMultiplier>
+	<RR_setting_category_targetFractionMultiplier>The generated opportunities try to split the research cost of the project according to the relative fraction sizes of categories, depending on this value.</RR_setting_category_targetFractionMultiplier>
+	
+	<RR_setting_category_infiniteOverflow>Infinite overflow</RR_setting_category_infiniteOverflow>
+	<RR_setting_category_infiniteOverflow_tooltip>Allow research in this category to always continue if there are more opportunities of this type available.</RR_setting_category_infiniteOverflow_tooltip>
+	
+	<RR_setting_category_extraFractionMultiplier>Extra fraction multiplier</RR_setting_category_extraFractionMultiplier>
+	<RR_setting_category_extraFractionMultiplier_tooltip>Additional research allowed for this category that is not included in the initial fraction assigned to it.</RR_setting_category_extraFractionMultiplier_tooltip>
+	
+	<RR_setting_category_researchSpeedMultiplier>Research speed multiplier</RR_setting_category_researchSpeedMultiplier>
+	<RR_setting_category_researchSpeedMultiplier_tooltip>Opportunities of this category will have their research speed multiplied by the set percentage.</RR_setting_category_researchSpeedMultiplier_tooltip>
+	
+	<RR_setting_category_fractionAxis>Total target fraction multiplier</RR_setting_category_fractionAxis>
+	<RR_setting_category_researchSpeedAxis>Research speed</RR_setting_category_researchSpeedAxis>
 </LanguageData>

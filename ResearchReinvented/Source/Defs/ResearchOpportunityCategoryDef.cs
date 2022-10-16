@@ -17,11 +17,11 @@ namespace PeteTimesSix.ResearchReinvented.Defs
 
     public class ResearchOpportunityCategoryDef : Def
     {
-        public string name;
+        public bool enabled = true;
 
         public float targetFractionMultiplier;
         public float targetIterations;
-        public float overflowMultiplier;
+        public float extraFractionMultiplier;
         public bool infiniteOverflow;
         public float researchSpeedMultiplier;
 
@@ -44,6 +44,8 @@ namespace PeteTimesSix.ResearchReinvented.Defs
         {
             if (project == null)
                 return OpportunityAvailability.UnavailableReasonUnknown;
+            if (!enabled)
+                return OpportunityAvailability.Disabled;
             if (project.ProgressPercent < availableAtOverallProgress.min)
                 return OpportunityAvailability.ResearchTooLow;
             if (project.ProgressPercent > availableAtOverallProgress.max)

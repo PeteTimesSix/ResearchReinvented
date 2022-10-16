@@ -3,7 +3,7 @@
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef Name="ResearchOpportunityCategoryBase" Abstract="True">
 		<targetFractionMultiplier>1.0</targetFractionMultiplier>
 		<targetIterations>1.0</targetIterations>
-		<overflowMultiplier>1.5</overflowMultiplier>
+		<extraFractionMultiplier>0.5</extraFractionMultiplier>
 		<infiniteOverflow>false</infiniteOverflow>
 		<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
 		<availableAtOverallProgress>0.0~1.0</availableAtOverallProgress>

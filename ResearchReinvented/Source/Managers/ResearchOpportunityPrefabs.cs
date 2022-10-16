@@ -79,7 +79,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
                 var totalsStore = new ResearchOpportunityCategoryTotalsStore() { project = project, category = category };
                 totalsStore.baseResearchPoints = ((projectResearchPoints / totalMultiplier) * category.targetFractionMultiplier);
-                totalsStore.allResearchPoints = totalsStore.baseResearchPoints * category.overflowMultiplier;
+                totalsStore.allResearchPoints = ((projectResearchPoints / totalMultiplier) * (category.targetFractionMultiplier + category.extraFractionMultiplier));
 
                 totalStores.Add(totalsStore);
 
