@@ -42,22 +42,22 @@ namespace PeteTimesSix.ResearchReinvented.Utilities.CustomWidgets
 
             foreach (var category in categories)
             {
-                if (!category.enabled)
+                if (!category.Settings.enabled)
                     continue;
 
-                totalFractionMultiplier += category.targetFractionMultiplier;
-                var limitedOverflowMultiplier = category.infiniteOverflow ? INFINITE_EXTRA_STANDIN : category.extraFractionMultiplier;
+                totalFractionMultiplier += category.Settings.targetFractionMultiplier;
+                var limitedOverflowMultiplier = category.Settings.infiniteOverflow ? INFINITE_EXTRA_STANDIN : category.Settings.extraFractionMultiplier;
                 totalExtraFractionMultiplier += limitedOverflowMultiplier;
-                totalAllFractionMultiplier += category.targetFractionMultiplier + limitedOverflowMultiplier;
+                totalAllFractionMultiplier += category.Settings.targetFractionMultiplier + limitedOverflowMultiplier;
 
-                if(category.targetFractionMultiplier > maxFractionMultiplier)
-                    maxFractionMultiplier = category.targetFractionMultiplier;
+                if(category.Settings.targetFractionMultiplier > maxFractionMultiplier)
+                    maxFractionMultiplier = category.Settings.targetFractionMultiplier;
                 if(limitedOverflowMultiplier > maxExtraFractionMultiplier)
                     maxExtraFractionMultiplier = limitedOverflowMultiplier;
-                if (category.targetFractionMultiplier + limitedOverflowMultiplier > maxAllFractionMultiplier)
-                    maxAllFractionMultiplier = category.targetFractionMultiplier + limitedOverflowMultiplier;
-                if (category.researchSpeedMultiplier > maxResearchSpeedMultiplier)
-                    maxResearchSpeedMultiplier = category.researchSpeedMultiplier;
+                if (category.Settings.targetFractionMultiplier + limitedOverflowMultiplier > maxAllFractionMultiplier)
+                    maxAllFractionMultiplier = category.Settings.targetFractionMultiplier + limitedOverflowMultiplier;
+                if (category.Settings.researchSpeedMultiplier > maxResearchSpeedMultiplier)
+                    maxResearchSpeedMultiplier = category.Settings.researchSpeedMultiplier;
             }
 
             var graphRect = rect.ContractedBy(10f);
@@ -75,15 +75,15 @@ namespace PeteTimesSix.ResearchReinvented.Utilities.CustomWidgets
                 var category = categories[i];
                 var categoryY = fractionsRect.y + (i * fractionHeight);
 
-                if (!category.enabled)
+                if (!category.Settings.enabled)
                 {
                     Rect categoryOffRect = new Rect(fractionsRect.x + fractionsRect.width - fractionHeight, categoryY, fractionHeight, fractionHeight).ContractedBy(3f);
                     Widgets.DrawBoxSolid(categoryOffRect, Color.red);
                 }
                 else
                 {
-                    var widthNorm = fractionWidthBase * category.targetFractionMultiplier;
-                    if (category.infiniteOverflow)
+                    var widthNorm = fractionWidthBase * category.Settings.targetFractionMultiplier;
+                    if (category.Settings.infiniteOverflow)
                     {
                         var widthExtra = (fractionWidthBase * maxAllFractionMultiplier) - widthNorm;
                         Rect categoryFadeoutRect = new Rect(centerLine - (widthExtra + widthNorm), categoryY, widthExtra, fractionHeight);
@@ -92,7 +92,7 @@ namespace PeteTimesSix.ResearchReinvented.Utilities.CustomWidgets
                     }
                     else
                     {
-                        var widthExtra = fractionWidthBase * category.extraFractionMultiplier;
+                        var widthExtra = fractionWidthBase * category.Settings.extraFractionMultiplier;
                         Rect categoryExtraRect = new Rect(centerLine - (widthNorm + widthExtra), categoryY, widthExtra, fractionHeight);
                         GUI.color = Color.Lerp(category.color, Color.black, .5f);
                         Widgets.DrawBoxSolidWithOutline(categoryExtraRect, Color.Lerp(category.color, Color.black, .9f), Color.Lerp(category.color, Color.black, .75f));
@@ -103,13 +103,13 @@ namespace PeteTimesSix.ResearchReinvented.Utilities.CustomWidgets
                         Rect categoryNormRect = new Rect(centerLine - widthNorm, categoryY, widthNorm, fractionHeight);
                         Widgets.DrawBoxSolidWithOutline(categoryNormRect, Color.Lerp(category.color, Color.black, .8f), Color.Lerp(category.color, Color.black, .5f));
 
-                        float iterations = category.targetIterations;
+                        float iterations = category.Settings.targetIterations;
                         float offset = 0f;
                         var outerColor = Color.Lerp(category.color, Color.black, .6f);
                         var innerColor = Color.Lerp(category.color, Color.black, .7f);
                         for (; iterations > 0; iterations -= 1f)
                         {
-                            var width = Math.Min(1f, iterations) * (widthNorm / category.targetIterations);
+                            var width = Math.Min(1f, iterations) * (widthNorm / category.Settings.targetIterations);
                             var iterRect = categoryNormRect.RightPartPixels(width);
                             iterRect.x -= offset;
                             GUI.color = outerColor;
@@ -118,17 +118,17 @@ namespace PeteTimesSix.ResearchReinvented.Utilities.CustomWidgets
                         }
                     }
 
-                    if (category.enabled)
+                    if (category.Settings.enabled)
                     {
-                        var widthSpeed = researchSpeedRect.width * (category.researchSpeedMultiplier / maxResearchSpeedMultiplier);
+                        var widthSpeed = researchSpeedRect.width * (category.Settings.researchSpeedMultiplier / maxResearchSpeedMultiplier);
                         Rect speedRect = new Rect(researchSpeedRect.x, categoryY + (fractionHeight / 2f) - 2f, widthSpeed, 4f);
                         Widgets.DrawBoxSolid(speedRect, WindowBGBorderColor);
                         Rect speedEndCapRect = new Rect(researchSpeedRect.x + widthSpeed - 1f, categoryY + (fractionHeight / 2f) - 5f, 2f, 10f);
                         Widgets.DrawBoxSolid(speedEndCapRect, WindowBGBorderColor);
-                        Rect speedLabelRect = new Rect(researchSpeedRect.x + 10f, categoryY, widthSpeed, fractionHeight);
+                        Rect speedLabelRect = new Rect(researchSpeedRect.x + 10f, categoryY, researchSpeedRect.width - 10f, fractionHeight);
                         Text.Anchor = TextAnchor.MiddleLeft;
                         GUI.color = Color.white;
-                        Widgets.Label(speedLabelRect, $"{(category.researchSpeedMultiplier * 100).ToString($"F0")}%");
+                        Widgets.Label(speedLabelRect, $"{(category.Settings.researchSpeedMultiplier * 100).ToString($"F0")}%");
                     }
                 }
 

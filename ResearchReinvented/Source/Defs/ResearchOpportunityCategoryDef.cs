@@ -1,4 +1,5 @@
-﻿using PeteTimesSix.ResearchReinvented.Managers;
+﻿using PeteTimesSix.ResearchReinvented.Data;
+using PeteTimesSix.ResearchReinvented.Managers;
 using PeteTimesSix.ResearchReinvented.Opportunities;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace PeteTimesSix.ResearchReinvented.Defs
 
     public class ResearchOpportunityCategoryDef : Def
     {
-        public bool enabled = true;
+        /*public bool enabled = true;
 
         public float targetFractionMultiplier;
         public float targetIterations;
@@ -25,7 +26,16 @@ namespace PeteTimesSix.ResearchReinvented.Defs
         public bool infiniteOverflow;
         public float researchSpeedMultiplier;
 
-        public FloatRange availableAtOverallProgress;
+        public FloatRange availableAtOverallProgress;*/
+
+        private CategorySettingsFinal _settingsCached;
+        public CategorySettingsFinal Settings { get 
+            {
+                if (_settingsCached == null)
+                    _settingsCached = ResearchReinventedMod.Settings.GetCategorySettings(this);
+                return _settingsCached; 
+            } 
+        }
 
         public int priority;
 
@@ -44,16 +54,16 @@ namespace PeteTimesSix.ResearchReinvented.Defs
         {
             if (project == null)
                 return OpportunityAvailability.UnavailableReasonUnknown;
-            if (!enabled)
+            if (!Settings.enabled)
                 return OpportunityAvailability.Disabled;
-            if (project.ProgressPercent < availableAtOverallProgress.min)
+            if (project.ProgressPercent < Settings.availableAtOverallProgress.min)
                 return OpportunityAvailability.ResearchTooLow;
-            if (project.ProgressPercent > availableAtOverallProgress.max)
+            if (project.ProgressPercent > Settings.availableAtOverallProgress.max)
                 return OpportunityAvailability.ResearchTooHigh;
             var totalsStore = ResearchOpportunityManager.instance.GetTotalsStore(project, this);
             if (totalsStore == null)
                 return OpportunityAvailability.UnavailableReasonUnknown;
-            if (!infiniteOverflow && GetCurrentTotal() >= totalsStore.allResearchPoints)
+            if (!Settings.infiniteOverflow && GetCurrentTotal() >= totalsStore.allResearchPoints)
                 return OpportunityAvailability.CategoryFinished;
             return OpportunityAvailability.Available;
         }
@@ -63,6 +73,12 @@ namespace PeteTimesSix.ResearchReinvented.Defs
             var matchingOpportunities = ResearchOpportunityManager.instance.AllCurrentOpportunities.Where(o => o.def.GetCategory(o.relation) == this);
             var totalProgress = matchingOpportunities.Sum(o => o.Progress);
             return totalProgress;
+        }
+
+        public override void ClearCachedData()
+        {
+            base.ClearCachedData();
+            _settingsCached = null;
         }
     }
 }

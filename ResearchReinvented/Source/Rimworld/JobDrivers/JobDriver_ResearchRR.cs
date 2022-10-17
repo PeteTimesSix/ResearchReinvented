@@ -44,7 +44,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 				Pawn actor = research.actor;
 				float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true);
 				num *= ResearchBench.GetStatValue(StatDefOf.ResearchSpeedFactor, true);
-				var speedMult = opportunity.def.GetCategory(opportunity.relation).researchSpeedMultiplier;
+				var speedMult = opportunity.def.GetCategory(opportunity.relation).Settings.researchSpeedMultiplier;
 				num *= speedMult;
 				//num *= ResearchReinventedMod.Settings.theoryResearchSpeedMult;
 				actor.skills.Learn(SkillDefOf.Intellectual, 0.1f * speedMult, false);

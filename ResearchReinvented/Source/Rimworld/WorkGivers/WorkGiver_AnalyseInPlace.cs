@@ -111,7 +111,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		{
 			var opportunity = opportunityCache[target.Thing.def].First();
 
-			return pawn.GetStatValue(StatDefOf_Custom.FieldResearchSpeedMultiplier, true) * opportunity.def.GetCategory(opportunity.relation).researchSpeedMultiplier;
+			return pawn.GetStatValue(StatDefOf_Custom.FieldResearchSpeedMultiplier, true) * opportunity.def.GetCategory(opportunity.relation).Settings.researchSpeedMultiplier;
 		}
 
 		//cache is built once per tick, to avoid working on already finished opportunities or opportunities from a different project

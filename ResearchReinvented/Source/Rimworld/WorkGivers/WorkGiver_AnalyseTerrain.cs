@@ -104,7 +104,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			var prio = 1f / dist - (4f - 1f); //start at 1, approach 0 at infinity
 			prio += Rand.Range(0f, 0.25f); //randomize a bit
 
-			return prio * pawn.GetStatValue(StatDefOf_Custom.FieldResearchSpeedMultiplier, true) * opportunity.def.GetCategory(opportunity.relation).researchSpeedMultiplier;
+			return prio * pawn.GetStatValue(StatDefOf_Custom.FieldResearchSpeedMultiplier, true) * opportunity.def.GetCategory(opportunity.relation).Settings.researchSpeedMultiplier;
 		}
 
 

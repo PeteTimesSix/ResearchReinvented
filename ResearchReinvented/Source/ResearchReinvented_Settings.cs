@@ -1,4 +1,6 @@
-﻿using PeteTimesSix.ResearchReinvented.Defs;
+﻿using PeteTimesSix.ResearchReinvented.Data;
+using PeteTimesSix.ResearchReinvented.DefOfs;
+using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Rimworld;
 using PeteTimesSix.ResearchReinvented.Utilities;
 using PeteTimesSix.ResearchReinvented.Utilities.CustomWidgets;
@@ -23,13 +25,18 @@ namespace PeteTimesSix.ResearchReinvented
         public const float HEADER_HEIGHT = 35f;
         public const float HEADER_GAP_HEIGHT = 10f;
 
-        public float prototypeResearchSpeedFactor = 0.5f;
+        public SettingsPresetDef activePreset;
+
         public bool debugPrintouts = false;
 
         public bool defaultCompactMode = false;
 
+        public float prototypeResearchSpeedFactor = 0.5f;
         public bool kitlessResearch = true;
-        //public float theoryResearchSpeedMult = 0.85f;
+
+
+        public List<CategorySettingsChanges> categorySettingChanges = new List<CategorySettingsChanges>();
+        public List<CategorySettingsFinal> categorySettings = new List<CategorySettingsFinal>();
 
         public SettingTab temp_activeTab = SettingTab.PRESETS;
         public ResearchOpportunityCategoryDef temp_selectedCategory = null;
@@ -38,16 +45,20 @@ namespace PeteTimesSix.ResearchReinvented
         {
             base.ExposeData();
 
+            Scribe_Defs.Look(ref activePreset, "activePreset");
+
             Scribe_Values.Look(ref debugPrintouts, "debugPrintouts", false);
             Scribe_Values.Look(ref prototypeResearchSpeedFactor, "prototypeResearchSpeedFactor", 0.5f);
 
             Scribe_Values.Look(ref defaultCompactMode, "defaultCompactMode", false);
 
             Scribe_Values.Look(ref kitlessResearch, "kitlessResearch", true);
-            //Scribe_Values.Look(ref theoryResearchSpeedMult, "theoryResearchSpeedMult", 0.85f);
+
+            Scribe_Collections.Look(ref categorySettingChanges, "categorySettingChanges", LookMode.Deep);
+            //do not save/load categorySettings, let them generate
         }
 
-        internal void DoSettingsWindowContents(Rect inRect)
+        public void DoSettingsWindowContents(Rect inRect)
         {
             Color preColor = GUI.color;
             var anchor = Text.Anchor;
@@ -84,6 +95,33 @@ namespace PeteTimesSix.ResearchReinvented
 
         private void DoPresetTab(Rect inRect)
         {
+            Listing_Standard listingStandard = new Listing_Standard();
+            listingStandard.Begin(inRect);
+
+            float maxWidth = listingStandard.ColumnWidth;
+
+            foreach(var preset in DefDatabase<SettingsPresetDef>.AllDefsListForReading.OrderByDescending(p => p.priority)) 
+            {
+                if(listingStandard.RadioButton(preset.LabelCap, activePreset == preset)) 
+                {
+                    Log.Message($"switching preset from {activePreset.defName} to {preset}");
+                    activePreset = preset;
+                    foreach (var categoryDef in DefDatabase<ResearchOpportunityCategoryDef>.AllDefsListForReading)
+                        categoryDef.ClearCachedData();
+                    categorySettingChanges.Clear();
+                    categorySettings.Clear();
+                }
+            }
+
+            float remainingHeight = inRect.height - listingStandard.CurHeight;
+
+            var visualizerRect = listingStandard.GetRect(remainingHeight);
+            visualizerRect.width = maxWidth / 2f;
+            visualizerRect.x += maxWidth / 4f;
+
+            CategoriesVisualizer.DrawCategories(visualizerRect);
+
+            listingStandard.End();
         }
 
         private void DoGlobalConfigTab(Rect inRect)
@@ -143,21 +181,44 @@ namespace PeteTimesSix.ResearchReinvented
 
                     sectionListing.Gap();
 
-                    sectionListing.CheckboxLabeled("RR_setting_category_enabled".Translate(), ref temp_selectedCategory.enabled, "RR_setting_category_enabled_tooltip".Translate());
+                    var temp_categorySettings = temp_selectedCategory.Settings;
+                    var temp_categoryChanges = GetCategorySettingsChanges(temp_selectedCategory);
 
-                    if (temp_selectedCategory.enabled)
+                    GUI.color = temp_categoryChanges.enabled.HasValue ? Color.yellow : Color.white;
+                    sectionListing.CheckboxLabeled("RR_setting_category_enabled".Translate(), ref temp_categorySettings.enabled, "RR_setting_category_enabled_tooltip".Translate());
+
+                    if (temp_categorySettings.enabled)
                     {
-                        sectionListing.FloatRangeLabeled("RR_setting_category_availableAtOverallProgress".Translate(), ref temp_selectedCategory.availableAtOverallProgress, min: 0, max: 1, roundTo: 0.01f, displayMult: 100, valueSuffix: "%", tooltip: "RR_setting_category_availableAtOverallProgress_tooltip".Translate());
-                        
-                        sectionListing.SliderLabeled("RR_setting_category_targetIterations".Translate(), ref temp_selectedCategory.targetIterations, min: 1, max: 30, roundTo: 0.25f, decimalPlaces: 2, tooltip: "RR_setting_category_targetIterations_tooltip".Translate());
+                        GUI.color = temp_categoryChanges.availableAtOverallProgress.HasValue ? Color.yellow : Color.white;
+                        sectionListing.FloatRangeLabeled("RR_setting_category_availableAtOverallProgress".Translate(), ref temp_categorySettings.availableAtOverallProgress, min: 0, max: 1, roundTo: 0.01f, displayMult: 100, valueSuffix: "%", tooltip: "RR_setting_category_availableAtOverallProgress_tooltip".Translate());
 
-                        sectionListing.SliderLabeled("RR_setting_category_targetFractionMultiplier".Translate(), ref temp_selectedCategory.targetFractionMultiplier, min: 0, max: 5, roundTo: 0.05f, displayMult: 100, valueSuffix: "%", tooltip: "RR_setting_category_targetFractionMultiplier_tooltip".Translate());
-                        sectionListing.CheckboxLabeled("RR_setting_category_infiniteOverflow".Translate(), ref temp_selectedCategory.infiniteOverflow, "RR_setting_category_infiniteOverflow_tooltip".Translate());
-                        if (!temp_selectedCategory.infiniteOverflow)
-                            sectionListing.SliderLabeled("RR_setting_category_extraFractionMultiplier".Translate(), ref temp_selectedCategory.extraFractionMultiplier, min: 0, max: 5, roundTo: 0.05f, displayMult: 100, valueSuffix: "%", tooltip: "RR_setting_category_extraFractionMultiplier_tooltip".Translate());
-                        
-                        sectionListing.SliderLabeled("RR_setting_category_researchSpeedMultiplier".Translate(), ref temp_selectedCategory.researchSpeedMultiplier, min: 0, max: 5, roundTo: 0.05f, displayMult: 100, valueSuffix: "%", tooltip: "RR_setting_category_researchSpeedMultiplier_tooltip".Translate());
+                        GUI.color = temp_categoryChanges.targetIterations.HasValue ? Color.yellow : Color.white;
+                        sectionListing.SliderLabeled("RR_setting_category_targetIterations".Translate(), ref temp_categorySettings.targetIterations, min: 1, max: 30, roundTo: 0.25f, decimalPlaces: 2, tooltip: "RR_setting_category_targetIterations_tooltip".Translate());
+
+                        GUI.color = temp_categoryChanges.targetFractionMultiplier.HasValue ? Color.yellow : Color.white;
+                        sectionListing.SliderLabeled("RR_setting_category_targetFractionMultiplier".Translate(), ref temp_categorySettings.targetFractionMultiplier, min: 0, max: 5, roundTo: 0.05f, displayMult: 100, valueSuffix: "%", tooltip: "RR_setting_category_targetFractionMultiplier_tooltip".Translate());
+
+                        GUI.color = temp_categoryChanges.infiniteOverflow.HasValue ? Color.yellow : Color.white;
+                        sectionListing.CheckboxLabeled("RR_setting_category_infiniteOverflow".Translate(), ref temp_categorySettings.infiniteOverflow, "RR_setting_category_infiniteOverflow_tooltip".Translate());
+                        if (!temp_categorySettings.infiniteOverflow)
+                        {
+                            GUI.color = temp_categoryChanges.extraFractionMultiplier.HasValue ? Color.yellow : Color.white; 
+                            sectionListing.SliderLabeled("RR_setting_category_extraFractionMultiplier".Translate(), ref temp_categorySettings.extraFractionMultiplier, min: 0, max: 5, roundTo: 0.05f, displayMult: 100, valueSuffix: "%", tooltip: "RR_setting_category_extraFractionMultiplier_tooltip".Translate());
+                        }
+
+                        GUI.color = temp_categoryChanges.researchSpeedMultiplier.HasValue ? Color.yellow : Color.white;
+                        sectionListing.SliderLabeled("RR_setting_category_researchSpeedMultiplier".Translate(), ref temp_categorySettings.researchSpeedMultiplier, min: 0, max: 5, roundTo: 0.05f, displayMult: 100, valueSuffix: "%", tooltip: "RR_setting_category_researchSpeedMultiplier_tooltip".Translate());
                         //sectionListing.Spinner("RR_setting_category_priority".Translate(), ref temp_selectedCategory.priority, 1, 100, 1500, "RR_setting_category_priority".Translate());
+                    }
+
+                    temp_categoryChanges.UpdateChanges(GetActivePreset().GetCategoryPreset(temp_selectedCategory), temp_categorySettings);
+
+                    GUI.color = Color.white;
+                    if (sectionListing.ButtonText("RR_setting_category_resetToDefault".Translate()))
+                    {
+                        temp_selectedCategory.ClearCachedData();
+                        categorySettingChanges.Remove(temp_categoryChanges);
+                        categorySettings.Remove(temp_categorySettings);
                     }
                 }
 
@@ -165,6 +226,42 @@ namespace PeteTimesSix.ResearchReinvented
             }
 
             listingStandard.End();
+        }
+
+        public SettingsPresetDef GetActivePreset() 
+        {
+            if(activePreset == null) 
+            {
+                activePreset = SettingsPresetDefOf.SettingsPreset_RR_Default;
+            }
+            return activePreset;
+        }
+
+        public CategorySettingsChanges GetCategorySettingsChanges(ResearchOpportunityCategoryDef category)
+        {
+            if (categorySettingChanges == null)
+                categorySettingChanges = new List<CategorySettingsChanges>();
+            var changes = categorySettingChanges.FirstOrDefault(cs => cs.category == category);
+            if(changes == null) 
+            {
+                changes = new CategorySettingsChanges() { category = category };
+                categorySettingChanges.Add(changes);
+            }
+            return changes;
+        }
+
+        public CategorySettingsFinal GetCategorySettings(ResearchOpportunityCategoryDef category)
+        {
+            if (categorySettings == null)
+                categorySettings = new List<CategorySettingsFinal>();
+            var settings = categorySettings.FirstOrDefault(cs => cs.category == category);
+            if (settings == null)
+            {
+                settings = new CategorySettingsFinal() { category = category };
+                settings.Update(GetActivePreset().GetCategoryPreset(category), GetCategorySettingsChanges(category));
+                categorySettings.Add(settings);
+            }
+            return settings;
         }
     }
 }

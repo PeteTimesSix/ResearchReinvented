@@ -45,7 +45,6 @@ namespace PeteTimesSix.ResearchReinvented
         public override void DoSettingsWindowContents(Rect inRect) 
         {
             Settings.DoSettingsWindowContents(inRect);
-            base.DoSettingsWindowContents(inRect);
         }
 	}
 

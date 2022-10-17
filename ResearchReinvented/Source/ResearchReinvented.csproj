@@ -39,13 +39,18 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\CategorySettingsFinal.cs" />
+    <Compile Include="Data\CategorySettingsPreset.cs" />
+    <Compile Include="Data\CategorySettingsChanges.cs" />
     <Compile Include="DefOfs\ApparelLayerDefOf_Custom.cs" />
     <Compile Include="DefOfs\EffecterDefOf_Custom.cs" />
     <Compile Include="DefOfs\ResearchOpportunityCategoryDefOf.cs" />
+    <Compile Include="DefOfs\SettingsPresetDefOf.cs" />
     <Compile Include="DefOfs\StatDefOf_Custom.cs" />
     <Compile Include="DefOfs\ThingDefOf_Custom.cs" />
     <Compile Include="Defs\AlternateResearchSubjectDef.cs" />
     <Compile Include="Defs\RaresListDef.cs" />
+    <Compile Include="Defs\SettingsPresetDef.cs" />
     <Compile Include="Defs\SpecialResearchOpportunityDef.cs" />
     <Compile Include="Extensions\BuildableDefExtensions.cs" />
     <Compile Include="Extensions\DefExtensions.cs" />
