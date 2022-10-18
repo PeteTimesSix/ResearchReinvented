@@ -57,7 +57,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			var opportunity = MatchingOpportunities.FirstOrDefault();
 			if (opportunity == null)
 			{
-				Log.Warning("found no research opportunities when looking for a research job on a research bench => the basic research should always be available!");
+				//Log.Warning("found no research opportunities when looking for a research job on a research bench => the basic research should always be available!");
 				return false;
 			}
 			Building_ResearchBench building_ResearchBench = t as Building_ResearchBench;

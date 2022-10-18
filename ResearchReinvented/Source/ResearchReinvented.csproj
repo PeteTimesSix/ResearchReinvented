@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -71,6 +71,7 @@
     <Compile Include="HarmonyPatches\Pawn_JobTracker_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\PrototypeUtilities.cs" />
     <Compile Include="HarmonyPatches\RecipeDef_Patches.cs" />
+    <Compile Include="HarmonyPatches\WorkGiver_Research_Patches.cs" />
     <Compile Include="Managers\OpportunityFactories\MasterFactory.cs" />
     <Compile Include="Managers\OpportunityFactories\OF_CompProps.cs" />
     <Compile Include="Managers\OpportunityFactories\OF_Plants.cs" />

@@ -134,7 +134,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
             float heightTotal = 0f;
 
-            foreach (var opportunityCategory in opportunityCategories.OrderByDescending(c => c.priority))
+            foreach (var opportunityCategory in opportunityCategories.Where(c => c.Settings.enabled).OrderByDescending(c => c.priority))
             {
                 var matchingOpportunitites = opportunities.Where(o => o.def.GetCategory(o.relation) == opportunityCategory);
                 if (matchingOpportunitites.Any())

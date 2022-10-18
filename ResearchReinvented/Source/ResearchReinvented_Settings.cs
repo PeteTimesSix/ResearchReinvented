@@ -99,8 +99,6 @@ namespace PeteTimesSix.ResearchReinvented
             listingStandard.Begin(inRect);
 
             float maxWidth = listingStandard.ColumnWidth;
-            listingStandard.CheckboxLabeled("RR_setting_debugPrintouts".Translate(), ref debugPrintouts, "RR_setting_debugPrintouts_tooltip".Translate());
-            listingStandard.CheckboxLabeled("RR_setting_defaultCompactMode".Translate(), ref defaultCompactMode, "RR_setting_defaultCompactMode_tooltip".Translate());
 
             foreach(var preset in DefDatabase<SettingsPresetDef>.AllDefsListForReading.OrderByDescending(p => p.priority)) 
             {
