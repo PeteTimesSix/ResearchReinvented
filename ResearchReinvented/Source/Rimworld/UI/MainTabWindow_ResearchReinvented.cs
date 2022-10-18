@@ -381,25 +381,26 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
                 Widgets.DefIcon(iconBox, requiresThingComp.thingDef);
                 onlyDef = requiresThingComp.thingDef;
             }
-            else if (opportunity.requirement is ROComp_RequiresIngredients requiresIngredientsComp)
-            {
-                var ingredients = requiresIngredientsComp.ingredients;
-                for (int i = 0; i < ingredients.Count; i++)
-                {
-                    var ingredient = ingredients[i];
-                    if (ingredient.Value.IsFixedIngredient)
-                    {
-                        Widgets.DefIcon(iconBox, ingredient.Value.FixedIngredient);
-                    }
-                    else
-                    {
-                        var ingredientBox = iconBox.ContractedBy(ICON_SIZE / 4f).OffsetBy(
-                            (float)(ICON_SIZE / 4 * Math.Sin(i / ingredients.Count * Math.PI)),
-                            (float)(ICON_SIZE / 4 * Math.Cos(i / ingredients.Count * Math.PI))).Rounded();
-                        Widgets.DefIcon(ingredientBox, ingredient.Value.FixedIngredient);
-                    }
-                }
-            }
+            // unused for now
+            //else if (opportunity.requirement is ROComp_RequiresIngredients requiresIngredientsComp)
+            //{
+            //    var ingredients = requiresIngredientsComp.ingredients;
+            //    for (int i = 0; i < ingredients.Count; i++)
+            //    {
+            //        var ingredient = ingredients[i];
+            //        if (ingredient.Value.IsFixedIngredient)
+            //        {
+            //            Widgets.DefIcon(iconBox, ingredient.Value.FixedIngredient);
+            //        }
+            //        else
+            //        {
+            //            var ingredientBox = iconBox.ContractedBy(ICON_SIZE / 4f).OffsetBy(
+            //                (float)(ICON_SIZE / 4 * Math.Sin(i / ingredients.Count * Math.PI)),
+            //                (float)(ICON_SIZE / 4 * Math.Cos(i / ingredients.Count * Math.PI))).Rounded();
+            //            Widgets.DefIcon(ingredientBox, ingredient.Value.FixedIngredient);
+            //        }
+            //    }
+            //}
             else if (opportunity.requirement is ROComp_RequiresTerrain requiresTerrainComp)
             {
                 Widgets.DefIcon(iconBox, requiresTerrainComp.terrainDef);

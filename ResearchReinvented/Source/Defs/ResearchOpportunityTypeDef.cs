@@ -19,6 +19,8 @@ namespace PeteTimesSix.ResearchReinvented.Defs
     public class ResearchOpportunityTypeDef : Def
     {
 		public HandlingMode handledBy = HandlingMode.Inactive;
+
+		public Type jobPickerClass;
 		public JobDef jobDef;
 
 		public string header_Direct;
@@ -47,8 +49,7 @@ namespace PeteTimesSix.ResearchReinvented.Defs
 		public ResearchOpportunityCategoryDef category_Ancestor;
 		public ResearchOpportunityCategoryDef category_Descendant;
 
-
-		public TaggedString Header_DirectCap
+        public TaggedString Header_DirectCap
 		{
 			get
 			{

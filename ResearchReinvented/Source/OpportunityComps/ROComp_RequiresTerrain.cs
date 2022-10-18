@@ -11,7 +11,7 @@ using Verse;
 
 namespace PeteTimesSix.ResearchReinvented.OpportunityComps
 {
-    class ROComp_RequiresTerrain : ResearchOpportunityComp
+    public class ROComp_RequiresTerrain : ResearchOpportunityComp
     {
         public TerrainDef terrainDef;
 
@@ -26,6 +26,7 @@ namespace PeteTimesSix.ResearchReinvented.OpportunityComps
 
         public override bool IsRare => terrainDef.HasModExtension<RarityMarker>();
         public override bool MetBy(Def def) => def == terrainDef;
+        public override bool MetBy(Thing thing) => false;
         public override bool IsValid => terrainDef != null;
 
         public ROComp_RequiresTerrain() 

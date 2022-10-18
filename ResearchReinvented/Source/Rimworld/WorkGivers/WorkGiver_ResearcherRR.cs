@@ -1,4 +1,5 @@
 ﻿using PeteTimesSix.ResearchReinvented.DefOfs;
+using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Managers;
 using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers;
@@ -17,6 +18,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 	public class WorkGiver_ResearcherRR : WorkGiver_Scanner
 	{
 		public static Type DriverClass = typeof(JobDriver_ResearchRR);
+		private static IEnumerable<ResearchOpportunity> MatchingOpportunities =>
+			ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
+			.Where(o => o.def.handledBy == HandlingMode.Job && o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass));
 
 		public override ThingRequest PotentialWorkThingRequest
 		{
@@ -50,7 +54,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			{
 				return false;
 			}
-			var opportunity = ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities().Where(o => o.def.jobDef.driverClass == DriverClass).FirstOrDefault();
+			var opportunity = MatchingOpportunities.FirstOrDefault();
 			if (opportunity == null)
 			{
 				Log.Warning("found no research opportunities when looking for a research job on a research bench => the basic research should always be available!");
@@ -68,9 +72,10 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override Job JobOnThing(Pawn pawn, Thing thing, bool forced = false)
 		{
-			var opportunity = ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities().Where(o => o.def.jobDef.driverClass == DriverClass).FirstOrDefault();
+			var opportunity = MatchingOpportunities.FirstOrDefault();
 
-			Job job = JobMaker.MakeJob(opportunity.def.jobDef, thing, expiryInterval: 3000, checkOverrideOnExpiry: true);
+			var jobDef = opportunity.JobDefs.First(j => j.driverClass == DriverClass);
+			Job job = JobMaker.MakeJob(jobDef, thing, expiryInterval: 3000, checkOverrideOnExpiry: true);
 			ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
 			return job;
 		}
