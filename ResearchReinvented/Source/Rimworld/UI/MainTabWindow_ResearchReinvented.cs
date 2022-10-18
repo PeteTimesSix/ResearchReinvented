@@ -183,7 +183,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             Widgets.Label(headerTextRect, category.LabelCap);
             GUI.color = Color.white;
             Text.Anchor = TextAnchor.LowerRight;
-            if (!category.infiniteOverflow)
+            if (!category.Settings.infiniteOverflow)
             {
                 //{Progress} "X"
                 Widgets_Extra.LabelFitHeightAware(headerRect, $"{Math.Round(category.GetCurrentTotal(), 0)} / {Math.Round(totalsStore.allResearchPoints, 0)}");
@@ -279,7 +279,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
                 }
 
                 Text.Anchor = TextAnchor.LowerCenter;
-                if (!opportunity.def.GetCategory(opportunity.relation).infiniteOverflow)
+                if (!opportunity.def.GetCategory(opportunity.relation).Settings.infiniteOverflow)
                 {
                     //{Progress} "X.x%"
                     Widgets_Extra.LabelFitHeightAware(textBoxInternal, $"{Math.Round(opportunity.ProgressFraction * 100, 1)}%");
@@ -356,7 +356,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
                 Text.Anchor = TextAnchor.MiddleRight;
                 //{Progress} "X.x%"
-                if (!opportunity.def.GetCategory(opportunity.relation).infiniteOverflow)
+                if (!opportunity.def.GetCategory(opportunity.relation).Settings.infiniteOverflow)
                     Widgets_Extra.LabelFitHeightAware(textBoxInternal.BottomHalf().Rounded(), $"{Math.Round(opportunity.ProgressFraction * 100, 1)}%");
 
                 //{Progress} "X / Y"

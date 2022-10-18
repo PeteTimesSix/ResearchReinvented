@@ -91,7 +91,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
                 if (opportunity != null)
                 {
                     opportunity.ResearchChunkPerformed(totalWork, worker);
-                    var xp = totalWork;
+                    var xp = 0.1f * totalWork;
                     //Log.Message($"adding {xp} to intellectual skill");
                     worker.skills.Learn(SkillDefOf.Intellectual, xp, false);
                 }
@@ -110,7 +110,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
                 if (opportunity != null)
                 {
                     opportunity.ResearchChunkPerformed(totalWork, worker);
-                    var xp = totalWork;
+                    var xp = 0.1f * totalWork;
                     //Log.Message($"adding {xp} to intellectual skill");
                     worker.skills.Learn(SkillDefOf.Intellectual, xp, false);
                 }

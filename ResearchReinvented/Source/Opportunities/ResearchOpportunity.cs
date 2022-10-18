@@ -27,6 +27,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
     public enum OpportunityAvailability 
     {
         Available,
+        Disabled,
         Finished,
         ResearchTooLow,
         ResearchTooHigh,
@@ -59,7 +60,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
 
 
         public float Progress => currentProgress;
-        public float MaximumProgress => def.GetCategory(relation).infiniteOverflow ? (project.baseCost - project.ProgressReal + Progress) : maximumProgress;
+        public float MaximumProgress => def.GetCategory(relation).Settings.infiniteOverflow ? (project.baseCost - project.ProgressReal + Progress) : maximumProgress;
         public float ProgressFraction => Progress / MaximumProgress;
         public bool IsFinished => ProgressFraction >= 1f;
 

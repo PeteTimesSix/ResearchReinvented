@@ -63,7 +63,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 var anyOpportunities = projectOpportunities.Any(o => o.def.GetCategory(o.relation) == category/* && o.relation == relation*/);
                 if (anyOpportunities)
                 {
-                    totalMultiplier += category.targetFractionMultiplier;
+                    totalMultiplier += category.Settings.targetFractionMultiplier;
                 }
                 /*foreach (ResearchRelation relation in Enum.GetValues(typeof(ResearchRelation)))
                 {
@@ -78,8 +78,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 var matchingOpportunities = projectOpportunities.Where(o => o.def.GetCategory(o.relation) == category);
 
                 var totalsStore = new ResearchOpportunityCategoryTotalsStore() { project = project, category = category };
-                totalsStore.baseResearchPoints = ((projectResearchPoints / totalMultiplier) * category.targetFractionMultiplier);
-                totalsStore.allResearchPoints = totalsStore.baseResearchPoints * category.overflowMultiplier;
+                totalsStore.baseResearchPoints = ((projectResearchPoints / totalMultiplier) * category.Settings.targetFractionMultiplier);
+                totalsStore.allResearchPoints = ((projectResearchPoints / totalMultiplier) * (category.Settings.targetFractionMultiplier + category.Settings.extraFractionMultiplier));
 
                 totalStores.Add(totalsStore);
 
@@ -99,8 +99,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                     if (typeImportanceTotal < 1) //just in case, dont want to divide by zero
                         typeImportanceTotal = 1;
 
-                    if(typeImportanceTotal > category.targetIterations)
-                        typeImportanceTotal = category.targetIterations;
+                    if(typeImportanceTotal > category.Settings.targetIterations)
+                        typeImportanceTotal = category.Settings.targetIterations;
                     float baseImportance = 1f / typeImportanceTotal;
 
                     //if (project.defName == "PackagedSurvivalMeal" || project.defName == "Autodoors")
@@ -109,7 +109,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                     foreach (var opportunity in matchingOpportunitiesOfType)
                     {
                         float opportunityResearchPoints;
-                        if (category.infiniteOverflow)
+                        if (category.Settings.infiniteOverflow)
                             opportunityResearchPoints = projectResearchPoints;
                         else if (opportunity.requirement.IsRare)
                             opportunityResearchPoints = (typeResearchPoints * baseImportance) * matchCount;
