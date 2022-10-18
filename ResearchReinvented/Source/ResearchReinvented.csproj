@@ -42,6 +42,7 @@
     <Compile Include="DefGenerators\AlternateResearchSubjectDefGenerator.cs" />
     <Compile Include="DefOfs\ApparelLayerDefOf_Custom.cs" />
     <Compile Include="DefOfs\EffecterDefOf_Custom.cs" />
+    <Compile Include="DefOfs\JobDefOf_Custom.cs" />
     <Compile Include="DefOfs\ResearchOpportunityCategoryDefOf.cs" />
     <Compile Include="DefOfs\StatDefOf_Custom.cs" />
     <Compile Include="DefOfs\ThingDefOf_Custom.cs" />
@@ -76,6 +77,11 @@
     <Compile Include="OpportunityComps\ROComp_RequiresThing.cs" />
     <Compile Include="OpportunityComps\ROComp_RequiresIngredients.cs" />
     <Compile Include="OpportunityComps\ROComp_RequiresNothing.cs" />
+    <Compile Include="OpportunityJobPickers\JobPickerMaker.cs" />
+    <Compile Include="OpportunityJobPickers\JobPicker_AnalyseInPlaceOrMinified.cs" />
+    <Compile Include="OpportunityJobPickers\JobPicker_FromOpportunityDef.cs" />
+    <Compile Include="OpportunityJobPickers\JobPicker_NoJob.cs" />
+    <Compile Include="OpportunityJobPickers\OpportunityJobPickerBase.cs" />
     <Compile Include="Rimworld\Comps\CompProperties\CompProperties_ResearchKit.cs" />
     <Compile Include="Rimworld\Comps\Comp_ResearchKit.cs" />
     <Compile Include="Rimworld\DefModExtensions\RarityMarker.cs" />

@@ -56,7 +56,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
                 BuildCache();
             }
 
-            if (!opportunityCache.ContainsKey(thing.def))
+            var thingDef = MinifyUtility.GetInnerIfMinified(thing).def;
+            if (!opportunityCache.ContainsKey(thingDef))
                 return false;
 
             var researchBenches = GetUsableResearchBenches(pawn).Where(bench => pawn.CanReserve(bench));
@@ -82,7 +83,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
             var researchBenches = GetUsableResearchBenches(pawn).Where(bench => pawn.CanReserve(bench));
             var bestBench = researchBenches.First();
 
-            var opportunity = opportunityCache[thing.def].First();
+            var thingDef = MinifyUtility.GetInnerIfMinified(thing).def;
+            var opportunity = opportunityCache[thingDef].First();
 
             JobDef jobDef = opportunity.JobDefs.First(j => j.driverClass == DriverClass);
             Job job = JobMaker.MakeJob(jobDef, thing, expiryInterval: 20000, checkOverrideOnExpiry: true);

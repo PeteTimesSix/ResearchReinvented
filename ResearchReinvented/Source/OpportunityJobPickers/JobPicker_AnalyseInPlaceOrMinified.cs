@@ -25,7 +25,6 @@ namespace PeteTimesSix.ResearchReinvented.OpportunityJobPickers
             }
             else
             {
-                List<JobDef> jobList = new List<JobDef>();
                 var def = thingRequirement.thingDef;
                 if(def.EverHaulable)
                 {
