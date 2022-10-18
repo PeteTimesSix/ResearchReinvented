@@ -4,9 +4,11 @@ using PeteTimesSix.ResearchReinvented.Defs;
 using RimWorld;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Verse;
 
 namespace PeteTimesSix.ResearchReinvented.HarmonyPatches
 {
@@ -16,7 +18,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches
         [HarmonyPrefix]
         public static void Prefix()
         {
-            foreach(var alternateDef in AlternateResearchSubjectDefGenerator.AncientAlternateDefs()) 
+            foreach (var alternateDef in AlternateResearchSubjectDefGenerator.AncientAlternateDefs()) 
             {
                 DefGenerator.AddImpliedDef(alternateDef);
             }

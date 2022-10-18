@@ -37,7 +37,7 @@ namespace PeteTimesSix.ResearchReinvented.DefGenerators
                     altDef.alternates = new List<ThingDef>() { ancientThing };
                     altDef.modContentPack = ResearchReinventedMod.ModSingleton.Content;
 
-                    Log.Message($"Associating ancient {ancientThing} with non-ancient {unancientThing} as ({altDef.defName})");
+                    //Log.Message($"Associating ancient {ancientThing} with non-ancient {unancientThing} as ({altDef.defName})");
 
                     //Debug.LogMessage
                     yield return altDef;
