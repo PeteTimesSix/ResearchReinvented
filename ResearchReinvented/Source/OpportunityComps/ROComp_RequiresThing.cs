@@ -11,7 +11,7 @@ using Verse;
 
 namespace PeteTimesSix.ResearchReinvented.OpportunityComps
 {
-    class ROComp_RequiresThing : ResearchOpportunityComp
+    public class ROComp_RequiresThing : ResearchOpportunityComp
     {
         public ThingDef thingDef;
 
@@ -26,6 +26,7 @@ namespace PeteTimesSix.ResearchReinvented.OpportunityComps
 
         public override bool IsRare => thingDef.HasModExtension<RarityMarker>();
         public override bool MetBy(Def def) => def == thingDef;
+        public override bool MetBy(Thing thing) => thing.def == thingDef || ((thing is MinifiedThing minified) && minified.InnerThing.def == thingDef);
         public override bool IsValid => thingDef != null;
 
         public ROComp_RequiresThing() 

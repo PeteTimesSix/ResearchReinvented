@@ -325,7 +325,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                 {
                     if (!asThing.IsInstantBuild())
                     {
-                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseInPlace, relation, new ROComp_RequiresThing(asThing), "direct analysis (unhaulable)", isAlternate: isAlternate);
+                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.Analyse, relation, new ROComp_RequiresThing(asThing), "direct analysis (unhaulable)", isAlternate: isAlternate);
 
                         if (relation == ResearchRelation.Direct && asThing.BuildableByPlayer)
                             yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeConstruction, relation, new ROComp_RequiresThing(asThing), "direct analysis (unhaulable)", isAlternate: isAlternate);

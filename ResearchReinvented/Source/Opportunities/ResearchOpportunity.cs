@@ -2,6 +2,7 @@
 using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Managers;
 using PeteTimesSix.ResearchReinvented.OpportunityComps;
+using PeteTimesSix.ResearchReinvented.OpportunityJobPickers;
 using PeteTimesSix.ResearchReinvented.Rimworld;
 using RimWorld;
 using System;
@@ -67,6 +68,18 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
         public bool IsAlternate => isAlternate;
 
         public bool IsValid => requirement != null && requirement.IsValid;
+
+        private List<JobDef> _jobDefsCached;
+        public List<JobDef> JobDefs { 
+            get 
+            {
+                if(_jobDefsCached == null)
+                {
+                    _jobDefsCached = JobPickerMaker.MakePicker(def.jobPickerClass ?? typeof(JobPicker_FromOpportunityDef)).PickJobs(this);
+                }
+                return _jobDefsCached;
+            } 
+        }
 
         public OpportunityAvailability CurrentAvailability
         {
