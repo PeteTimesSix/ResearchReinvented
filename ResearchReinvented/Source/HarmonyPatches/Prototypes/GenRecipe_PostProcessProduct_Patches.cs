@@ -52,7 +52,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
             if (!found)
             {
-                Log.Warning("failed to apply patch (instructions not found)");
+                Log.Warning("GenRecipe_PostProcessProduct_Patches - failed to apply patch (instructions not found)");
                 goto finalize;
             }
             else
