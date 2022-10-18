@@ -27,10 +27,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
         public static Type DriverClass = typeof(JobDriver_AnalyseTerrain);
 
-		private static IEnumerable<ResearchOpportunity> MatchingOpportunities => ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities().Where(o => o.def.handledBy == HandlingMode.Job && o.def.jobDef?.driverClass == DriverClass);
+		private static IEnumerable<ResearchOpportunity> MatchingOpportunities =>
+			ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
+			.Where(o => o.def.handledBy == HandlingMode.Job && o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass));
 
 
-        public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)
+		public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)
 		{
 			//var analysableTerrains = MatchingOpportunities.Select(o => (o.requirement as ROComp_RequiresTerrain).terrainDef);
 			return pawn.Map.areaManager.Home.ActiveCells;//.Where(c => (analysableTerrains.Contains(c.GetTerrain(pawn.Map))));
@@ -84,7 +86,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			//var opportunity = opportunityCache[terrainAt].FirstOrDefault(o => o.CurrentAvailability == OpportunityAvailability.Available);
 			//var opportunity = MatchingOpportunities.FirstOrDefault(o => o.requirement.MetBy(terrainAt));//MatchingOpportunities.FirstOrDefault(o => (o.requirement as ROComp_RequiresTerrain).terrainDef == cell.GetTerrain(pawn.Map));
 
-			Job job = JobMaker.MakeJob(opportunity.def.jobDef, cell, expiryInterval: 1500, checkOverrideOnExpiry: true);
+			var jobDef = opportunity.JobDefs.First(j => j.driverClass == DriverClass);
+			Job job = JobMaker.MakeJob(jobDef, cell, expiryInterval: 1500, checkOverrideOnExpiry: true);
 			ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
 			return job;
 		}
@@ -104,7 +107,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			var prio = 1f / dist - (4f - 1f); //start at 1, approach 0 at infinity
 			prio += Rand.Range(0f, 0.25f); //randomize a bit
 
-			return prio * pawn.GetStatValue(StatDefOf_Custom.FieldResearchSpeedMultiplier, true) * opportunity.def.GetCategory(opportunity.relation).researchSpeedMultiplier;
+			return prio * pawn.GetStatValue(StatDefOf_Custom.FieldResearchSpeedMultiplier, true) * opportunity.def.GetCategory(opportunity.relation).Settings.researchSpeedMultiplier;
 		}
 
 

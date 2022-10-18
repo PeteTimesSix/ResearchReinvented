@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- Obsolete or removed opportunities, kept around to preserve savegames -->
+<Defs>  
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="JobBasedOpportunity">
+		<defName>AnalyseInPlace</defName>
+		<jobDef>RR_AnalyseInPlace</jobDef>
+		<header_Direct>reverse engineer (at location)</header_Direct>
+		<header_Ancestor>gather construction experience</header_Ancestor>
+		<shortDesc_Direct>Reverse engineer a thing to figure out stuff.</shortDesc_Direct>
+		<category_Direct>ReverseEngineering</category_Direct>
+		<category_Ancestor>ForwardEngineering</category_Ancestor>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+</Defs>

@@ -1,6 +1,9 @@
-﻿using System;
+﻿using PeteTimesSix.ResearchReinvented.Utilities.CustomWidgets;
+using RimWorld;
+using System;
 using UnityEngine;
 using Verse;
+using Verse.Sound;
 
 namespace PeteTimesSix.ResearchReinvented.Utilities
 {
@@ -12,6 +15,20 @@ namespace PeteTimesSix.ResearchReinvented.Utilities
 
         public static float ColumnGap = 17f;
 
+        public static void FloatRangeLabeled(this Listing_Standard instance, string label, ref FloatRange range, float min, float max, float roundTo = -1, float displayMult = 1, float decimalPlaces = 0, string valueSuffix = "", string tooltip = null, Action onChange = null)
+        {
+            if (!string.IsNullOrEmpty(label))
+                instance.Label($"{label}: {(range.min * displayMult).ToString($"F{decimalPlaces}")}{valueSuffix} - {(range.max * displayMult).ToString($"F{decimalPlaces}")}{valueSuffix}", tooltip: tooltip);
+            Rect rect = instance.GetRect(28f);
+            if (instance.BoundingRectCached == null || rect.Overlaps(instance.BoundingRectCached.Value))
+            {
+                var valuesBefore = range;
+                CustomFloatRange.FloatRange(rect, (int)instance.CurHeight, ref range, min, max, roundTo: roundTo);
+                if (valuesBefore.min != range.min || valuesBefore.max != range.max)
+                    onChange?.Invoke();
+            }
+        }
+
         public static void CheckboxLabeled(this Listing_Standard instance, string label, ref bool checkOn, string tooltip = null, Action onChange = null)
         {
             var valueBefore = checkOn;
@@ -22,22 +39,35 @@ namespace PeteTimesSix.ResearchReinvented.Utilities
             }
         }
 
-        public static void SliderLabeled(this Listing_Standard instance, string label, ref float value, float min, float max, float displayMult = 1, int decimalPlaces = 0, string valueSuffix = "", string tooltip = null, Action onChange = null)
+        public static void SliderLabeled(this Listing_Standard instance, string label, ref float value, float min, float max, float roundTo = -1, float displayMult = 1, int decimalPlaces = 0, string valueSuffix = "", string tooltip = null, Action onChange = null)
         {
-            instance.Label($"{label}: {(value * displayMult).ToString($"F{decimalPlaces}")}{valueSuffix}", tooltip: tooltip);
+            if (!string.IsNullOrEmpty(label))
+                instance.Label($"{label}: {(value * displayMult).ToString($"F{decimalPlaces}")}{valueSuffix}", tooltip: tooltip);
             var valueBefore = value;
-            value = instance.Slider(value, min, max);
+            value = instance.FullSlider(value, min, max, roundTo: roundTo);
             if (value != valueBefore)
             {
                 onChange?.Invoke();
             }
         }
+        public static float FullSlider(this Listing_Standard instance, float val, float min, float max, float roundTo = -1f, bool middleAlignment = false, string label = null, string leftAlignedLabel = null, string rightAlignedLabel = null)
+        {
+            float newVal = Widgets.HorizontalSlider(instance.GetRect(22f), val, min, max, middleAlignment, label, leftAlignedLabel, rightAlignedLabel, roundTo);
+            if (newVal != val)
+            {
+                SoundDefOf.DragSlider.PlayOneShotOnCamera(null);
+            }
+            instance.Gap(instance.verticalSpacing);
+            return newVal;
+        }
 
         public static void Spinner(this Listing_Standard instance, string label, ref int value, int increment = 1, int? min = null, int? max = null, string tooltip = null, Action onChange = null)
         {
-            float lineHeight = Text.LineHeight;
-            float labelWidth = Text.CalcSize(label).x + AfterLabelMinGap;
+            //float labelWidth = Text.CalcSize(label).x + AfterLabelMinGap;
+            if (!string.IsNullOrEmpty(label))
+                instance.Label($"{label}");
 
+            float lineHeight = Text.LineHeight;
             var rect = instance.GetRect(lineHeight);
             var buttonSize = lineHeight;
 
@@ -75,12 +105,14 @@ namespace PeteTimesSix.ResearchReinvented.Utilities
             }
         }
 
-        public static void EnumSelector<T>(this Listing_Standard listing, string label, ref T value, string valueLabelPrefix, string valueTooltipPostfix = "_tooltip", string tooltip = null, Action onChange = null) where T : Enum
+        public static void EnumSelector<T>(this Listing_Standard listing, string label, ref T value, string valueLabelPrefix, string valueTooltipPostfix = "_tooltip", string tooltip = null, Action onChange = null, float? lineHeightOverride = null) where T : Enum
         {
             string[] names = Enum.GetNames(value.GetType());
 
-            float lineHeight = Text.LineHeight;
-            float labelWidth = Text.CalcSize(label).x + AfterLabelMinGap;
+            float lineHeight = lineHeightOverride ?? Text.LineHeight;
+            float labelWidth = 0;
+            if(!string.IsNullOrEmpty(label))
+                labelWidth = Text.CalcSize(label).x + AfterLabelMinGap;
 
             float buttonsWidth = 0f;
             foreach (var name in names)
@@ -127,9 +159,12 @@ namespace PeteTimesSix.ResearchReinvented.Utilities
                 TooltipHandler.TipRegion(wholeRect, tooltip);
             }
 
-            Rect labelRect = wholeRect.TopPartPixels(lineHeight).LeftPartPixels(labelWidth);
-            GUI.color = Color.white;
-            Widgets.Label(labelRect, label);
+            if (!string.IsNullOrEmpty(label))
+            {
+                Rect labelRect = wholeRect.TopPartPixels(lineHeight).LeftPartPixels(labelWidth);
+                GUI.color = Color.white;
+                Widgets.Label(labelRect, label);
+            }
 
             Rect buttonsRect = fitsOnLabelRow ?
                 wholeRect.RightPartPixels(buttonsRectWidth) :

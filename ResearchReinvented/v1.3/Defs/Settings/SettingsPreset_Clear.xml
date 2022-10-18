@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <PeteTimesSix.ResearchReinvented.Defs.SettingsPresetDef>
+    <defName>SettingsPreset_RR_Clear</defName>
+    <label>clear</label>
+    <description>A settings preset with no defaults set.</description>
+	<priority>1</priority>
+	<categorySettingPresets>
+		<li>
+			<category>Theory</category>
+			
+			<targetFractionMultiplier>0.0</targetFractionMultiplier>
+			<infiniteOverflow>true</infiniteOverflow>
+		</li>
+		<li>
+			<category>Prototyping</category>
+		</li>
+		<li>
+			<category>Tooling</category>
+		</li>
+		<li>
+			<category>ReverseEngineering</category>
+		</li>
+		<li>
+			<category>ForwardEngineering</category>
+		</li>
+		<li>
+			<category>Logistics</category>
+		</li>
+		<li>
+			<category>Geology</category>
+		</li>
+		<li>
+			<category>Biology</category>
+		</li>
+		<li>
+			<category>Chemistry</category>
+		</li>
+		<li>
+			<category>Gastronomy</category>
+		</li>
+		<li>
+			<category>Material</category>
+		</li>
+	</categorySettingPresets>
+  </PeteTimesSix.ResearchReinvented.Defs.SettingsPresetDef>
+</Defs>

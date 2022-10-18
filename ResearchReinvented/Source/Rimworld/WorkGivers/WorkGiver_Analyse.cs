@@ -21,7 +21,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
         public static Type DriverClass = typeof(JobDriver_Analyse);
 
-        private static IEnumerable<ResearchOpportunity> MatchingOpportunities => ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities().Where(o => o.def.handledBy == HandlingMode.Job && o.def.jobDef?.driverClass == DriverClass);
+        private static IEnumerable<ResearchOpportunity> MatchingOpportunities => 
+            ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
+            .Where(o => o.def.handledBy == HandlingMode.Job && o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass));
 
         public override ThingRequest PotentialWorkThingRequest
         {
@@ -54,7 +56,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
                 BuildCache();
             }
 
-            if (!opportunityCache.ContainsKey(thing.def))
+            var thingDef = MinifyUtility.GetInnerIfMinified(thing).def;
+            if (!opportunityCache.ContainsKey(thingDef))
                 return false;
 
             var researchBenches = GetUsableResearchBenches(pawn).Where(bench => pawn.CanReserve(bench));
@@ -80,9 +83,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
             var researchBenches = GetUsableResearchBenches(pawn).Where(bench => pawn.CanReserve(bench));
             var bestBench = researchBenches.First();
 
-            var opportunity = opportunityCache[thing.def].First();
+            var thingDef = MinifyUtility.GetInnerIfMinified(thing).def;
+            var opportunity = opportunityCache[thingDef].First();
 
-            Job job = JobMaker.MakeJob(opportunity.def.jobDef, thing, expiryInterval: 20000, checkOverrideOnExpiry: true);
+            JobDef jobDef = opportunity.JobDefs.First(j => j.driverClass == DriverClass);
+            Job job = JobMaker.MakeJob(jobDef, thing, expiryInterval: 20000, checkOverrideOnExpiry: true);
             job.targetB = bestBench;
             ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
             job.count = 1;

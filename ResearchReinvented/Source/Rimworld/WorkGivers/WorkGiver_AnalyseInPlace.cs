@@ -26,7 +26,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public static Type DriverClass = typeof(JobDriver_AnalyseInPlace);
 
-		private static IEnumerable<ResearchOpportunity> MatchingOpportunities => ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities().Where(o => o.def.handledBy == HandlingMode.Job && o.def.jobDef?.driverClass == DriverClass);
+		private static IEnumerable<ResearchOpportunity> MatchingOpportunities =>
+			ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
+			.Where(o => o.def.handledBy == HandlingMode.Job && o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass));
 
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
@@ -102,7 +104,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 			var opportunity = opportunityCache[thing.def].First();
 
-			Job job = JobMaker.MakeJob(opportunity.def.jobDef, thing, expiryInterval: 1500, checkOverrideOnExpiry: true);
+			var jobDef = opportunity.JobDefs.First(j => j.driverClass == DriverClass);
+			Job job = JobMaker.MakeJob(jobDef, thing, expiryInterval: 1500, checkOverrideOnExpiry: true);
 			ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
 			return job;
 		}
@@ -111,7 +114,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		{
 			var opportunity = opportunityCache[target.Thing.def].First();
 
-			return pawn.GetStatValue(StatDefOf_Custom.FieldResearchSpeedMultiplier, true) * opportunity.def.GetCategory(opportunity.relation).researchSpeedMultiplier;
+			return pawn.GetStatValue(StatDefOf_Custom.FieldResearchSpeedMultiplier, true) * opportunity.def.GetCategory(opportunity.relation).Settings.researchSpeedMultiplier;
 		}
 
 		//cache is built once per tick, to avoid working on already finished opportunities or opportunities from a different project

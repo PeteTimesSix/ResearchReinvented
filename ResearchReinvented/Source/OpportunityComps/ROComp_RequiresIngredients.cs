@@ -11,7 +11,9 @@ using Verse;
 
 namespace PeteTimesSix.ResearchReinvented.OpportunityComps
 {
-    class ROComp_RequiresIngredients : ResearchOpportunityComp
+    /*  Currently unused
+    
+    public class ROComp_RequiresIngredients : ResearchOpportunityComp
     {
         public List<IngredientCountExposable> ingredients;
 
@@ -26,6 +28,7 @@ namespace PeteTimesSix.ResearchReinvented.OpportunityComps
         public override bool TargetIsNull => ingredients is null;
         public override bool IsRare => false;
         public override bool MetBy(Def def) => false;
+        public override bool MetBy(Thing thing) => false;
         public override bool IsValid => ingredients != null;
 
         public ROComp_RequiresIngredients() : base()
@@ -65,5 +68,5 @@ namespace PeteTimesSix.ResearchReinvented.OpportunityComps
                 return new IngredientCountExposable(ing);
             }).ToList();
         }
-    }
+    }*/
 }

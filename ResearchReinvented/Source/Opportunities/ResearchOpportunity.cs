@@ -2,6 +2,7 @@
 using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Managers;
 using PeteTimesSix.ResearchReinvented.OpportunityComps;
+using PeteTimesSix.ResearchReinvented.OpportunityJobPickers;
 using PeteTimesSix.ResearchReinvented.Rimworld;
 using RimWorld;
 using System;
@@ -26,6 +27,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
     public enum OpportunityAvailability 
     {
         Available,
+        Disabled,
         Finished,
         ResearchTooLow,
         ResearchTooHigh,
@@ -58,7 +60,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
 
 
         public float Progress => currentProgress;
-        public float MaximumProgress => def.GetCategory(relation).infiniteOverflow ? (project.baseCost - project.ProgressReal + Progress) : maximumProgress;
+        public float MaximumProgress => def.GetCategory(relation).Settings.infiniteOverflow ? (project.baseCost - project.ProgressReal + Progress) : maximumProgress;
         public float ProgressFraction => Progress / MaximumProgress;
         public bool IsFinished => ProgressFraction >= 1f;
 
@@ -67,6 +69,18 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
         public bool IsAlternate => isAlternate;
 
         public bool IsValid => requirement != null && requirement.IsValid;
+
+        private List<JobDef> _jobDefsCached;
+        public List<JobDef> JobDefs { 
+            get 
+            {
+                if(_jobDefsCached == null)
+                {
+                    _jobDefsCached = JobPickerMaker.MakePicker(def.jobPickerClass ?? typeof(JobPicker_FromOpportunityDef)).PickJobs(this);
+                }
+                return _jobDefsCached;
+            } 
+        }
 
         public OpportunityAvailability CurrentAvailability
         {

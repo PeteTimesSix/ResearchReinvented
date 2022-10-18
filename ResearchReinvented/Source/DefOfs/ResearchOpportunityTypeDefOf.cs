@@ -27,7 +27,6 @@ namespace PeteTimesSix.ResearchReinvented.DefOfs
         public static ResearchOpportunityTypeDef AnalyseFuelFlammable;
         public static ResearchOpportunityTypeDef AnalyseFuel;
 
-        public static ResearchOpportunityTypeDef AnalyseInPlace;
         public static ResearchOpportunityTypeDef AnalyseProductionFacility;
         public static ResearchOpportunityTypeDef AnalysePlant;
 

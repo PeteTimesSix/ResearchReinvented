@@ -134,7 +134,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
             float heightTotal = 0f;
 
-            foreach (var opportunityCategory in opportunityCategories.OrderByDescending(c => c.priority))
+            foreach (var opportunityCategory in opportunityCategories.Where(c => c.Settings.enabled).OrderByDescending(c => c.priority))
             {
                 var matchingOpportunitites = opportunities.Where(o => o.def.GetCategory(o.relation) == opportunityCategory);
                 if (matchingOpportunitites.Any())
@@ -183,7 +183,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             Widgets.Label(headerTextRect, category.LabelCap);
             GUI.color = Color.white;
             Text.Anchor = TextAnchor.LowerRight;
-            if (!category.infiniteOverflow)
+            if (!category.Settings.infiniteOverflow)
             {
                 //{Progress} "X"
                 Widgets_Extra.LabelFitHeightAware(headerRect, $"{Math.Round(category.GetCurrentTotal(), 0)} / {Math.Round(totalsStore.allResearchPoints, 0)}");
@@ -279,7 +279,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
                 }
 
                 Text.Anchor = TextAnchor.LowerCenter;
-                if (!opportunity.def.GetCategory(opportunity.relation).infiniteOverflow)
+                if (!opportunity.def.GetCategory(opportunity.relation).Settings.infiniteOverflow)
                 {
                     //{Progress} "X.x%"
                     Widgets_Extra.LabelFitHeightAware(textBoxInternal, $"{Math.Round(opportunity.ProgressFraction * 100, 1)}%");
@@ -356,7 +356,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
                 Text.Anchor = TextAnchor.MiddleRight;
                 //{Progress} "X.x%"
-                if (!opportunity.def.GetCategory(opportunity.relation).infiniteOverflow)
+                if (!opportunity.def.GetCategory(opportunity.relation).Settings.infiniteOverflow)
                     Widgets_Extra.LabelFitHeightAware(textBoxInternal.BottomHalf().Rounded(), $"{Math.Round(opportunity.ProgressFraction * 100, 1)}%");
 
                 //{Progress} "X / Y"
@@ -381,25 +381,26 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
                 Widgets.DefIcon(iconBox, requiresThingComp.thingDef);
                 onlyDef = requiresThingComp.thingDef;
             }
-            else if (opportunity.requirement is ROComp_RequiresIngredients requiresIngredientsComp)
-            {
-                var ingredients = requiresIngredientsComp.ingredients;
-                for (int i = 0; i < ingredients.Count; i++)
-                {
-                    var ingredient = ingredients[i];
-                    if (ingredient.Value.IsFixedIngredient)
-                    {
-                        Widgets.DefIcon(iconBox, ingredient.Value.FixedIngredient);
-                    }
-                    else
-                    {
-                        var ingredientBox = iconBox.ContractedBy(ICON_SIZE / 4f).OffsetBy(
-                            (float)(ICON_SIZE / 4 * Math.Sin(i / ingredients.Count * Math.PI)),
-                            (float)(ICON_SIZE / 4 * Math.Cos(i / ingredients.Count * Math.PI))).Rounded();
-                        Widgets.DefIcon(ingredientBox, ingredient.Value.FixedIngredient);
-                    }
-                }
-            }
+            // unused for now
+            //else if (opportunity.requirement is ROComp_RequiresIngredients requiresIngredientsComp)
+            //{
+            //    var ingredients = requiresIngredientsComp.ingredients;
+            //    for (int i = 0; i < ingredients.Count; i++)
+            //    {
+            //        var ingredient = ingredients[i];
+            //        if (ingredient.Value.IsFixedIngredient)
+            //        {
+            //            Widgets.DefIcon(iconBox, ingredient.Value.FixedIngredient);
+            //        }
+            //        else
+            //        {
+            //            var ingredientBox = iconBox.ContractedBy(ICON_SIZE / 4f).OffsetBy(
+            //                (float)(ICON_SIZE / 4 * Math.Sin(i / ingredients.Count * Math.PI)),
+            //                (float)(ICON_SIZE / 4 * Math.Cos(i / ingredients.Count * Math.PI))).Rounded();
+            //            Widgets.DefIcon(ingredientBox, ingredient.Value.FixedIngredient);
+            //        }
+            //    }
+            //}
             else if (opportunity.requirement is ROComp_RequiresTerrain requiresTerrainComp)
             {
                 Widgets.DefIcon(iconBox, requiresTerrainComp.terrainDef);

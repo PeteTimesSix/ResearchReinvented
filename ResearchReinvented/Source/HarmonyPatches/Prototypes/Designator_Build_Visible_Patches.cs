@@ -43,7 +43,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
             if (!found)
             {
-                Log.Warning("failed to apply patch (instructions not found)");
+                Log.Warning("Designator_Build_Visible_Patches - failed to apply patch (instructions not found)");
                 goto finalize;
             }
             else
