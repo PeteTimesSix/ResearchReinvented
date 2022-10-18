@@ -8,7 +8,7 @@ using Verse;
 
 namespace PeteTimesSix.ResearchReinvented.OpportunityComps
 {
-    class ROComp_RequiresNothing : ResearchOpportunityComp
+    public class ROComp_RequiresNothing : ResearchOpportunityComp
     {
         public override string ShortDesc
         {
@@ -22,6 +22,7 @@ namespace PeteTimesSix.ResearchReinvented.OpportunityComps
 
         public override bool IsRare => false;
         public override bool MetBy(Def def) => false;
+        public override bool MetBy(Thing thing) => false;
         public override bool IsValid => true;
 
         public ROComp_RequiresNothing()
