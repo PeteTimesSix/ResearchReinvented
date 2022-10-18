@@ -52,7 +52,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.ModCompatibility.Dubs_M
 
             if (!found)
             {
-                Log.Warning("failed to apply patch (instructions not found)");
+                Log.Warning("DMM_Patch_BillStack_DoListing_Patches - Doink - failed to apply patch (instructions not found)");
 
                 foreach (var instruction in iteratedOver)
                     yield return instruction;
@@ -107,7 +107,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.ModCompatibility.Dubs_M
 
             if (!found)
             {
-                Log.Warning("failed to apply patch (instructions not found)");
+                Log.Warning("DMM_Patch_BillStack_DoListing_Patches - DoRow - failed to apply patch (instructions not found)");
 
                 foreach (var instruction in iteratedOver)
                     yield return instruction;

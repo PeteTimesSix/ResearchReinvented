@@ -50,7 +50,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
             if (!found)
             {
-                Log.Warning("failed to apply patch (instructions not found)");
+                Log.Warning("Frame_CompleteConstruction_Patches - TranspilerForQuality - failed to apply patch (instructions not found)");
                 goto finalize;
             }
             else
@@ -110,7 +110,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
             if (!found)
             {
-                //Log.Warning("failed to apply prespawn patch (instructions not found)");
+                Log.Warning("Frame_CompleteConstruction_Patches - TranspilerSpawn - failed to apply patch (instructions not found)");
                 foreach (var instruction in iteratedOver)
                     yield return instruction;
 
@@ -183,7 +183,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
             if (!found)
             {
-                Log.Warning("failed to apply setterrain patch (instructions not found)");
+                Log.Warning("Frame_CompleteConstruction_Patches - TranspilerPostTerrainSet - failed to apply patch (instructions not found)");
                 goto finalize;
             }
             else
