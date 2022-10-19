@@ -40,6 +40,11 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                             ingredientCounts.AddRange(stuffs.Select(s => new ThingDefCountClass(s, asThing.costStuffCount).ToIngredientCount()));
                         }
 
+                        if(asThing.plant == null)
+                        {
+                            var otherPrerequisites = asThing.researchPrerequisites?.Except(project)?.ToHashSet();
+                            collections.forPrototyping.Add((unlock, otherPrerequisites ?? new HashSet<ResearchProjectDef>()));
+                        }
                     }
                     else if (unlock is TerrainDef asTerrain)
                     {
@@ -48,6 +53,9 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                         {
                             ingredientCounts.AddRange(asTerrain.CostList.Select(c => c.ToIngredientCount()));
                         }
+
+                        var otherPrerequisites = asTerrain.researchPrerequisites?.Except(project)?.ToHashSet();
+                        collections.forPrototyping.Add((unlock, otherPrerequisites ?? new HashSet<ResearchProjectDef>()));
                     }
                     else
                     {

@@ -20,11 +20,17 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             HashSet<IngredientCount> ingredients = new HashSet<IngredientCount>();
             HashSet<ThingDef> products = new HashSet<ThingDef>();
 
+            List<(Def def, HashSet<ResearchProjectDef> otherPrerequisites)> prototypes = new List<(Def def, HashSet<ResearchProjectDef> otherPrerequisites)>();
+
             foreach (var recipe in GatherDirectRecipes(project).Where(r => r.PassesIdeoCheck())) 
             {
                 users.AddRange(recipe.AllRecipeUsers);
                 if (recipe.products != null)
+                {
                     products.AddRange(recipe.products.Select(p => p.thingDef));
+                    var otherPrerequisites = recipe.AllResearchPrerequisites().Except(project).ToHashSet();
+                    prototypes.AddRange(recipe.products.Select(p => (p.thingDef as Def, otherPrerequisites)));
+                }
                 if (recipe.ingredients != null)
                     ingredients.AddRange(recipe.ingredients);
             }
@@ -37,7 +43,11 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             foreach (var recipe in GatherNewImpliedRecipes(project).Where(r => r.products != null).Where(r => r.PassesIdeoCheck()))
             {
                 if (recipe.products != null)
+                {
                     products.AddRange(recipe.products.Select(p => p.thingDef));
+                    var otherPrerequisites = recipe.AllResearchPrerequisites().Except(project).ToHashSet();
+                    prototypes.AddRange(recipe.products.Select(p => (p.thingDef as Def, otherPrerequisites)));
+                }
                 if (recipe.ingredients != null)
                     ingredients.AddRange(recipe.ingredients);
             }
@@ -60,6 +70,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             collections.forProductionFacilityAnalysis.AddRange(users);
             collections.forDirectAnalysis.AddRange(products);
             collections.forIngredientsAnalysis.AddRange(ingredientThings);
+            collections.forPrototyping.AddRange(prototypes);
         }
 
         private static HashSet<ThingDef> FilterProducersToPlausiblyUnlocked(ResearchProjectDef project, HashSet<ThingDef> users)
