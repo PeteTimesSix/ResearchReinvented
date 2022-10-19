@@ -54,6 +54,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 					this.ReadyForNextToil();
 			};
 			research.FailOn(() => Find.ResearchManager.currentProj != currentProject);
+			research.FailOn(() => opportunity.CurrentAvailability != OpportunityAvailability.Available);
+			research.FailOn(() => ResearchBench.IsForbidden(pawn));
 			research.FailOn(() => {
 				CompPowerTrader comp = ResearchBench.GetComp<CompPowerTrader>();
 				if (comp != null && !comp.PowerOn)
@@ -61,7 +63,6 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 				else
 					return false;
 			});
-			research.FailOn(() => opportunity.CurrentAvailability != OpportunityAvailability.Available);
 			research.AddEndCondition(() => opportunity.IsFinished || opportunity.CurrentAvailability != OpportunityAvailability.Available ? JobCondition.Succeeded : JobCondition.Ongoing);
 			research.WithEffect(EffecterDefOf.Research, ResearchBenchIndex);
 			research.AddFailCondition(() => !ResearchBench.CanUseNow());

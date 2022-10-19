@@ -28,6 +28,22 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
         private Dictionary<int, ResearchOpportunity> _jobToOpportunityMap = new Dictionary<int, ResearchOpportunity>();
         private List<ResearchOpportunityCategoryTotalsStore> _categoryStores = new List<ResearchOpportunityCategoryTotalsStore>();
+       
+        
+        // contributed by mahenry00
+        public override void LoadedGame()
+        {
+            base.LoadedGame();
+            _allGeneratedOpportunities = _allGeneratedOpportunities
+            .Where(o =>
+            {
+                if (!o.IsValid)
+                    Log.Warning($"[RR]: Research opportunity invalid, loadID: {o.loadID}, project: {o.project.label}");
+
+                return o.IsValid;
+            })
+            .ToList();
+        }
 
 
         public IEnumerable<ResearchOpportunity> GetCurrentlyAvailableOpportunities(bool includeFinished = false)

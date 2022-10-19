@@ -19,6 +19,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             HashSet<ThingDef> users = new HashSet<ThingDef>();
             HashSet<IngredientCount> ingredients = new HashSet<IngredientCount>();
             HashSet<ThingDef> products = new HashSet<ThingDef>();
+            HashSet<ThingDef> prototypeables = new HashSet<ThingDef>();
 
             foreach (var recipe in GatherDirectRecipes(project).Where(r => r.PassesIdeoCheck())) 
             {
@@ -27,6 +28,9 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                     products.AddRange(recipe.products.Select(p => p.thingDef));
                 if (recipe.ingredients != null)
                     ingredients.AddRange(recipe.ingredients);
+
+                if (!recipe.AllResearchPrerequisites().Except(project).Any())
+                    prototypeables.AddRange(recipe.products.Select(p => p.thingDef));
             }
 
             foreach (var recipe in GatherCreationRecipes(project).Where(r => r.PassesIdeoCheck()))
@@ -40,6 +44,9 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                     products.AddRange(recipe.products.Select(p => p.thingDef));
                 if (recipe.ingredients != null)
                     ingredients.AddRange(recipe.ingredients);
+
+                if (!recipe.AllResearchPrerequisites().Except(project).Any())
+                    prototypeables.AddRange(recipe.products.Select(p => p.thingDef));
             }
 
             var rawIngredients = new List<ThingDefCount>();
@@ -60,6 +67,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             collections.forProductionFacilityAnalysis.AddRange(users);
             collections.forDirectAnalysis.AddRange(products);
             collections.forIngredientsAnalysis.AddRange(ingredientThings);
+
+            collections.forPrototyping.AddRange(prototypeables);
         }
 
         private static HashSet<ThingDef> FilterProducersToPlausiblyUnlocked(ResearchProjectDef project, HashSet<ThingDef> users)

@@ -20,7 +20,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		public static Type DriverClass = typeof(JobDriver_ResearchRR);
 		private static IEnumerable<ResearchOpportunity> MatchingOpportunities =>
 			ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
-			.Where(o => o.def.handledBy == HandlingMode.Job && o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass));
+			.Where(o => o.IsValid && o.def.handledBy == HandlingMode.Job && o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass));
 
 		public override ThingRequest PotentialWorkThingRequest
 		{
@@ -61,10 +61,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 				return false;
 			}
 			Building_ResearchBench building_ResearchBench = t as Building_ResearchBench;
-			return 
+			return
+				building_ResearchBench != null &&
 				opportunity != null &&
-				building_ResearchBench != null && 
-				currentProj.CanBeResearchedAt(building_ResearchBench, false) && 
+				currentProj.CanBeResearchedAt(building_ResearchBench, false) &&
+				!building_ResearchBench.IsForbidden(pawn) &&
 				pawn.CanReserve(t, 1, -1, null, forced) && 
 				(!t.def.hasInteractionCell || pawn.CanReserveSittableOrSpot(t.InteractionCell, forced)) && 
 				new HistoryEvent(HistoryEventDefOf.Researching, pawn.Named(HistoryEventArgsNames.Doer)).Notify_PawnAboutToDo_Job();

@@ -21,6 +21,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
         internal HashSet<ThingDef> forIngredientsAnalysis = new HashSet<ThingDef>();
         internal HashSet<ThingDef> forHarvestProductAnalysis = new HashSet<ThingDef>();
         internal HashSet<ThingDef> forFuelAnalysis = new HashSet<ThingDef>();
+        internal HashSet<Def> forPrototyping = new HashSet<Def>();
         internal HashSet<SpecialResearchOpportunityDef> specials = new HashSet<SpecialResearchOpportunityDef>();
 
         public ResearchRelation relation;
@@ -71,6 +72,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             forIngredientsAnalysis.ExceptWith(other.forIngredientsAnalysis);
             forHarvestProductAnalysis.ExceptWith(other.forHarvestProductAnalysis);
             forFuelAnalysis.ExceptWith(other.forFuelAnalysis);
+            forPrototyping.ExceptWith(other.forPrototyping);
 
             specials.ExceptWith(other.specials);
 
@@ -215,6 +217,12 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                         yield return opportunity;
                 }
 
+                foreach (var prototypeable in set.forPrototyping)
+                {
+                    foreach (var opportunity in OpportunitiesFromPrototyping(project, prototypeable, set.relation))
+                        yield return opportunity;
+                }
+
                 foreach (var special in set.specials)
                 {
                     foreach (var opportunity in OpportunitiesFromSpecialOpportunityDef(project, special, set.relation))
@@ -323,8 +331,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                     {
                         yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.Analyse, relation, new ROComp_RequiresThing(asThing), "direct analysis (unhaulable)", isAlternate: isAlternate);
 
-                        if (!isAlternate && relation == ResearchRelation.Direct && asThing.BuildableByPlayer)
-                            yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeConstruction, relation, new ROComp_RequiresThing(asThing), "direct analysis (unhaulable)", isAlternate: isAlternate);
+                        //if (!isAlternate && relation == ResearchRelation.Direct && asThing.BuildableByPlayer)
+                        //    yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeConstruction, relation, new ROComp_RequiresThing(asThing), "direct analysis (unhaulable)", isAlternate: isAlternate);
                     }
                 }
                 else
@@ -343,8 +351,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                     else 
                         yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.Analyse, relation, new ROComp_RequiresThing(asThing), "direct analysis", isAlternate: isAlternate);
 
-                    if (!isAlternate && relation == ResearchRelation.Direct)
-                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeProduction, relation, new ROComp_RequiresThing(asThing), "direct analysis", isAlternate: isAlternate);
+                    //if (!isAlternate && relation == ResearchRelation.Direct)
+                    //    yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeProduction, relation, new ROComp_RequiresThing(asThing), "direct analysis", isAlternate: isAlternate);
                 }
 
             }
@@ -355,12 +363,43 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                 else if (asTerrain.BuildableByPlayer)
                 {
                     yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseFloor, relation, new ROComp_RequiresTerrain(asTerrain), "direct analysis tr. (builable)", isAlternate: isAlternate);
-                    if (!isAlternate && relation == ResearchRelation.Direct && asTerrain.BuildableByPlayer)
-                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeTerrainConstruction, relation, new ROComp_RequiresTerrain(asTerrain), "direct analysis tr. (builable)", isAlternate: isAlternate);
+                    //if (!isAlternate && relation == ResearchRelation.Direct && asTerrain.BuildableByPlayer)
+                    //    yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeTerrainConstruction, relation, new ROComp_RequiresTerrain(asTerrain), "direct analysis tr. (builable)", isAlternate: isAlternate);
                 }
                 else
                     yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseTerrain, relation, new ROComp_RequiresTerrain(asTerrain), "direct analysis tr.", isAlternate: isAlternate);
             } 
+        }
+
+        public IEnumerable<ResearchOpportunity> OpportunitiesFromPrototyping(ResearchProjectDef project, Def prototypeable, ResearchRelation relation, bool isAlternate = false)
+        {
+            if (prototypeable is ThingDef asThing)
+            {
+                if (typeof(Plant).IsAssignableFrom(asThing.thingClass))
+                    yield break;
+                else if (!asThing.EverHaulable)
+                {
+                    if (!asThing.IsInstantBuild())
+                    {
+                        if (!isAlternate && relation == ResearchRelation.Direct && asThing.BuildableByPlayer)
+                            yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeConstruction, relation, new ROComp_RequiresThing(asThing), "direct analysis (unhaulable)", isAlternate: isAlternate);
+                    }
+                }
+                else
+                {
+                    if (!isAlternate && relation == ResearchRelation.Direct)
+                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeProduction, relation, new ROComp_RequiresThing(asThing), "direct analysis", isAlternate: isAlternate);
+                }
+
+            }
+            else if (prototypeable is TerrainDef asTerrain)
+            {
+                if (asTerrain.BuildableByPlayer)
+                {
+                    if (!isAlternate && relation == ResearchRelation.Direct && asTerrain.BuildableByPlayer)
+                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeTerrainConstruction, relation, new ROComp_RequiresTerrain(asTerrain), "direct analysis tr. (builable)", isAlternate: isAlternate);
+                }
+            }
         }
 
         public OpportunityFactoryCollectionsSet FillCollections(ResearchProjectDef project)
@@ -409,6 +448,9 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
 
             collections.GetSet(ResearchRelation.Ancestor).forFuelAnalysis.Clear();
             collections.GetSet(ResearchRelation.Descendant).forFuelAnalysis.Clear();
+
+            collections.GetSet(ResearchRelation.Ancestor).forPrototyping.Clear();
+            collections.GetSet(ResearchRelation.Descendant).forPrototyping.Clear();
 
             /*add handcrafted opportunities*/
             collections.AddAlternates();
