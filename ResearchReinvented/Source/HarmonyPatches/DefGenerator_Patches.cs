@@ -22,6 +22,10 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches
             {
                 DefGenerator.AddImpliedDef(alternateDef);
             }
+            foreach (var alternateDef in AlternateResearchSubjectDefGenerator.AdvancedAlternateDefs())
+            {
+                DefGenerator.AddImpliedDef(alternateDef);
+            }
         }
     }
 

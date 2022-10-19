@@ -120,10 +120,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
 
     public class MasterFactory
     {
-        OpportunityFactoryCollectionsSet collections = new OpportunityFactoryCollectionsSet();
-
-        internal HashSet<Def> forForwardEngineering = new HashSet<Def>();
-
+        //OpportunityFactoryCollectionsSet collections = new OpportunityFactoryCollectionsSet();
 
         public MasterFactory() 
         {
@@ -134,9 +131,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             if (project == null)
                 return new List<ResearchOpportunity>();
 
-            FillCollections(project);
-
-            var opportunities = MakeOpportunities(project);
+            var collections = FillCollections(project);
+            var opportunities = MakeOpportunities(project, collections);
 
             opportunities = ClearInvalidOpportunities(opportunities);
 
@@ -155,7 +151,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             //yield break;
         }
 
-        private IEnumerable<ResearchOpportunity> MakeOpportunities(ResearchProjectDef project)
+        private IEnumerable<ResearchOpportunity> MakeOpportunities(ResearchProjectDef project, OpportunityFactoryCollectionsSet collections)
         {
             yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.BasicResearch, ResearchRelation.Direct, new ROComp_RequiresNothing(), "Project");
 
@@ -327,7 +323,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                     {
                         yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.Analyse, relation, new ROComp_RequiresThing(asThing), "direct analysis (unhaulable)", isAlternate: isAlternate);
 
-                        if (relation == ResearchRelation.Direct && asThing.BuildableByPlayer)
+                        if (!isAlternate && relation == ResearchRelation.Direct && asThing.BuildableByPlayer)
                             yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeConstruction, relation, new ROComp_RequiresThing(asThing), "direct analysis (unhaulable)", isAlternate: isAlternate);
                     }
                 }
@@ -347,7 +343,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                     else 
                         yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.Analyse, relation, new ROComp_RequiresThing(asThing), "direct analysis", isAlternate: isAlternate);
 
-                    if (relation == ResearchRelation.Direct)
+                    if (!isAlternate && relation == ResearchRelation.Direct)
                         yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeProduction, relation, new ROComp_RequiresThing(asThing), "direct analysis", isAlternate: isAlternate);
                 }
 
@@ -359,7 +355,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                 else if (asTerrain.BuildableByPlayer)
                 {
                     yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseFloor, relation, new ROComp_RequiresTerrain(asTerrain), "direct analysis tr. (builable)", isAlternate: isAlternate);
-                    if (relation == ResearchRelation.Direct && asTerrain.BuildableByPlayer)
+                    if (!isAlternate && relation == ResearchRelation.Direct && asTerrain.BuildableByPlayer)
                         yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeTerrainConstruction, relation, new ROComp_RequiresTerrain(asTerrain), "direct analysis tr. (builable)", isAlternate: isAlternate);
                 }
                 else
@@ -367,8 +363,10 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             } 
         }
 
-        public void FillCollections(ResearchProjectDef project)
+        public OpportunityFactoryCollectionsSet FillCollections(ResearchProjectDef project)
         {
+            OpportunityFactoryCollectionsSet collections = new OpportunityFactoryCollectionsSet();
+
             OF_Recipes.MakeFromRecipes(project, collections.GetSet(ResearchRelation.Direct));
             OF_Unlocks.MakeFromUnlocks(project, collections.GetSet(ResearchRelation.Direct));
             OF_Plants.MakeFromPlants(project, collections.GetSet(ResearchRelation.Direct));
@@ -425,6 +423,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             forHarvestProductAnalysis.AddRange(GetAlternates(forHarvestProductAnalysis));
             var temp2 = forForwardEngineering.Where(d => d is ThingDef).Cast<ThingDef>().ToHashSet();
             forForwardEngineering.AddRange(GetAlternates(temp2));*/
+
+            return collections;
         }
 
         
