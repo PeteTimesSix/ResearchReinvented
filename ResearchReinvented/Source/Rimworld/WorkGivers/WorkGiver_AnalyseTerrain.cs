@@ -29,7 +29,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		private static IEnumerable<ResearchOpportunity> MatchingOpportunities =>
 			ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
-			.Where(o => o.def.handledBy == HandlingMode.Job && o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass));
+			.Where(o => o.IsValid && o.def.handledBy == HandlingMode.Job && o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass));
 
 
 		public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)
@@ -70,6 +70,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 				return false;
 			else*/
 			return
+				!cell.IsForbidden(pawn) &&
 				pawn.CanReserve(cell, 1, -1, null, forced) &&
 				new HistoryEvent(HistoryEventDefOf.Researching, pawn.Named(HistoryEventArgsNames.Doer)).Notify_PawnAboutToDo_Job();
 		}

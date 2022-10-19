@@ -62,7 +62,10 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
             var researchBenches = GetUsableResearchBenches(pawn).Where(bench => pawn.CanReserve(bench));
             if (!researchBenches.Any())
+            {
+                JobFailReason.Is("RR_jobFail_needResearchBench".Translate(), null);
                 return false;
+            }
             var bestBench = researchBenches.First();
 
             if (!(pawn.CanReserveSittableOrSpot(bestBench.InteractionCell, forced) && 
@@ -135,7 +138,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
                 var benches = pawn.MapHeld.listerThings.ThingsInGroup(ThingRequestGroup.ResearchBench)
                     .Cast<Building_ResearchBench>()
                     .Where(bench => currentProj.CanBeResearchedAt(bench, false))
-                    .Where(bench => pawn.CanReach(new LocalTargetInfo(bench), PathEndMode.InteractionCell, Danger.Unspecified))
+                    .Where(bench => !bench.IsForbidden(pawn) && pawn.CanReach(new LocalTargetInfo(bench), PathEndMode.InteractionCell, Danger.Unspecified))
                     .OrderByDescending(bench => bench.GetStatValue(StatDefOf.ResearchSpeedFactor))
                     .ToList();
                 benchCache[pawn] = benches;

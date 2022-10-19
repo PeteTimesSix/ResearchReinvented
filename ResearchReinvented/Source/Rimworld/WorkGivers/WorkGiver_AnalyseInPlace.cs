@@ -28,7 +28,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		private static IEnumerable<ResearchOpportunity> MatchingOpportunities =>
 			ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
-			.Where(o => o.def.handledBy == HandlingMode.Job && o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass));
+			.Where(o => o.IsValid && o.def.handledBy == HandlingMode.Job && o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass));
 
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
@@ -70,6 +70,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 				return false;
 			else
 			{
+				if (thing.IsForbidden(pawn))
+					return false;
+
 				if (!pawn.CanReserve(thing, 1, -1, null, forced))
 					return false;
 

@@ -59,8 +59,10 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 				bool finished = opportunity.ResearchTickPerformed(num, actor);
 				if (finished)
 					this.ReadyForNextToil();
-			}; 
-			research.FailOn(() => Find.ResearchManager.currentProj != currentProject || opportunity.CurrentAvailability != OpportunityAvailability.Available);
+			};
+			research.FailOn(() => Find.ResearchManager.currentProj != currentProject);
+			research.FailOn(() => opportunity.CurrentAvailability != OpportunityAvailability.Available);
+			research.FailOn(() => TargetCell.IsForbidden(pawn));
 			research.AddEndCondition(() => opportunity.IsFinished || opportunity.CurrentAvailability != OpportunityAvailability.Available ? JobCondition.Succeeded : JobCondition.Ongoing);
 			yield return research;
 
