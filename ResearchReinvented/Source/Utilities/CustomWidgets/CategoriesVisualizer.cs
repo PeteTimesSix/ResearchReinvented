@@ -1,4 +1,5 @@
 ﻿using PeteTimesSix.ResearchReinvented.Defs;
+using PeteTimesSix.ResearchReinvented.Rimworld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,8 +78,9 @@ namespace PeteTimesSix.ResearchReinvented.Utilities.CustomWidgets
 
                 if (!category.Settings.enabled)
                 {
-                    Rect categoryOffRect = new Rect(fractionsRect.x + fractionsRect.width - fractionHeight, categoryY, fractionHeight, fractionHeight).ContractedBy(3f);
-                    Widgets.DrawBoxSolid(categoryOffRect, Color.red);
+                    Rect categoryOffRect = new Rect(researchSpeedRect.x , categoryY, fractionHeight, fractionHeight).ContractedBy(3f);
+                    GUI.DrawTexture(categoryOffRect, Textures.forbiddenOverlayTex);
+                    //Widgets.DrawBoxSolid(categoryOffRect, Color.red);
                 }
                 else
                 {
