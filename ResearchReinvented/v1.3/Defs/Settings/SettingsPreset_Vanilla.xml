@@ -1,46 +1,57 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
   <PeteTimesSix.ResearchReinvented.Defs.SettingsPresetDef>
-    <defName>SettingsPreset_RR_Clear</defName>
-    <label>blank slate</label>
-    <description>A settings preset with no defaults set.</description>
-	<priority>1</priority>
+    <defName>SettingsPreset_RR_Vanilla</defName>
+    <label>vanilla</label>
+    <description>A settings preset that behaves identically to vanilla Rimworld.</description>
+	<priority>10</priority>
 	<categorySettingPresets>
 		<li>
 			<category>Theory</category>
 			
 			<targetFractionMultiplier>0.0</targetFractionMultiplier>
 			<infiniteOverflow>true</infiniteOverflow>
+			<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
 		</li>
 		<li>
 			<category>Prototyping</category>
+			<enabled>false</enabled>
 		</li>
 		<li>
 			<category>Tooling</category>
+			<enabled>false</enabled>
 		</li>
 		<li>
 			<category>ReverseEngineering</category>
+			<enabled>false</enabled>
 		</li>
 		<li>
 			<category>ForwardEngineering</category>
+			<enabled>false</enabled>
 		</li>
 		<li>
 			<category>Logistics</category>
+			<enabled>false</enabled>
 		</li>
 		<li>
 			<category>Geology</category>
+			<enabled>false</enabled>
 		</li>
 		<li>
 			<category>Biology</category>
+			<enabled>false</enabled>
 		</li>
 		<li>
 			<category>Chemistry</category>
+			<enabled>false</enabled>
 		</li>
 		<li>
 			<category>Gastronomy</category>
+			<enabled>false</enabled>
 		</li>
 		<li>
 			<category>Material</category>
+			<enabled>false</enabled>
 		</li>
 	</categorySettingPresets>
   </PeteTimesSix.ResearchReinvented.Defs.SettingsPresetDef>

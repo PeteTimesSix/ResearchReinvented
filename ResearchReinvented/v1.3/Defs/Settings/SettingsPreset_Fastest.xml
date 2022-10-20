@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
   <PeteTimesSix.ResearchReinvented.Defs.SettingsPresetDef>
-    <defName>SettingsPreset_RR_Faster</defName>
-    <label>full steam ahead</label>
-    <description>Faster research settings preset.</description>
-	<priority>500</priority>
+    <defName>SettingsPreset_RR_Fastest</defName>
+    <label>the information superhighway</label>
+    <description>Fastest research settings preset.</description>
+	<priority>450</priority>
 	<categorySettingPresets>
 		<li>
 			<category>Theory</category>
 			
 			<targetFractionMultiplier>0.0</targetFractionMultiplier>
 			<infiniteOverflow>true</infiniteOverflow>
-			<researchSpeedMultiplier>0.85</researchSpeedMultiplier>
+			<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
 		</li>
 		<li>
 			<category>Prototyping</category>
@@ -19,7 +19,7 @@
 			<targetFractionMultiplier>1.25</targetFractionMultiplier>
 			<targetIterations>3.0</targetIterations>
 			<extraFractionMultiplier>0.5</extraFractionMultiplier>
-			<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
+			<researchSpeedMultiplier>5.0</researchSpeedMultiplier>
 			<availableAtOverallProgress>0.3~1.0</availableAtOverallProgress>
 		</li>
 		<li>
@@ -28,7 +28,7 @@
 			<targetFractionMultiplier>1.0</targetFractionMultiplier>
 			<targetIterations>2.0</targetIterations>
 			<extraFractionMultiplier>0.0</extraFractionMultiplier>
-			<researchSpeedMultiplier>3.0</researchSpeedMultiplier>
+			<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
 		</li>
 		<li>
 			<category>ReverseEngineering</category>
@@ -36,7 +36,7 @@
 			<targetFractionMultiplier>1.0</targetFractionMultiplier>
 			<targetIterations>5.0</targetIterations>
 			<extraFractionMultiplier>0.75</extraFractionMultiplier>
-			<researchSpeedMultiplier>3.0</researchSpeedMultiplier>
+			<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
 		</li>
 		<li>
 			<category>ForwardEngineering</category>
@@ -44,7 +44,7 @@
 			<targetFractionMultiplier>1.0</targetFractionMultiplier>
 			<targetIterations>15.0</targetIterations>
 			<extraFractionMultiplier>0.25</extraFractionMultiplier>
-			<researchSpeedMultiplier>2.0</researchSpeedMultiplier>
+			<researchSpeedMultiplier>2.5</researchSpeedMultiplier>
 		</li>
 		<li>
 			<category>Logistics</category>
@@ -52,7 +52,7 @@
 			<targetFractionMultiplier>1.0</targetFractionMultiplier>
 			<targetIterations>2</targetIterations>
 			<extraFractionMultiplier>0.0</extraFractionMultiplier>
-			<researchSpeedMultiplier>3.0</researchSpeedMultiplier>
+			<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
 		</li>
 		<li>
 			<category>Geology</category>
@@ -60,7 +60,7 @@
 			<targetFractionMultiplier>1.0</targetFractionMultiplier>
 			<targetIterations>5.0</targetIterations>
 			<extraFractionMultiplier>0.5</extraFractionMultiplier>
-			<researchSpeedMultiplier>3.0</researchSpeedMultiplier>
+			<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
 		</li>
 		<li>
 			<category>Biology</category>
@@ -68,7 +68,7 @@
 			<targetFractionMultiplier>1.0</targetFractionMultiplier>
 			<targetIterations>5.0</targetIterations>
 			<extraFractionMultiplier>0.5</extraFractionMultiplier>
-			<researchSpeedMultiplier>3.0</researchSpeedMultiplier>
+			<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
 		</li>
 		<li>
 			<category>Chemistry</category>
@@ -76,7 +76,7 @@
 			<targetFractionMultiplier>1.0</targetFractionMultiplier>
 			<targetIterations>5.0</targetIterations>
 			<extraFractionMultiplier>0.5</extraFractionMultiplier>
-			<researchSpeedMultiplier>3.0</researchSpeedMultiplier>
+			<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
 		</li>
 		<li>
 			<category>Gastronomy</category>
@@ -84,15 +84,15 @@
 			<targetFractionMultiplier>1.0</targetFractionMultiplier>
 			<targetIterations>5.0</targetIterations>
 			<extraFractionMultiplier>0.5</extraFractionMultiplier>
-			<researchSpeedMultiplier>3.0</researchSpeedMultiplier>
+			<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
 		</li>
 		<li>
 			<category>Material</category>
 			
 			<targetFractionMultiplier>0.75</targetFractionMultiplier>
 			<targetIterations>8.0</targetIterations>
-			<extraFractionMultiplier>0.5</extraFractionMultiplier>
-			<researchSpeedMultiplier>2.0</researchSpeedMultiplier>
+			<extraFractionMultiplier>0.75</extraFractionMultiplier>
+			<researchSpeedMultiplier>2.5</researchSpeedMultiplier>
 		</li>
 	</categorySettingPresets>
   </PeteTimesSix.ResearchReinvented.Defs.SettingsPresetDef>

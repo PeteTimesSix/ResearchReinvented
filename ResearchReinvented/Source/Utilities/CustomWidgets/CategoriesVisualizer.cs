@@ -1,4 +1,7 @@
 ﻿using PeteTimesSix.ResearchReinvented.Defs;
+using PeteTimesSix.ResearchReinvented.Extensions;
+using PeteTimesSix.ResearchReinvented.Rimworld;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
+using Verse.Sound;
 
 namespace PeteTimesSix.ResearchReinvented.Utilities.CustomWidgets
 {
@@ -70,15 +74,35 @@ namespace PeteTimesSix.ResearchReinvented.Utilities.CustomWidgets
 
             var centerLine = fractionsRect.x + fractionsRect.width;
 
-            for(int i = 0; i < categories.Count; i++)
+            GUI.color = WindowBGBorderColor;
+            Widgets.DrawBox(rect, 2, null);
+            var hundredPercentOffset = centerLine + (researchSpeedRect.width * (1f / maxResearchSpeedMultiplier));
+
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Widgets.DrawBoxSolid(botAxis.TopPartPixels(2f), GUI.color);
+            Rect fractionAxis = botAxis.LeftPart(0.6f).OffsetBy(0f, 2f);
+            Rect researchSpeedAxis = botAxis.RightPart(0.4f).OffsetBy(0f, 2f);
+            Widgets.DrawBoxSolid(fractionAxis.LeftPartPixels(2f).OffsetBy(-1f, -1f), GUI.color);
+            Widgets.DrawBoxSolid(researchSpeedAxis.RightPartPixels(2f).OffsetBy(1f, -1f), GUI.color);
+
+            Widgets.DrawBoxSolid(new Rect(hundredPercentOffset - 1f, rect.y, 2f, botAxis.y - rect.y + 1f), GUI.color);
+
+
+            Widgets.Label(fractionAxis, "RR_setting_category_fractionAxis".Translate());
+            Widgets.Label(researchSpeedAxis, "RR_setting_category_researchSpeedAxis".Translate());
+
+            GUI.color = Color.white;
+
+            for (int i = 0; i < categories.Count; i++)
             {
                 var category = categories[i];
                 var categoryY = fractionsRect.y + (i * fractionHeight);
 
                 if (!category.Settings.enabled)
                 {
-                    Rect categoryOffRect = new Rect(fractionsRect.x + fractionsRect.width - fractionHeight, categoryY, fractionHeight, fractionHeight).ContractedBy(3f);
-                    Widgets.DrawBoxSolid(categoryOffRect, Color.red);
+                    GUI.color = Color.white;
+                    Rect categoryOffRect = new Rect(researchSpeedRect.x , categoryY, fractionHeight, fractionHeight).ContractedBy(3f);
+                    GUI.DrawTexture(categoryOffRect, Textures.forbiddenOverlayTex);
                 }
                 else
                 {
@@ -140,25 +164,14 @@ namespace PeteTimesSix.ResearchReinvented.Utilities.CustomWidgets
                 Rect categoryRect = new Rect(graphRect.x, categoryY, graphRect.width, fractionHeight);
                 if(Widgets.ButtonInvisible(categoryRect))
                 {
+                    ResearchReinventedMod.Settings.temp_activeTab = SettingTab.CATEGORY_CONFIG;
                     ResearchReinventedMod.Settings.temp_selectedCategory = category;
+                    SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
                 }
             }
 
             GUI.color = WindowBGBorderColor;
-            Widgets.DrawBox(rect, 1, null);
-            Widgets.DrawLine(new Vector2(centerLine, rect.x), new Vector2(centerLine, rect.x + rect.height), GUI.color, 1f);
-            var hundredPercentOffset = centerLine + (researchSpeedRect.width * (1f / maxResearchSpeedMultiplier));
-            Widgets.DrawLine(new Vector2(hundredPercentOffset, rect.x), new Vector2(hundredPercentOffset, botAxis.y), GUI.color, 1f);
-
-            Text.Anchor = TextAnchor.MiddleCenter;
-            Widgets.DrawLine(new Vector2(botAxis.x, botAxis.y - 1f), new Vector2(botAxis.x + botAxis.width, botAxis.y - 1f), GUI.color, 2f);
-            //botAxis.y += 2f;
-            Rect fractionAxis = botAxis.LeftPart(0.6f);
-            Rect researchSpeedAxis = botAxis.RightPart(0.4f);
-            Widgets.DrawLine(new Vector2(fractionAxis.x, botAxis.y), new Vector2(fractionAxis.x, botAxis.y + 10f), GUI.color, 1f);
-            Widgets.DrawLine(new Vector2(researchSpeedAxis.x + researchSpeedAxis.width, botAxis.y), new Vector2(researchSpeedAxis.x + researchSpeedAxis.width, botAxis.y + 10f), GUI.color, 1f);
-            Widgets.Label(fractionAxis, "RR_setting_category_fractionAxis".Translate());
-            Widgets.Label(researchSpeedAxis, "RR_setting_category_researchSpeedAxis".Translate());
+            Widgets.DrawBoxSolid(new Rect(centerLine - 1f, rect.y, 2f, rect.height), GUI.color);
 
             Text.Anchor = anchor;
             GUI.color = color;

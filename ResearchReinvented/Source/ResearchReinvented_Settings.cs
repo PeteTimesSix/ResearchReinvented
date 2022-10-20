@@ -15,8 +15,8 @@ namespace PeteTimesSix.ResearchReinvented
 {
     public enum SettingTab
     {
-        PRESETS,
         GLOBAL_CONFIG,
+        CATEGORY_PRESETS,
         CATEGORY_CONFIG
     }
 
@@ -38,7 +38,7 @@ namespace PeteTimesSix.ResearchReinvented
         public List<CategorySettingsChanges> categorySettingChanges = new List<CategorySettingsChanges>();
         public List<CategorySettingsFinal> categorySettings = new List<CategorySettingsFinal>();
 
-        public SettingTab temp_activeTab = SettingTab.PRESETS;
+        public SettingTab temp_activeTab = SettingTab.CATEGORY_PRESETS;
         public ResearchOpportunityCategoryDef temp_selectedCategory = null;
 
         public override void ExposeData()
@@ -78,11 +78,11 @@ namespace PeteTimesSix.ResearchReinvented
 
             switch (temp_activeTab)
             {
-                case SettingTab.PRESETS:
-                    DoPresetTab(restOfRect);
-                    break;
                 case SettingTab.GLOBAL_CONFIG:
                     DoGlobalConfigTab(restOfRect);
+                    break;
+                case SettingTab.CATEGORY_PRESETS:
+                    DoPresetTab(restOfRect);
                     break;
                 case SettingTab.CATEGORY_CONFIG:
                     DoCategoriesConfigTab(restOfRect);
@@ -93,37 +93,6 @@ namespace PeteTimesSix.ResearchReinvented
             GUI.color = preColor;
         }
 
-        private void DoPresetTab(Rect inRect)
-        {
-            Listing_Standard listingStandard = new Listing_Standard();
-            listingStandard.Begin(inRect);
-
-            float maxWidth = listingStandard.ColumnWidth;
-
-            foreach(var preset in DefDatabase<SettingsPresetDef>.AllDefsListForReading.OrderByDescending(p => p.priority)) 
-            {
-                if(listingStandard.RadioButton(preset.LabelCap, activePreset == preset)) 
-                {
-                    Log.Message($"switching preset from {activePreset.defName} to {preset}");
-                    activePreset = preset;
-                    foreach (var categoryDef in DefDatabase<ResearchOpportunityCategoryDef>.AllDefsListForReading)
-                        categoryDef.ClearCachedData();
-                    categorySettingChanges.Clear();
-                    categorySettings.Clear();
-                }
-            }
-
-            float remainingHeight = inRect.height - listingStandard.CurHeight;
-
-            var visualizerRect = listingStandard.GetRect(remainingHeight);
-            visualizerRect.width = maxWidth / 2f;
-            visualizerRect.x += maxWidth / 4f;
-
-            CategoriesVisualizer.DrawCategories(visualizerRect);
-
-            listingStandard.End();
-        }
-
         private void DoGlobalConfigTab(Rect inRect)
         {
             Listing_Standard listingStandard = new Listing_Standard();
@@ -131,13 +100,84 @@ namespace PeteTimesSix.ResearchReinvented
 
             float maxWidth = listingStandard.ColumnWidth;
 
-            listingStandard.CheckboxLabeled("RR_setting_debugPrintouts".Translate(), ref debugPrintouts, "RR_setting_debugPrintouts_tooltip".Translate());
+            listingStandard.Indent(maxWidth / 4f);
+            listingStandard.ColumnWidth = maxWidth / 2f;
             listingStandard.CheckboxLabeled("RR_setting_defaultCompactMode".Translate(), ref defaultCompactMode, "RR_setting_defaultCompactMode_tooltip".Translate());
 
             listingStandard.CheckboxLabeled("RR_setting_kitlessResearch".Translate(), ref kitlessResearch, "RR_setting_kitlessResearch_tooltip".Translate());
-            //listingStandard.SliderLabeled("RR_setting_basicResearchSpeedMult".Translate(), ref theoryResearchSpeedMult, 0.1f, 1f, 100, 0, "%", "RR_setting_basicResearchSpeedMult_tooltip".Translate());
 
             float remainingHeight = inRect.height - listingStandard.CurHeight;
+            listingStandard.Gap(remainingHeight - Text.LineHeight * 1.5f);
+            listingStandard.CheckboxLabeled("RR_setting_debugPrintouts".Translate(), ref debugPrintouts, "RR_setting_debugPrintouts_tooltip".Translate());
+
+            listingStandard.End();
+        }
+
+        private void DoPresetTab(Rect inRect)
+        {
+            Listing_Standard listingStandard = new Listing_Standard();
+            listingStandard.Begin(inRect);
+
+            float remainingHeight = inRect.height - listingStandard.CurHeight;
+            var sectionListing = listingStandard.BeginHiddenSection(out float maxHeightAccumulator);
+            {
+                float sectionMaxWidth = listingStandard.ColumnWidth;
+
+                sectionListing.ColumnWidth = (sectionMaxWidth - ListingExtensions.ColumnGap) / 2f;
+                var visualizerRect = sectionListing.GetRect(remainingHeight);
+                //Widgets.DrawWindowBackgroundTutor(visualizerRect);
+
+                CategoriesVisualizer.DrawCategories(visualizerRect);
+
+                sectionListing.NewHiddenColumn(ref maxHeightAccumulator);
+                
+                sectionListing.Gap();
+                Text.Anchor = TextAnchor.MiddleCenter;
+                sectionListing.Label(activePreset.LabelCap);
+                sectionListing.Gap();
+                Text.Anchor = TextAnchor.MiddleLeft;
+                sectionListing.Label(activePreset.description);
+                sectionListing.GapLine();
+                sectionListing.Gap();
+
+                SettingsPresetDef hoveredPreset = null;
+                foreach (var preset in DefDatabase<SettingsPresetDef>.AllDefsListForReading.OrderByDescending(p => p.priority))
+                {
+                    var heightPre = sectionListing.CurHeight;
+                    if (sectionListing.RadioButton(preset.LabelCap, activePreset == preset))
+                    {
+                        activePreset = preset;
+                        foreach (var categoryDef in DefDatabase<ResearchOpportunityCategoryDef>.AllDefsListForReading)
+                            categoryDef.ClearCachedData();
+                        categorySettingChanges.Clear();
+                        categorySettings.Clear();
+                    }
+                    var heightPost = sectionListing.CurHeight;
+                    var height = heightPost - heightPre;
+                    var hoverRect = sectionListing.GetRect(0f);
+                    hoverRect.height = height;
+                    hoverRect.y -= height;
+                    if (Mouse.IsOver(hoverRect)) 
+                    {
+                        hoveredPreset = preset;
+                    }
+                }
+
+                if(hoveredPreset != null && hoveredPreset != activePreset) 
+                {
+                    sectionListing.Gap();
+                    sectionListing.GapLine();
+                    GUI.color = Color.gray;
+                    Text.Anchor = TextAnchor.MiddleCenter;
+                    sectionListing.Label(hoveredPreset.LabelCap);
+                    sectionListing.Gap();
+                    Text.Anchor = TextAnchor.MiddleLeft;
+                    sectionListing.Label(hoveredPreset.description);
+                    GUI.color = Color.white;    
+                }
+
+                sectionListing.End();
+            }
 
             listingStandard.End();
         }

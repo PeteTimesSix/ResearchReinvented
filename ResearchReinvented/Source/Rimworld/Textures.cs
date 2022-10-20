@@ -16,5 +16,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld
 
         public static readonly Texture2D scienceIcon = ContentFinder<Texture2D>.Get("scienceIcon", true);
         public static readonly Texture2D scienceIconDark = ContentFinder<Texture2D>.Get("scienceIconDark", true);
+
+        public static readonly Texture2D forbiddenOverlayTex = ContentFinder<Texture2D>.Get("Things/Special/ForbiddenOverlay");
+
+        
     }
 }
