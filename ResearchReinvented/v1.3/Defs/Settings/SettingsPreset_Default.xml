@@ -3,7 +3,7 @@
   <PeteTimesSix.ResearchReinvented.Defs.SettingsPresetDef>
     <defName>SettingsPreset_RR_Default</defName>
     <label>default</label>
-    <description>Default settings preset.</description>
+    <description>Default settings preset. Research will be faster if your colony is well-organized and has an adequate supply of research subjects, and slower if not.</description>
 	<priority>1000</priority>
 	<categorySettingPresets>
 		<li>
@@ -18,7 +18,7 @@
 			
 			<enabled>true</enabled>
 			<targetFractionMultiplier>1.25</targetFractionMultiplier>
-			<targetIterations>2.0</targetIterations>
+			<targetIterations>3.0</targetIterations>
 			<extraFractionMultiplier>0.5</extraFractionMultiplier>
 			<researchSpeedMultiplier>3.0</researchSpeedMultiplier>
 			<availableAtOverallProgress>0.3~1.0</availableAtOverallProgress>
@@ -35,7 +35,7 @@
 			<category>ReverseEngineering</category>
 			
 			<targetFractionMultiplier>1.0</targetFractionMultiplier>
-			<targetIterations>4.0</targetIterations>
+			<targetIterations>5.0</targetIterations>
 			<extraFractionMultiplier>0.75</extraFractionMultiplier>
 			<researchSpeedMultiplier>2.0</researchSpeedMultiplier>
 		</li>
