@@ -18,8 +18,8 @@
 	<RR_setting_kitlessResearch>Allow field research without research kit</RR_setting_kitlessResearch>
 	<RR_setting_kitlessResearch_tooltip>When enabled, field research can be performed without any research kit for research projects that only require a simple research table/kit.</RR_setting_kitlessResearch_tooltip>
 	
-	<RR_setting_kitlessResearch>Allow field research without kit for neolithic technologies</RR_setting_kitlessResearch>
-	<RR_setting_kitlessResearch_tooltip>When enabled, field research can be performed without any research kit for research projects that are of neolithic tech level.</RR_setting_kitlessResearch_tooltip>
+	<RR_setting_kitlessNeolithicResearch>Allow field research without kit for neolithic technologies</RR_setting_kitlessNeolithicResearch>
+	<RR_setting_kitlessNeolithicResearch_tooltip>When enabled, field research can be performed without any research kit for research projects that are of neolithic tech level.</RR_setting_kitlessNeolithicResearch_tooltip>
 	
 	<RR_setting_category_selector>Select category</RR_setting_category_selector>
 	
