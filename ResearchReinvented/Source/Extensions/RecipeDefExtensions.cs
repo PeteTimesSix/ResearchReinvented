@@ -47,6 +47,7 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 				return _prototypeOpportunitiesMappedCache;
 			}
 		}
+
 		public static HashSet<ResearchProjectDef> AllResearchPrerequisites(this RecipeDef recipe)
 		{
 			HashSet<ResearchProjectDef> prerequisites = new HashSet<ResearchProjectDef>();

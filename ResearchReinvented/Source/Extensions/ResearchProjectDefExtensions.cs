@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,8 +12,10 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 	{
 		public static bool HasAnyPrerequisites(this ResearchProjectDef project)
 		{
-
-			return project.requiredResearchBuilding != null || !project.requiredResearchFacilities.NullOrEmpty() || !ResearchReinventedMod.Settings.kitlessResearch;
+			return 
+                project.requiredResearchBuilding != null || 
+                !project.requiredResearchFacilities.NullOrEmpty() || 
+                !(ResearchReinventedMod.Settings.kitlessResearch || (ResearchReinventedMod.Settings.kitlessNeolithicResearch && project.techLevel <= TechLevel.Neolithic));
 		}
 
 		public static bool RequiredToUnlock(this ResearchProjectDef project, IEnumerable<ResearchProjectDef> prerequisites) 
