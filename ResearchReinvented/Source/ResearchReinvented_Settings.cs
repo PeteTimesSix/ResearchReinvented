@@ -32,7 +32,9 @@ namespace PeteTimesSix.ResearchReinvented
         public bool defaultCompactMode = false;
 
         public float prototypeResearchSpeedFactor = 0.5f;
-        public bool kitlessResearch = true;
+
+        public bool kitlessResearch = false;
+        public bool kitlessNeolithicResearch = true;
 
 
         public List<CategorySettingsChanges> categorySettingChanges = new List<CategorySettingsChanges>();
@@ -52,7 +54,8 @@ namespace PeteTimesSix.ResearchReinvented
 
             Scribe_Values.Look(ref defaultCompactMode, "defaultCompactMode", false);
 
-            Scribe_Values.Look(ref kitlessResearch, "kitlessResearch", true);
+            Scribe_Values.Look(ref kitlessResearch, "kitlessResearch", false);
+            Scribe_Values.Look(ref kitlessNeolithicResearch, "kitlessNeolithicResearch", true);
 
             Scribe_Collections.Look(ref categorySettingChanges, "categorySettingChanges", LookMode.Deep);
             //do not save/load categorySettings, let them generate
@@ -105,6 +108,7 @@ namespace PeteTimesSix.ResearchReinvented
             listingStandard.CheckboxLabeled("RR_setting_defaultCompactMode".Translate(), ref defaultCompactMode, "RR_setting_defaultCompactMode_tooltip".Translate());
 
             listingStandard.CheckboxLabeled("RR_setting_kitlessResearch".Translate(), ref kitlessResearch, "RR_setting_kitlessResearch_tooltip".Translate());
+            listingStandard.CheckboxLabeled("RR_setting_kitlessNeolithicResearch".Translate(), ref kitlessNeolithicResearch, "RR_setting_kitlessNeolithicResearch".Translate());
 
             float remainingHeight = inRect.height - listingStandard.CurHeight;
             listingStandard.Gap(remainingHeight - Text.LineHeight * 1.5f);

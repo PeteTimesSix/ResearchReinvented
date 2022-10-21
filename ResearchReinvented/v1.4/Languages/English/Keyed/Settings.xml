@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
+	<RR_setting_tab_GLOBAL_CONFIG>Global config</RR_setting_tab_GLOBAL_CONFIG>
+	<RR_setting_tab_CATEGORY_PRESETS>Category presets</RR_setting_tab_CATEGORY_PRESETS>
+	<RR_setting_tab_CATEGORY_CONFIG>Category config</RR_setting_tab_CATEGORY_CONFIG>
+	
+	<RR_setting_tab_GLOBAL_CONFIG_tooltip>Configure global Research Reinvented settings.</RR_setting_tab_GLOBAL_CONFIG_tooltip>
+	<RR_setting_tab_CATEGORY_PRESETS_tooltip>Select a preset of research point distribution between opportunity categories.</RR_setting_tab_CATEGORY_PRESETS_tooltip>
+	<RR_setting_tab_CATEGORY_CONFIG_tooltip>Configure individual research opportunity categories.</RR_setting_tab_CATEGORY_CONFIG_tooltip>
+	
+	<RR_setting_debugPrintouts>Enable debug mode</RR_setting_debugPrintouts>
+	<RR_setting_debugPrintouts_tooltip>When enabled, various developer printouts and visuals will be active.</RR_setting_debugPrintouts_tooltip>
+	
 	<RR_setting_defaultCompactMode>Research window defaults to compact mode</RR_setting_defaultCompactMode>
 	<RR_setting_defaultCompactMode_tooltip>When enabled, the research opportunities list window will default to compact mode.</RR_setting_defaultCompactMode_tooltip>
 	
 	
 	<RR_setting_kitlessResearch>Allow field research without research kit</RR_setting_kitlessResearch>
 	<RR_setting_kitlessResearch_tooltip>When enabled, field research can be performed without any research kit for research projects that only require a simple research table/kit.</RR_setting_kitlessResearch_tooltip>
+	
+	<RR_setting_kitlessResearch>Allow field research without kit for neolithic technologies</RR_setting_kitlessResearch>
+	<RR_setting_kitlessResearch_tooltip>When enabled, field research can be performed without any research kit for research projects that are of neolithic tech level.</RR_setting_kitlessResearch_tooltip>
 	
 	<RR_setting_category_selector>Select category</RR_setting_category_selector>
 	
