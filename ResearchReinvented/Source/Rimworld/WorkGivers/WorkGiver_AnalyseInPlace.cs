@@ -90,7 +90,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 				
 				if (currentProj.HasAnyPrerequisites() && !FieldResearchHelper.GetValidResearchKits(pawn, currentProj).Any())
 				{
-					JobFailReason.Is("RR_jobFail_needResearchKit".Translate(), null);
+					JobFailReason.Is(StringsCache.JobFail_NeedResearchKit, null);
 					return false;
 				}
 				else

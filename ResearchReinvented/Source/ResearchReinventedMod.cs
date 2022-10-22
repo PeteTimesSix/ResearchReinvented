@@ -60,6 +60,7 @@ namespace PeteTimesSix.ResearchReinvented
             AssociateKitsWithResearchProjects();
 
             ResearchReinventedMod.Settings = ResearchReinventedMod.ModSingleton.GetSettings<ResearchReinvented_Settings>();
+            StringsCache.Init();
         }
 
         private static void AssociateKitsWithResearchProjects()

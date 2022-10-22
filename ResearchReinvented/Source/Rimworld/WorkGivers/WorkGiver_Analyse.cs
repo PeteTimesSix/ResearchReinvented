@@ -63,7 +63,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
             var researchBenches = GetUsableResearchBenches(pawn).Where(bench => pawn.CanReserve(bench));
             if (!researchBenches.Any())
             {
-                JobFailReason.Is("RR_jobFail_needResearchBench".Translate(), null);
+                JobFailReason.Is(StringsCache.JobFail_NeedResearchBench, null);
                 return false;
             }
             var bestBench = researchBenches.First();
