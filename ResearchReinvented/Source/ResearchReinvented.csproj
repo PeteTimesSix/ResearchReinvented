@@ -65,6 +65,8 @@
     <Compile Include="HarmonyPatches\Prototypes\Designators_GizmoOnGUI_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\Designator_Build_Visible_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\Frame_CompleteConstruction_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\GenConstruct_CanConstruct_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\Bill_PawnAllowedToStartAnew_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\WorkToBuild_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\GenRecipe_PostProcessProduct_Patches.cs" />
     <Compile Include="HarmonyPatches\ModCompatibility\Dubs_Mint_Menus\DMM_Patch_BillStack_DoListing_Patches.cs" />
@@ -115,6 +117,7 @@
     <Compile Include="Rimworld\WorkGivers\WorkGiver_ResearcherRR.cs" />
     <Compile Include="Rimworld\WorkGivers\WorkGiver_AnalyseInPlace.cs" />
     <Compile Include="StatWorkers\StatWorker_RemoteResearchSpeedFactor.cs" />
+    <Compile Include="StringsCache.cs" />
     <Compile Include="Utilities\AdjacencyHelper.cs" />
     <Compile Include="Utilities\CircularBuffer.cs" />
     <Compile Include="Utilities\CustomWidgets\CategoriesVisualizer.cs" />
