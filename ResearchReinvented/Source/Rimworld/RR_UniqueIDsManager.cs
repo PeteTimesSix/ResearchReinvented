@@ -46,7 +46,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld
 
 		public override void ExposeData()
 		{
-			Scribe_Values.Look<int>(ref this.nextOpportunityID, "nextOpportunityID", 0, false);
+			Scribe_Values.Look<int>(ref this.nextOpportunityID, "nextOpportunityID", 0, forceSave: true);
 			if (Scribe.mode == LoadSaveMode.LoadingVars)
 			{
 				this.wasLoaded = true;

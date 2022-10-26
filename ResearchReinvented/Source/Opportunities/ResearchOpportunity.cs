@@ -157,7 +157,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             Scribe_Values.Look(ref maximumProgress, "maximumProgress");
             Scribe_Values.Look(ref currentProgress, "currentProgress");
 
-            Scribe_Values.Look(ref loadID, "loadID");
+            Scribe_Values.Look(ref loadID, "loadID", forceSave: true);
 
             Scribe_Values.Look(ref relation, "relation");
             Scribe_Values.Look(ref importance, "importance");
