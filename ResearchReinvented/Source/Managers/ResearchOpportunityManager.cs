@@ -49,9 +49,9 @@ namespace PeteTimesSix.ResearchReinvented.Managers
         public IEnumerable<ResearchOpportunity> GetCurrentlyAvailableOpportunities(bool includeFinished = false)
         {
             if(!includeFinished)
-                return AllCurrentOpportunities.Where(o => o.CurrentAvailability == OpportunityAvailability.Available);
+                return AllCurrentOpportunities.Where(o => o.IsValid && o.CurrentAvailability == OpportunityAvailability.Available);
             else
-                return AllCurrentOpportunities.Where(o => o.CurrentAvailability == OpportunityAvailability.Available || o.CurrentAvailability == OpportunityAvailability.Finished);
+                return AllCurrentOpportunities.Where(o => o.IsValid && (o.CurrentAvailability == OpportunityAvailability.Available || o.CurrentAvailability == OpportunityAvailability.Finished));
 
         }
 
@@ -84,12 +84,15 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             get
             {
                 HashSet<ResearchOpportunityCategoryDef> categories = new HashSet<ResearchOpportunityCategoryDef>();
-                foreach(var opportunity in AllCurrentOpportunities) 
+                foreach(var opportunity in AllCurrentOpportunities.Where(o => o.IsValid)) 
                 {
                     foreach(var category in opportunity.def.GetAllCategories())
                     {
                         if (category == null)
+                        {
                             Log.Warning("got null category from " + opportunity.def.defName);
+                            continue;
+                        }
                         if (!categories.Contains(category))
                             categories.Add(category);
                     }
@@ -166,8 +169,13 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             _categoryStores.RemoveAll(cs => cs.project == project);
             _categoryStores.AddRange(categoryStores);
             _currentOpportunities.Clear();
-            _currentOpportunities.AddRange(newOpportunities);
-            _allGeneratedOpportunities.AddRange(newOpportunities);
+
+            var invalidOpportunities = _currentOpportunities.Where(o => !o.IsValid);
+            if (invalidOpportunities.Any())
+                Log.Error($"Generated {invalidOpportunities.Count()} invalid opportunities for project {project}!");
+
+            _currentOpportunities.AddRange(newOpportunities.Where(o => o.IsValid));
+            _allGeneratedOpportunities.AddRange(newOpportunities.Where(o => o.IsValid));
             _allProjectsWithGeneratedOpportunities.Add(project);
 
             if (ResearchReinventedMod.Settings.debugPrintouts)
