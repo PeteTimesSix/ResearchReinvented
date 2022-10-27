@@ -10,11 +10,12 @@ namespace PeteTimesSix.ResearchReinvented.Utilities
 {
     public static class AdjacencyHelper
     {
-        public static IEnumerable<IntVec3> GenReachableAdjacentCells(Thing thing, Pawn pawn) 
+
+        public static IEnumerable<IntVec3> GenReachableAdjacentCells(Thing thing, Pawn pawn, bool cardinalOnly = false) 
         {
             if(thing.Map != pawn.Map)
                 return Enumerable.Empty<IntVec3>();
-            var adjCells = GenAdj.CellsAdjacent8Way(thing);
+            var adjCells = cardinalOnly ? GenAdj.CellsAdjacentCardinal(thing) : GenAdj.CellsAdjacent8Way(thing);
             var reachable = adjCells.Where(c => c.Standable(pawn.Map)).Where(c => pawn.CanReach(c, PathEndMode.OnCell, Danger.Deadly));
             return reachable;
         }
