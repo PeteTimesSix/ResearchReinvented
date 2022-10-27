@@ -17,18 +17,27 @@
     </modDependencies>
 	<loadBefore>
 		<li>Uuugggg.ReplaceStuff</li>
+		<li>vanillaexpanded.skills</li>
 	</loadBefore>
 	<loadAfter>
 		<li>brrainz.harmony</li>
 	</loadAfter>
 	<description>
-What if inventing thing was not as simple as just thinking about the idea real hard for a few weeks? 
-	
-You might figure out how to make pemmican by analysing various ingredients for their nutritional content or experimenting at a campfire. 
-Learning how to sew clothing for nobility might be easier if you already have some noble clothing at hand to take inspiration from. 
-Once you have a basic idea of how to construct electrical generators, you might attempt to build a prototype.
-And hey, if you want to invent television, maybe you can learn something from all those broken down screens in those ancient vaults?
-	
- &lt;i&gt;More to come ...?&lt;/i&gt;
+Consider inventing the humble mini-turret.
+
+In vanilla Rimworld, the process is:
+    A colonist sits in front of a research table and stares at it for five weeks. 
+
+
+With Research Reinvented, the process can include any of the following:
+    Reverse engineer existing commandeered turrets.
+    See what you can learn from that ancient broken down security turret.
+    Analyse raw materials for their durability as turret armor.
+    Experiment with steel to figure out efficient barrel replacements.
+    Test out what modifications to the standard machine pistol or autopistol design might make for the best turret weapon.
+    Construct a prototype turret, even if it takes longer and the end product might need some fixing up right away.
+
+
+Taking advantage of such research opportunities can significantly accelerate your research progress. However, if none are available, the fallback Theory research is equivalent in speed to vanilla research (this speed can be lowered in the mod settings, if you'd prefer an incentive to seek opportunities out).
 	</description>
 </ModMetaData>
