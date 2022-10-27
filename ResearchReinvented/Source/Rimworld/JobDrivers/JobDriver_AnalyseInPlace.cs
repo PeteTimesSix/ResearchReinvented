@@ -48,7 +48,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 			if (pokeMode == PathEndMode.InteractionCell)
 				walkTo = Toils_Goto.GotoThing(TargetThingIndex, PathEndMode.InteractionCell);
 			else
-				walkTo = Toils_Goto_Custom.GoAdjacentToThing(TargetThingIndex);
+				walkTo = Toils_Goto_Custom.GoAdjacentToThing(TargetThingIndex, true);
 
 			yield return walkTo;
 
