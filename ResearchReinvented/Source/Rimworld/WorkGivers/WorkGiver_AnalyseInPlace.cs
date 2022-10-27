@@ -83,7 +83,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 				}
 				else
 				{
-					var reachable = AdjacencyHelper.GenReachableAdjacentCells(thing, pawn);
+					var reachable = AdjacencyHelper.GenReachableAdjacentCells(thing, pawn, true);
 					if (!reachable.Any())
 						return false;
 				}
