@@ -307,7 +307,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             //food n' drugs
             if (material.ingestible != null)
             {
-                if (material.IsDrug)
+                if (material.IsDrug || material.IsMedicine)
                     yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseIngredientsDrug, relation, new ROComp_RequiresThing(material), "ingre. analysis (drug)", isAlternate: isAlternate);
                 else if (material.IsTrulyRawFood())
                     yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseFuelFood, relation, new ROComp_RequiresThing(material), "ingre. analysis (raw food)", isAlternate: isAlternate);
