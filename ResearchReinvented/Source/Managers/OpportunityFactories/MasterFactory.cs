@@ -307,7 +307,24 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             //food n' drugs
             if (material.ingestible != null)
             {
-                if (material.IsDrug || material.IsMedicine)
+                //corpses
+                if (material.IsCorpse)
+                {
+                    var deadThing = material.ingestible?.sourceDef;
+                    if (deadThing != null)
+                    {
+                        var deadThingRace = deadThing.race;
+                        if (deadThingRace != null)
+                        {
+                            if (deadThingRace.IsFlesh)
+                                yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissect, relation, new ROComp_RequiresThing(material), "direct analysis (corpse)", isAlternate: isAlternate);
+                            else
+                                yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissectNonFlesh, relation, new ROComp_RequiresThing(material), "direct analysis (corpse non-flesh)", isAlternate: isAlternate);
+
+                        }
+                    }
+                }
+                else if (material.IsDrug || material.IsMedicine)
                     yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseIngredientsDrug, relation, new ROComp_RequiresThing(material), "ingre. analysis (drug)", isAlternate: isAlternate);
                 else if (material.IsTrulyRawFood())
                     yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseFuelFood, relation, new ROComp_RequiresThing(material), "ingre. analysis (raw food)", isAlternate: isAlternate);
@@ -337,23 +354,6 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                 }
                 else
                 {
-                    //corpses
-                    if (asThing.IsCorpse) 
-                    {
-                        var deadThing = asThing.ingestible?.sourceDef;
-                        if (deadThing != null)
-                        {
-                            var deadThingRace = deadThing.race;
-                            if(deadThingRace != null) 
-                            {
-                                if (deadThingRace.IsFlesh)
-                                    yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissect, relation, new ROComp_RequiresThing(asThing), "direct analysis (corpse)", isAlternate: isAlternate); 
-                                else 
-                                    yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissectNonFlesh, relation, new ROComp_RequiresThing(asThing), "direct analysis (corpse non-flesh)", isAlternate: isAlternate);
-
-                            }
-                        }
-                    }
                     //food n' drugs
                     if (asThing.ingestible != null)
                     { 
