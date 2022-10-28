@@ -12,6 +12,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 {
     public static class ResearchOpportunityPrefabs
     {
+        public static readonly float MIN_RESEARCH_POINTS = 1f;
+
         //public static Dictionary<ResearchProjectDef, List<ResearchOpportunity>> Opportunities { get; private set; }
 
         /*public static void GenerateAllImplicitOpportunities()
@@ -116,7 +118,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                         else
                             opportunityResearchPoints = (typeResearchPoints * baseImportance) * opportunity.importance;
 
-                        opportunity.SetMaxProgress(opportunityResearchPoints);
+                        opportunity.SetMaxProgress(Math.Max(MIN_RESEARCH_POINTS, opportunityResearchPoints));
                     }
                 }
             }
