@@ -120,6 +120,7 @@
     <Compile Include="StringsCache.cs" />
     <Compile Include="Utilities\AdjacencyHelper.cs" />
     <Compile Include="Utilities\CircularBuffer.cs" />
+    <Compile Include="Utilities\CustomMinifyUtility.cs" />
     <Compile Include="Utilities\CustomWidgets\CategoriesVisualizer.cs" />
     <Compile Include="Utilities\CustomWidgets\CustomFloatRange.cs" />
     <Compile Include="Utilities\Debug.cs" />

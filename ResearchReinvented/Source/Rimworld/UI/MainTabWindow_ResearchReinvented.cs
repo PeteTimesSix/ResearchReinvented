@@ -378,7 +378,17 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             Def onlyDef = null;
             if (opportunity.requirement is ROComp_RequiresThing requiresThingComp)
             {
-                Widgets.DefIcon(iconBox, requiresThingComp.thingDef);
+                var thing = requiresThingComp.thingDef;
+                if (thing.IsCorpse)
+                {
+                    var deadThing = thing.ingestible?.sourceDef;
+                    if (deadThing != null)
+                        Widgets.DefIcon(iconBox, deadThing);
+                }
+                else
+                {
+                    Widgets.DefIcon(iconBox, requiresThingComp.thingDef);
+                }
                 onlyDef = requiresThingComp.thingDef;
             }
             // unused for now
