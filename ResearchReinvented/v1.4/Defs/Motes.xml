@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ThingDef ParentName="MoteBase">
+    <defName>RR_Mote_ResearchToolNone</defName>
+    <thingClass>MoteDualAttached</thingClass>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <mote>
+      <solidTime>600</solidTime>
+    </mote>
+    <graphicData>
+      <texPath>Motes/toolNone</texPath>
+    </graphicData>
+  </ThingDef>
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>RR_Mote_ResearchToolBasic</defName>
+    <thingClass>MoteDualAttached</thingClass>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <mote>
+      <solidTime>600</solidTime>
+    </mote>
+    <graphicData>
+      <texPath>Motes/toolBasic</texPath>
+    </graphicData>
+  </ThingDef>
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>RR_Mote_ResearchToolMid</defName>
+    <thingClass>MoteDualAttached</thingClass>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <mote>
+      <solidTime>600</solidTime>
+    </mote>
+    <graphicData>
+      <texPath>Motes/toolMid</texPath>
+    </graphicData>
+  </ThingDef>
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>RR_Mote_ResearchToolAdv</defName>
+    <thingClass>MoteDualAttached</thingClass>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <mote>
+      <solidTime>600</solidTime>
+    </mote>
+    <graphicData>
+      <texPath>Motes/toolAdv</texPath>
+    </graphicData>
+  </ThingDef>
+</Defs>

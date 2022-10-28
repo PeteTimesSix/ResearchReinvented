@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef Name="ResearchOpportunityCategoryBase" Abstract="True">
+		<targetFractionMultiplier>1.0</targetFractionMultiplier>
+		<targetIterations>1.0</targetIterations>
+		<extraFractionMultiplier>0.5</extraFractionMultiplier>
+		<infiniteOverflow>false</infiniteOverflow>
+		<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
+		<availableAtOverallProgress>0.0~1.0</availableAtOverallProgress>
+		<color>(255,255,255)</color>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
+		<defName>Theory</defName>
+		<label>theory</label>
+		<targetFractionMultiplier>0.0</targetFractionMultiplier>
+		<targetIterations>1.0</targetIterations>
+		<infiniteOverflow>true</infiniteOverflow>
+		<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
+		<priority>1000</priority>
+		<color>(187,250,250)</color>
+		<description>Theoretical or abstract research.</description>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
+		<defName>Prototyping</defName>
+		<label>prototyping</label>
+		<targetIterations>2.0</targetIterations>
+		<priority>800</priority>
+		<availableAtOverallProgress>0.3~1.0</availableAtOverallProgress>
+		<color>(187,250,200)</color>
+		<description>Construction of prototypes. Prototypes take much longer to produce and are typically of lower quality due to their experimental nature. The researcher will require both research skill as well as the product's applicable work skill.</description>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
+		<defName>Tooling</defName>
+		<label>tooling</label>
+		<targetIterations>2.0</targetIterations>
+		<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
+		<priority>700</priority>
+		<color>(250,240,187)</color>
+		<description>Analysis of tools used in the production of the researched products.</description>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
+		<defName>ReverseEngineering</defName>
+		<label>reverse engineering</label>
+		<targetIterations>4.0</targetIterations>
+		<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
+		<priority>600</priority>
+		<color>(250,200,187)</color>
+		<description>Reverse engineering of existing sample products.</description>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
+		<defName>ForwardEngineering</defName>
+		<label>production experience</label>
+		<targetIterations>15.0</targetIterations>
+		<researchSpeedMultiplier>2.0</researchSpeedMultiplier>
+		<priority>599</priority>
+		<color>(250,187,225)</color>
+		<description>Gathering experience from products with an already known production process.</description>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
+		<defName>Logistics</defName>
+		<label>logistics</label>
+		<targetIterations>2.0</targetIterations>
+		<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
+		<priority>500</priority>
+		<color>(215,180,90)</color>
+		<description>Determining effective means of resupply.</description>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
+		<defName>Geology</defName>
+		<label>geology</label>
+		<targetIterations>5.0</targetIterations>
+		<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
+		<priority>400</priority>
+		<color>(190,120,80)</color>
+		<description>Analysis of geological samples.</description>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
+		<defName>Biology</defName>
+		<label>biology</label>
+		<targetIterations>5.0</targetIterations>
+		<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
+		<priority>350</priority>
+		<color>(105,225,90)</color>
+		<description>Analysis of biological samples, such as plant cuttings or seeds.</description>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
+		<defName>Chemistry</defName>
+		<label>chemistry</label>
+		<targetIterations>5.0</targetIterations>
+		<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
+		<priority>340</priority>
+		<color>(200,225,120)</color>
+		<description>Analysis of chemical samples, such as pharmaceuticals or other drugs.</description>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
+		<defName>Gastronomy</defName>
+		<label>gastronomy</label>
+		<targetIterations>10.0</targetIterations>
+		<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
+		<priority>320</priority>
+		<color>(220,220,190)</color>
+		<description>Analysis of edible ingredients or meals.</description>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
+		<defName>Material</defName>
+		<label>material studies</label>
+		<targetIterations>5.0</targetIterations>
+		<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
+		<priority>300</priority>
+		<color>(205,160,250)</color>
+		<description>Studies of viability of possible raw materials used in construction or production.</description>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+	
+</Defs>
