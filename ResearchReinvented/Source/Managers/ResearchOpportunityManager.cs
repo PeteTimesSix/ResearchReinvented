@@ -17,14 +17,40 @@ namespace PeteTimesSix.ResearchReinvented.Managers
     {
         public static ResearchOpportunityManager instance => Current.Game.GetComponent<ResearchOpportunityManager>();
 
-        private List<ResearchOpportunity> _currentOpportunities = new List<ResearchOpportunity>();
 
         private List<ResearchOpportunity> _allGeneratedOpportunities = new List<ResearchOpportunity>();
-        private List<ResearchProjectDef> _allProjectsWithGeneratedOpportunities = new List<ResearchProjectDef>();
 
+        public IReadOnlyCollection<ResearchOpportunity> AllGeneratedOpportunities => _allGeneratedOpportunities.AsReadOnly();
 
         private ResearchProjectDef _currentProject;
-        public ResearchProjectDef CurrentProject { get { return _currentProject; } }
+        public ResearchProjectDef CurrentProject => _currentProject;
+        private List<ResearchOpportunity> _currentProjectOpportunitiesCache;
+        public IReadOnlyCollection<ResearchOpportunity> CurrentProjectOpportunities
+        {
+            get
+            {
+                bool currentProjectRegenned = CheckForRegeneration();
+                if(currentProjectRegenned || _currentProjectOpportunitiesCache == null) 
+                {
+                    _currentProjectOpportunitiesCache = _allGeneratedOpportunities.Where(o => o.project == _currentProject).ToList();
+                }
+                return _currentProjectOpportunitiesCache.AsReadOnly();
+            }
+        }
+        private HashSet<ResearchOpportunityCategoryDef> _currentOpportunityCategoriesCache;
+        public IReadOnlyCollection<ResearchOpportunityCategoryDef> CurrentProjectOpportunityCategories
+        {
+            get
+            {
+                bool currentProjectRegenned = CheckForRegeneration();
+                if (currentProjectRegenned || _currentOpportunityCategoriesCache == null)
+                {
+                    _currentOpportunityCategoriesCache = CurrentProjectOpportunities.Select(o => o.def.GetCategory(o.relation)).ToHashSet();
+                }
+                return _currentOpportunityCategoriesCache.ToList().AsReadOnly();
+            }
+        }
+        public HashSet<ResearchProjectDef> _projectsGenerated = new HashSet<ResearchProjectDef>();
 
         private Dictionary<int, ResearchOpportunity> _jobToOpportunityMap = new Dictionary<int, ResearchOpportunity>();
         private List<ResearchOpportunityCategoryTotalsStore> _categoryStores = new List<ResearchOpportunityCategoryTotalsStore>();
@@ -45,62 +71,32 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 return true;
             })
             .ToList();
+            CheckForRegeneration();
         }
 
+        public bool CheckForRegeneration() 
+        {
+            if(Find.ResearchManager.currentProj != _currentProject)
+            {
+                GenerateOpportunities(Find.ResearchManager.currentProj, false);
+                return true;
+            }
+            return false;
+        }
 
         public IEnumerable<ResearchOpportunity> GetCurrentlyAvailableOpportunities(bool includeFinished = false)
         {
-            if(!includeFinished)
-                return AllCurrentOpportunities.Where(o => o.IsValid() && o.CurrentAvailability == OpportunityAvailability.Available);
+            bool currentProjectRegenned = CheckForRegeneration();
+            if (!includeFinished)
+                return CurrentProjectOpportunities.Where(o => o.IsValid() && o.CurrentAvailability == OpportunityAvailability.Available);
             else
-                return AllCurrentOpportunities.Where(o => o.IsValid() && (o.CurrentAvailability == OpportunityAvailability.Available || o.CurrentAvailability == OpportunityAvailability.Finished));
+                return CurrentProjectOpportunities.Where(o => o.IsValid() && (o.CurrentAvailability == OpportunityAvailability.Available || o.CurrentAvailability == OpportunityAvailability.Finished));
 
         }
 
         internal ResearchOpportunityCategoryTotalsStore GetTotalsStore(ResearchProjectDef project, ResearchOpportunityCategoryDef category)
         {
             return _categoryStores.FirstOrDefault(cs => cs.project == project && cs.category == category);
-        }
-
-        public IReadOnlyCollection<ResearchOpportunity> AllCurrentOpportunities
-        {
-            get 
-            {
-                if (Find.ResearchManager.currentProj != null)
-                {
-                    if (Find.ResearchManager.currentProj != _currentProject || _currentOpportunities == null) 
-                    {
-                        _currentOpportunities.Clear();
-                        _jobToOpportunityMap.Clear();
-                        GenerateOpportunities(Find.ResearchManager.currentProj, false);
-                    }
-                    return _currentOpportunities;
-                }
-                else
-                    return new List<ResearchOpportunity>();
-            }
-        }
-
-        public IReadOnlyCollection<ResearchOpportunityCategoryDef> AllCurrentOpportunityCategories
-        {
-            get
-            {
-                HashSet<ResearchOpportunityCategoryDef> categories = new HashSet<ResearchOpportunityCategoryDef>();
-                foreach(var opportunity in AllCurrentOpportunities.Where(o => o.IsValid())) 
-                {
-                    foreach(var category in opportunity.def.GetAllCategories())
-                    {
-                        if (category == null)
-                        {
-                            Log.Warning("got null category from " + opportunity.def.defName);
-                            continue;
-                        }
-                        if (!categories.Contains(category))
-                            categories.Add(category);
-                    }
-                }
-                return categories;
-            }
         }
 
         public ResearchOpportunityManager(Game game)
@@ -114,9 +110,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers
         {
             base.ExposeData();
             Scribe_Collections.Look(ref _allGeneratedOpportunities, "_allGeneratedOpportunities", LookMode.Deep);
-            Scribe_Collections.Look(ref _currentOpportunities, "_currentOpportunities", LookMode.Reference);
+            Scribe_Collections.Look(ref _projectsGenerated, "_allProjectsWithGeneratedOpportunities", LookMode.Def);
             Scribe_Collections.Look(ref _jobToOpportunityMap, "_jobToOpportunityMap", LookMode.Value, LookMode.Reference, ref wList1, ref wList2);
-            Scribe_Collections.Look(ref _allProjectsWithGeneratedOpportunities, "_allProjectsWithGeneratedOpportunities", LookMode.Def);
             Scribe_Defs.Look(ref _currentProject, "currentProject");
             Scribe_Collections.Look(ref _categoryStores, "_categoryStores", LookMode.Deep);
         }
@@ -130,11 +125,6 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 _categoryStores = new List<ResearchOpportunityCategoryTotalsStore>();
         }
 
-        public override void GameComponentUpdate()
-        {
-            base.GameComponentUpdate();
-        }
-
         public void FinishProject(ResearchProjectDef project, bool doCompletionDialog = false, Pawn researcher = null)
         {
             Find.ResearchManager.FinishProject(project, doCompletionDialog, researcher);
@@ -142,26 +132,27 @@ namespace PeteTimesSix.ResearchReinvented.Managers
         
         public void GenerateOpportunities(ResearchProjectDef project, bool forceRegen)
         {
+            if(_currentProject == project && !forceRegen) 
+            {
+                return;
+            }
+            _currentProjectOpportunitiesCache = null;
+            _currentOpportunityCategoriesCache = null;
             _currentProject = project;
-            _currentOpportunities = new List<ResearchOpportunity>();
             if (project == null)
                 return;
 
-            if (_allProjectsWithGeneratedOpportunities.Contains(project)) 
+            if (_projectsGenerated.Contains(project)) 
             {
-                if (!forceRegen)
+                if (forceRegen)
                 {
-                    var matches = _allGeneratedOpportunities.Where(o => o.project == project);
-                    _currentOpportunities.Clear();
-                    _currentOpportunities.AddRange(matches);
-                    return;
+                    var preexistingOpportunities = _allGeneratedOpportunities.Where(o => o.project == project).ToList();
+                    foreach (var preexisting in preexistingOpportunities)
+                        _allGeneratedOpportunities.Remove(preexisting);
                 }
                 else
                 {
-                    var matches = _allGeneratedOpportunities.Where(o => o.project == project).ToList();
-                    _currentOpportunities.Clear();
-                    foreach(var match in matches)
-                        _allGeneratedOpportunities.Remove(match);
+                    return;
                 }
             }
 
@@ -170,15 +161,13 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             var categoryStores = results.categoryStores;
             _categoryStores.RemoveAll(cs => cs.project == project);
             _categoryStores.AddRange(categoryStores);
-            _currentOpportunities.Clear();
 
-            var invalidOpportunities = _currentOpportunities.Where(o => !o.IsValid());
+            var invalidOpportunities = newOpportunities.Where(o => !o.IsValid());
             if (invalidOpportunities.Any())
-                Log.Error($"Generated {invalidOpportunities.Count()} invalid opportunities for project {project}!");
+                Log.Warning($"Generated {invalidOpportunities.Count()} invalid opportunities for project {project}!");
 
-            _currentOpportunities.AddRange(newOpportunities.Where(o => o.IsValid()));
             _allGeneratedOpportunities.AddRange(newOpportunities.Where(o => o.IsValid()));
-            _allProjectsWithGeneratedOpportunities.Add(project);
+            _projectsGenerated.Add(project);
 
             if (ResearchReinventedMod.Settings.debugPrintouts)
             {
@@ -213,10 +202,5 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             else
                 return null;
         }
-
-        /*public float GetCategoryProgressFraction(ResearchOpportunityCategoryDef category)
-        {
-            category.targetFractionMultiplier 
-        }*/
     }
 }

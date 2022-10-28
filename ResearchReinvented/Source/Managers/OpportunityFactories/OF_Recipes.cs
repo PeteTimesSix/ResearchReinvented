@@ -38,7 +38,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                 users.AddRange(recipe.AllRecipeUsers);
             }
 
-            foreach (var recipe in GatherNewImpliedRecipes(project).Where(r => r.products != null).Where(r => r.PassesIdeoCheck()))
+            /*foreach (var recipe in GatherNewImpliedRecipes(project).Where(r => r.products != null).Where(r => r.PassesIdeoCheck()))
             {
                 if (recipe.products != null)
                     products.AddRange(recipe.products.Select(p => p.thingDef));
@@ -47,7 +47,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
 
                 if (!recipe.AllResearchPrerequisites().Except(project).Any())
                     prototypeables.AddRange(recipe.products.Select(p => p.thingDef));
-            }
+            }*/
 
             var rawIngredients = new List<ThingDefCount>();
             foreach (var ingredientCount in ingredients)

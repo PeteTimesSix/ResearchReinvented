@@ -75,8 +75,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
             var fullRect = inRect;
             //Rect fullRect = new Rect(0f, TITLEBAR_HEIGHT, this.size.x, this.size.y - TITLEBAR_HEIGHT).Rounded();
-            IReadOnlyCollection<ResearchOpportunityCategoryDef> opportunityCategories = ResearchOpportunityManager.instance.AllCurrentOpportunityCategories;
-            IReadOnlyCollection<ResearchOpportunity> opportunities = ResearchOpportunityManager.instance.AllCurrentOpportunities;
+            IReadOnlyCollection<ResearchOpportunity> opportunities = ResearchOpportunityManager.instance.CurrentProjectOpportunities;
+            IReadOnlyCollection<ResearchOpportunityCategoryDef> opportunityCategories = ResearchOpportunityManager.instance.CurrentProjectOpportunityCategories;
 
             var titlebarRect = fullRect.TopPartPixels(TITLEBAR_HEIGHT);
             var footerRect = fullRect.BottomPartPixels(FOOTER_HEIGHT);
