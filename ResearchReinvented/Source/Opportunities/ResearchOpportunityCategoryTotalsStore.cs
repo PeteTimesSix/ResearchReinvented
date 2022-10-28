@@ -15,6 +15,8 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
         public ResearchProjectDef project;
         public ResearchOpportunityCategoryDef category;
 
+        public ResearchOpportunityCategoryTotalsStore() { }
+
         public void ExposeData()
         {
             Scribe_Values.Look(ref baseResearchPoints, "baseResearchPoints", forceSave: true);
