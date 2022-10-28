@@ -136,16 +136,16 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             var collections = FillCollections(project);
             var opportunities = MakeOpportunities(project, collections);
 
-            opportunities = ClearInvalidOpportunities(opportunities);
+            opportunities = ValidOpportunities(opportunities);
 
             return opportunities;
         }
 
-        public IEnumerable<ResearchOpportunity> ClearInvalidOpportunities(IEnumerable<ResearchOpportunity> opportunities) 
+        public IEnumerable<ResearchOpportunity> ValidOpportunities(IEnumerable<ResearchOpportunity> opportunities) 
         {
             foreach(var opportunity in opportunities) 
             {
-                if(opportunity != null && opportunity.IsValid) 
+                if(opportunity.IsValid()) 
                 {
                     yield return opportunity;
                 }

@@ -70,7 +70,7 @@ namespace PeteTimesSix.ResearchReinvented.Defs
 
         public float GetCurrentTotal() 
         {
-            var matchingOpportunities = ResearchOpportunityManager.instance.AllCurrentOpportunities.Where(o => o.IsValid && o.def.GetCategory(o.relation) == this);
+            var matchingOpportunities = ResearchOpportunityManager.instance.AllCurrentOpportunities.Where(o => o.IsValid() && o.def.GetCategory(o.relation) == this);
             var totalProgress = matchingOpportunities.Sum(o => o.Progress);
             return totalProgress;
         }

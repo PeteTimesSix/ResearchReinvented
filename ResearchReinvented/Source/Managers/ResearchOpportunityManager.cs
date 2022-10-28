@@ -37,10 +37,12 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             _allGeneratedOpportunities = _allGeneratedOpportunities
             .Where(o =>
             {
-                if (!o.IsValid)
+                if (!o.IsValid())
+                {
                     Log.Warning($"[RR]: Research opportunity invalid, loadID: {o.loadID}, project: {o.project.label}");
-
-                return o.IsValid;
+                    return false;
+                }
+                return true;
             })
             .ToList();
         }
@@ -49,9 +51,9 @@ namespace PeteTimesSix.ResearchReinvented.Managers
         public IEnumerable<ResearchOpportunity> GetCurrentlyAvailableOpportunities(bool includeFinished = false)
         {
             if(!includeFinished)
-                return AllCurrentOpportunities.Where(o => o.IsValid && o.CurrentAvailability == OpportunityAvailability.Available);
+                return AllCurrentOpportunities.Where(o => o.IsValid() && o.CurrentAvailability == OpportunityAvailability.Available);
             else
-                return AllCurrentOpportunities.Where(o => o.IsValid && (o.CurrentAvailability == OpportunityAvailability.Available || o.CurrentAvailability == OpportunityAvailability.Finished));
+                return AllCurrentOpportunities.Where(o => o.IsValid() && (o.CurrentAvailability == OpportunityAvailability.Available || o.CurrentAvailability == OpportunityAvailability.Finished));
 
         }
 
@@ -84,7 +86,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             get
             {
                 HashSet<ResearchOpportunityCategoryDef> categories = new HashSet<ResearchOpportunityCategoryDef>();
-                foreach(var opportunity in AllCurrentOpportunities.Where(o => o.IsValid)) 
+                foreach(var opportunity in AllCurrentOpportunities.Where(o => o.IsValid())) 
                 {
                     foreach(var category in opportunity.def.GetAllCategories())
                     {
@@ -170,12 +172,12 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             _categoryStores.AddRange(categoryStores);
             _currentOpportunities.Clear();
 
-            var invalidOpportunities = _currentOpportunities.Where(o => !o.IsValid);
+            var invalidOpportunities = _currentOpportunities.Where(o => !o.IsValid());
             if (invalidOpportunities.Any())
                 Log.Error($"Generated {invalidOpportunities.Count()} invalid opportunities for project {project}!");
 
-            _currentOpportunities.AddRange(newOpportunities.Where(o => o.IsValid));
-            _allGeneratedOpportunities.AddRange(newOpportunities.Where(o => o.IsValid));
+            _currentOpportunities.AddRange(newOpportunities.Where(o => o.IsValid()));
+            _allGeneratedOpportunities.AddRange(newOpportunities.Where(o => o.IsValid()));
             _allProjectsWithGeneratedOpportunities.Add(project);
 
             if (ResearchReinventedMod.Settings.debugPrintouts)
