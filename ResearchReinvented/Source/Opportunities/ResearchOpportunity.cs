@@ -36,6 +36,14 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
         UnavailableReasonUnknown
     }
 
+    public static class ResearchOpportunityChecker 
+    {
+        public static bool IsValid(this ResearchOpportunity opportunity)
+        {
+            return opportunity != null && opportunity.requirement != null && opportunity.requirement.IsValid;
+        }
+    }
+
     public class ResearchOpportunity : IExposable, ILoadReferenceable
     {
         public ResearchProjectDef project;
@@ -68,7 +76,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
 
         public bool IsAlternate => isAlternate;
 
-        public bool IsValid => requirement != null && requirement.IsValid;
+        //public bool IsValid => requirement != null && requirement.IsValid;
 
         private List<JobDef> _jobDefsCached;
         public List<JobDef> JobDefs { 
