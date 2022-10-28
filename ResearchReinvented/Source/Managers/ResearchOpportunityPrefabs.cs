@@ -83,6 +83,11 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 totalsStore.baseResearchPoints = ((projectResearchPoints / totalMultiplier) * category.Settings.targetFractionMultiplier);
                 totalsStore.allResearchPoints = ((projectResearchPoints / totalMultiplier) * (category.Settings.targetFractionMultiplier + category.Settings.extraFractionMultiplier));
 
+                if (totalsStore.baseResearchPoints < MIN_RESEARCH_POINTS)
+                    totalsStore.baseResearchPoints = MIN_RESEARCH_POINTS;
+                if (totalsStore.allResearchPoints < MIN_RESEARCH_POINTS)
+                    totalsStore.allResearchPoints = MIN_RESEARCH_POINTS;
+
                 totalStores.Add(totalsStore);
 
                 if (!matchingOpportunities.Any())
