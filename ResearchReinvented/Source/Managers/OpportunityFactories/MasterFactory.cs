@@ -337,6 +337,23 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                 }
                 else
                 {
+                    //corpses
+                    if (asThing.IsCorpse) 
+                    {
+                        var deadThing = asThing.ingestible?.sourceDef;
+                        if (deadThing != null)
+                        {
+                            var deadThingRace = deadThing.race;
+                            if(deadThingRace != null) 
+                            {
+                                if (deadThingRace.IsFlesh)
+                                    yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissect, relation, new ROComp_RequiresThing(asThing), "direct analysis (corpse)", isAlternate: isAlternate); 
+                                else 
+                                    yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissectNonFlesh, relation, new ROComp_RequiresThing(asThing), "direct analysis (corpse non-flesh)", isAlternate: isAlternate);
+
+                            }
+                        }
+                    }
                     //food n' drugs
                     if (asThing.ingestible != null)
                     { 
