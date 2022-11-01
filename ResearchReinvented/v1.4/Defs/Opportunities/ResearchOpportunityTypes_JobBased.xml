@@ -77,10 +77,12 @@
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="JobBasedOpportunity">
 		<defName>AnalyseFood</defName>
-		<jobDef>RR_Analyse</jobDef>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_AnalyseInPlaceOrMinified</jobPickerClass>
 		<header_Direct>reproduce recipe</header_Direct>
+		<header_Ancestor>iterate on recipe</header_Ancestor>
 		<shortDesc_Direct>Reverse engineer a thing to figure out stuff.</shortDesc_Direct>
 		<category_Direct>Gastronomy</category_Direct>
+		<category_Ancestor>Gastronomy</category_Ancestor>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="JobBasedOpportunity">
