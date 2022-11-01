@@ -88,7 +88,7 @@
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="JobBasedOpportunity">
 		<defName>AnalyseDrug</defName>
 		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_AnalyseInPlaceOrMinified</jobPickerClass>
-		<header_Direct>perform chemical analysis</header_Direct>
+		<header_Direct>reverse engineer drug</header_Direct>
 		<shortDesc_Direct>Reverse engineer a thing to figure out stuff.</shortDesc_Direct>
 		<category_Direct>Chemistry</category_Direct>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>

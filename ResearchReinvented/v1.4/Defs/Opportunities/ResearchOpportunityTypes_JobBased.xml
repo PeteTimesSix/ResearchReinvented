@@ -9,8 +9,8 @@
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="JobBasedOpportunity">
-		<defName>AnalyseProductionFacility</defName>
-		<jobDef>RR_AnalyseInPlace</jobDef>
+		<defName>AnalyseProductionFacility</defName>		
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_AnalyseInPlaceOrMinified</jobPickerClass>
 		<header_Direct>tooling tests</header_Direct>
 		<header_Ancestor>postulate tool improvements</header_Ancestor>
 		<shortDesc_Direct>Examine which tools could be used to make stuff.</shortDesc_Direct>
@@ -19,7 +19,7 @@
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="JobBasedOpportunity">
 		<defName>Analyse</defName>
-		<jobDef>RR_Analyse</jobDef>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_AnalyseInPlaceOrMinified</jobPickerClass>
 		<header_Direct>reverse engineer</header_Direct>
 		<header_Ancestor>gather manufacturing experience</header_Ancestor>
 		<shortDesc_Direct>Reverse engineer a thing to figure out stuff.</shortDesc_Direct>
@@ -69,7 +69,7 @@
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="JobBasedOpportunity">
 		<defName>AnalyseRawFood</defName>
-		<jobDef>RR_Analyse</jobDef>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_AnalyseInPlaceOrMinified</jobPickerClass>
 		<header_Direct>determine taste profile</header_Direct>
 		<shortDesc_Direct>Reverse engineer a thing to figure out stuff.</shortDesc_Direct>
 		<category_Direct>Gastronomy</category_Direct>
@@ -87,25 +87,15 @@
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="JobBasedOpportunity">
 		<defName>AnalyseDrug</defName>
-		<jobDef>RR_Analyse</jobDef>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_AnalyseInPlaceOrMinified</jobPickerClass>
 		<header_Direct>reverse engineer drug</header_Direct>
 		<shortDesc_Direct>Reverse engineer a thing to figure out stuff.</shortDesc_Direct>
 		<category_Direct>Chemistry</category_Direct>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="JobBasedOpportunity">
-		<defName>AnalyseInPlace</defName>
-		<jobDef>RR_AnalyseInPlace</jobDef>
-		<header_Direct>reverse engineer (at location)</header_Direct>
-		<header_Ancestor>gather construction experience</header_Ancestor>
-		<shortDesc_Direct>Reverse engineer a thing to figure out stuff.</shortDesc_Direct>
-		<category_Direct>ReverseEngineering</category_Direct>
-		<category_Ancestor>ForwardEngineering</category_Ancestor>
-	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
-	
-	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="JobBasedOpportunity">
 		<defName>AnalysePlant</defName>
-		<jobDef>RR_AnalyseInPlace</jobDef>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_AnalyseInPlaceOrMinified</jobPickerClass>
 		<header_Direct>observe plant growth (at location)</header_Direct>
 		<shortDesc_Direct>Analyse a plant to figure out stuff.</shortDesc_Direct>
 		<category_Direct>Biology</category_Direct>
@@ -113,7 +103,7 @@
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="JobBasedOpportunity">
 		<defName>AnalyseHarvestProduct</defName>
-		<jobDef>RR_Analyse</jobDef>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_AnalyseInPlaceOrMinified</jobPickerClass>
 		<header_Direct>examine harvest products</header_Direct>
 		<shortDesc_Direct>Analyse harvest products to figure out stuff.</shortDesc_Direct>
 		<category_Direct>Biology</category_Direct>
@@ -121,7 +111,7 @@
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="JobBasedOpportunity">
 		<defName>AnalyseIngredients</defName>
-		<jobDef>RR_Analyse</jobDef>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_AnalyseInPlaceOrMinified</jobPickerClass>
 		<header_Direct>material analysis</header_Direct>
 		<shortDesc_Direct>Analyse materials to figure out stuff.</shortDesc_Direct>
 		<category_Direct>Material</category_Direct>
@@ -129,7 +119,7 @@
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="JobBasedOpportunity">
 		<defName>AnalyseIngredientsDrug</defName>
-		<jobDef>RR_Analyse</jobDef>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_AnalyseInPlaceOrMinified</jobPickerClass>
 		<header_Direct>chemical compound analysis</header_Direct>
 		<shortDesc_Direct>Analyse materials to figure out stuff.</shortDesc_Direct>
 		<category_Direct>Chemistry</category_Direct>
@@ -137,7 +127,7 @@
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="JobBasedOpportunity">
 		<defName>AnalyseIngredientsFood</defName>
-		<jobDef>RR_Analyse</jobDef>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_AnalyseInPlaceOrMinified</jobPickerClass>
 		<header_Direct>ingredient analysis</header_Direct>
 		<shortDesc_Direct>Analyse materials to figure out stuff.</shortDesc_Direct>
 		<category_Direct>Gastronomy</category_Direct>
@@ -145,7 +135,7 @@
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="JobBasedOpportunity">
 		<defName>AnalyseIngredientsRawFood</defName>
-		<jobDef>RR_Analyse</jobDef>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_AnalyseInPlaceOrMinified</jobPickerClass>
 		<header_Direct>ingredient analysis</header_Direct>
 		<shortDesc_Direct>Analyse materials to figure out stuff.</shortDesc_Direct>
 		<category_Direct>Gastronomy</category_Direct>
@@ -153,7 +143,7 @@
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="JobBasedOpportunity">
 		<defName>AnalyseFuelDrug</defName>
-		<jobDef>RR_Analyse</jobDef>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_AnalyseInPlaceOrMinified</jobPickerClass>
 		<header_Direct>active ingredient analysis</header_Direct>
 		<shortDesc_Direct>Analyse materials to figure out stuff.</shortDesc_Direct>
 		<category_Direct>Chemistry</category_Direct>
@@ -161,7 +151,7 @@
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="JobBasedOpportunity">
 		<defName>AnalyseFuelFood</defName>
-		<jobDef>RR_Analyse</jobDef>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_AnalyseInPlaceOrMinified</jobPickerClass>
 		<header_Direct>nutrient content analysis</header_Direct>
 		<shortDesc_Direct>Analyse materials to figure out stuff.</shortDesc_Direct>
 		<category_Direct>Gastronomy</category_Direct>
@@ -169,7 +159,7 @@
 	
 		<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="JobBasedOpportunity">
 		<defName>AnalyseFuelFlammable</defName>
-		<jobDef>RR_Analyse</jobDef>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_AnalyseInPlaceOrMinified</jobPickerClass>
 		<header_Direct>fuel efficiency analysis</header_Direct>
 		<shortDesc_Direct>Analyse materials to figure out stuff.</shortDesc_Direct>
 		<category_Direct>Logistics</category_Direct>
@@ -177,7 +167,7 @@
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="JobBasedOpportunity">
 		<defName>AnalyseFuel</defName>
-		<jobDef>RR_Analyse</jobDef>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_AnalyseInPlaceOrMinified</jobPickerClass>
 		<header_Direct>resupply material analysis</header_Direct>
 		<shortDesc_Direct>Analyse materials to figure out stuff.</shortDesc_Direct>
 		<category_Direct>Logistics</category_Direct>
