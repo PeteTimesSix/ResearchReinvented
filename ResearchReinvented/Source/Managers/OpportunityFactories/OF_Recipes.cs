@@ -17,17 +17,19 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
         public static void MakeFromRecipes(ResearchProjectDef project, OpportunityFactoryCollectionsSetForRelation collections)
         {
             HashSet<ThingDef> users = new HashSet<ThingDef>();
-            HashSet<IngredientCount> ingredients = new HashSet<IngredientCount>();
+            HashSet<ThingDef> ingredients = new HashSet<ThingDef>();
             HashSet<ThingDef> products = new HashSet<ThingDef>();
             HashSet<ThingDef> prototypeables = new HashSet<ThingDef>();
 
-            foreach (var recipe in GatherDirectRecipes(project).Where(r => r.PassesIdeoCheck())) 
+            foreach (var recipe in GatherDirectRecipes(project).Where(r => r.PassesIdeoCheck()))
             {
                 users.AddRange(recipe.AllRecipeUsers);
                 if (recipe.products != null)
-                    products.AddRange(recipe.products.Select(p => p.thingDef));
+                    products.AddRange(recipe.products.Select(p => p.thingDef)); 
                 if (recipe.ingredients != null)
-                    ingredients.AddRange(recipe.ingredients);
+                {
+                    FilterRecipeIngredients(ingredients, recipe);
+                }
 
                 if (!recipe.AllResearchPrerequisites().Except(project).Any())
                     prototypeables.AddRange(recipe.products.Select(p => p.thingDef));
@@ -38,35 +40,11 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                 users.AddRange(recipe.AllRecipeUsers);
             }
 
-            /*foreach (var recipe in GatherNewImpliedRecipes(project).Where(r => r.products != null).Where(r => r.PassesIdeoCheck()))
-            {
-                if (recipe.products != null)
-                    products.AddRange(recipe.products.Select(p => p.thingDef));
-                if (recipe.ingredients != null)
-                    ingredients.AddRange(recipe.ingredients);
-
-                if (!recipe.AllResearchPrerequisites().Except(project).Any())
-                    prototypeables.AddRange(recipe.products.Select(p => p.thingDef));
-            }*/
-
-            var rawIngredients = new List<ThingDefCount>();
-            foreach (var ingredientCount in ingredients)
-            {
-                if (ingredientCount.IsFixedIngredient)
-                    rawIngredients.Add(new ThingDefCount(ingredientCount.FixedIngredient, (int)ingredientCount.GetBaseCount()));
-                else
-                {
-                    var possibleIngredients = ingredientCount.filter.AllowedThingDefs.Select(a => new ThingDefCount(a, (int)ingredientCount.GetBaseCount()));
-                    rawIngredients.AddRange(possibleIngredients);
-                }
-            }
-            var ingredientThings = rawIngredients.Select(c => c.ThingDef).ToHashSet();
-
             users = FilterProducersToPlausiblyUnlocked(project, users);
 
             collections.forProductionFacilityAnalysis.AddRange(users);
             collections.forDirectAnalysis.AddRange(products);
-            collections.forIngredientsAnalysis.AddRange(ingredientThings);
+            collections.forIngredientsAnalysis.AddRange(ingredients);
 
             collections.forPrototyping.AddRange(prototypeables);
         }
@@ -146,6 +124,30 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             }
 
             return recipes;
+        }
+
+        private static void FilterRecipeIngredients(HashSet<ThingDef> ingredientsStore, RecipeDef recipe)
+        {
+            for (int i = 0; i < recipe.ingredients.Count; i++)
+            {
+                IngredientCount ingredientCount = recipe.ingredients[i];
+                if (ingredientCount.IsFixedIngredient)
+                {
+                    ingredientsStore.Add(ingredientCount.FixedIngredient);
+                }
+                else
+                {
+                    if (recipe.fixedIngredientFilter != null)
+                    {
+                        var allowedThings = ingredientCount.filter.AllowedThingDefs.Where(t => recipe.fixedIngredientFilter.Allows(t));
+                        ingredientsStore.AddRange(allowedThings);
+                    }
+                    else
+                    {
+                        ingredientsStore.AddRange(ingredientCount.filter.AllowedThingDefs);
+                    }
+                }
+            }
         }
 
     }
