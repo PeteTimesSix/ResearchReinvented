@@ -61,10 +61,17 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			if (currentProj == null)
 				return false;
 
+			if (!(thing.Faction == null || thing.Faction == Faction.OfPlayer))
+				return false;
+
 			if (cacheBuiltOnTick != Find.TickManager.TicksAbs)
 			{
 				BuildCache();
 			}
+
+			// Dont actually do this. We want minified things to be examined at benches.
+			//var unwrappedThing = thing.UnwrapIfWrapped();
+			//var thingDef = unwrappedThing.def;
 
 			if (!opportunityCache.ContainsKey(thing.def))
 				return false;
