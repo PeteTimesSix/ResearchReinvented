@@ -28,6 +28,26 @@
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="JobBasedOpportunity">
+		<defName>AnalysePawn</defName>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_AnalyseInPlaceOrMinified</jobPickerClass>
+		<header_Direct>observe</header_Direct>
+		<header_Ancestor>observe</header_Ancestor>
+		<shortDesc_Direct>Reverse engineer a thing to figure out stuff.</shortDesc_Direct>
+		<category_Direct>Biology</category_Direct>
+		<category_Ancestor>Biology</category_Ancestor>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="JobBasedOpportunity">
+		<defName>AnalysePawnNonFlesh</defName>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_AnalyseInPlaceOrMinified</jobPickerClass>
+		<header_Direct>observe</header_Direct>
+		<header_Ancestor>observe</header_Ancestor>
+		<shortDesc_Direct>Reverse engineer a thing to figure out stuff.</shortDesc_Direct>
+		<category_Direct>ReverseEngineering</category_Direct>
+		<category_Ancestor>ForwardEngineering</category_Ancestor>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="JobBasedOpportunity">
 		<defName>AnalyseDissect</defName>
 		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_AnalyseInPlaceOrMinified</jobPickerClass>
 		<header_Direct>dissect</header_Direct>
