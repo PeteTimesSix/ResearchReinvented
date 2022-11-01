@@ -61,19 +61,46 @@ namespace PeteTimesSix.ResearchReinvented.Managers
         public override void LoadedGame()
         {
             base.LoadedGame();
-            _allGeneratedOpportunities = _allGeneratedOpportunities
-            .Where(o =>
+            bool forceRegen = false;
+            if (_allGeneratedOpportunities == null)
             {
-                if (!o.IsValid())
-                {
-                    Log.Warning($"[RR]: Research opportunity invalid, loadID: {o.loadID}, project: {o.project.label}");
-                    return false;
-                }
-                return true;
-            })
-            .ToList();
+                Log.Warning("RR: _allGeneratedOpportunities was missing!");
+                _allGeneratedOpportunities = new List<ResearchOpportunity>();
+                forceRegen = true;
+            }
+            if (_jobToOpportunityMap == null)
+            {
+                Log.Warning("RR: _jobToOpportunityMap was missing!");
+                _jobToOpportunityMap = new Dictionary<int, ResearchOpportunity>();
+                forceRegen = true;
+            }
+            if (_categoryStores == null)
+            {
+                Log.Warning("RR: _categoryStores was missing!");
+                _categoryStores = new List<ResearchOpportunityCategoryTotalsStore>();
+                forceRegen = true;
+            }
 
-            CheckForRegeneration();
+            if (forceRegen)
+            {
+                GenerateOpportunities(Find.ResearchManager.currentProj, true);
+            }
+            else
+            {
+                _allGeneratedOpportunities = _allGeneratedOpportunities
+                .Where(o =>
+                {
+                    if (!o.IsValid())
+                    {
+                        Log.Warning($"[RR]: Research opportunity invalid, loadID: {o?.loadID}, project: {o?.project?.label}");
+                        return false;
+                    }
+                    return true;
+                })
+                .ToList();
+
+                CheckForRegeneration();
+            }
         }
 
         public bool CheckForRegeneration() 
