@@ -61,7 +61,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			if (currentProj == null)
 				return false;
 
-			if (!(thing.Faction == null || thing.Faction == Faction.OfPlayer))
+			if (thing.FactionAllowsAnalysis())
 				return false;
 
 			if (cacheBuiltOnTick != Find.TickManager.TicksAbs)
