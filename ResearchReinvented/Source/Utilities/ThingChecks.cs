@@ -18,7 +18,7 @@ namespace PeteTimesSix.ResearchReinvented.Utilities
 
             if (thing is Pawn pawn) 
             {
-                if (pawn.IsPrisonerOfColony || pawn.IsSlaveOfColony && !pawn.HostileTo(Faction.OfPlayer))
+                if ((pawn.IsPrisonerOfColony || pawn.IsSlaveOfColony) && !pawn.HostileTo(Faction.OfPlayer))
                     return true;
                 else
                     return false;
