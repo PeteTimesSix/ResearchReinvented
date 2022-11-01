@@ -73,25 +73,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             })
             .ToList();
 
-            DoBackwardsCompatChecks();
-
             CheckForRegeneration();
-        }
-
-        private void DoBackwardsCompatChecks()
-        {
-            foreach (var op in _allGeneratedOpportunities) 
-            {
-                if(op.requirement is ROComp_RequiresThing requiresThing) 
-                {
-                    if(requiresThing.thingDef.IsCorpse)
-                    {
-                        var innerDef = requiresThing.thingDef?.ingestible?.sourceDef;
-                        if (innerDef != null)
-                            requiresThing.thingDef = innerDef;
-                    }
-                }
-            }
         }
 
         public bool CheckForRegeneration() 

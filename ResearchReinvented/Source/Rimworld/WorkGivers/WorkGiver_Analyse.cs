@@ -60,8 +60,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
                 BuildCache();
             }
 
-            var unwrappedThing = thing.UnwrapIfWrapped();
-            var thingDef = unwrappedThing.def;
+            var unminifiedThing = thing.GetInnerIfMinified();
+            var thingDef = unminifiedThing.def;
 
             if (!opportunityCache.ContainsKey(thingDef))
                 return false;

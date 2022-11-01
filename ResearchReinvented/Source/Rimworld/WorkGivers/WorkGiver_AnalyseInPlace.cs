@@ -70,8 +70,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			}
 
 			// Dont actually do this. We want minified things to be examined at benches.
-			//var unwrappedThing = thing.UnwrapIfWrapped();
-			//var thingDef = unwrappedThing.def;
+			//var unminifiedThing = thing.GetInnerIfMinified();
+			//var thingDef = unminifiedThing.def;
 
 			if (!opportunityCache.ContainsKey(thing.def))
 				return false;
