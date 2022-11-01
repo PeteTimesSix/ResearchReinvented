@@ -1,5 +1,6 @@
 ﻿using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Opportunities;
+using PeteTimesSix.ResearchReinvented.OpportunityComps;
 using PeteTimesSix.ResearchReinvented.Utilities;
 using RimWorld.Planet;
 using System;
@@ -71,7 +72,26 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 return true;
             })
             .ToList();
+
+            DoBackwardsCompatChecks();
+
             CheckForRegeneration();
+        }
+
+        private void DoBackwardsCompatChecks()
+        {
+            foreach (var op in _allGeneratedOpportunities) 
+            {
+                if(op.requirement is ROComp_RequiresThing requiresThing) 
+                {
+                    if(requiresThing.thingDef.IsCorpse)
+                    {
+                        var innerDef = requiresThing.thingDef?.ingestible?.sourceDef;
+                        if (innerDef != null)
+                            requiresThing.thingDef = innerDef;
+                    }
+                }
+            }
         }
 
         public bool CheckForRegeneration() 

@@ -4,6 +4,7 @@ using PeteTimesSix.ResearchReinvented.Managers;
 using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.OpportunityComps;
 using PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers;
+using PeteTimesSix.ResearchReinvented.Utilities;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -51,12 +52,17 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
             if (currentProj == null)
                 return false;
 
+            if (!(thing.Faction == null || thing.Faction == Faction.OfPlayer))
+                return false;
+
             if (cacheBuiltOnTick != Find.TickManager.TicksAbs)
             {
                 BuildCache();
             }
 
-            var thingDef = MinifyUtility.GetInnerIfMinified(thing).def;
+            var unwrappedThing = thing.UnwrapIfWrapped();
+            var thingDef = unwrappedThing.def;
+
             if (!opportunityCache.ContainsKey(thingDef))
                 return false;
 
