@@ -104,7 +104,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                         typeImportanceTotal = category.Settings.targetIterations;
                     float baseImportance = 1f / typeImportanceTotal;
 
-                    Log.Message($"project {project} ({projectResearchPoints}) category {category.label} ({categoryImportanceTotal}) type.def {type.def.defName} type.rel {type.rel} (points: {typeResearchPoints} base imp.: {baseImportance} count:{matchCount}) points per: {(typeResearchPoints / typeImportanceTotal)}");
+                    //Log.Message($"project {project} ({projectResearchPoints}) category {category.label} ({categoryImportanceTotal}) type.def {type.def.defName} type.rel {type.rel} (points: {typeResearchPoints} base imp.: {baseImportance} count:{matchCount}) points per: {(typeResearchPoints / typeImportanceTotal)}");
 
                     foreach (var opportunity in matchingOpportunitiesOfType)
                     {
