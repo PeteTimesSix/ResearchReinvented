@@ -346,13 +346,13 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                     {
                         yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalysePawn, relation, new ROComp_RequiresThing(asThing), "direct analysis pawn", isAlternate: isAlternate);
                         if (asThing.race.corpseDef != null)
-                            yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissect, relation, new ROComp_RequiresThing(asThing.race.corpseDef), "direct analysis pawn (corpse)", isAlternate: isAlternate);
+                            yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissect, relation, new ROComp_RequiresThing(asThing.race.corpseDef), "direct analysis pawn (corpse)", isAlternate: true);
                     }
                     else
                     {
                         yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalysePawnNonFlesh, relation, new ROComp_RequiresThing(asThing), "direct analysis pawn nonflesh", isAlternate: isAlternate);
                         if (asThing.race.corpseDef != null)
-                            yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissectNonFlesh, relation, new ROComp_RequiresThing(asThing.race.corpseDef), "direct analysis pawn (corpse non-flesh)", isAlternate: isAlternate);
+                            yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissectNonFlesh, relation, new ROComp_RequiresThing(asThing.race.corpseDef), "direct analysis pawn (corpse non-flesh)", isAlternate: true);
                     }
 
                 }
