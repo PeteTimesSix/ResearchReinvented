@@ -54,10 +54,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                         categories.Add(category);
                 }
             }
-            //var categoriesTotalMultiplier = categories.Sum(c => c.TotalTargetFractionMultiplier);
 
             float projectResearchPoints = project.baseCost;
-
             float totalMultiplier = 0;
 
             foreach (var category in categories)
@@ -67,10 +65,6 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 {
                     totalMultiplier += category.Settings.targetFractionMultiplier;
                 }
-                /*foreach (ResearchRelation relation in Enum.GetValues(typeof(ResearchRelation)))
-                {
-                    
-                }*/
             }
 
             List<ResearchOpportunityCategoryTotalsStore> totalStores = new List<ResearchOpportunityCategoryTotalsStore>();
@@ -94,14 +88,14 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                     continue;
 
                 var categoryImportanceTotal = matchingOpportunities.Sum(o => o.importance);
-                var matchingOpportunityTypes = matchingOpportunities.Select(o => o.def).ToHashSet();
+                var matchingOpportunityTypes = matchingOpportunities.Select(o => (def: o.def, rel: o.relation)).ToHashSet();
 
                 foreach (var type in matchingOpportunityTypes)
                 {
                     float typeResearchPoints = totalsStore.allResearchPoints / matchingOpportunityTypes.Count();
 
-                    var matchingOpportunitiesOfType = matchingOpportunities.Where(o => o.def == type);
-                    var matchCount = matchingOpportunitiesOfType.Count(); //attempt to make rares as valuable for research as all other options combined
+                    var matchingOpportunitiesOfType = matchingOpportunities.Where(o => o.def == type.def && o.relation == type.rel);
+                    var matchCount = matchingOpportunitiesOfType.Count();       //attempt to make rares as valuable for research as all other options combined
                     float typeImportanceTotal = matchingOpportunitiesOfType.Sum(o => o.IsAlternate ? 0 : (o.requirement.IsRare ? matchCount : o.importance));
                     if (typeImportanceTotal < 1) //just in case, dont want to divide by zero
                         typeImportanceTotal = 1;
@@ -110,8 +104,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                         typeImportanceTotal = category.Settings.targetIterations;
                     float baseImportance = 1f / typeImportanceTotal;
 
-                    //if (project.defName == "PackagedSurvivalMeal" || project.defName == "Autodoors")
-                    //Log.Message($"project {project} ({projectResearchPoints}) category {category.label} ({categoryResearchPoints}) type {type.defName} (points: {typeResearchPoints} base imp.: {baseImportance} count:{matchCount}) points per: {(typeResearchPoints / typeImportanceTotal)}");
+                    Log.Message($"project {project} ({projectResearchPoints}) category {category.label} ({categoryImportanceTotal}) type.def {type.def.defName} type.rel {type.rel} (points: {typeResearchPoints} base imp.: {baseImportance} count:{matchCount}) points per: {(typeResearchPoints / typeImportanceTotal)}");
 
                     foreach (var opportunity in matchingOpportunitiesOfType)
                     {
