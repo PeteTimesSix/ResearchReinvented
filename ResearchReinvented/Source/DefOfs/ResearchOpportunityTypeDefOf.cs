@@ -13,6 +13,8 @@ namespace PeteTimesSix.ResearchReinvented.DefOfs
     {
 
         public static ResearchOpportunityTypeDef Analyse;
+        public static ResearchOpportunityTypeDef AnalysePawn;
+        public static ResearchOpportunityTypeDef AnalysePawnNonFlesh;
         public static ResearchOpportunityTypeDef AnalyseDissect;
         public static ResearchOpportunityTypeDef AnalyseDissectNonFlesh;
         public static ResearchOpportunityTypeDef AnalyseRawFood;

@@ -340,7 +340,23 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
         {
             if (reverseEngineerable is ThingDef asThing)
             {
-                if (typeof(Plant).IsAssignableFrom(asThing.thingClass))
+                if (typeof(Pawn).IsAssignableFrom(asThing.thingClass) && asThing.race != null)
+                {
+                    if (asThing.race.IsFlesh)
+                    {
+                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalysePawn, relation, new ROComp_RequiresThing(asThing), "direct analysis pawn", isAlternate: isAlternate);
+                        if (asThing.race.corpseDef != null)
+                            yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissect, relation, new ROComp_RequiresThing(asThing.race.corpseDef), "direct analysis pawn (corpse)", isAlternate: isAlternate);
+                    }
+                    else
+                    {
+                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalysePawnNonFlesh, relation, new ROComp_RequiresThing(asThing), "direct analysis pawn nonflesh", isAlternate: isAlternate);
+                        if (asThing.race.corpseDef != null)
+                            yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissectNonFlesh, relation, new ROComp_RequiresThing(asThing.race.corpseDef), "direct analysis pawn (corpse non-flesh)", isAlternate: isAlternate);
+                    }
+
+                }
+                else if (typeof(Plant).IsAssignableFrom(asThing.thingClass))
                     yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalysePlant, relation, new ROComp_RequiresThing(asThing), "direct analysis (plant)", isAlternate: isAlternate);
                 else if (!asThing.EverHaulable)
                 {
