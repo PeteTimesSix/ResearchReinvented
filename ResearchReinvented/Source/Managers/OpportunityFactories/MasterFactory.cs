@@ -317,9 +317,9 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                         if (deadThingRace != null)
                         {
                             if (deadThingRace.IsFlesh)
-                                yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissect, relation, new ROComp_RequiresThing(deadThing), "direct analysis (corpse)", isAlternate: isAlternate);
+                                yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissect, relation, new ROComp_RequiresThing(material), "direct analysis (corpse)", isAlternate: isAlternate);
                             else
-                                yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissectNonFlesh, relation, new ROComp_RequiresThing(deadThing), "direct analysis (corpse non-flesh)", isAlternate: isAlternate);
+                                yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissectNonFlesh, relation, new ROComp_RequiresThing(material), "direct analysis (corpse non-flesh)", isAlternate: isAlternate);
 
                         }
                     }
