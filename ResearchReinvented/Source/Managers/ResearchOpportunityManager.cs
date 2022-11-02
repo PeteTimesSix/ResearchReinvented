@@ -188,21 +188,29 @@ namespace PeteTimesSix.ResearchReinvented.Managers
         private (HashSet<Thing> blueprints, HashSet<Thing> frames, HashSet<UnfinishedThing> ufts, HashSet<Bill> bills) toCancel = (new HashSet<Thing>(), new HashSet<Thing>(), new HashSet<UnfinishedThing>(), new HashSet<Bill>());
         public void CancelMarkedPrototypes()
         {
+            //Log.Message("cancelling prototypes...");
             foreach (var blueprint in toCancel.blueprints)
             {
-                blueprint.Destroy(DestroyMode.Cancel);
+                //Log.Message($"cancelling blueprint {blueprint} at {blueprint.Position}");
+                if (!blueprint.Destroyed)
+                    blueprint.Destroy(DestroyMode.Cancel);
             }
             foreach (var frame in toCancel.frames)
             {
-                frame.Destroy(DestroyMode.Cancel);
+                //Log.Message($"cancelling frame {frame} at {frame.Position}");
+                if (!frame.Destroyed)
+                    frame.Destroy(DestroyMode.Cancel);
             }
             foreach (var uft in toCancel.ufts)
             {
-                uft.Destroy(DestroyMode.Cancel);
+                //Log.Message($"cancelling uft {uft} at {uft.Position}");
+                if (!uft.Destroyed)
+                    uft.Destroy(DestroyMode.Cancel);
             }
 
             foreach (var bill in toCancel.bills)
             {
+                //Log.Message($"cancelling bill {bill} at {bill.billStack.billGiver}");
                 bill.billStack.Delete(bill);
             }
 
