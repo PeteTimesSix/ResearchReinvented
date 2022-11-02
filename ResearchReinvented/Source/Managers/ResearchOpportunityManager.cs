@@ -59,6 +59,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers
         private Dictionary<int, ResearchOpportunity> _jobToOpportunityMap = new Dictionary<int, ResearchOpportunity>();
         private List<ResearchOpportunityCategoryTotalsStore> _categoryStores = new List<ResearchOpportunityCategoryTotalsStore>();
 
+        private bool regenerateWhenPossible = false;
+
         public ResearchOpportunityManager(Game game)
         {
         }
@@ -66,6 +68,11 @@ namespace PeteTimesSix.ResearchReinvented.Managers
         public override void GameComponentTick()
         {
             base.GameComponentTick();
+            if(regenerateWhenPossible)
+            {
+                regenerateWhenPossible = false;
+                GenerateOpportunities(Find.ResearchManager.currentProj, true);
+            }
             CheckForRegeneration();
             CancelMarkedPrototypes();
         }
@@ -150,39 +157,35 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
         public void PostFinishProject(ResearchProjectDef project)
         {
-            List<ResearchOpportunity> remainingOpportunities = new List<ResearchOpportunity>();
-            List<ResearchOpportunity> removedOpportunities = new List<ResearchOpportunity>();
-            foreach(var op in _allGeneratedOpportunities) 
-            {
-                if (op.project == project)
-                    removedOpportunities.Add(op);
-                else
-                    remainingOpportunities.Add(op);
-            }
-            _allGeneratedOpportunities = remainingOpportunities;
+            _allGeneratedOpportunities.RemoveAll(o => o.project == project);
             _projectsGenerated.Remove(project);
+            _categoryStores.RemoveAll(cs => cs.project == project);
 
             if (_currentProject == project)
             {
                 _currentProject = null;
-                _currentProjectOpportunitiesCache.Clear();
-                _currentOpportunityCategoriesCache.Clear();
-                _categoryStores.Clear();
+                _currentProjectOpportunitiesCache?.Clear();
+                _currentOpportunityCategoriesCache?.Clear();
             }
         }
         public void ResetAllProgress()
         {
-            _allGeneratedOpportunities.Clear();
-            _currentProjectOpportunitiesCache.Clear();
-            _currentOpportunityCategoriesCache.Clear();
-            _categoryStores.Clear();
-            _projectsGenerated.Clear();
+            _allGeneratedOpportunities?.Clear();
+            _currentProjectOpportunitiesCache?.Clear();
+            _currentOpportunityCategoriesCache?.Clear();
+            _categoryStores?.Clear();
+            _projectsGenerated?.Clear();
         }
 
 
         public void FinishProject(ResearchProjectDef project, bool doCompletionDialog = false, Pawn researcher = null)
         {
             Find.ResearchManager.FinishProject(project, doCompletionDialog, researcher);
+        }
+
+        public void DelayedRegeneration()
+        {
+            this.regenerateWhenPossible = true;
         }
 
         private (HashSet<Thing> blueprints, HashSet<Thing> frames, HashSet<UnfinishedThing> ufts, HashSet<Bill> bills) toCancel = (new HashSet<Thing>(), new HashSet<Thing>(), new HashSet<UnfinishedThing>(), new HashSet<Bill>());

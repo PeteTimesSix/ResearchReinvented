@@ -155,6 +155,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
             if (totalsStore == null)
             {
+                ResearchOpportunityManager.instance.DelayedRegeneration();
                 GUI.color = Color.red;
                 Widgets.Label(headerRect, $"Category {category.LabelCap} totalsStore missing!");
                 GUI.color = Color.white;
