@@ -2,6 +2,7 @@
 using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.OpportunityComps;
 using PeteTimesSix.ResearchReinvented.Utilities;
+using RimWorld;
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
@@ -21,10 +22,12 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
         private List<ResearchOpportunity> _allGeneratedOpportunities = new List<ResearchOpportunity>();
 
+
         public IReadOnlyCollection<ResearchOpportunity> AllGeneratedOpportunities => _allGeneratedOpportunities.AsReadOnly();
 
         private ResearchProjectDef _currentProject;
         public ResearchProjectDef CurrentProject => _currentProject;
+
         private List<ResearchOpportunity> _currentProjectOpportunitiesCache;
         public IReadOnlyCollection<ResearchOpportunity> CurrentProjectOpportunities
         {
@@ -55,12 +58,27 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
         private Dictionary<int, ResearchOpportunity> _jobToOpportunityMap = new Dictionary<int, ResearchOpportunity>();
         private List<ResearchOpportunityCategoryTotalsStore> _categoryStores = new List<ResearchOpportunityCategoryTotalsStore>();
-       
-        
-        // contributed by mahenry00
-        public override void LoadedGame()
+
+        public ResearchOpportunityManager(Game game)
         {
-            base.LoadedGame();
+        }
+
+        public override void GameComponentTick()
+        {
+            base.GameComponentTick();
+            CheckForRegeneration();
+            CancelMarkedPrototypes();
+        }
+
+        public override void FinalizeInit()
+        {
+            base.FinalizeInit();
+            StartupChecks();
+        }
+
+        public void StartupChecks() 
+        {
+
             bool forceRegen = false;
             if (_allGeneratedOpportunities == null)
             {
@@ -87,6 +105,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             }
             else
             {
+                // contributed by mahenry00
                 _allGeneratedOpportunities = _allGeneratedOpportunities
                 .Where(o =>
                 {
@@ -107,6 +126,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
         {
             if(Find.ResearchManager.currentProj != _currentProject)
             {
+                MarkUnfinishedPrototypesForCancellation(Find.ResearchManager.currentProj);
                 GenerateOpportunities(Find.ResearchManager.currentProj, false);
                 return true;
             }
@@ -123,42 +143,114 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
         }
 
-        internal ResearchOpportunityCategoryTotalsStore GetTotalsStore(ResearchProjectDef project, ResearchOpportunityCategoryDef category)
+        public ResearchOpportunityCategoryTotalsStore GetTotalsStore(ResearchProjectDef project, ResearchOpportunityCategoryDef category)
         {
             return _categoryStores.FirstOrDefault(cs => cs.project == project && cs.category == category);
         }
 
-        public ResearchOpportunityManager(Game game)
+        public void PostFinishProject(ResearchProjectDef project)
         {
+            List<ResearchOpportunity> remainingOpportunities = new List<ResearchOpportunity>();
+            List<ResearchOpportunity> removedOpportunities = new List<ResearchOpportunity>();
+            foreach(var op in _allGeneratedOpportunities) 
+            {
+                if (op.project == project)
+                    removedOpportunities.Add(op);
+                else
+                    remainingOpportunities.Add(op);
+            }
+            _allGeneratedOpportunities = remainingOpportunities;
+            _projectsGenerated.Remove(project);
+
+            if (_currentProject == project)
+            {
+                _currentProject = null;
+                _currentProjectOpportunitiesCache.Clear();
+                _currentOpportunityCategoriesCache.Clear();
+                _categoryStores.Clear();
+            }
+        }
+        public void ResetAllProgress()
+        {
+            _allGeneratedOpportunities.Clear();
+            _currentProjectOpportunitiesCache.Clear();
+            _currentOpportunityCategoriesCache.Clear();
+            _categoryStores.Clear();
+            _projectsGenerated.Clear();
         }
 
-        private List<int> wList1;
-        private List<ResearchOpportunity> wList2;
-
-        public override void ExposeData()
-        {
-            base.ExposeData();
-            Scribe_Collections.Look(ref _allGeneratedOpportunities, "_allGeneratedOpportunities", LookMode.Deep);
-            Scribe_Collections.Look(ref _projectsGenerated, "_allProjectsWithGeneratedOpportunities", LookMode.Def);
-            Scribe_Collections.Look(ref _jobToOpportunityMap, "_jobToOpportunityMap", LookMode.Value, LookMode.Reference, ref wList1, ref wList2);
-            Scribe_Defs.Look(ref _currentProject, "currentProject");
-            Scribe_Collections.Look(ref _categoryStores, "_categoryStores", LookMode.Deep);
-        }
-
-        public override void FinalizeInit()
-        {
-            base.FinalizeInit();
-            if (_jobToOpportunityMap == null)
-                _jobToOpportunityMap = new Dictionary<int, ResearchOpportunity>();
-            if (_categoryStores == null)
-                _categoryStores = new List<ResearchOpportunityCategoryTotalsStore>();
-        }
 
         public void FinishProject(ResearchProjectDef project, bool doCompletionDialog = false, Pawn researcher = null)
         {
             Find.ResearchManager.FinishProject(project, doCompletionDialog, researcher);
         }
-        
+
+        private (HashSet<Thing> blueprints, HashSet<Thing> frames, HashSet<UnfinishedThing> ufts, HashSet<Bill> bills) toCancel = (new HashSet<Thing>(), new HashSet<Thing>(), new HashSet<UnfinishedThing>(), new HashSet<Bill>());
+        public void CancelMarkedPrototypes()
+        {
+            foreach (var blueprint in toCancel.blueprints)
+            {
+                blueprint.Destroy(DestroyMode.Cancel);
+            }
+            foreach (var frame in toCancel.frames)
+            {
+                frame.Destroy(DestroyMode.Cancel);
+            }
+            foreach (var uft in toCancel.ufts)
+            {
+                uft.Destroy(DestroyMode.Cancel);
+            }
+
+            foreach (var bill in toCancel.bills)
+            {
+                bill.billStack.Delete(bill);
+            }
+
+            toCancel.blueprints.Clear();
+            toCancel.frames.Clear();
+            toCancel.ufts.Clear();
+            toCancel.bills.Clear();
+        }
+
+        public void MarkUnfinishedPrototypesForCancellation(ResearchProjectDef currentProject)
+        {
+            foreach (var map in Find.Maps)
+            {
+                var mapBlueprints = map.listerThings.ThingsInGroup(ThingRequestGroup.Blueprint).Where(t => t.Faction == Faction.OfPlayer); //lets not cancel hostile mortars and such
+                var mapFrames = map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingFrame).Where(t => t.Faction == Faction.OfPlayer); //lets not cancel hostile mortars and such
+                var mapUnfinishedThings = map.listerThings.AllThings.Where(t => t.def.isUnfinishedThing || t.def.thingClass == typeof(UnfinishedThing)).Cast<UnfinishedThing>();
+                var mapBillHolders = map.listerThings.ThingsInGroup(ThingRequestGroup.PotentialBillGiver).Where(t => t is IBillGiver).Cast<IBillGiver>();
+
+                foreach (var protoOpportunity in _allGeneratedOpportunities.Where(o => o.project != currentProject && o.def.handledBy == HandlingMode.Special_Prototype))
+                {
+                    if(protoOpportunity.requirement is ROComp_RequiresThing regThing)
+                    {
+                        var thingDef = regThing.thingDef;
+                        var matchBlueprint = mapBlueprints.Where(f => f.def.entityDefToBuild == thingDef);
+                        var matchFrames = mapFrames.Where(f => f.def.entityDefToBuild == thingDef);
+                        var matchUnfinishedThings = mapUnfinishedThings.Where(f => f.Recipe.products.Any(p => p.thingDef == thingDef));
+
+                        var matchBills = mapBillHolders.Select(b => b.BillStack).SelectMany(bs => bs.Bills).Where(b => b.recipe.products.Any(p => p.thingDef == thingDef));
+
+                        toCancel.blueprints.AddRange(matchBlueprint);
+                        toCancel.frames.AddRange(matchFrames);
+                        toCancel.ufts.AddRange(matchUnfinishedThings);
+
+                        toCancel.bills.AddRange(matchBills);
+                    }
+                    else if(protoOpportunity.requirement is ROComp_RequiresTerrain regTerrain)
+                    {
+                        var terrainDef = regTerrain.terrainDef;
+                        var matchBlueprint = mapBlueprints.Where(f => f.def.entityDefToBuild == terrainDef);
+                        var matchFrames = mapFrames.Where(f => f.def.entityDefToBuild == terrainDef);
+
+                        toCancel.blueprints.AddRange(matchBlueprint);
+                        toCancel.frames.AddRange(matchFrames);
+                    }
+                }
+            }
+        }
+
         public void GenerateOpportunities(ResearchProjectDef project, bool forceRegen)
         {
             if(_currentProject == project && !forceRegen) 
@@ -230,6 +322,19 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 return result;
             else
                 return null;
+        }
+
+        private List<int> wList1;
+        private List<ResearchOpportunity> wList2;
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Collections.Look(ref _allGeneratedOpportunities, "_allGeneratedOpportunities", LookMode.Deep);
+            Scribe_Collections.Look(ref _projectsGenerated, "_allProjectsWithGeneratedOpportunities", LookMode.Def);
+            Scribe_Collections.Look(ref _jobToOpportunityMap, "_jobToOpportunityMap", LookMode.Value, LookMode.Reference, ref wList1, ref wList2);
+            Scribe_Defs.Look(ref _currentProject, "currentProject");
+            Scribe_Collections.Look(ref _categoryStores, "_categoryStores", LookMode.Deep);
         }
     }
 }
