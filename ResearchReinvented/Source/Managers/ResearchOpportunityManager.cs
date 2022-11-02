@@ -74,7 +74,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 GenerateOpportunities(Find.ResearchManager.currentProj, true);
             }
             CheckForRegeneration();
-            CancelMarkedPrototypes();
+            //CancelMarkedPrototypes();
         }
 
         public override void FinalizeInit()
@@ -133,7 +133,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
         {
             if(Find.ResearchManager.currentProj != _currentProject)
             {
-                MarkUnfinishedPrototypesForCancellation(Find.ResearchManager.currentProj);
+                //MarkUnfinishedPrototypesForCancellation(Find.ResearchManager.currentProj);
                 GenerateOpportunities(Find.ResearchManager.currentProj, false);
                 return true;
             }
