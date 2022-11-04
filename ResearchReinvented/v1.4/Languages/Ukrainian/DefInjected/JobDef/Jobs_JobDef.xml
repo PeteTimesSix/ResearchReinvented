@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+<RR_AnalyseInPlace.reportString>розглядає {0}.</RR_AnalyseInPlace.reportString>
+<RR_Analyse.reportString>розглядає {0} при {1}.</RR_Analyse.reportString>
+<RR_AnalyseTerrain.reportString>аналізує місцевість.</RR_AnalyseTerrain.reportString>
+<RR_Research.reportString>досліджує.</RR_Research.reportString>
+
+</LanguageData>

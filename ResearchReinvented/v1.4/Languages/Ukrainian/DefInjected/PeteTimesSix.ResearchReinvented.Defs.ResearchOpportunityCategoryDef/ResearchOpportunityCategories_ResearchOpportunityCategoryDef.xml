@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+<Theory.label>теорія</Theory.label>
+<Theory.description>Теоретичні або абстрактні дослідження.</Theory.description>
+<Prototyping.label>прототипування</Prototyping.label>
+<Prototyping.description>Будівництво прототипів. Прототипи потребують набагато більше часу для виробництва і, як правило, мають нижчу якість завдяки їх експериментальному характеру. Дослідник вимагатиме як дослідницького вміння, так і відповідного вміння для продукту.</Prototyping.description>
+<Tooling.label>інструментарія</Tooling.label>
+<Tooling.description>Аналіз знарядь праці, що використовуються у виробництві досліджуваних виробів.</Tooling.description>
+<ReverseEngineering.label>зворотна інженерія</ReverseEngineering.label>
+<ReverseEngineering.description>Зворотна інженерія існуючих зразків продуктів.</ReverseEngineering.description>
+<ForwardEngineering.label>досвід виробництва</ForwardEngineering.label>
+<ForwardEngineering.description>Збір досвіду від продуктів із уже відомим виробничим процесом.</ForwardEngineering.description>
+<Logistics.label>логістика</Logistics.label>
+<Logistics.description>Визначення ефективних засобів поповнення.</Logistics.description>
+<Geology.label>геологія</Geology.label>
+<Geology.description>Аналіз геологічних зразків.</Geology.description>
+<Biology.label>біологія</Biology.label>
+<Biology.description>Аналіз біологічних зразків, таких як живці рослин або насіння.</Biology.description>
+<Chemistry.label>хімія</Chemistry.label>
+<Chemistry.description>Аналіз хімічних зразків, таких як фармацевтичні препарати або інші препарати.</Chemistry.description>
+<Gastronomy.label>гастрономія</Gastronomy.label>
+<Gastronomy.description>Аналіз їстівних інгредієнтів або страв.</Gastronomy.description>
+<Material.label>матеріальні дослідження</Material.label>
+<Material.description>Дослідження доцільності можливої сировини, що використовується в будівництві або виробництві.</Material.description>
+
+</LanguageData>
