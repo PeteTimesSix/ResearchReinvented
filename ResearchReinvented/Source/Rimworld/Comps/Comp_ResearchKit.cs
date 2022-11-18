@@ -45,10 +45,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.Comps
         {
             if (project.requiredResearchBuilding != null && Props.substitutedResearchBench != project.requiredResearchBuilding)
             {
+                //Log.Message($"kit {this.parent.LabelCap} does not meet building prereq {project.requiredResearchBuilding}");
                 return false;
             }
 
-            if (project.requiredResearchFacilities != null)
+            if (project.requiredResearchFacilities != null && project.requiredResearchFacilities.Any())
             {
                 if (Props.substitutedFacilities == null)
                     return false;
@@ -57,6 +58,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.Comps
                 {
                     if (!Props.substitutedFacilities.Contains(requiredFacility))
                     {
+                        //Log.Message($"kit {this.parent.LabelCap} does not meet facility prereq {requiredFacility}");
                         return false;
                     }
                 }
