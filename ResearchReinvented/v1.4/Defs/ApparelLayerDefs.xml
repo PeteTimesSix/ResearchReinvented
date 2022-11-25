@@ -3,6 +3,6 @@
   <ApparelLayerDef>
     <defName>Satchel</defName>
     <label>satchel</label>
-    <drawOrder>350</drawOrder>
+    <drawOrder>310</drawOrder>
   </ApparelLayerDef>
 </Defs>
