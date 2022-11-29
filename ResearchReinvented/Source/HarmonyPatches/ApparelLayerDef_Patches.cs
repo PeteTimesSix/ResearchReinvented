@@ -11,7 +11,7 @@ using Verse;
 namespace PeteTimesSix.ResearchReinvented.HarmonyPatches
 {
     [HarmonyPatch(typeof(ApparelLayerDef), nameof(ApparelLayerDef.IsUtilityLayer), MethodType.Getter)]
-    public static class ApparelLayerDef_Patches
+    public static class ApparelLayerDef_IsUtilityLayer_Patches
     {
         [HarmonyPostfix]
         public static bool ApparelLayerDef_IsUtilityLayer_Postfix(bool __result, ApparelLayerDef __instance) 

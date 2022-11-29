@@ -60,6 +60,7 @@
     <Compile Include="Extensions\ResearchProjectDefExtensions.cs" />
     <Compile Include="Extensions\ThingDefExtensions.cs" />
     <Compile Include="HarmonyPatches\ApparelLayerDef_Patches.cs" />
+    <Compile Include="HarmonyPatches\ModCompatibility\Combat_Extended\Harmony_PawnRenderer_DrawBodyApparel_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\DesignationCategoryDef_Patches.cs" />
     <Compile Include="HarmonyPatches\DefGenerator_Patches.cs" />
     <Compile Include="HarmonyPatches\ModCompatibility\OptionalPatches.cs" />
