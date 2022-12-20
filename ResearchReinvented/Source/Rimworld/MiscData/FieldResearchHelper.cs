@@ -15,6 +15,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.MiscData
     {
         public static IEnumerable<ThingWithComps> GetValidResearchKits(Pawn pawn, ResearchProjectDef project) 
         {
+            if(pawn?.apparel?.WornApparel == null)
+                return Enumerable.Empty<ThingWithComps>();
             return pawn.apparel.WornApparel.Where(a => a.TryGetComp<Comp_ResearchKit>() != null).Where(a => a.GetComp<Comp_ResearchKit>().MeetsProjectRequirements(project));
         }
 
