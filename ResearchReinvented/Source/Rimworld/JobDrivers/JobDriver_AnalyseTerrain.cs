@@ -35,7 +35,14 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 			ResearchProjectDef currentProject = Find.ResearchManager.currentProj;
 
 			if (currentProject == null || opportunity == null)
+			{
+				if (currentProject == null)
+					Log.WarningOnce("RR: Generated analysis job with no active project!", 456654 + pawn.thingIDNumber);
+				else
+					Log.WarningOnce($"RR: Generated analysis job {this.job} but could not find the matching opportunity!", 456654 + pawn.thingIDNumber);
+				yield return Toils_General.Wait(1);
 				yield break;
+			}
 
 			this.FailOn(() => { return currentProject != Find.ResearchManager.currentProj; });
 

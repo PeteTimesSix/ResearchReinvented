@@ -102,8 +102,6 @@
     <Compile Include="Rimworld\JobDrivers\JobDriver_AnalyseInPlace.cs" />
     <Compile Include="Rimworld\JobDrivers\JobDriver_ResearchRR.cs" />
     <Compile Include="Rimworld\JobDrivers\JobDriver_RRBase.cs" />
-    <Compile Include="Rimworld\Jobs\Job_Research_RR.cs" />
-    <Compile Include="Rimworld\Jobs\RR_JobDefOf.cs" />
     <Compile Include="Rimworld\Jobs\TypedJobMaker.cs" />
     <Compile Include="Rimworld\MiscData\FieldResearchHelper.cs" />
     <Compile Include="Rimworld\RR_UniqueIDsManager.cs" />

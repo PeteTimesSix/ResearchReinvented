@@ -8,6 +8,7 @@ using Verse.AI;
 
 namespace PeteTimesSix.ResearchReinvented.Rimworld.Jobs
 {
+    [Obsolete("Decided not to interfere with the Job system.")]	
 	public static class TypedJobMaker<T> where T : Job, new()
 	{
 		// Token: 0x06000413 RID: 1043 RVA: 0x00015D1F File Offset: 0x00013F1F
