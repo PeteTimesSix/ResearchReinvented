@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<RR_jobFail_incapableOfResearch>Нездатний до дослідження</RR_jobFail_incapableOfResearch>
+	<RR_jobFail_needResearchKit>Потрібен дослідницький набір, здатний аналізувати</RR_jobFail_needResearchKit>
+	<RR_jobFail_needResearchBench>Неможливо знайти або дістатися до дослідницького верстату, здатного аналізувати</RR_jobFail_needResearchBench>
+</LanguageData>

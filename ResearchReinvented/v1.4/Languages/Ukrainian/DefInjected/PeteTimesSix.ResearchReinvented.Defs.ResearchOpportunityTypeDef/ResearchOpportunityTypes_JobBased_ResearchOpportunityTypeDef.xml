@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+<BasicResearch.header_Direct>основні дослідження</BasicResearch.header_Direct>
+<BasicResearch.shortDesc_Direct>Дивитись на дослідницький верстат, як баран.</BasicResearch.shortDesc_Direct>
+<AnalyseProductionFacility.header_Direct>тести інструментів</AnalyseProductionFacility.header_Direct>
+<AnalyseProductionFacility.header_Ancestor>постулатні вдосконалення інструменту</AnalyseProductionFacility.header_Ancestor>
+<AnalyseProductionFacility.shortDesc_Direct>Вивчіть які інструменти можна використовувати для виготовлення речей.</AnalyseProductionFacility.shortDesc_Direct>
+<Analyse.header_Direct>зворотня інженерія</Analyse.header_Direct>
+<Analyse.header_Ancestor>зберіть досвід виробництва</Analyse.header_Ancestor>
+<Analyse.shortDesc_Direct>Зворотня інженерія допомогає розібратися в речах.</Analyse.shortDesc_Direct>
+<AnalysePawn.shortDesc_Direct>Зворотня інженерія допомогає розібратися в речах.</AnalysePawn.shortDesc_Direct>
+<AnalysePawnNonFlesh.shortDesc_Direct>Зворотня інженерія допомогає розібратися в речах.</AnalysePawnNonFlesh.shortDesc_Direct>
+<AnalyseDissect.shortDesc_Direct>Зворотня інженерія допомогає розібратися в речах.</AnalyseDissect.shortDesc_Direct>
+<AnalyseDissectNonFlesh.header_Direct>оглянути нутрощі</AnalyseDissectNonFlesh.header_Direct>
+<AnalyseDissectNonFlesh.header_Ancestor>оглянути нутрощі</AnalyseDissectNonFlesh.header_Ancestor>
+<AnalyseDissectNonFlesh.shortDesc_Direct>Зворотня інженерія допомогає розібратися в речах.</AnalyseDissectNonFlesh.shortDesc_Direct>
+<AnalyseRawFood.header_Direct>визначити смаковий профіль</AnalyseRawFood.header_Direct>
+<AnalyseRawFood.shortDesc_Direct>Зворотня інженерія допомогає розібратися в речах.</AnalyseRawFood.shortDesc_Direct>
+<AnalyseFood.header_Direct>відтворити рецепт</AnalyseFood.header_Direct>
+<AnalyseFood.header_Ancestor>повторити рецепт</AnalyseFood.header_Ancestor>
+<AnalyseFood.shortDesc_Direct>Зворотня інженерія допомогає розібратися в речах.</AnalyseFood.shortDesc_Direct>
+<AnalyseDrug.header_Direct>зворотна інженернія препарату</AnalyseDrug.header_Direct>
+<AnalyseDrug.shortDesc_Direct>Зворотня інженерія допомогає розібратися в речах.</AnalyseDrug.shortDesc_Direct>
+<AnalysePlant.header_Direct>спостерігати за ростом рослин (на місці)</AnalysePlant.header_Direct>
+<AnalysePlant.shortDesc_Direct>Проаналізуйте рослину, щоб розібратися.</AnalysePlant.shortDesc_Direct>
+<AnalyseHarvestProduct.header_Direct>вивчити продукти врожаю</AnalyseHarvestProduct.header_Direct>
+<AnalyseHarvestProduct.shortDesc_Direct>Проаналізуйте продукти збору врожаю, щоб розібратися.</AnalyseHarvestProduct.shortDesc_Direct>
+<AnalyseIngredients.header_Direct>аналіз матеріалу</AnalyseIngredients.header_Direct>
+<AnalyseIngredients.shortDesc_Direct>Проаналізуйте матеріали, щоб розібратися.</AnalyseIngredients.shortDesc_Direct>
+<AnalyseIngredientsDrug.header_Direct>аналіз хімічних сполук</AnalyseIngredientsDrug.header_Direct>
+<AnalyseIngredientsDrug.shortDesc_Direct>Проаналізуйте матеріали, щоб розібратися.</AnalyseIngredientsDrug.shortDesc_Direct>
+<AnalyseIngredientsFood.header_Direct>аналіз інгредієнтів</AnalyseIngredientsFood.header_Direct>
+<AnalyseIngredientsFood.shortDesc_Direct>Проаналізуйте матеріали, щоб розібратися.</AnalyseIngredientsFood.shortDesc_Direct>
+<AnalyseIngredientsRawFood.header_Direct>аналіз інгредієнтів</AnalyseIngredientsRawFood.header_Direct>
+<AnalyseIngredientsRawFood.shortDesc_Direct>Проаналізуйте матеріали, щоб розібратися.</AnalyseIngredientsRawFood.shortDesc_Direct>
+<AnalyseFuelDrug.header_Direct>аналіз активних інгредієнтів</AnalyseFuelDrug.header_Direct>
+<AnalyseFuelDrug.shortDesc_Direct>Проаналізуйте матеріали, щоб розібратися.</AnalyseFuelDrug.shortDesc_Direct>
+<AnalyseFuelFood.header_Direct>аналіз вмісту поживних речовин</AnalyseFuelFood.header_Direct>
+<AnalyseFuelFood.shortDesc_Direct>Проаналізуйте матеріали, щоб розібратися.</AnalyseFuelFood.shortDesc_Direct>
+<AnalyseFuelFlammable.header_Direct>аналіз ефективності палива</AnalyseFuelFlammable.header_Direct>
+<AnalyseFuelFlammable.shortDesc_Direct>Проаналізуйте матеріали, щоб розібратися.</AnalyseFuelFlammable.shortDesc_Direct>
+<AnalyseFuel.header_Direct>аналіз матеріалу для поповнення</AnalyseFuel.header_Direct>
+<AnalyseFuel.shortDesc_Direct>Проаналізуйте матеріали, щоб розібратися.</AnalyseFuel.shortDesc_Direct>
+<AnalyseFloor.header_Direct>зворотна інженернія підлоги</AnalyseFloor.header_Direct>
+<AnalyseFloor.header_Ancestor>зберіть досвід будівництва</AnalyseFloor.header_Ancestor>
+<AnalyseFloor.shortDesc_Direct>Проаналізуйте підлогу, щоб розібратися.</AnalyseFloor.shortDesc_Direct>
+<AnalyseSoil.header_Direct>аналіз ґрунту</AnalyseSoil.header_Direct>
+<AnalyseSoil.shortDesc_Direct>Проаналізуйте ґрунт, щоб розібратися.</AnalyseSoil.shortDesc_Direct>
+<AnalyseTerrain.header_Direct>аналіз місцевості</AnalyseTerrain.header_Direct>
+<AnalyseTerrain.shortDesc_Direct>Проаналізуйте місцевість, щоб розібратися.</AnalyseTerrain.shortDesc_Direct>
+
+</LanguageData>

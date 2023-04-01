@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<RR_setting_tab_GLOBAL_CONFIG>Глобальна конфігурація</RR_setting_tab_GLOBAL_CONFIG>
+	<RR_setting_tab_CATEGORY_PRESETS>Переднабори категорій</RR_setting_tab_CATEGORY_PRESETS>
+	<RR_setting_tab_CATEGORY_CONFIG>Конфігурація категорії</RR_setting_tab_CATEGORY_CONFIG>
+	
+	<RR_setting_tab_GLOBAL_CONFIG_tooltip>Налаштуйте глобальні параметри Research Reinvented.</RR_setting_tab_GLOBAL_CONFIG_tooltip>
+	<RR_setting_tab_CATEGORY_PRESETS_tooltip>Виберіть переднабір розподілу балів дослідження між категоріями можливостей.</RR_setting_tab_CATEGORY_PRESETS_tooltip>
+	<RR_setting_tab_CATEGORY_CONFIG_tooltip>Налаштуйте окремі категорії можливостей дослідження.</RR_setting_tab_CATEGORY_CONFIG_tooltip>
+	
+	<RR_setting_debugPrintouts>Увімкнути дебаг режим</RR_setting_debugPrintouts>
+	<RR_setting_debugPrintouts_tooltip>Якщо ввімкнено, різні роздруківки та візуальні матеріали розробника будуть активними.</RR_setting_debugPrintouts_tooltip>
+	
+	<RR_setting_defaultCompactMode>Вікно дослідження за замовчуванням має компактний режим</RR_setting_defaultCompactMode>
+	<RR_setting_defaultCompactMode_tooltip>Якщо ввімкнено, вікно списку дослідницьких можливостей за умовчанням буде у формі плиток.</RR_setting_defaultCompactMode_tooltip>
+	
+	
+	<RR_setting_kitlessResearch>Дозволити польові дослідження без дослідницького набору</RR_setting_kitlessResearch>
+	<RR_setting_kitlessResearch_tooltip>Якщо ввімкнено, польові дослідження можна проводити без будь-якого дослідницького набору для дослідницьких проектів, яким потрібен лише простий дослідницький стіл/набір.</RR_setting_kitlessResearch_tooltip>
+	
+	<RR_setting_kitlessNeolithicResearch>Дозволити польові дослідження без набору для неолітичних технологій</RR_setting_kitlessNeolithicResearch>
+	<RR_setting_kitlessNeolithicResearch_tooltip>Якщо ввімкнено, польові дослідження можна проводити без будь-якого дослідницького набору для дослідницьких проектів, які мають технологічний рівень неоліту.</RR_setting_kitlessNeolithicResearch_tooltip>
+	
+	<RR_setting_category_selector>Виберіть категорію</RR_setting_category_selector>
+	
+	<RR_setting_category_enabled>Категорія включена</RR_setting_category_enabled>
+	<RR_setting_category_enabled_tooltip>Перемкніть це, щоб повністю вимкнути цю категорію можливостей дослідження.</RR_setting_category_enabled_tooltip>
+	
+	<RR_setting_category_availableAtOverallProgress>Доступно при загальному прогресі</RR_setting_category_availableAtOverallProgress>
+	<RR_setting_category_availableAtOverallProgress_tooltip>Контролює, на якому етапі дослідження доступна ця категорія.</RR_setting_category_availableAtOverallProgress_tooltip>
+	
+	<RR_setting_category_targetIterations>Цільові ітерації</RR_setting_category_targetIterations>
+	<RR_setting_category_targetIterations_tooltip>Максимальні індивідуальні можливості, необхідні для завершення цієї категорії.</RR_setting_category_targetIterations_tooltip>
+		
+	<RR_setting_category_targetFractionMultiplier>Множник цільової частки</RR_setting_category_targetFractionMultiplier>
+	<RR_setting_category_targetFractionMultiplier_tooltip>Згенеровані можливості намагаються розділити вартість дослідження проекту відповідно до відносних розмірів частки категорій, залежно від цього значення.</RR_setting_category_targetFractionMultiplier_tooltip>
+	
+	<RR_setting_category_infiniteOverflow>Нескінченне переповнення</RR_setting_category_infiniteOverflow>
+	<RR_setting_category_infiniteOverflow_tooltip>Дозволяє завжди продовжувати дослідження в цій категорії, якщо є більше доступних можливостей цього типу.</RR_setting_category_infiniteOverflow_tooltip>
+	
+	<RR_setting_category_extraFractionMultiplier>Додатковий множник часток</RR_setting_category_extraFractionMultiplier>
+	<RR_setting_category_extraFractionMultiplier_tooltip>Додаткові дослідження дозволені для цієї категорії, яка не входить до початкової частки, призначеної їй.</RR_setting_category_extraFractionMultiplier_tooltip>
+	
+	<RR_setting_category_researchSpeedMultiplier>Множник швидкості дослідження</RR_setting_category_researchSpeedMultiplier>
+	<RR_setting_category_researchSpeedMultiplier_tooltip>Можливості цієї категорії матимуть швидкість дослідження, помножену на заданий відсоток.</RR_setting_category_researchSpeedMultiplier_tooltip>
+	
+	<RR_setting_category_fractionAxis>Загальний множник цільової частки</RR_setting_category_fractionAxis>
+	<RR_setting_category_researchSpeedAxis>Швидкість дослідження</RR_setting_category_researchSpeedAxis>
+	
+	<RR_setting_category_resetToDefault>Відновлення стандартних налаштувань</RR_setting_category_resetToDefault>
+</LanguageData>
