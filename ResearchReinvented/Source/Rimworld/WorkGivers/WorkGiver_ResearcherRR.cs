@@ -20,7 +20,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		public static Type DriverClass = typeof(JobDriver_ResearchRR);
 		private static IEnumerable<ResearchOpportunity> MatchingOpportunities =>
 			ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
-			.Where(o => o.IsValid() && o.def.handledBy == HandlingMode.Job && o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass));
+			.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Job_Theory) && o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass));
 
 		public override ThingRequest PotentialWorkThingRequest
 		{

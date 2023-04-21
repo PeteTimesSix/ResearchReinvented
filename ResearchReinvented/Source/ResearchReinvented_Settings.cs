@@ -30,8 +30,7 @@ namespace PeteTimesSix.ResearchReinvented
         public bool debugPrintouts = false;
 
         public bool defaultCompactMode = false;
-
-        public float prototypeResearchSpeedFactor = 0.5f;
+        public bool showProgressMotes = false;
 
         public bool kitlessResearch = false;
         public bool kitlessNeolithicResearch = true;
@@ -50,9 +49,9 @@ namespace PeteTimesSix.ResearchReinvented
             Scribe_Defs.Look(ref activePreset, "activePreset");
 
             Scribe_Values.Look(ref debugPrintouts, "debugPrintouts", false);
-            Scribe_Values.Look(ref prototypeResearchSpeedFactor, "prototypeResearchSpeedFactor", 0.5f);
 
             Scribe_Values.Look(ref defaultCompactMode, "defaultCompactMode", false);
+            Scribe_Values.Look(ref showProgressMotes, "showProgressMotes", true);
 
             Scribe_Values.Look(ref kitlessResearch, "kitlessResearch", false);
             Scribe_Values.Look(ref kitlessNeolithicResearch, "kitlessNeolithicResearch", true);
@@ -106,6 +105,7 @@ namespace PeteTimesSix.ResearchReinvented
             listingStandard.Indent(maxWidth / 4f);
             listingStandard.ColumnWidth = maxWidth / 2f;
             listingStandard.CheckboxLabeled("RR_setting_defaultCompactMode".Translate(), ref defaultCompactMode, "RR_setting_defaultCompactMode_tooltip".Translate());
+            listingStandard.CheckboxLabeled("RR_setting_showProgressMotes".Translate(), ref defaultCompactMode, "RR_setting_defaultCompactMode_showProgressMotes_tooltip".Translate());
 
             listingStandard.CheckboxLabeled("RR_setting_kitlessResearch".Translate(), ref kitlessResearch, "RR_setting_kitlessResearch_tooltip".Translate());
             listingStandard.CheckboxLabeled("RR_setting_kitlessNeolithicResearch".Translate(), ref kitlessNeolithicResearch, "RR_setting_kitlessNeolithicResearch".Translate());
@@ -251,7 +251,8 @@ namespace PeteTimesSix.ResearchReinvented
                         }
 
                         GUI.color = temp_categoryChanges.researchSpeedMultiplier.HasValue ? Color.yellow : Color.white;
-                        sectionListing.SliderLabeled("RR_setting_category_researchSpeedMultiplier".Translate(), ref temp_categorySettings.researchSpeedMultiplier, min: 0, max: 5, roundTo: 0.05f, displayMult: 100, valueSuffix: "%", tooltip: "RR_setting_category_researchSpeedMultiplier_tooltip".Translate());
+                        sectionListing.SliderLabeled("RR_setting_category_researchSpeedMultiplier".Translate(), ref temp_categorySettings.researchSpeedMultiplier, min: 0.05f, max: 5, roundTo: 0.05f, displayMult: 100, valueSuffix: "%", tooltip: "RR_setting_category_researchSpeedMultiplier_tooltip".Translate());
+
                         //sectionListing.Spinner("RR_setting_category_priority".Translate(), ref temp_selectedCategory.priority, 1, 100, 1500, "RR_setting_category_priority".Translate());
                     }
 

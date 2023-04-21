@@ -23,7 +23,7 @@ namespace PeteTimesSix.ResearchReinvented.DefOfs
         public static ResearchOpportunityTypeDef AnalyseHarvestProduct;
 
         public static ResearchOpportunityTypeDef AnalyseIngredients;
-        public static ResearchOpportunityTypeDef AnalyseIngredientsDrug;
+        //public static ResearchOpportunityTypeDef AnalyseIngredientsDrug;
         public static ResearchOpportunityTypeDef AnalyseIngredientsFood;
 
         public static ResearchOpportunityTypeDef AnalyseFuelFood;
@@ -44,6 +44,7 @@ namespace PeteTimesSix.ResearchReinvented.DefOfs
         public static ResearchOpportunityTypeDef PrototypeTerrainConstruction;
         public static ResearchOpportunityTypeDef PrototypeProduction;
 
+        public static ResearchOpportunityTypeDef TrialDrug;
         static ResearchOpportunityTypeDefOf()
         {
             DefOfHelper.EnsureInitializedInCtor(typeof(ResearchOpportunityTypeDefOf));

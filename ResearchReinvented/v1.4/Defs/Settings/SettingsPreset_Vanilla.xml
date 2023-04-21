@@ -18,6 +18,10 @@
 			<enabled>false</enabled>
 		</li>
 		<li>
+			<category>Medical</category>
+			<enabled>false</enabled>
+		</li>
+		<li>
 			<category>Tooling</category>
 			<enabled>false</enabled>
 		</li>

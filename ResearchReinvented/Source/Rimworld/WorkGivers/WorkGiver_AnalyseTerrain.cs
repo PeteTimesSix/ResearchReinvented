@@ -29,7 +29,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		private static IEnumerable<ResearchOpportunity> MatchingOpportunities =>
 			ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
-			.Where(o => o.IsValid() && o.def.handledBy == HandlingMode.Job && o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass));
+			.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Job_Analysis) && o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass));
 
 
 		public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)

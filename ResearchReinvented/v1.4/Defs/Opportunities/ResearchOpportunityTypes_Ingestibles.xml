@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  
+
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef Name="IngestibleOpportunity" ParentName="ResearchOpportunityBase" Abstract="True">
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="IngestibleOpportunity">
+		<defName>AnalyseFood</defName>
+		<handledBy>Job_Analysis, Special_OnIngest</handledBy>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_AnalyseInPlaceOrMinified</jobPickerClass>
+		<header_Direct>reproduce recipe</header_Direct>
+		<header_Ancestor>iterate on recipe</header_Ancestor>
+		<shortDesc_Direct>Reverse engineer a thing to figure out stuff.</shortDesc_Direct>
+		<category_Direct>Gastronomy</category_Direct>
+		<category_Ancestor>Gastronomy</category_Ancestor>
+		<handlingModeModifiers>
+		  <li>
+			<key>Special_OnIngest</key>
+			<value>0.25</value>
+		  </li>
+		</handlingModeModifiers>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="IngestibleOpportunity">
+		<defName>AnalyseRawFood</defName>
+		<handledBy>Job_Analysis, Special_OnIngest</handledBy>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_AnalyseInPlaceOrMinified</jobPickerClass>
+		<header_Direct>determine flavor profile</header_Direct>
+		<shortDesc_Direct>Reverse engineer a thing to figure out stuff.</shortDesc_Direct>
+		<category_Direct>Gastronomy</category_Direct>
+		<handlingModeModifiers>
+		  <li>
+			<key>Special_OnIngest</key>
+			<value>0.5</value>
+		  </li>
+		</handlingModeModifiers>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="IngestibleOpportunity">
+		<defName>AnalyseFuelFood</defName>
+		<handledBy>Job_Analysis, Special_OnIngest</handledBy>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_AnalyseInPlaceOrMinified</jobPickerClass>
+		<header_Direct>nutrient content analysis</header_Direct>
+		<shortDesc_Direct>Analyse materials to figure out stuff.</shortDesc_Direct>
+		<category_Direct>Gastronomy</category_Direct>
+		<handlingModeModifiers>
+		  <li>
+			<key>Special_OnIngest</key>
+			<value>0.2</value>
+		  </li>
+		</handlingModeModifiers>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="IngestibleOpportunity">
+		<defName>TrialDrug</defName>
+		<handledBy>Special_OnIngest, Special_OnIngest_Observable</handledBy>
+		<header_Direct>drug trial</header_Direct>
+		<shortDesc_Direct>Reverse engineer a thing to figure out stuff.</shortDesc_Direct>
+		<category_Direct>Medical</category_Direct>
+		<handlingModeModifiers>
+		  <li>
+			<key>Special_OnIngest</key>
+			<value>0.25</value>
+		  </li>
+		  <li>
+			<key>Special_OnIngest_Observable</key>
+			<value>0.5</value>
+		  </li>
+		</handlingModeModifiers>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+</Defs>

@@ -11,7 +11,6 @@ namespace PeteTimesSix.ResearchReinvented.DefOfs
     [DefOf]
     public static class ResearchOpportunityCategoryDefOf
     {
-
         public static ResearchOpportunityCategoryDef Prototyping;
 
         static ResearchOpportunityCategoryDefOf()

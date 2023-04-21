@@ -21,6 +21,14 @@
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
+		<defName>Medical</defName>
+		<label>medical</label>
+		<priority>799</priority>
+		<color>(255,220,200)</color>
+		<description>Experimental threatments and medicine.</description>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
 		<defName>Tooling</defName>
 		<label>tooling</label>
 		<priority>700</priority>

@@ -37,6 +37,41 @@ namespace PeteTimesSix.ResearchReinvented.Defs
             } 
         }
 
+        private List<ResearchOpportunityTypeDef> _opportunityTypes;
+        public List<ResearchOpportunityTypeDef> OpportunityTypes
+        {
+            get
+            {
+                if (_opportunityTypes == null)
+                {
+                    _opportunityTypes = DefDatabase<ResearchOpportunityTypeDef>.AllDefs.Where(t => t.GetAllCategories().Contains(this)).ToList();
+
+                }
+                return _opportunityTypes;
+            }
+        }
+
+        private bool? _usesChunkedResearch;
+        public bool UsesChunkedResearch 
+        {
+            get 
+            {
+                if(!_usesChunkedResearch.HasValue)
+                {
+                    _usesChunkedResearch = false;
+                    foreach (var opportunityType in OpportunityTypes)
+                    {
+                        if(opportunityType.UsesChunkedResearch)
+                        {
+                            _usesChunkedResearch = true;
+                            break;
+                        }
+                    }
+                }
+                return _usesChunkedResearch.Value;
+            }
+        }
+
         public int priority;
 
         public Color color;
