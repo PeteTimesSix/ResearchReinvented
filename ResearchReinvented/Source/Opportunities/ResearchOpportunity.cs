@@ -213,25 +213,34 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             return project.IsFinished || this.IsFinished;
         }
 
-        public bool ResearchChunkPerformed(float workAmount, Pawn researcher)
+        public bool ResearchChunkPerformed(Pawn researcher, string subjectName, HandlingMode mode, float moteOffsetHint = 0f)
         {
             if (Find.ResearchManager.currentProj == null) //current project either unset or finished this tick
                 return true;
 
-            var amount = MaximumProgress; // / def.GetCategory(relation).targetIterations;
-            var researchFactor = ResearchReinventedMod.Settings.prototypeResearchSpeedFactor;
-            if (researchFactor > 0 && !StatDefOf.ResearchSpeed.Worker.IsDisabledFor(researcher))
+            if (!StatDefOf.ResearchSpeed.Worker.IsDisabledFor(researcher))
             {
-                amount *= (1f - researchFactor) + (researchFactor * researcher.GetStatValue(StatDefOf.ResearchSpeed, true));
+                var amount = MaximumProgress * def.handlingModeModifiers.GetValueOrDefault(mode) * researcher.GetStatValue(StatDefOf.ResearchSpeed, true);
+                amount = Math.Min(amount, MaximumProgress);
+                Log.Message($"permorming research chunk for {ShortDesc} : modifier: {mode} -> {def.handlingModeModifiers.GetValueOrDefault(mode)} amount {amount} (of {MaximumProgress})");
+                if (ResearchReinventedMod.Settings.showProgressMotes && amount >= 1) 
+                {
+                    DoResearchProgressMote(researcher, subjectName, (int)amount, moteOffsetHint);
+                }
+                return ResearchPerformed(amount, researcher);
             }
             else 
             {
-                Log.Warning($"Pawn {researcher} did research chunk despite being incapable of research");
-                amount = 0;
+                Log.Warning($"Pawn {researcher} tried to do research chunk despite being incapable of research");
+                return false;
             }
+        }
 
-            //Log.Message($"permorming research chunk for {ShortDesc} : amount {amount} ({MaximumProgress})");
-            return ResearchPerformed(amount, researcher);
+        public void DoResearchProgressMote(Pawn pawn, string subjectName, float amount, float moteOffsetHint)
+        {
+            var pos = pawn.DrawPos;
+            pos.z += moteOffsetHint;
+            MoteMaker.ThrowText(pos, pawn.Map, $"{def.GetHeaderCap(relation)} {(subjectName != null ? $"({subjectName})" : "")}: {Math.Round(amount)}", def.GetCategory(relation).color);
         }
 
         public override string ToString()

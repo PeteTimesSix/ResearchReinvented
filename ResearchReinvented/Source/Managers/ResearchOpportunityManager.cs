@@ -232,7 +232,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 var mapUnfinishedThings = map.listerThings.AllThings.Where(t => t.def.isUnfinishedThing || t.def.thingClass == typeof(UnfinishedThing)).Cast<UnfinishedThing>();
                 var mapBillHolders = map.listerThings.ThingsInGroup(ThingRequestGroup.PotentialBillGiver).Where(t => t is IBillGiver).Cast<IBillGiver>();
 
-                foreach (var protoOpportunity in _allGeneratedOpportunities.Where(o => o.project != currentProject && o.def.handledBy == HandlingMode.Special_Prototype))
+                foreach (var protoOpportunity in _allGeneratedOpportunities.Where(o => o.project != currentProject && o.def.handledBy.HasFlag(HandlingMode.Special_Prototype)))
                 {
                     if(protoOpportunity.requirement is ROComp_RequiresThing regThing)
                     {

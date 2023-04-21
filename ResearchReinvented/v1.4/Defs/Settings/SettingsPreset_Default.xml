@@ -16,12 +16,19 @@
 		<li>
 			<category>Prototyping</category>
 			
-			<enabled>true</enabled>
 			<targetFractionMultiplier>1.25</targetFractionMultiplier>
 			<targetIterations>3.0</targetIterations>
 			<extraFractionMultiplier>0.5</extraFractionMultiplier>
 			<researchSpeedMultiplier>3.0</researchSpeedMultiplier>
 			<availableAtOverallProgress>0.3~1.0</availableAtOverallProgress>
+		</li>
+		<li>
+			<category>Medical</category>
+			
+			<targetFractionMultiplier>1.25</targetFractionMultiplier>
+			<targetIterations>2.0</targetIterations>
+			<extraFractionMultiplier>0.5</extraFractionMultiplier>
+			<researchSpeedMultiplier>2.5</researchSpeedMultiplier>
 		</li>
 		<li>
 			<category>Tooling</category>

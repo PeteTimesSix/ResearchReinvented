@@ -2,7 +2,7 @@
 
 <!-- Obsolete or removed opportunities, kept around to preserve savegames -->
 <Defs>  
-	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="JobBasedOpportunity">
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="ResearchOpportunityBase">
 		<defName>AnalyseInPlace</defName>
 		<jobDef>RR_AnalyseInPlace</jobDef>
 		<header_Direct>reverse engineer (at location)</header_Direct>

@@ -60,6 +60,9 @@
     <Compile Include="Extensions\ResearchProjectDefExtensions.cs" />
     <Compile Include="Extensions\ThingDefExtensions.cs" />
     <Compile Include="HarmonyPatches\ApparelLayerDef_Patches.cs" />
+    <Compile Include="HarmonyPatches\Ingestibles\Recipe_AdministerIngestible_Patches.cs" />
+    <Compile Include="HarmonyPatches\Ingestibles\Thing_Patches.cs" />
+    <Compile Include="HarmonyPatches\Ingestibles\Toils_Ingest_Patches.cs" />
     <Compile Include="HarmonyPatches\ModCompatibility\Combat_Extended\Harmony_PawnRenderer_DrawBodyApparel_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\DesignationCategoryDef_Patches.cs" />
     <Compile Include="HarmonyPatches\DefGenerator_Patches.cs" />

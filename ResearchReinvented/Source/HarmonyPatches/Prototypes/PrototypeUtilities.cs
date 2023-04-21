@@ -85,12 +85,12 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             if (isPrototype)
             {
                 var opportunity = ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
-                    .Where(o => o.def.handledBy == HandlingMode.Special_Prototype && o.requirement.MetBy(product.def))
+                    .Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && o.requirement.MetBy(product.def))
                     .FirstOrDefault();
 
                 if (opportunity != null)
                 {
-                    opportunity.ResearchChunkPerformed(totalWork, worker); 
+                    opportunity.ResearchChunkPerformed(worker, product.LabelCapNoCount, HandlingMode.Special_Prototype); 
                     if (worker?.skills != null)
                     {
                         var xp = 0.1f * totalWork;
@@ -106,12 +106,12 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             if (isPrototype)
             {
                 var opportunity = ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
-                    .Where(o => o.def.handledBy == HandlingMode.Special_Prototype && o.requirement.MetBy(terrainDef))
+                    .Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && o.requirement.MetBy(terrainDef))
                     .FirstOrDefault();
 
                 if (opportunity != null)
                 {
-                    opportunity.ResearchChunkPerformed(totalWork, worker);
+                    opportunity.ResearchChunkPerformed(worker, terrainDef.LabelCap, HandlingMode.Special_Prototype);
                     if (worker?.skills != null)
                     {
                         var xp = 0.1f * totalWork;

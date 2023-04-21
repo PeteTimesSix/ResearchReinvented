@@ -1,5 +1,6 @@
 ﻿using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +10,20 @@ using Verse;
 
 namespace PeteTimesSix.ResearchReinvented.Defs
 {
+	[Flags]
 	public enum HandlingMode 
 	{
-		Inactive,
-		Job,
-		Special_Prototype
+		None = 0,
+		Job_Theory = 1,
+        Job_Analysis = 1 << 1,
+        Special_OnIngest = 1 << 2,
+        Special_OnIngest_Observable = 1 << 3,
+        Special_Prototype = 1 << 4,
 	}
 
     public class ResearchOpportunityTypeDef : Def
     {
-		public HandlingMode handledBy = HandlingMode.Inactive;
+		public HandlingMode handledBy = HandlingMode.None;
 
 		public Type jobPickerClass;
 		public JobDef jobDef;
@@ -48,6 +53,8 @@ namespace PeteTimesSix.ResearchReinvented.Defs
 		public ResearchOpportunityCategoryDef category_Direct;
 		public ResearchOpportunityCategoryDef category_Ancestor;
 		public ResearchOpportunityCategoryDef category_Descendant;
+
+		public Dictionary<HandlingMode, float> handlingModeModifiers = new Dictionary<HandlingMode, float>();
 
         public TaggedString Header_DirectCap
 		{
@@ -145,7 +152,15 @@ namespace PeteTimesSix.ResearchReinvented.Defs
 			}
 		}
 
-		public ResearchOpportunityCategoryDef GetCategory(ResearchRelation relation) 
+        public bool UsesChunkedResearch
+        {
+            get
+            {
+				return handledBy.HasFlag(HandlingMode.Special_OnIngest) || handledBy.HasFlag(HandlingMode.Special_Prototype);
+            }
+        }
+
+        public ResearchOpportunityCategoryDef GetCategory(ResearchRelation relation) 
 		{
 			switch (relation)
 			{

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef Name="ResearchOpportunityBase" Abstract="True">
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_FromOpportunityDef</jobPickerClass>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+</Defs>

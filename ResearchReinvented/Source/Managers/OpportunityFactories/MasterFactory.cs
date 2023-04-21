@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using Verse;
 
 namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
@@ -325,7 +326,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                     }
                 }
                 else if (material.IsDrug || material.IsMedicine)
-                    yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseIngredientsDrug, relation, new ROComp_RequiresThing(material), "ingre. analysis (drug)", isAlternate: isAlternate);
+                    yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDrug, relation, new ROComp_RequiresThing(material), "ingre. analysis (drug)", isAlternate: isAlternate);
                 else if (material.IsTrulyRawFood())
                     yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseFuelFood, relation, new ROComp_RequiresThing(material), "ingre. analysis (raw food)", isAlternate: isAlternate);
                 else
@@ -372,9 +373,12 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                 {
                     //food n' drugs
                     if (asThing.ingestible != null)
-                    { 
-                        if(asThing.IsDrug)
+                    {
+                        if (asThing.IsDrug)
+                        {
                             yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDrug, relation, new ROComp_RequiresThing(asThing), "direct analysis (drug)", isAlternate: isAlternate);
+                            yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.TrialDrug, relation, new ROComp_RequiresThing(asThing), "direct analysis (drug)", isAlternate: isAlternate);
+                        }
                         else if(asThing.IsTrulyRawFood())
                             yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseRawFood, relation, new ROComp_RequiresThing(asThing), "direct analysis (raw food)", isAlternate: isAlternate);
                         else
