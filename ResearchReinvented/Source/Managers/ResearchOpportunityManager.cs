@@ -1,6 +1,7 @@
 ﻿using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.OpportunityComps;
+using PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers;
 using PeteTimesSix.ResearchReinvented.Utilities;
 using RimWorld;
 using RimWorld.Planet;
@@ -127,7 +128,13 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
                 CheckForRegeneration();
             }
-        }
+
+            //clear caches. TODO: centralize caches in here instead?
+            WorkGiver_Analyse.ClearMatchingOpportunityCache();
+			WorkGiver_AnalyseInPlace.ClearMatchingOpportunityCache();
+			WorkGiver_AnalyseTerrain.ClearMatchingOpportunityCache();
+			WorkGiver_ResearcherRR.ClearMatchingOpportunityCache();
+		}
 
         public bool CheckForRegeneration() 
         {
@@ -311,39 +318,11 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             }
         }
 
-        public void AssociateJobWithOpportunity(Pawn pawn, Job job, ResearchOpportunity opportunity)
-        {
-            if (opportunity != null)
-                _jobToOpportunityMap[job.loadID] = opportunity;
-            else
-                Log.Warning($"attempted to associate job {job} for {pawn} with null opportunity");
-            //Log.Message($"pawn {pawn} associated job {job} (load id: {job.GetUniqueLoadID()}) with opportunity {opportunity} (load id: {opportunity.GetUniqueLoadID()})");
-        }
-
-        public void ClearAssociatedJobWithOpportunity(Pawn pawn, Job job)
-        {
-            if (_jobToOpportunityMap.ContainsKey(job.loadID))
-                _jobToOpportunityMap.Remove(job.loadID);
-            //Log.Message($"pawn {pawn} cleared associated job {job} (load id: {job.GetUniqueLoadID()})");
-        }
-
-        public ResearchOpportunity GetOpportunityForJob(Job job)
-        {
-            if (_jobToOpportunityMap.TryGetValue(job.loadID, out ResearchOpportunity result))
-                return result;
-            else
-                return null;
-        }
-
-        private List<int> wList1;
-        private List<ResearchOpportunity> wList2;
-
         public override void ExposeData()
         {
             base.ExposeData();
             Scribe_Collections.Look(ref _allGeneratedOpportunities, "_allGeneratedOpportunities", LookMode.Deep);
             Scribe_Collections.Look(ref _projectsGenerated, "_allProjectsWithGeneratedOpportunities", LookMode.Def);
-            Scribe_Collections.Look(ref _jobToOpportunityMap, "_jobToOpportunityMap", LookMode.Value, LookMode.Reference, ref wList1, ref wList2);
             Scribe_Defs.Look(ref _currentProject, "currentProject");
             Scribe_Collections.Look(ref _categoryStores, "_categoryStores", LookMode.Deep);
         }

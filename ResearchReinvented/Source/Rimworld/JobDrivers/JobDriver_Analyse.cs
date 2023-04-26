@@ -39,15 +39,16 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
-            ResearchOpportunity opportunity = ResearchOpportunityManager.instance.GetOpportunityForJob(this.job);
+            ResearchOpportunity opportunity = WorkGiver_Analyse.OpportunityCache[TargetThing.def].FirstOrDefault();
+            //ResearchOpportunity opportunity = ResearchOpportunityManager.instance.GetOpportunityForJob(this.job);
             ResearchProjectDef currentProject = Find.ResearchManager.currentProj;
 
             if (currentProject == null || opportunity == null)
             {
                 if (currentProject == null)
-                    Log.WarningOnce("RR: Generated analysis job with no active project!", 456654 + pawn.thingIDNumber);
+                    Log.WarningOnce("RR: Generated JobDriver_Analyse job with no active project!", 456654 + pawn.thingIDNumber);
                 else
-                    Log.WarningOnce($"RR: Generated analysis job {this.job} but could not find the matching opportunity!", 456654 + pawn.thingIDNumber);
+                    Log.WarningOnce($"RR: Generated JobDriver_Analyse job {this.job} but could not find the matching opportunity!", 456654 + pawn.thingIDNumber);
                 yield return Toils_General.Wait(1);
                 yield break;
             }

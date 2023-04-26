@@ -31,15 +31,16 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			ResearchOpportunity opportunity = ResearchOpportunityManager.instance.GetOpportunityForJob(this.job);
+			ResearchOpportunity opportunity = WorkGiver_AnalyseInPlace.OpportunityCache[TargetThing.def].FirstOrDefault();
+			//ResearchOpportunity opportunity = ResearchOpportunityManager.instance.GetOpportunityForJob(this.job);
 			ResearchProjectDef currentProject = Find.ResearchManager.currentProj;
 
 			if (currentProject == null || opportunity == null)
 			{
 				if (currentProject == null)
-					Log.WarningOnce("RR: Generated analysis job with no active project!", 456654 + pawn.thingIDNumber);
+					Log.WarningOnce("RR: Generated JobDriver_AnalyseInPlace job with no active project!", 456654 + pawn.thingIDNumber);
 				else
-					Log.WarningOnce($"RR: Generated analysis job {this.job} but could not find the matching opportunity!", 456654 + pawn.thingIDNumber);
+					Log.WarningOnce($"RR: Generated JobDriver_AnalyseInPlace job {this.job} but could not find the matching opportunity!", 456654 + pawn.thingIDNumber);
 				yield return Toils_General.Wait(1);
 				yield break;
 			}
@@ -86,7 +87,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 			research.AddEndCondition(() => opportunity.IsFinished || opportunity.CurrentAvailability != OpportunityAvailability.Available ? JobCondition.Succeeded : JobCondition.Ongoing);
 			yield return research;
 
-			yield return Toils_Jump.JumpIf(walkTo, () => { return !ResearchOpportunityManager.instance.GetOpportunityForJob(job).IsFinished; });
+			yield return Toils_Jump.JumpIf(walkTo, () => { return !opportunity.IsFinished; });
 
 			yield return Toils_General.Wait(2, TargetIndex.None);
 

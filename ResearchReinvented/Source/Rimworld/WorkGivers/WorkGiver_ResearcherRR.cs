@@ -18,9 +18,27 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 	public class WorkGiver_ResearcherRR : WorkGiver_Scanner
 	{
 		public static Type DriverClass = typeof(JobDriver_ResearchRR);
-		private static IEnumerable<ResearchOpportunity> MatchingOpportunities =>
-			ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
-			.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Job_Theory) && o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass));
+
+		private static ResearchProjectDef _matchingOpportunitiesCachedFor;
+		private static ResearchOpportunity[] _matchingOpportunitesCache;
+		public static IEnumerable<ResearchOpportunity> MatchingOpportunities
+		{
+			get
+			{
+				if (_matchingOpportunitiesCachedFor != Find.ResearchManager.currentProj)
+				{
+					_matchingOpportunitesCache = ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities(true)
+						.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Job_Theory) && o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass)).ToArray();
+					_matchingOpportunitiesCachedFor = Find.ResearchManager.currentProj;
+				}
+				return _matchingOpportunitesCache;
+			}
+		}
+		public static void ClearMatchingOpportunityCache()
+		{
+			_matchingOpportunitiesCachedFor = null;
+			_matchingOpportunitesCache = null;
+		}
 
 		public override ThingRequest PotentialWorkThingRequest
 		{
@@ -77,13 +95,28 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 			var jobDef = opportunity.JobDefs.First(j => j.driverClass == DriverClass);
 			Job job = JobMaker.MakeJob(jobDef, thing, expiryInterval: 3000, checkOverrideOnExpiry: true);
-			ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
+			//ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
 			return job;
 		}
 
 		public override float GetPriority(Pawn pawn, TargetInfo t)
 		{
 			return t.Thing.GetStatValue(StatDefOf.ResearchSpeedFactor, true);
+		}
+
+		private static int cacheBuiltOnTick = -1;
+		private static ResearchOpportunity _opportunityCache;
+
+		public static ResearchOpportunity OpportunityCache
+		{
+			get
+			{
+				if (cacheBuiltOnTick != Find.TickManager.TicksAbs)
+				{
+					_opportunityCache = MatchingOpportunities.FirstOrDefault();
+				}
+				return _opportunityCache;
+			}
 		}
 	}
 }

@@ -29,7 +29,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 
 		private static ResearchProjectDef _matchingOpportunitiesCachedFor;
-		private static ResearchOpportunity[] _matchingOpportunitesCache = Array.Empty<ResearchOpportunity>();
+		private static ResearchOpportunity[] _matchingOpportunitesCache;
 		private static IEnumerable<ResearchOpportunity> MatchingOpportunities
 		{
 			get
@@ -42,6 +42,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 				}
 				return _matchingOpportunitesCache;
 			}
+		}
+		public static void ClearMatchingOpportunityCache()
+		{
+			_matchingOpportunitiesCachedFor = null;
+			_matchingOpportunitesCache = null;
 		}
 
 
@@ -75,7 +80,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			}
 
 			var terrainAt = cell.GetTerrain(pawn.Map);
-			if (!opportunityCache.ContainsKey(terrainAt))
+			if (!OpportunityCache.ContainsKey(terrainAt))
 				return false;
 			//var opportunity = opportunityCache[terrainAt].First();
 			/*var opportunity = opportunityCache[terrainAt].FirstOrDefault(o => o.CurrentAvailability == OpportunityAvailability.Available);
@@ -90,26 +95,21 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override Job JobOnCell(Pawn pawn, IntVec3 cell, bool forced = false)
 		{
-			if (cacheBuiltOnTick != Find.TickManager.TicksAbs)
-			{
-				BuildCache();
-			}
-
 			var terrainAt = cell.GetTerrain(pawn.Map);
-			var opportunity = opportunityCache[terrainAt].First();
+			var opportunity = OpportunityCache[terrainAt].First();
 			//var opportunity = opportunityCache[terrainAt].FirstOrDefault(o => o.CurrentAvailability == OpportunityAvailability.Available);
 			//var opportunity = MatchingOpportunities.FirstOrDefault(o => o.requirement.MetBy(terrainAt));//MatchingOpportunities.FirstOrDefault(o => (o.requirement as ROComp_RequiresTerrain).terrainDef == cell.GetTerrain(pawn.Map));
 
 			var jobDef = opportunity.JobDefs.First(j => j.driverClass == DriverClass);
 			Job job = JobMaker.MakeJob(jobDef, cell, expiryInterval: 1500, checkOverrideOnExpiry: true);
-			ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
+			//ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
 			return job;
 		}
 
 		public override float GetPriority(Pawn pawn, TargetInfo target)
 		{
 			var terrainAt = target.Cell.GetTerrain(pawn.Map);
-			var opportunity = opportunityCache[terrainAt].First();
+			var opportunity = OpportunityCache[terrainAt].First();
 			//var opportunity = MatchingOpportunities.First(o => o.requirement.MetBy(terrainAt));
 
 			var cell = target.Cell;
@@ -128,12 +128,24 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 
 		//cache is built once per tick, to avoid working on already finished opportunities or opportunities from a different project
-		public static int cacheBuiltOnTick = -1;
-		public static Dictionary<TerrainDef, HashSet<ResearchOpportunity>> opportunityCache = new Dictionary<TerrainDef, HashSet<ResearchOpportunity>>();
+		private static int cacheBuiltOnTick = -1;
+		private static Dictionary<TerrainDef, HashSet<ResearchOpportunity>> _opportunityCache = new Dictionary<TerrainDef, HashSet<ResearchOpportunity>>();
+
+		public static Dictionary<TerrainDef, HashSet<ResearchOpportunity>> OpportunityCache
+		{
+			get
+			{
+				if (cacheBuiltOnTick != Find.TickManager.TicksAbs)
+				{
+					BuildCache();
+				}
+				return _opportunityCache;
+			}
+		}
 
 		public static void BuildCache()
 		{
-			opportunityCache.Clear();
+			_opportunityCache.Clear();
 			if (Find.ResearchManager.currentProj == null)
 				return;
 
@@ -145,10 +157,10 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 					Log.ErrorOnce($"RR: current research project {Find.ResearchManager.currentProj} generated a WorkGiver_Analyze opportunity with null requirement!", Find.ResearchManager.currentProj.debugRandomId);
 					continue;
 				}
-				if (!opportunityCache.ContainsKey(terrainDef))
-					opportunityCache[terrainDef] = new HashSet<ResearchOpportunity>();
+				if (!_opportunityCache.ContainsKey(terrainDef))
+					_opportunityCache[terrainDef] = new HashSet<ResearchOpportunity>();
 
-				opportunityCache[terrainDef].Add(opportunity);
+				_opportunityCache[terrainDef].Add(opportunity);
 			}
 			/*foreach(var terrain in opportunityCache.Keys) 
 			{

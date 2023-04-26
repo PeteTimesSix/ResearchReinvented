@@ -26,9 +26,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public static Type DriverClass = typeof(JobDriver_AnalyseInPlace);
 
-
 		private static ResearchProjectDef _matchingOpportunitiesCachedFor;
-		private static ResearchOpportunity[] _matchingOpportunitesCache = Array.Empty<ResearchOpportunity>();
+		private static ResearchOpportunity[] _matchingOpportunitesCache;
 		private static IEnumerable<ResearchOpportunity> MatchingOpportunities
 		{
 			get
@@ -41,6 +40,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 				}
 				return _matchingOpportunitesCache;
 			}
+		}
+		public static void ClearMatchingOpportunityCache()
+		{
+			_matchingOpportunitiesCachedFor = null;
+			_matchingOpportunitesCache = null;
 		}
 
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
@@ -75,16 +79,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			if (!thing.FactionAllowsAnalysis())
 				return false;
 
-			if (cacheBuiltOnTick != Find.TickManager.TicksAbs)
-			{
-				BuildCache();
-			}
-
 			// Dont actually do this. We want minified things to be examined at benches.
 			//var unminifiedThing = thing.GetInnerIfMinified();
 			//var thingDef = unminifiedThing.def;
 
-			if (!opportunityCache.ContainsKey(thing.def))
+			if (!OpportunityCache.ContainsKey(thing.def))
 				return false;
 			else
 			{
@@ -118,33 +117,40 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override Job JobOnThing(Pawn pawn, Thing thing, bool forced = false)
 		{
-			if (cacheBuiltOnTick != Find.TickManager.TicksAbs)
-			{
-				BuildCache();
-			}
-
-			var opportunity = opportunityCache[thing.def].First();
+			var opportunity = OpportunityCache[thing.def].First();
 
 			var jobDef = opportunity.JobDefs.First(j => j.driverClass == DriverClass);
 			Job job = JobMaker.MakeJob(jobDef, thing, expiryInterval: 1500, checkOverrideOnExpiry: true);
-			ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
+			//ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
 			return job;
 		}
 
 		public override float GetPriority(Pawn pawn, TargetInfo target)
 		{
-			var opportunity = opportunityCache[target.Thing.def].First();
+			var opportunity = OpportunityCache[target.Thing.def].First();
 
 			return pawn.GetStatValue(StatDefOf_Custom.FieldResearchSpeedMultiplier, true) * opportunity.def.GetCategory(opportunity.relation).Settings.researchSpeedMultiplier;
 		}
 
 		//cache is built once per tick, to avoid working on already finished opportunities or opportunities from a different project
-		public static int cacheBuiltOnTick = -1;
-		public static Dictionary<ThingDef, HashSet<ResearchOpportunity>> opportunityCache = new Dictionary<ThingDef, HashSet<ResearchOpportunity>>();
+		private static int cacheBuiltOnTick = -1;
+		private static Dictionary<ThingDef, HashSet<ResearchOpportunity>> _opportunityCache = new Dictionary<ThingDef, HashSet<ResearchOpportunity>>();
+
+		public static Dictionary<ThingDef, HashSet<ResearchOpportunity>> OpportunityCache
+		{
+			get
+			{
+				if (cacheBuiltOnTick != Find.TickManager.TicksAbs)
+				{
+					BuildCache();
+				}
+				return _opportunityCache;
+			}
+		}
 
 		public static void BuildCache()
 		{
-			opportunityCache.Clear();
+			_opportunityCache.Clear();
 			if (Find.ResearchManager.currentProj == null)
 				return;
 
@@ -156,10 +162,10 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 					Log.ErrorOnce($"RR: current research project {Find.ResearchManager.currentProj} generated a WorkGiver_AnalyzeInPlace opportunity with null requirement!", Find.ResearchManager.currentProj.debugRandomId);
 					continue;
 				}
-				if (!opportunityCache.ContainsKey(thingDef))
-					opportunityCache[thingDef] = new HashSet<ResearchOpportunity>();
+				if (!_opportunityCache.ContainsKey(thingDef))
+					_opportunityCache[thingDef] = new HashSet<ResearchOpportunity>();
 
-				opportunityCache[thingDef].Add(opportunity);
+				_opportunityCache[thingDef].Add(opportunity);
 			}
 
 			cacheBuiltOnTick = Find.TickManager.TicksAbs;
