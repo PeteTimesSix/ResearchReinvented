@@ -25,11 +25,24 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		public override PathEndMode PathEndMode => PathEndMode.Touch;
 		public override bool Prioritized => true;
 
-        public static Type DriverClass = typeof(JobDriver_AnalyseTerrain);
+		public static Type DriverClass = typeof(JobDriver_AnalyseTerrain);
 
-		private static IEnumerable<ResearchOpportunity> MatchingOpportunities =>
-			ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
-			.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Job_Analysis) && o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass));
+
+		private static ResearchProjectDef _matchingOpportunitiesCachedFor;
+		private static ResearchOpportunity[] _matchingOpportunitesCache = Array.Empty<ResearchOpportunity>();
+		private static IEnumerable<ResearchOpportunity> MatchingOpportunities
+		{
+			get
+			{
+				if (_matchingOpportunitiesCachedFor != Find.ResearchManager.currentProj)
+				{
+					_matchingOpportunitesCache = ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities(true)
+						.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Job_Analysis) && o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass)).ToArray();
+					_matchingOpportunitiesCachedFor = Find.ResearchManager.currentProj;
+				}
+				return _matchingOpportunitesCache;
+			}
+		}
 
 
 		public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)
@@ -50,8 +63,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			return !MatchingOpportunities.Any();
 		}
 
-        public override bool HasJobOnCell(Pawn pawn, IntVec3 cell, bool forced = false)
-        {
+		public override bool HasJobOnCell(Pawn pawn, IntVec3 cell, bool forced = false)
+		{
 			ResearchProjectDef currentProj = Find.ResearchManager.currentProj;
 			if (currentProj == null)
 				return false;
@@ -66,9 +79,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 				return false;
 			//var opportunity = opportunityCache[terrainAt].First();
 			/*var opportunity = opportunityCache[terrainAt].FirstOrDefault(o => o.CurrentAvailability == OpportunityAvailability.Available);
-			if (opportunity == null)
-				return false;
-			else*/
+            if (opportunity == null)
+                return false;
+            else*/
 			return
 				!cell.IsForbidden(pawn) &&
 				pawn.CanReserve(cell, 1, -1, null, forced) &&
@@ -77,10 +90,10 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override Job JobOnCell(Pawn pawn, IntVec3 cell, bool forced = false)
 		{
-			if(cacheBuiltOnTick != Find.TickManager.TicksAbs)
-            {
+			if (cacheBuiltOnTick != Find.TickManager.TicksAbs)
+			{
 				BuildCache();
-            }
+			}
 
 			var terrainAt = cell.GetTerrain(pawn.Map);
 			var opportunity = opportunityCache[terrainAt].First();
@@ -108,7 +121,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			var prio = 1f / dist - (4f - 1f); //start at 1, approach 0 at infinity
 			prio += Rand.Range(0f, 0.25f); //randomize a bit
 
-			return prio * pawn.GetStatValue(StatDefOf_Custom.FieldResearchSpeedMultiplier, true) * opportunity.def.GetCategory(opportunity.relation).Settings.researchSpeedMultiplier;
+			var retVal = prio * pawn.GetStatValue(StatDefOf_Custom.FieldResearchSpeedMultiplier, true) * opportunity.def.GetCategory(opportunity.relation).Settings.researchSpeedMultiplier;
+
+			return retVal;
 		}
 
 
@@ -122,7 +137,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			if (Find.ResearchManager.currentProj == null)
 				return;
 
-			foreach (var opportunity in MatchingOpportunities.Where(o => o.requirement is ROComp_RequiresTerrain))
+			foreach (var opportunity in MatchingOpportunities.Where(o => !o.IsFinished && o.requirement is ROComp_RequiresTerrain))
 			{
 				var terrainDef = (opportunity.requirement as ROComp_RequiresTerrain)?.terrainDef;
 				if (terrainDef == null)
