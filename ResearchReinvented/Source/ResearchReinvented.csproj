@@ -76,7 +76,6 @@
     <Compile Include="HarmonyPatches\Prototypes\WorkToBuild_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\GenRecipe_PostProcessProduct_Patches.cs" />
     <Compile Include="HarmonyPatches\ModCompatibility\Dubs_Mint_Menus\DMM_Patch_BillStack_DoListing_Patches.cs" />
-    <Compile Include="HarmonyPatches\Pawn_JobTracker_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\PrototypeUtilities.cs" />
     <Compile Include="HarmonyPatches\RecipeDef_Patches.cs" />
     <Compile Include="HarmonyPatches\ResearchManager_Patches.cs" />

@@ -25,7 +25,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		public static Type DriverClass = typeof(JobDriver_Analyse);
 
 		private static ResearchProjectDef _matchingOpportunitiesCachedFor;
-		private static ResearchOpportunity[] _matchingOpportunitesCache;
+		private static ResearchOpportunity[] _matchingOpportunitesCache = Array.Empty<ResearchOpportunity>();
 		public static IEnumerable<ResearchOpportunity> MatchingOpportunities
 		{
 			get
@@ -42,7 +42,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		public static void ClearMatchingOpportunityCache() 
 		{
 			_matchingOpportunitiesCachedFor = null;
-			_matchingOpportunitesCache = null;
+			_matchingOpportunitesCache = Array.Empty<ResearchOpportunity>();
 		}
 
 		public override ThingRequest PotentialWorkThingRequest
