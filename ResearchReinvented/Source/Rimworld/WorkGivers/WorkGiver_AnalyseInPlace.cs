@@ -26,9 +26,22 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public static Type DriverClass = typeof(JobDriver_AnalyseInPlace);
 
-		private static IEnumerable<ResearchOpportunity> MatchingOpportunities =>
-			ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
-			.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Job_Analysis) && o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass));
+
+		private static ResearchProjectDef _matchingOpportunitiesCachedFor;
+		private static ResearchOpportunity[] _matchingOpportunitesCache = Array.Empty<ResearchOpportunity>();
+		private static IEnumerable<ResearchOpportunity> MatchingOpportunities
+		{
+			get
+			{
+				if (_matchingOpportunitiesCachedFor != Find.ResearchManager.currentProj)
+				{
+					_matchingOpportunitesCache = ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities(true)
+						.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Job_Analysis) && o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass)).ToArray();
+					_matchingOpportunitiesCachedFor = Find.ResearchManager.currentProj;
+				}
+				return _matchingOpportunitesCache;
+			}
+		}
 
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
@@ -36,13 +49,13 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			var lister = pawn.Map.listerThings;
 
 			List<Thing> things = new List<Thing>();
-			foreach(var def in analysableThings)
+			foreach (var def in analysableThings)
 			{
 				things.AddRange(lister.ThingsOfDef(def).Where(t => !t.IsForbidden(pawn)));
 			}
 
 			return things;
-        }
+		}
 
 		public override bool ShouldSkip(Pawn pawn, bool forced = false)
 		{
@@ -50,9 +63,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			if (currentProj == null)
 				return true;
 
-			
-
-			return !MatchingOpportunities.Any();
+			return !MatchingOpportunities.Any(o => !o.IsFinished);
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing thing, bool forced = false)
@@ -94,7 +105,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 					if (!reachable.Any())
 						return false;
 				}
-				
+
 				if (currentProj.HasAnyPrerequisites() && !FieldResearchHelper.GetValidResearchKits(pawn, currentProj).Any())
 				{
 					JobFailReason.Is(StringsCache.JobFail_NeedResearchKit, null);
@@ -137,7 +148,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			if (Find.ResearchManager.currentProj == null)
 				return;
 
-			foreach (var opportunity in MatchingOpportunities.Where(o => o.requirement is ROComp_RequiresThing))
+			foreach (var opportunity in MatchingOpportunities.Where(o => !o.IsFinished && o.requirement is ROComp_RequiresThing))
 			{
 				var thingDef = (opportunity.requirement as ROComp_RequiresThing)?.thingDef;
 				if (thingDef == null)
