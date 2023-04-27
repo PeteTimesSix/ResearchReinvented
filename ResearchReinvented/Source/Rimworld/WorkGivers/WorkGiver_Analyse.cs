@@ -146,7 +146,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			if (Find.ResearchManager.currentProj == null)
 				return;
 
-			foreach (var opportunity in MatchingOpportunities.Where(o => !o.IsFinished && o.requirement is ROComp_RequiresThing))
+			foreach (var opportunity in MatchingOpportunities.Where(o => o.CurrentAvailability == OpportunityAvailability.Available && o.requirement is ROComp_RequiresThing))
 			{
 				var thingDef = (opportunity.requirement as ROComp_RequiresThing)?.thingDef;
 				if (thingDef == null)

@@ -113,7 +113,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			{
 				if (cacheBuiltOnTick != Find.TickManager.TicksAbs)
 				{
-					_opportunityCache = MatchingOpportunities.FirstOrDefault();
+					_opportunityCache = MatchingOpportunities.Where(o => o.CurrentAvailability == OpportunityAvailability.Available).FirstOrDefault();
 				}
 				return _opportunityCache;
 			}

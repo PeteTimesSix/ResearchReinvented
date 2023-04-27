@@ -149,7 +149,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			if (Find.ResearchManager.currentProj == null)
 				return;
 
-			foreach (var opportunity in MatchingOpportunities.Where(o => !o.IsFinished && o.requirement is ROComp_RequiresTerrain))
+			foreach (var opportunity in MatchingOpportunities.Where(o => o.CurrentAvailability == OpportunityAvailability.Available && o.requirement is ROComp_RequiresTerrain))
 			{
 				var terrainDef = (opportunity.requirement as ROComp_RequiresTerrain)?.terrainDef;
 				if (terrainDef == null)
