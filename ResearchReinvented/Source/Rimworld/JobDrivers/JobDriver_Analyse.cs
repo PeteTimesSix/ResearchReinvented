@@ -38,8 +38,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
         }
 
         protected override IEnumerable<Toil> MakeNewToils()
-        {
-            ResearchOpportunity opportunity = WorkGiver_Analyse.OpportunityCache[TargetThing.def].FirstOrDefault();
+		{
+			var unminifiedThing = TargetThing.GetInnerIfMinified();
+			ResearchOpportunity opportunity = WorkGiver_Analyse.OpportunityCache[unminifiedThing.def].FirstOrDefault();
             //ResearchOpportunity opportunity = ResearchOpportunityManager.instance.GetOpportunityForJob(this.job);
             ResearchProjectDef currentProject = Find.ResearchManager.currentProj;
 
