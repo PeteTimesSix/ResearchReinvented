@@ -1,9 +1,11 @@
 ﻿using HarmonyLib;
 using PeteTimesSix.ResearchReinvented.HarmonyPatches.ModCompatibility.Combat_Extended;
 using PeteTimesSix.ResearchReinvented.HarmonyPatches.ModCompatibility.Dubs_Mint_Menus;
+using PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -31,7 +33,12 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.ModCompatibility
                 //Log.Warning("Doing Dubs Mint menu patches...");
                 Patch_CombatExtended(harmony);
             }
-        }
+			if (ModLister.GetActiveModWithIdentifier("erdelf.HumanoidAlienRaces") != null)
+			{
+				//Log.Warning("Doing Dubs Mint menu patches...");
+				Patch_HumanoidAlienRaces(harmony);
+			}
+		}
 
         public static void Patch_DubsMintMenus(Harmony harmony)
         {
@@ -48,5 +55,14 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.ModCompatibility
 
             harmony.Patch(AccessTools.Method(type, "IsVisibleLayer"), postfix: new HarmonyMethod(AccessTools.Method(typeof(Harmony_PawnRenderer_DrawBodyApparel_Patches), nameof(Harmony_PawnRenderer_DrawBodyApparel_Patches.IsVisibleLayerPostfix))));
         }
-    }
+
+		public static void Patch_HumanoidAlienRaces(Harmony harmony)
+		{
+			var raceCheck = new HarmonyMethod(AccessTools.TypeByName("AlienRace.HarmonyPatches").GetMethod("ShouldSkipResearchPostfix"));
+			harmony.Patch(AccessTools.Method(typeof(WorkGiver_Analyse), nameof(WorkGiver_Analyse.ShouldSkip)), postfix: raceCheck);
+			harmony.Patch(AccessTools.Method(typeof(WorkGiver_AnalyseInPlace), nameof(WorkGiver_AnalyseInPlace.ShouldSkip)), postfix: raceCheck);
+			harmony.Patch(AccessTools.Method(typeof(WorkGiver_AnalyseTerrain), nameof(WorkGiver_AnalyseTerrain.ShouldSkip)), postfix: raceCheck);
+			harmony.Patch(AccessTools.Method(typeof(WorkGiver_ResearcherRR), nameof(WorkGiver_ResearcherRR.ShouldSkip)), postfix: raceCheck);
+		}
+	}
 }
