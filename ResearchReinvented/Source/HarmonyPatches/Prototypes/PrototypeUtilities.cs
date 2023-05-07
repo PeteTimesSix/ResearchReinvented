@@ -90,7 +90,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
                 if (opportunity != null)
                 {
-                    opportunity.ResearchChunkPerformed(worker, product.LabelCapNoCount, HandlingMode.Special_Prototype); 
+                    opportunity.ResearchChunkPerformed(worker, usedRecipe != null ? usedRecipe.LabelCap.ToString() : product.LabelCapNoCount, HandlingMode.Special_Prototype); 
                     if (worker?.skills != null)
                     {
                         var xp = 0.1f * totalWork;
