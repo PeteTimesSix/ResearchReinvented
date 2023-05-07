@@ -222,7 +222,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             {
                 var amount = MaximumProgress * def.handlingModeModifiers.GetValueOrDefault(mode) * researcher.GetStatValue(StatDefOf.ResearchSpeed, true);
                 amount = Math.Min(amount, MaximumProgress);
-                Log.Message($"permorming research chunk for {ShortDesc} : modifier: {mode} -> {def.handlingModeModifiers.GetValueOrDefault(mode)} amount {amount} (of {MaximumProgress})");
+                //Log.Message($"permorming research chunk for {ShortDesc} : modifier: {mode} -> {def.handlingModeModifiers.GetValueOrDefault(mode)} amount {amount} (of {MaximumProgress})");
                 if (ResearchReinventedMod.Settings.showProgressMotes && amount >= 1) 
                 {
                     DoResearchProgressMote(researcher, subjectName, (int)amount, moteOffsetHint);
