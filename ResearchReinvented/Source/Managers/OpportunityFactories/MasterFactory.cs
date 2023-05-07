@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
+using Verse.AI;
 
 namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
 {
@@ -169,11 +170,47 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             {
                 foreach (var productionFacility in set.forProductionFacilityAnalysis.Where(facility => !project.UnlockedDefs.Contains(facility))) //dont include tables we're trying to invent
                 {
-                    yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseProductionFacility, set.relation, new ROComp_RequiresThing(productionFacility), "set.production facility");
+                    if(typeof(Pawn).IsAssignableFrom(productionFacility.thingClass))
+                    {
+                        if (productionFacility.race.IsFlesh)
+                        {
+                            yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalysePawn, set.relation, new ROComp_RequiresThing(productionFacility), "set.production facility pawn", isAlternate: false);
+                            if (productionFacility.race.corpseDef != null)
+                                yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissect, set.relation, new ROComp_RequiresThing(productionFacility.race.corpseDef), "set.production facility pawn (corpse)", isAlternate: true);
+                        }
+                        else
+                        {
+                            yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalysePawnNonFlesh, set.relation, new ROComp_RequiresThing(productionFacility), "set.production facility pawn nonflesh", isAlternate: false);
+                            if (productionFacility.race.corpseDef != null)
+                                yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissectNonFlesh, set.relation, new ROComp_RequiresThing(productionFacility.race.corpseDef), "set.production facility pawn (corpse non-flesh)", isAlternate: true);
+                        }
+                    }
+                    else
+                    {
+                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseProductionFacility, set.relation, new ROComp_RequiresThing(productionFacility), "set.production facility");
+                    }
                 }
                 foreach (var productionFacility in set.alts.forProductionFacilityAnalysis.Where(facility => !project.UnlockedDefs.Contains(facility))) //dont include tables we're trying to invent
                 {
-                    yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseProductionFacility, set.relation, new ROComp_RequiresThing(productionFacility), "alt set. production facility" , isAlternate: true);
+                    if (typeof(Pawn).IsAssignableFrom(productionFacility.thingClass))
+                    {
+                        if (productionFacility.race.IsFlesh)
+                        {
+                            yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalysePawn, set.relation, new ROComp_RequiresThing(productionFacility), "alt set.production facility pawn", isAlternate: true);
+                            if (productionFacility.race.corpseDef != null)
+                                yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissect, set.relation, new ROComp_RequiresThing(productionFacility.race.corpseDef), "alt set.production facility pawn (corpse)", isAlternate: true);
+                        }
+                        else
+                        {
+                            yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalysePawnNonFlesh, set.relation, new ROComp_RequiresThing(productionFacility), "alt set.production facility pawn nonflesh", isAlternate: true);
+                            if (productionFacility.race.corpseDef != null)
+                                yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissectNonFlesh, set.relation, new ROComp_RequiresThing(productionFacility.race.corpseDef), "alt set.production facility pawn (corpse non-flesh)", isAlternate: true);
+                        }
+                    }
+                    else
+                    {
+                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseProductionFacility, set.relation, new ROComp_RequiresThing(productionFacility), "set.production facility");
+                    }
                 }
 
                 foreach (var analysable in set.forDirectAnalysis)
@@ -305,8 +342,10 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
 
         public IEnumerable<ResearchOpportunity> OpportunitiesFromIngredientAnalysis(ResearchProjectDef project, ThingDef material, ResearchRelation relation, bool isAlternate = false)
         {
+            if (material.IsMedicine)
+                yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseMedicine, relation, new ROComp_RequiresThing(material), "ingre. analysis (medicine)", isAlternate: isAlternate);
             //food n' drugs
-            if (material.ingestible != null)
+            else if (material.ingestible != null)
             {
                 //corpses
                 if (material.IsCorpse)
@@ -325,7 +364,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                         }
                     }
                 }
-                else if (material.IsDrug || material.IsMedicine)
+                else if (material.IsDrug)
                     yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDrug, relation, new ROComp_RequiresThing(material), "ingre. analysis (drug)", isAlternate: isAlternate);
                 else if (material.IsTrulyRawFood())
                     yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseFuelFood, relation, new ROComp_RequiresThing(material), "ingre. analysis (raw food)", isAlternate: isAlternate);
@@ -371,8 +410,12 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                 }
                 else
                 {
+                    if (asThing.IsMedicine)
+                    {
+                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseMedicine, relation, new ROComp_RequiresThing(asThing), "direct analysis (medicine)", isAlternate: isAlternate);
+                    }
                     //food n' drugs
-                    if (asThing.ingestible != null)
+                    else if (asThing.ingestible != null)
                     {
                         if (asThing.IsDrug)
                         {

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  
+
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef Name="MedicalOpportunity" ParentName="ResearchOpportunityBase" Abstract="True">
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="MedicalOpportunity">
+		<defName>AnalyseMedicine</defName>
+		<handledBy>Special_Medicine</handledBy>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_NoJob</jobPickerClass>
+		<header_Direct>medicine efficacy trial</header_Direct>
+		<shortDesc_Direct>Determine efficacy of {0} as applied during surgeries and wound threatment.</shortDesc_Direct>
+		<category_Direct>Medical</category_Direct>
+		<handlingModeModifiers>
+		  <li>
+			<key>Special_Medicine</key>
+			<value>0.25</value>
+		  </li>
+		</handlingModeModifiers>
+		<hintIcons>
+			<li>UI/hintIcons/med_watched</li>
+		</hintIcons>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+</Defs>

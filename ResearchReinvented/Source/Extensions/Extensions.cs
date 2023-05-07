@@ -12,6 +12,13 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 {
     public static class SmallExtensions
     {
+        public static IEnumerable<EnumType> GetFlags<EnumType>(this EnumType e) where EnumType : System.Enum
+        {
+            return Enum.GetValues(typeof(EnumType))
+                .Cast<EnumType>()
+                .Where(v => e.HasFlag(v));
+        }
+
         public static Rect OffsetBy(this Rect rect, float x, float y)
         {
             return new Rect(rect.x + x, rect.y + y, rect.width, rect.height);

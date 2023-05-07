@@ -19,6 +19,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld
 
         public static readonly Texture2D forbiddenOverlayTex = ContentFinder<Texture2D>.Get("Things/Special/ForbiddenOverlay");
 
-        
+        public static readonly Texture2D handlerMode_theory = ContentFinder<Texture2D>.Get("UI/handlerModeIcons/theory");
+        public static readonly Texture2D handlerMode_analysis = ContentFinder<Texture2D>.Get("UI/handlerModeIcons/analysis");
+        public static readonly Texture2D handlerMode_ingestible = ContentFinder<Texture2D>.Get("UI/handlerModeIcons/food");
+        public static readonly Texture2D handlerMode_ingestibleObserved = ContentFinder<Texture2D>.Get("UI/handlerModeIcons/med_watched");
+        public static readonly Texture2D handlerMode_prototype = ContentFinder<Texture2D>.Get("UI/handlerModeIcons/cog");
+
     }
 }

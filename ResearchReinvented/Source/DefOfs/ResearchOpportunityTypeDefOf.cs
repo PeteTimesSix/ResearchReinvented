@@ -19,6 +19,7 @@ namespace PeteTimesSix.ResearchReinvented.DefOfs
         public static ResearchOpportunityTypeDef AnalyseDissectNonFlesh;
         public static ResearchOpportunityTypeDef AnalyseRawFood;
         public static ResearchOpportunityTypeDef AnalyseFood;
+        public static ResearchOpportunityTypeDef AnalyseMedicine;
         public static ResearchOpportunityTypeDef AnalyseDrug;
         public static ResearchOpportunityTypeDef AnalyseHarvestProduct;
 

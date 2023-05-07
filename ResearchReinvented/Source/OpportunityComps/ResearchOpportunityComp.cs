@@ -11,6 +11,7 @@ namespace PeteTimesSix.ResearchReinvented.OpportunityComps
     public abstract class ResearchOpportunityComp: IExposable
     {
         public abstract string ShortDesc { get; }
+        public abstract TaggedString Subject { get; }
         public abstract bool TargetIsNull { get; }
         public abstract bool IsRare { get; }
         public abstract bool IsValid { get; }

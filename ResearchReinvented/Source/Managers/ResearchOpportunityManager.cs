@@ -306,7 +306,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 Debug.LogMessage($"Listing generated opportunities for current project {_currentProject.label}...");
                 foreach (var opportunity in newOpportunities)
                 {
-                    Debug.LogMessage($" |-- {opportunity.ShortDesc}");
+                    Debug.LogMessage($" |-- {opportunity.ShortDesc} -- {opportunity.debug_source}");
                 }
             }
         }

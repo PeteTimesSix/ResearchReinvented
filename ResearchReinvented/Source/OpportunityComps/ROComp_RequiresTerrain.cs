@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using Verse;
 
 namespace PeteTimesSix.ResearchReinvented.OpportunityComps
@@ -15,13 +16,8 @@ namespace PeteTimesSix.ResearchReinvented.OpportunityComps
     {
         public TerrainDef terrainDef;
 
-        public override string ShortDesc
-        {
-            get
-            {
-                return String.Concat(terrainDef?.label);
-            }
-        }
+        public override string ShortDesc => String.Concat(terrainDef?.label);
+        public override TaggedString Subject => new TaggedString(terrainDef?.label).Colorize(Color.cyan);
         public override bool TargetIsNull => terrainDef is null;
 
         public override bool IsRare => terrainDef.HasModExtension<RarityMarker>();

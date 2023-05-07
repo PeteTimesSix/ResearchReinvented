@@ -41,6 +41,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
         public const float ICON_GAP = 5f;
         public const float ICON_SIZE = ROW_HEIGHT;
         public const float ICON_LARGE_SIZE = 62f;
+        public const float HINTICON_SIZE = 24f;
+        public const float HINTICON_BOUNDING_BOX = HINTICON_SIZE + MARGIN * 2;
         public const float MARGIN = 2f;
         public const float MARGIN_INTERNAL = 2f;
 
@@ -291,6 +293,13 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
                     Widgets_Extra.LabelFitHeightAware(textBoxInternal, $"{Math.Round(opportunity.Progress, 0)} / {Math.Round(opportunity.MaximumProgress, 0)}");
                 }
 
+                if (Mouse.IsOver(textBoxInternal))
+                {
+                    var diff = ((textBoxInternal.height - HINTICON_BOUNDING_BOX) / 2);
+                    var contracted = new Rect(textBoxInternal.x, textBoxInternal.y + diff, textBoxInternal.width, HINTICON_BOUNDING_BOX);
+                    var usedWidth = DrawHandlingModeHints(contracted, true, opportunity, borderColor, bgColor);
+                }
+
                 if (opportunity.CurrentAvailability != OpportunityAvailability.Available)
                     DoUnavailabilityLabel(opportunity.CurrentAvailability, textBoxInternal.ContractedBy(2f), true);
 
@@ -303,6 +312,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
                 heightTotal += ICON_LARGE_SIZE + ROW_GAP;
                 horizontalOffset = 0;
             }
+
+            TooltipHandler.TipRegion(fullRect, () => opportunity.HintText, 554410123 + opportunity.GetHashCode());
         }
 
 
@@ -333,6 +344,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
 
                 Text.Anchor = TextAnchor.MiddleLeft;
+
+                var usedWidth = DrawHandlingModeHints(textBoxInternal, false, opportunity, borderColor, bgColor);
+                textBoxInternal = textBoxInternal.RightPartPixels(textBoxInternal.width - usedWidth);
 
                 //{Opportunity name}
                 Widgets_Extra.LabelFitHeightAware(textBoxInternal.TopHalf().Rounded(), $"{opportunity.def.GetHeaderCap(opportunity.relation)}");
@@ -372,6 +386,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             }
 
             heightTotal += ROW_HEIGHT + ROW_GAP;
+
+            TooltipHandler.TipRegion(fullRect, () => opportunity.HintText, 554410123 + opportunity.GetHashCode());
         }
 
         private void DrawIconForOpportunity(ResearchOpportunity opportunity, Rect iconBox)
@@ -429,6 +445,29 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             }
         }
 
+        private float DrawHandlingModeHints(Rect container, bool useWholeWidth, ResearchOpportunity opportunity, Color borderColor, Color bgColor)
+        {
+            float offset = 0;
+            var width = HINTICON_BOUNDING_BOX;
+            if (useWholeWidth)
+            {
+                width = Mathf.Max(width, container.width / opportunity.def.Icons.Count);
+            }
+            foreach(var icon in opportunity.def.Icons)
+            {
+                var iconRect = new Rect(container.x + offset, container.y, width, container.height);
+
+                Widgets.DrawBoxSolid(iconRect, borderColor);
+                iconRect = iconRect.ContractedBy(MARGIN);
+                Widgets.DrawBoxSolid(iconRect, bgColor);
+                Widgets.DrawTextureFitted(iconRect, icon, 1f);
+                //TooltipHandler.TipRegion(iconRect, () => hintTooltipText, 554410123);
+
+                offset += width;
+            }
+            return offset;
+        }
+
         private static bool precachedTranslations = false;
 
         private static string RR_no_project_selected;
@@ -478,7 +517,6 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             RR_OpportunityBlocked_ResearchTooLow = "RR_OpportunityBlocked_ResearchTooLow".Translate();
             RR_OpportunityBlocked_ResearchTooHigh = "RR_OpportunityBlocked_ResearchTooHigh".Translate();
             RR_OpportunityBlocked_ReasonUnknown = "RR_OpportunityBlocked_ReasonUnknown".Translate();
-
         }
 
 

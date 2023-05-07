@@ -9,26 +9,29 @@
 			<value>0.5</value>
 		  </li>
 		</handlingModeModifiers>
+		<hintIcons>
+			<li>UI/hintIcons/cog</li>
+		</hintIcons>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="PrototypeOpportunity">
 		<defName>PrototypeConstruction</defName>
 		<header_Direct>prototype construction</header_Direct>
-		<shortDesc_Direct>Build a prototype to figure out stuff.</shortDesc_Direct>
+		<shortDesc_Direct>Construct a prototype of {0}.</shortDesc_Direct>
 		<category_Direct>Prototyping</category_Direct>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="PrototypeOpportunity">
 		<defName>PrototypeTerrainConstruction</defName>
 		<header_Direct>prototype construction</header_Direct>
-		<shortDesc_Direct>Build a prototype to figure out stuff.</shortDesc_Direct>
+		<shortDesc_Direct>Construct a prototype of {0}.</shortDesc_Direct>
 		<category_Direct>Prototyping</category_Direct>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="PrototypeOpportunity">
 		<defName>PrototypeProduction</defName>
 		<header_Direct>prototype production</header_Direct>
-		<shortDesc_Direct>Make a prototype to figure out stuff.</shortDesc_Direct>
+		<shortDesc_Direct>Produce a prototype of {0} at the appropriate production facility.</shortDesc_Direct>
 		<category_Direct>Prototyping</category_Direct>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 </Defs>

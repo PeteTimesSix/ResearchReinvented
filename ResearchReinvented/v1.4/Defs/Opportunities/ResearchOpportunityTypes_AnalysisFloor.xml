@@ -2,6 +2,9 @@
 <Defs>  
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef Name="FloorAnalysisOpportunity" ParentName="ResearchOpportunityBase" Abstract="True">
 		<handledBy>Job_Analysis</handledBy>
+		<hintIcons>
+			<li>UI/hintIcons/analysis</li>
+		</hintIcons>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="FloorAnalysisOpportunity">
@@ -9,7 +12,8 @@
 		<jobDef>RR_AnalyseTerrain</jobDef>
 		<header_Direct>reverse engineer floor</header_Direct>
 		<header_Ancestor>gather construction experience</header_Ancestor>
-		<shortDesc_Direct>Analyse terrain to figure out stuff.</shortDesc_Direct>
+		<shortDesc_Direct>Reverse engineer construction approach of {0}.</shortDesc_Direct>
+		<shortDesc_Ancestor>Inspect construction methodology used in construction of {0}.</shortDesc_Ancestor>
 		<category_Direct>ReverseEngineering</category_Direct>
 		<category_Ancestor>ForwardEngineering</category_Ancestor>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
@@ -18,7 +22,7 @@
 		<defName>AnalyseSoil</defName>
 		<jobDef>RR_AnalyseTerrain</jobDef>
 		<header_Direct>soil analysis</header_Direct>
-		<shortDesc_Direct>Analyse soil to figure out stuff.</shortDesc_Direct>
+		<shortDesc_Direct>Analyse soil contents of {0}.</shortDesc_Direct>
 		<category_Direct>Geology</category_Direct>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
@@ -26,7 +30,7 @@
 		<defName>AnalyseTerrain</defName>
 		<jobDef>RR_AnalyseTerrain</jobDef>
 		<header_Direct>terrain analysis</header_Direct>
-		<shortDesc_Direct>Analyse terrain to figure out stuff.</shortDesc_Direct>
+		<shortDesc_Direct>Analyse {0}.</shortDesc_Direct>
 		<category_Direct>Geology</category_Direct>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 </Defs>

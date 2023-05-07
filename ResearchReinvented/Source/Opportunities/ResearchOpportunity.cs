@@ -154,6 +154,18 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             }
         }
 
+
+
+        public TaggedString HintText
+        {
+            get
+            {
+                var text = def.GetShortDescCap(relation);
+                string subject = requirement?.Subject;
+                return text.Formatted(subject);
+            }
+        }
+
         public void ExposeData()
         {
             Scribe_Defs.Look(ref project, "project");
@@ -222,7 +234,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             {
                 var amount = MaximumProgress * def.handlingModeModifiers.GetValueOrDefault(mode) * researcher.GetStatValue(StatDefOf.ResearchSpeed, true);
                 amount = Math.Min(amount, MaximumProgress);
-                Log.Message($"permorming research chunk for {ShortDesc} : modifier: {mode} -> {def.handlingModeModifiers.GetValueOrDefault(mode)} amount {amount} (of {MaximumProgress})");
+                //Log.Message($"permorming research chunk for {ShortDesc} : modifier: {mode} -> {def.handlingModeModifiers.GetValueOrDefault(mode)} amount {amount} (of {MaximumProgress})");
                 if (ResearchReinventedMod.Settings.showProgressMotes && amount >= 1) 
                 {
                     DoResearchProgressMote(researcher, subjectName, (int)amount, moteOffsetHint);
@@ -231,7 +243,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             }
             else 
             {
-                Log.Warning($"Pawn {researcher} tried to do research chunk despite being incapable of research");
+                Log.Warning($"RR: Pawn {researcher} tried to do research chunk despite being incapable of research");
                 return false;
             }
         }
