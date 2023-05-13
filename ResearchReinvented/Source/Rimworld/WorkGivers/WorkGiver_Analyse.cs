@@ -45,17 +45,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			_matchingOpportunitesCache = Array.Empty<ResearchOpportunity>();
 		}
 
-		public override ThingRequest PotentialWorkThingRequest
+		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
-			get
-			{
-				if (Find.ResearchManager.currentProj == null)
-				{
-					return ThingRequest.ForGroup(ThingRequestGroup.Nothing);
-				}
-				return ThingRequest.ForGroup(ThingRequestGroup.HaulableEver); //ThingRequest.ForGroup(ThingRequestGroup.Everything);
-			}
+			return ThingsForMap(pawn.MapHeld);
 		}
+
 		public override bool ShouldSkip(Pawn pawn, bool forced = false)
 		{
 			if (Find.ResearchManager.currentProj == null)
@@ -65,30 +59,21 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing thing, bool forced = false)
-		{
-			ResearchProjectDef currentProj = Find.ResearchManager.currentProj;
-			if (currentProj == null)
-				return false;
+        {
+            if (thing.IsForbidden(pawn))
+                return false;
 
-			if (!thing.FactionAllowsAnalysis())
-				return false;
+            if (!pawn.CanReserve(thing, 1, -1, null, forced))
+                return false;
 
-			var unminifiedThing = thing.GetInnerIfMinified();
-			var thingDef = unminifiedThing.def;
-
-			if (!OpportunityCache.ContainsKey(thingDef))
-				return false;
-
-			var researchBenches = GetUsableResearchBenches(pawn).Where(bench => pawn.CanReserve(bench));
-			if (!researchBenches.Any())
+            var researchBench = GetBestResearchBench(pawn);
+			if (researchBench == null)
 			{
 				JobFailReason.Is(StringsCache.JobFail_NeedResearchBench, null);
 				return false;
 			}
-			var bestBench = researchBenches.First();
 
-			if (!(pawn.CanReserveSittableOrSpot(bestBench.InteractionCell, forced) &&
-				pawn.CanReserve(thing, 1, -1, null, forced) &&
+			if (!(pawn.CanReserveSittableOrSpot(researchBench.InteractionCell, forced) &&
 				new HistoryEvent(HistoryEventDefOf.Researching, pawn.Named(HistoryEventArgsNames.Doer)).Notify_PawnAboutToDo_Job()))
 				return false;
 
@@ -96,16 +81,22 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing thing, bool forced = false)
-		{
-			var researchBenches = GetUsableResearchBenches(pawn).Where(bench => pawn.CanReserve(bench));
-			var bestBench = researchBenches.First();
+        {
+            var researchBench = GetBestResearchBench(pawn);
 
 			var thingDef = MinifyUtility.GetInnerIfMinified(thing).def;
+
+			if(!OpportunityCache.ContainsKey(thingDef)) 
+			{
+				Log.Warning($"opportunity cache did not contain {thingDef} for thing {thing}");
+				return null;
+			}
+
 			var opportunity = OpportunityCache[thingDef].First();
 
 			JobDef jobDef = opportunity.JobDefs.First(j => j.driverClass == DriverClass);
 			Job job = JobMaker.MakeJob(jobDef, thing, expiryInterval: 20000, checkOverrideOnExpiry: true);
-			job.targetB = bestBench;
+			job.targetB = researchBench;
 			//ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
 			job.count = 1;
 			return job;
@@ -113,8 +104,10 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		//cache is built once per tick, to avoid working on already finished opportunities or opportunities from a different project
 		public static int cacheBuiltOnTick = -1;
-		public static Dictionary<Pawn, List<Building_ResearchBench>> _benchCache = new Dictionary<Pawn, List<Building_ResearchBench>>();
+		public static Dictionary<Map, List<Building_ResearchBench>> _goodBenchCache = new Dictionary<Map, List<Building_ResearchBench>>();
+		public static Dictionary<Pawn, Building_ResearchBench> _benchCache = new Dictionary<Pawn, Building_ResearchBench>();
 		public static Dictionary<ThingDef, HashSet<ResearchOpportunity>> _opportunityCache = new Dictionary<ThingDef, HashSet<ResearchOpportunity>>();
+		public static Dictionary<Map, List<Thing>> _things = new Dictionary<Map, List<Thing>>();
 
 		public static Dictionary<ThingDef, HashSet<ResearchOpportunity>> OpportunityCache
 		{
@@ -127,22 +120,53 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 				return _opportunityCache;
 			}
 		}
-		public static Dictionary<Pawn, List<Building_ResearchBench>> BenchCache
-		{
-			get
-			{
-				if (cacheBuiltOnTick != Find.TickManager.TicksAbs)
-				{
-					BuildCache();
-				}
-				return _benchCache;
-			}
-		}
 
-		public static void BuildCache()
+		public static List<Thing> ThingsForMap(Map map) 
 		{
+			if (cacheBuiltOnTick != Find.TickManager.TicksAbs)
+			{
+				BuildCache();
+			}
+			return _things[map];
+        }
+
+        public Building_ResearchBench GetBestResearchBench(Pawn pawn)
+        {
+            if (cacheBuiltOnTick != Find.TickManager.TicksAbs)
+            {
+                BuildCache();
+            }
+
+            if (!_benchCache.ContainsKey(pawn))
+            {
+                var benches = _goodBenchCache[pawn.MapHeld];
+				bool found = false;
+                foreach (var researchBench in benches)
+                {
+                    if (researchBench.IsForbidden(pawn))
+                        continue;
+
+                    if (!pawn.CanReserveAndReach(new LocalTargetInfo(researchBench), PathEndMode.InteractionCell, Danger.Unspecified))
+                        continue;
+
+					found = true;
+                    _benchCache[pawn] = researchBench;
+                    break;
+                }
+				if (!found)
+					_benchCache[pawn] = null;
+            }
+
+            return _benchCache[pawn];
+        }
+
+        public static void BuildCache()
+		{
+			_goodBenchCache.Clear();
 			_benchCache.Clear();
 			_opportunityCache.Clear();
+			_things.Clear();
+
 			if (Find.ResearchManager.currentProj == null)
 				return;
 
@@ -160,28 +184,42 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 				_opportunityCache[thingDef].Add(opportunity);
 			}
 
+			foreach (var map in Find.Maps) 
+			{
+				{
+                    var list = new List<Thing>();
+                    _things[map] = list;
+                    foreach (var thing in map.listerThings.ThingsInGroup(ThingRequestGroup.HaulableEver))
+                    {
+                        if (!thing.FactionAllowsAnalysis())
+                            continue;
+
+                        var unminifiedThing = thing.GetInnerIfMinified();
+                        var thingDef = unminifiedThing.def;
+
+                        if (_opportunityCache.ContainsKey(thingDef))
+                            list.Add(thing);
+                    }
+                }
+                {
+                    ResearchProjectDef currentProj = Find.ResearchManager.currentProj;
+                    var list = new List<Building_ResearchBench>();
+                    foreach (var benchThing in map.listerThings.ThingsInGroup(ThingRequestGroup.ResearchBench))
+                    {
+                        if (!(benchThing is Building_ResearchBench researchBench))
+                            continue;
+
+                        if (currentProj.CanBeResearchedAt(researchBench, false))
+                            continue;
+
+                        list.Add(researchBench);
+                    }
+					_goodBenchCache[map] = list;
+                }
+			}
+
 			cacheBuiltOnTick = Find.TickManager.TicksAbs;
 		}
 
-
-		public List<Building_ResearchBench> GetUsableResearchBenches(Pawn pawn)
-		{
-			ResearchProjectDef currentProj = Find.ResearchManager.currentProj;
-			if (currentProj == null)
-				return new List<Building_ResearchBench>();
-
-			if (!_benchCache.ContainsKey(pawn))
-			{
-				var benches = pawn.MapHeld.listerThings.ThingsInGroup(ThingRequestGroup.ResearchBench)
-					.Cast<Building_ResearchBench>()
-					.Where(bench => currentProj.CanBeResearchedAt(bench, false))
-					.Where(bench => !bench.IsForbidden(pawn) && pawn.CanReach(new LocalTargetInfo(bench), PathEndMode.InteractionCell, Danger.Unspecified))
-					.OrderByDescending(bench => bench.GetStatValue(StatDefOf.ResearchSpeedFactor))
-					.ToList();
-				_benchCache[pawn] = benches;
-				return benches;
-			}
-			return _benchCache[pawn];
-		}
 	}
 }

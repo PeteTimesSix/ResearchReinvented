@@ -47,73 +47,52 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			_matchingOpportunitesCache = Array.Empty<ResearchOpportunity>();
 		}
 
-		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
-		{
-			var analysableThings = MatchingOpportunities.Select(o => (o.requirement as ROComp_RequiresThing).thingDef);
-			var lister = pawn.Map.listerThings;
+        public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
+        {
+            return ThingsForMap(pawn.MapHeld);
+        }
 
-			List<Thing> things = new List<Thing>();
-			foreach (var def in analysableThings)
-			{
-				things.AddRange(lister.ThingsOfDef(def).Where(t => !t.IsForbidden(pawn)));
-			}
-
-			return things;
-		}
-
-		public override bool ShouldSkip(Pawn pawn, bool forced = false)
+        public override bool ShouldSkip(Pawn pawn, bool forced = false)
 		{
 			ResearchProjectDef currentProj = Find.ResearchManager.currentProj;
 			if (currentProj == null)
 				return true;
+
+            if(Find.ResearchManager.currentProj.HasAnyPrerequisites() && !FieldResearchHelper.GetValidResearchKits(pawn, Find.ResearchManager.currentProj).Any())
+            {
+                JobFailReason.Is(StringsCache.JobFail_NeedResearchKit, null);
+                return false;
+            }
 
 			return !MatchingOpportunities.Any(o => !o.IsFinished);
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing thing, bool forced = false)
 		{
-			ResearchProjectDef currentProj = Find.ResearchManager.currentProj;
-			if (currentProj == null)
-				return false;
+            // Dont actually do this. We want minified things to be examined at benches.
+            //var unminifiedThing = thing.GetInnerIfMinified();
+            //var thingDef = unminifiedThing.def;
 
-			if (!thing.FactionAllowsAnalysis())
-				return false;
+            if (thing.IsForbidden(pawn))
+                return false;
 
-			// Dont actually do this. We want minified things to be examined at benches.
-			//var unminifiedThing = thing.GetInnerIfMinified();
-			//var thingDef = unminifiedThing.def;
+            if (!pawn.CanReserve(thing, 1, -1, null, forced))
+                return false;
 
-			if (!OpportunityCache.ContainsKey(thing.def))
-				return false;
-			else
-			{
-				if (thing.IsForbidden(pawn))
-					return false;
+            if (thing.def.hasInteractionCell)
+            {
+                if (!pawn.CanReserveSittableOrSpot(thing.InteractionCell, forced))
+                    return false;
+            }
+            else
+            {
+                var reachable = AdjacencyHelper.GenReachableAdjacentCells(thing, pawn, true);
+                if (!reachable.Any())
+                    return false;
+            }
 
-				if (!pawn.CanReserve(thing, 1, -1, null, forced))
-					return false;
-
-				if (thing.def.hasInteractionCell)
-				{
-					if (!pawn.CanReserveSittableOrSpot(thing.InteractionCell, forced))
-						return false;
-				}
-				else
-				{
-					var reachable = AdjacencyHelper.GenReachableAdjacentCells(thing, pawn, true);
-					if (!reachable.Any())
-						return false;
-				}
-
-				if (currentProj.HasAnyPrerequisites() && !FieldResearchHelper.GetValidResearchKits(pawn, currentProj).Any())
-				{
-					JobFailReason.Is(StringsCache.JobFail_NeedResearchKit, null);
-					return false;
-				}
-				else
-					return new HistoryEvent(HistoryEventDefOf.Researching, pawn.Named(HistoryEventArgsNames.Doer)).Notify_PawnAboutToDo_Job();
-			}
-		}
+            return new HistoryEvent(HistoryEventDefOf.Researching, pawn.Named(HistoryEventArgsNames.Doer)).Notify_PawnAboutToDo_Job();
+        }
 
 		public override Job JobOnThing(Pawn pawn, Thing thing, bool forced = false)
 		{
@@ -125,18 +104,19 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			return job;
 		}
 
-		public override float GetPriority(Pawn pawn, TargetInfo target)
+		/*public override float GetPriority(Pawn pawn, TargetInfo target)
 		{
 			var opportunity = OpportunityCache[target.Thing.def].First();
 
 			return pawn.GetStatValue(StatDefOf_Custom.FieldResearchSpeedMultiplier, true) * opportunity.def.GetCategory(opportunity.relation).Settings.researchSpeedMultiplier;
-		}
+		}*/
 
 		//cache is built once per tick, to avoid working on already finished opportunities or opportunities from a different project
 		private static int cacheBuiltOnTick = -1;
 		private static Dictionary<ThingDef, HashSet<ResearchOpportunity>> _opportunityCache = new Dictionary<ThingDef, HashSet<ResearchOpportunity>>();
+        public static Dictionary<Map, List<Thing>> _things = new Dictionary<Map, List<Thing>>();
 
-		public static Dictionary<ThingDef, HashSet<ResearchOpportunity>> OpportunityCache
+        public static Dictionary<ThingDef, HashSet<ResearchOpportunity>> OpportunityCache
 		{
 			get
 			{
@@ -146,12 +126,23 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 				}
 				return _opportunityCache;
 			}
-		}
+        }
 
-		public static void BuildCache()
+        public static List<Thing> ThingsForMap(Map map)
+        {
+            if (cacheBuiltOnTick != Find.TickManager.TicksAbs)
+            {
+                BuildCache();
+            }
+            return _things[map];
+        }
+
+        public static void BuildCache()
 		{
 			_opportunityCache.Clear();
-			if (Find.ResearchManager.currentProj == null)
+            _things.Clear();
+
+            if (Find.ResearchManager.currentProj == null)
 				return;
 
 			foreach (var opportunity in MatchingOpportunities.Where(o => o.CurrentAvailability == OpportunityAvailability.Available && o.requirement is ROComp_RequiresThing))
@@ -166,9 +157,30 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 					_opportunityCache[thingDef] = new HashSet<ResearchOpportunity>();
 
 				_opportunityCache[thingDef].Add(opportunity);
-			}
+            }
 
-			cacheBuiltOnTick = Find.TickManager.TicksAbs;
+            var defsToFind = _opportunityCache.Keys.ToList();
+
+            foreach (var map in Find.Maps)
+            {
+                var list = new List<Thing>();
+
+                _things[map] = list;
+                foreach (var thingDef in defsToFind)
+                {
+                    var things = map.listerThings.ThingsOfDef(thingDef);
+                    foreach (var thing in things)
+                    {
+                        if (!thing.FactionAllowsAnalysis())
+                            continue;
+
+                        list.Add(thing);
+                    }
+
+                }
+            }
+
+            cacheBuiltOnTick = Find.TickManager.TicksAbs;
 		}
 	}
 }
