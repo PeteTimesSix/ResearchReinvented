@@ -51,8 +51,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 
 		public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)
-		{
-			return pawn.Map.areaManager.Home.ActiveCells;//.Where(c => (analysableTerrains.Contains(c.GetTerrain(pawn.Map))));
+        {
+            if (Find.ResearchManager.currentProj == null)
+                return Enumerable.Empty<IntVec3>();
+
+            return pawn.Map.areaManager.Home.ActiveCells;//.Where(c => (analysableTerrains.Contains(c.GetTerrain(pawn.Map))));
 		}
 
 		public override bool ShouldSkip(Pawn pawn, bool forced = false)

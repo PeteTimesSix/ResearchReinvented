@@ -49,6 +49,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
         public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
         {
+            if (Find.ResearchManager.currentProj == null)
+                return Enumerable.Empty<Thing>();
+
             return ThingsForMap(pawn.MapHeld);
         }
 

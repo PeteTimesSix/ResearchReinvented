@@ -46,8 +46,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		}
 
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
-		{
-			return ThingsForMap(pawn.MapHeld);
+        {
+            if (Find.ResearchManager.currentProj == null)
+                return Enumerable.Empty<Thing>();
+
+            return ThingsForMap(pawn.MapHeld);
 		}
 
 		public override bool ShouldSkip(Pawn pawn, bool forced = false)
@@ -209,7 +212,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
                         if (!(benchThing is Building_ResearchBench researchBench))
                             continue;
 
-                        if (currentProj.CanBeResearchedAt(researchBench, false))
+                        if (!currentProj.CanBeResearchedAt(researchBench, false))
                             continue;
 
                         list.Add(researchBench);

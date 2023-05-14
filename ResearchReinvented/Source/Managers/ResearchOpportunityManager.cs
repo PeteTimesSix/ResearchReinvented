@@ -86,8 +86,13 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
         public void StartupChecks() 
         {
-
-            bool forceRegen = false;
+            bool forceRegen = false; 
+            if (_projectsGenerated == null)
+            {
+                Log.Warning("RR: _projectsGenerated was missing!");
+                _projectsGenerated = new HashSet<ResearchProjectDef>();
+                forceRegen = true;
+            }
             if (_allGeneratedOpportunities == null)
             {
                 Log.Warning("RR: _allGeneratedOpportunities was missing!");
