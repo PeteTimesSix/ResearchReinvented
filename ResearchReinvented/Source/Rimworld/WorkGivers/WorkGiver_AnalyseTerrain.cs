@@ -51,9 +51,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 
 		public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)
-		{
-			//var analysableTerrains = MatchingOpportunities.Select(o => (o.requirement as ROComp_RequiresTerrain).terrainDef);
-			return pawn.Map.areaManager.Home.ActiveCells;//.Where(c => (analysableTerrains.Contains(c.GetTerrain(pawn.Map))));
+        {
+            if (Find.ResearchManager.currentProj == null)
+                return Enumerable.Empty<IntVec3>();
+
+            return pawn.Map.areaManager.Home.ActiveCells;//.Where(c => (analysableTerrains.Contains(c.GetTerrain(pawn.Map))));
 		}
 
 		public override bool ShouldSkip(Pawn pawn, bool forced = false)
@@ -82,11 +84,6 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			var terrainAt = cell.GetTerrain(pawn.Map);
 			if (!OpportunityCache.ContainsKey(terrainAt))
 				return false;
-			//var opportunity = opportunityCache[terrainAt].First();
-			/*var opportunity = opportunityCache[terrainAt].FirstOrDefault(o => o.CurrentAvailability == OpportunityAvailability.Available);
-            if (opportunity == null)
-                return false;
-            else*/
 			return
 				!cell.IsForbidden(pawn) &&
 				pawn.CanReserve(cell, 1, -1, null, forced) &&
@@ -97,8 +94,6 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		{
 			var terrainAt = cell.GetTerrain(pawn.Map);
 			var opportunity = OpportunityCache[terrainAt].First();
-			//var opportunity = opportunityCache[terrainAt].FirstOrDefault(o => o.CurrentAvailability == OpportunityAvailability.Available);
-			//var opportunity = MatchingOpportunities.FirstOrDefault(o => o.requirement.MetBy(terrainAt));//MatchingOpportunities.FirstOrDefault(o => (o.requirement as ROComp_RequiresTerrain).terrainDef == cell.GetTerrain(pawn.Map));
 
 			var jobDef = opportunity.JobDefs.First(j => j.driverClass == DriverClass);
 			Job job = JobMaker.MakeJob(jobDef, cell, expiryInterval: 1500, checkOverrideOnExpiry: true);
@@ -110,7 +105,6 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		{
 			var terrainAt = target.Cell.GetTerrain(pawn.Map);
 			var opportunity = OpportunityCache[terrainAt].First();
-			//var opportunity = MatchingOpportunities.First(o => o.requirement.MetBy(terrainAt));
 
 			var cell = target.Cell;
 			var dist = cell.DistanceTo(pawn.Position);
@@ -162,10 +156,6 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 				_opportunityCache[terrainDef].Add(opportunity);
 			}
-			/*foreach(var terrain in opportunityCache.Keys) 
-			{
-				Log.Warning($"{terrain.defName} maps to: {string.Join(", ", opportunityCache[terrain].Select(o => $"{o.ToString()} {o.CurrentAvailability}"))}");
-			}*/
 			cacheBuiltOnTick = Find.TickManager.TicksAbs;
 			//Log.Message("built terrain opportunity cache on tick " + cacheBuiltOnTick);
 		}
