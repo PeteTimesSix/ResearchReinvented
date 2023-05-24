@@ -27,8 +27,6 @@ namespace PeteTimesSix.ResearchReinvented
 
         public SettingsPresetDef activePreset;
 
-        public bool debugPrintouts = false;
-
         public bool defaultCompactMode = false;
         public bool showProgressMotes = false;
 
@@ -47,8 +45,6 @@ namespace PeteTimesSix.ResearchReinvented
             base.ExposeData();
 
             Scribe_Defs.Look(ref activePreset, "activePreset");
-
-            Scribe_Values.Look(ref debugPrintouts, "debugPrintouts", false);
 
             Scribe_Values.Look(ref defaultCompactMode, "defaultCompactMode", false);
             Scribe_Values.Look(ref showProgressMotes, "showProgressMotes", true);
@@ -112,7 +108,6 @@ namespace PeteTimesSix.ResearchReinvented
 
             float remainingHeight = inRect.height - listingStandard.CurHeight;
             listingStandard.Gap(remainingHeight - Text.LineHeight * 1.5f);
-            listingStandard.CheckboxLabeled("RR_setting_debugPrintouts".Translate(), ref debugPrintouts, "RR_setting_debugPrintouts_tooltip".Translate());
 
             listingStandard.End();
         }

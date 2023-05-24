@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using PeteTimesSix.ResearchReinvented.Extensions;
+using PeteTimesSix.ResearchReinvented.Managers;
 using PeteTimesSix.ResearchReinvented.Utilities;
 using RimWorld;
 using System;
@@ -17,11 +18,16 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
     {
 
         [HarmonyPostfix]
-        public static void Postfix(Thing product, RecipeDef recipeDef, Pawn worker, Precept_ThingStyle precept = null) 
+        public static void Postfix(Thing product, RecipeDef recipeDef, Pawn worker, Precept_ThingStyle precept = null)
         {
-            PrototypeUtilities.DoPrototypeHealthDecrease(product);
-            PrototypeUtilities.DoPrototypeBadComps(product);
-            PrototypeUtilities.DoPostFinishThingResearch(product, worker, recipeDef.WorkAmountTotal(product.Stuff), recipeDef);
+            bool isPrototype = product.def.IsAvailableOnlyForPrototyping();
+            if (isPrototype)
+            {
+                PrototypeUtilities.DoPrototypeHealthDecrease(product);
+                PrototypeUtilities.DoPrototypeBadComps(product);
+                PrototypeKeeper.Instance.MarkAsPrototype(product);
+                PrototypeUtilities.DoPostFinishThingResearch(product, worker, recipeDef.WorkAmountTotal(product.Stuff), recipeDef);
+            }
         }
 
         [HarmonyTranspiler]

@@ -1,4 +1,6 @@
 ﻿using HarmonyLib;
+using PeteTimesSix.ResearchReinvented.Extensions;
+using PeteTimesSix.ResearchReinvented.Managers;
 using PeteTimesSix.ResearchReinvented.Utilities;
 using RimWorld;
 using System;
@@ -149,6 +151,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         private static void PostSpawn(Frame frame, Thing product, Pawn worker)
         {
             PrototypeUtilities.DoPrototypeBadComps(product);
+            PrototypeKeeper.Instance.MarkAsPrototype(product);
             PrototypeUtilities.DoPostFinishThingResearch(product, worker, frame.WorkToBuild);
         }
 
@@ -169,6 +172,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             };
 
             var add_terrain_instructions = new CodeInstruction[] {
+                new CodeInstruction(OpCodes.Ldloc_1),
                 new CodeInstruction(OpCodes.Ldarg_0),
                 new CodeInstruction(OpCodes.Ldarg_0),
                 new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(Frame), nameof(Frame.def))),
@@ -202,9 +206,18 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             }
         }
 
-        private static void PostSetTerrain(Frame frame, TerrainDef terrain, Pawn worker)
+        private static void PostSetTerrain(Map map, Frame frame, TerrainDef terrainDef, Pawn worker)
         {
-            PrototypeUtilities.DoPostFinishTerrainResearch(terrain, worker, frame.WorkToBuild);
+            bool isPrototype = terrainDef.IsAvailableOnlyForPrototyping(true);
+            if (isPrototype)
+            {
+                PrototypeKeeper.Instance.MarkTerrainAsPrototype(frame.Position, map, terrainDef);
+                PrototypeUtilities.DoPostFinishTerrainResearch(terrainDef, worker, frame.WorkToBuild);
+            }
+            else
+            {
+                PrototypeKeeper.Instance.UnmarkTerrainAsPrototype(frame.Position, map);
+            }
         }
     }
 }

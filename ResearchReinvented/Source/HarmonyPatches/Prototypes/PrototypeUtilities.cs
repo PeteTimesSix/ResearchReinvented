@@ -84,7 +84,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             bool isPrototype = product.def.IsAvailableOnlyForPrototyping() || (usedRecipe != null && usedRecipe.IsAvailableOnlyForPrototyping(true));
             if (isPrototype)
             {
-                var opportunity = ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
+                var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
                     .Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && o.requirement.MetBy(product.def))
                     .FirstOrDefault();
 
@@ -105,7 +105,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             bool isPrototype = terrainDef.IsAvailableOnlyForPrototyping(true);
             if (isPrototype)
             {
-                var opportunity = ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
+                var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
                     .Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && o.requirement.MetBy(terrainDef))
                     .FirstOrDefault();
 

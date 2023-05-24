@@ -13,7 +13,7 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 {
 	public static class BuildableDefExtensions
 	{
-		public static IEnumerable<ResearchOpportunity> PrototypeOpportunities => ResearchOpportunityManager.instance.CurrentProjectOpportunities.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Special_Prototype));
+		public static IEnumerable<ResearchOpportunity> PrototypeOpportunities => ResearchOpportunityManager.Instance.CurrentProjectOpportunities.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Special_Prototype));
 
 		public static ResearchProjectDef cacheBuiltForProject = null; 
 		public static List<ResearchOpportunity> _prototypeOpportunitiesCache = new List<ResearchOpportunity>();
