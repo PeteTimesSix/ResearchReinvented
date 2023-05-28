@@ -81,7 +81,13 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 				BuildCache();
 			}
 
-			var terrainAt = cell.GetTerrain(pawn.Map);
+            if (PrototypeKeeper.Instance.IsTerrainPrototype(cell, pawn.Map))
+            {
+                JobFailReason.Is(StringsCache.JobFail_IsPrototype, null);
+                return false;
+            }
+
+            var terrainAt = cell.GetTerrain(pawn.Map);
 			if (!OpportunityCache.ContainsKey(terrainAt))
 				return false;
 			return

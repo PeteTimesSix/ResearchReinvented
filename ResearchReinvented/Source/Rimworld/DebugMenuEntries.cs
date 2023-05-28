@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using PeteTimesSix.ResearchReinvented.Managers;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld
         {
             ResearchReinvented_Debug.drawPrototypeGrid = !ResearchReinvented_Debug.drawPrototypeGrid;
             Log.Message($"Toggled drawing of PrototypeGrid {(ResearchReinvented_Debug.drawPrototypeGrid ? "on" : "off")}");
+        }
+
+        [DebugAction(category = CATEGORY, actionType = DebugActionType.Action)]
+        static void ListPrototypes()
+        {
+            Log.Message("Prototypes: " + string.Join(", ", PrototypeKeeper.Instance.Prototypes));
         }
 
         [DebugAction(category = CATEGORY, actionType = DebugActionType.Action)]

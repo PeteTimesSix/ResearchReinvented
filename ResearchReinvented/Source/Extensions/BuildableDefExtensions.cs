@@ -49,33 +49,35 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
         }
 
 		public static bool IsAvailableOnlyForPrototyping(this BuildableDef def, bool evenIfFinished)
-		{
-			if (!PrototypeOpportunitiesMappedCache.ContainsKey(def))
-			{
-				PrototypeOpportunitiesMappedCache[def] = FindPrototypeOpportunity(def);
-			}
-			var opportunity = PrototypeOpportunitiesMappedCache[def];
-			//Log.Message("all non-null opportunities: " + string.Join(",", PrototypeOpportunitiesMappedCache.Where(kv => kv.Value != null).Select((kv) => kv.Key.ToString() + " " + kv.Value?.ToString())));
-			//Log.Message("opportunity: " + opportunity);
-			if (opportunity == null)
-				return false;
-			if (!evenIfFinished)
-				return opportunity.CurrentAvailability == OpportunityAvailability.Available;
-			else
-				return opportunity.CurrentAvailability == OpportunityAvailability.Available || opportunity.CurrentAvailability == OpportunityAvailability.Finished || opportunity.CurrentAvailability == OpportunityAvailability.CategoryFinished;
+        {
+            if (def.researchPrerequisites != null && def.researchPrerequisites.Count > 0)
+            {
+                var unfinishedPreregs = def.researchPrerequisites.Where((ResearchProjectDef r) => !r.IsFinished);
+                if (!unfinishedPreregs.Any())
+                    return false;
+                if (unfinishedPreregs.Any((ResearchProjectDef r) => Find.ResearchManager.currentProj != r))
+                    return false;
+
+                if (!PrototypeOpportunitiesMappedCache.ContainsKey(def))
+                {
+                    PrototypeOpportunitiesMappedCache[def] = FindPrototypeOpportunity(def);
+                }
+                var opportunity = PrototypeOpportunitiesMappedCache[def];
+
+                if (opportunity == null)
+                    return false;
+                if (!evenIfFinished)
+                    return opportunity.CurrentAvailability == OpportunityAvailability.Available;
+                else
+                    return opportunity.CurrentAvailability == OpportunityAvailability.Available || opportunity.CurrentAvailability == OpportunityAvailability.Finished || opportunity.CurrentAvailability == OpportunityAvailability.CategoryFinished;
+            }
+            return false;
+
+
 		}
 
 		public static ResearchOpportunity FindPrototypeOpportunity(this BuildableDef def) 
 		{
-			/*if (def.researchPrerequisites == null)
-				return null;
-
-			var unfinishedPreregs = def.researchPrerequisites.Where((ResearchProjectDef r) => !r.IsFinished);
-			if (!unfinishedPreregs.Any())
-				return null;
-			if (unfinishedPreregs.Any((ResearchProjectDef r) => Find.ResearchManager.currentProj != r))
-				return null;*/
-
 			return PrototypeOpportunitiesCached.FirstOrDefault(o => o.requirement.MetBy(def));
 		}
 	}

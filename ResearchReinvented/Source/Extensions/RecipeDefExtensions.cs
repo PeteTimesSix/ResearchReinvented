@@ -58,7 +58,39 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 			return prerequisites;
 		}
 
-		public static bool IsAvailableOnlyForPrototyping(this RecipeDef def, bool evenIfFinished)
+
+        public static bool IsAvailableOnlyForPrototyping(this RecipeDef def, bool evenIfFinished = true)
+        {
+			var preregs = new List<ResearchProjectDef>();
+			if(def.researchPrerequisite != null)
+				preregs.Add(def.researchPrerequisite);
+			if(def.researchPrerequisites != null)
+				preregs.AddRange(def.researchPrerequisites);
+
+            if (preregs.Count > 0)
+            {
+                var unfinishedPreregs = preregs.Where((ResearchProjectDef r) => !r.IsFinished);
+                if (!unfinishedPreregs.Any())
+                    return false;
+                if (unfinishedPreregs.Any((ResearchProjectDef r) => Find.ResearchManager.currentProj != r))
+                    return false;
+
+                if (!PrototypeOpportunitiesMappedCache.ContainsKey(def))
+                {
+                    PrototypeOpportunitiesMappedCache[def] = FindPrototypeOpportunity(def);
+                }
+                var opportunity = PrototypeOpportunitiesMappedCache[def];
+                if (opportunity == null)
+                    return false;
+                if (!evenIfFinished)
+                    return opportunity.CurrentAvailability == OpportunityAvailability.Available;
+                else
+                    return opportunity.CurrentAvailability == OpportunityAvailability.Available || opportunity.CurrentAvailability == OpportunityAvailability.Finished || opportunity.CurrentAvailability == OpportunityAvailability.CategoryFinished;
+            }
+            return false;
+        }
+
+        /*public static bool IsAvailableOnlyForPrototyping(this RecipeDef def, bool evenIfFinished)
 		{
 			if (!PrototypeOpportunitiesMappedCache.ContainsKey(def))
 			{
@@ -71,7 +103,7 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 				return opportunity.CurrentAvailability == OpportunityAvailability.Available;
 			else
 				return opportunity.CurrentAvailability == OpportunityAvailability.Available || opportunity.CurrentAvailability == OpportunityAvailability.Finished || opportunity.CurrentAvailability == OpportunityAvailability.CategoryFinished;
-		}
+		}*/
 
 		public static ResearchOpportunity FindPrototypeOpportunity(this RecipeDef recipe)
 		{

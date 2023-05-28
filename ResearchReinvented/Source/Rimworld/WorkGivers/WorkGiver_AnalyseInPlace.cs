@@ -82,6 +82,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
             if (!pawn.CanReserve(thing, 1, -1, null, forced))
                 return false;
 
+            if (PrototypeKeeper.Instance.IsPrototype(thing))
+            {
+                JobFailReason.Is(StringsCache.JobFail_IsPrototype, null);
+                return false;
+            }
+
             if (thing.def.hasInteractionCell)
             {
                 if (!pawn.CanReserveSittableOrSpot(thing.InteractionCell, forced))

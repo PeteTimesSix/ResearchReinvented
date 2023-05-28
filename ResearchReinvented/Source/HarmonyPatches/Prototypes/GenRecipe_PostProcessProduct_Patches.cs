@@ -10,6 +10,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using Verse;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 {
@@ -20,13 +21,14 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         [HarmonyPostfix]
         public static void Postfix(Thing product, RecipeDef recipeDef, Pawn worker, Precept_ThingStyle precept = null)
         {
-            bool isPrototype = product.def.IsAvailableOnlyForPrototyping();
+            var usedRecipe = recipeDef;
+            bool isPrototype = product.def.IsAvailableOnlyForPrototyping() || (usedRecipe != null && usedRecipe.IsAvailableOnlyForPrototyping());
             if (isPrototype)
             {
-                PrototypeUtilities.DoPrototypeHealthDecrease(product);
-                PrototypeUtilities.DoPrototypeBadComps(product);
+                PrototypeUtilities.DoPrototypeHealthDecrease(product, recipeDef);
+                PrototypeUtilities.DoPrototypeBadComps(product, recipeDef);
                 PrototypeKeeper.Instance.MarkAsPrototype(product);
-                PrototypeUtilities.DoPostFinishThingResearch(product, worker, recipeDef.WorkAmountTotal(product.Stuff), recipeDef);
+                PrototypeUtilities.DoPostFinishThingResearch(worker, recipeDef.WorkAmountTotal(product.Stuff), product, recipeDef);
             }
         }
 
@@ -43,9 +45,9 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             };
 
             var add_prototype_decrease_instructions = new CodeInstruction[] {
+                new CodeInstruction(OpCodes.Ldarg_2),
                 new CodeInstruction(OpCodes.Ldarg_0),
                 new CodeInstruction(OpCodes.Ldarg_1),
-                new CodeInstruction(OpCodes.Ldarg_2),
                 new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(PrototypeUtilities), nameof(PrototypeUtilities.DoPrototypeQualityDecreaseRecipe))),
             };
 

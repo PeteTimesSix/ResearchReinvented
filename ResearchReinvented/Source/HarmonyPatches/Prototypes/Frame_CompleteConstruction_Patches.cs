@@ -73,7 +73,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
         private static QualityCategory PostQuality(QualityCategory category, Thing product, Pawn worker)
         {
-            return PrototypeUtilities.DoPrototypeQualityDecreaseThing(category, product, worker);
+            return PrototypeUtilities.DoPrototypeQualityDecreaseThing(category, worker, product, null);
         }
 
         public static IEnumerable<CodeInstruction> TranspilerSpawn(IEnumerable<CodeInstruction> instructions)
@@ -145,14 +145,14 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
         private static void PreSpawn(Frame frame, Thing product, Pawn worker)
         {
-            PrototypeUtilities.DoPrototypeHealthDecrease(product);
+            PrototypeUtilities.DoPrototypeHealthDecrease(product, null);
         }
 
         private static void PostSpawn(Frame frame, Thing product, Pawn worker)
         {
-            PrototypeUtilities.DoPrototypeBadComps(product);
+            PrototypeUtilities.DoPrototypeBadComps(product, null);
             PrototypeKeeper.Instance.MarkAsPrototype(product);
-            PrototypeUtilities.DoPostFinishThingResearch(product, worker, frame.WorkToBuild);
+            PrototypeUtilities.DoPostFinishThingResearch(worker, frame.WorkToBuild, product, null);
         }
 
         public static IEnumerable<CodeInstruction> TranspilerPostTerrainSet(IEnumerable<CodeInstruction> instructions)
@@ -212,7 +212,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             if (isPrototype)
             {
                 PrototypeKeeper.Instance.MarkTerrainAsPrototype(frame.Position, map, terrainDef);
-                PrototypeUtilities.DoPostFinishTerrainResearch(terrainDef, worker, frame.WorkToBuild);
+                PrototypeUtilities.DoPostFinishTerrainResearch(worker, frame.WorkToBuild, terrainDef);
             }
             else
             {

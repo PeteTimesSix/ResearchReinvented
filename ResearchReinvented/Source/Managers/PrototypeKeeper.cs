@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Verse;
+using Verse.Noise;
 
 namespace PeteTimesSix.ResearchReinvented.Managers
 {
@@ -13,6 +14,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
         private HashSet<Thing> _prototypes = new HashSet<Thing>();
         private Dictionary<Map, PrototypeTerrainGrid> _prototypeTerrainGrids = new Dictionary<Map, PrototypeTerrainGrid>();
+
+        public HashSet<Thing> Prototypes => _prototypes;
 
         public PrototypeKeeper(Game game) { }
 
@@ -30,24 +33,25 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             }
         }
 
+
         public bool IsPrototype(Thing thing)
         {
-            return _prototypes.Contains(thing);
+            return Prototypes.Contains(thing);
         }
 
         public void MarkAsPrototype(Thing thing) 
         {
-            _prototypes.Add(thing);
+            Prototypes.Add(thing);
         }
 
         public void UnmarkAsPrototype(Thing thing)
         {
-            _prototypes.Remove(thing);
+            Prototypes.Remove(thing);
         }
 
-        public void IsTerrainPrototype(IntVec3 position, Map map)
+        public bool IsTerrainPrototype(IntVec3 position, Map map)
         {
-            GetMapPrototypeTerrainGrid(map).IsTerrainPrototype(position);
+            return GetMapPrototypeTerrainGrid(map)?.IsTerrainPrototype(position) ?? false;
         }
 
         public void MarkTerrainAsPrototype(IntVec3 position, Map map, TerrainDef terrain)
@@ -64,9 +68,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
         {
             if(ResearchReinvented_Debug.drawPrototypeGrid)
             {
-                var currentGrid = _prototypeTerrainGrids.Where(g => g.Key == Find.CurrentMap).Select(g => g.Value).FirstOrDefault();
-                if (currentGrid != null)
-                    currentGrid.DebugDrawOnMap();
+                GetMapPrototypeTerrainGrid(Find.CurrentMap)?.DebugDrawOnMap();
             }
         }
 
