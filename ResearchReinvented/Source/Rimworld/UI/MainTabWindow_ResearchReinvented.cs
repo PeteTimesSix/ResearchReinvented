@@ -119,11 +119,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
 				if (GUI.Button(but1rect, "DEBUG:Toggle extras"))
                 {
-                    ResearchReinventedMod.Settings.debugPrintouts = !ResearchReinventedMod.Settings.debugPrintouts;
+                    ResearchReinvented_Debug.debugPrintouts = !ResearchReinvented_Debug.debugPrintouts;
 				}
 				if (GUI.Button(but2rect, "DEBUG:Regen"))
 				{
-					ResearchOpportunityManager.instance.GenerateOpportunities(Find.ResearchManager.currentProj, true);
+					ResearchOpportunityManager.Instance.GenerateOpportunities(Find.ResearchManager.currentProj, true);
 				}
 			}
 
@@ -362,7 +362,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
                 //{Requirements description (usually ThingDef name)}
                 Widgets_Extra.LabelFitHeightAware(textBoxInternal.BottomHalf().Rounded(), $"{opportunity.requirement.ShortDesc.CapitalizeFirst()}");
 
-                if (ResearchReinventedMod.Settings.debugPrintouts)
+                if (ResearchReinvented_Debug.debugPrintouts)
                 {
                     Text.Anchor = TextAnchor.MiddleCenter;
                     GUI.color = Color.green;

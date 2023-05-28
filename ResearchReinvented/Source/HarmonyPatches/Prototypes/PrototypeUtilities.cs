@@ -85,7 +85,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 			bool isPrototype = usedRecipe != null && usedRecipe.IsAvailableOnlyForPrototyping(true);
 			if (isPrototype)
 			{
-				var opportunity = ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
+				var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
 					.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && (usedRecipe != null && o.requirement.MetBy(usedRecipe)))
 					.FirstOrDefault();
 

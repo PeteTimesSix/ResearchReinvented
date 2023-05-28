@@ -45,9 +45,10 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 				yield break;
 			}
 
-			this.FailOn(() => { return currentProject != Find.ResearchManager.currentProj; });
+            this.FailOn(() => currentProject != Find.ResearchManager.currentProj);
+            this.FailOn(() => opportunity.CurrentAvailability != OpportunityAvailability.Available);
 
-			Toil walkTo = Toils_Goto.GotoCell(TargetCellIndex, PathEndMode.Touch);
+            Toil walkTo = Toils_Goto.GotoCell(TargetCellIndex, PathEndMode.Touch);
 			yield return walkTo;
 
 			Toil research = new Toil();
@@ -68,8 +69,6 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 				if (finished)
 					this.ReadyForNextToil();
 			};
-			research.FailOn(() => Find.ResearchManager.currentProj != currentProject);
-			research.FailOn(() => opportunity.CurrentAvailability != OpportunityAvailability.Available);
 			research.FailOn(() => TargetCell.IsForbidden(pawn));
 			research.AddEndCondition(() => opportunity.IsFinished || opportunity.CurrentAvailability != OpportunityAvailability.Available ? JobCondition.Succeeded : JobCondition.Ongoing);
 			yield return research;

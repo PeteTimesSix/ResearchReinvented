@@ -16,7 +16,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Medicine
     public static class TendUtility_Patches
     {
         private static IEnumerable<ResearchOpportunity> MatchingOpportunities =>
-            ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
+            ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
             .Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Special_Medicine));
 
         [HarmonyPrefix]

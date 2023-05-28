@@ -41,9 +41,10 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 				yield break;
 			}
 
-			this.FailOn(() => { return currentProject != Find.ResearchManager.currentProj; });
+            this.FailOn(() => currentProject != Find.ResearchManager.currentProj);
+            this.FailOn(() => opportunity.CurrentAvailability != OpportunityAvailability.Available);
 
-			this.FailOnDespawnedNullOrForbidden(ResearchBenchIndex);
+            this.FailOnDespawnedNullOrForbidden(ResearchBenchIndex);
 			this.FailOnBurningImmobile(ResearchBenchIndex);
 			this.FailOn(() => !ResearchBench.CanUseNow());
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.InteractionCell);
@@ -62,8 +63,6 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 				if (finished)
 					this.ReadyForNextToil();
 			};
-			research.FailOn(() => Find.ResearchManager.currentProj != currentProject);
-			research.FailOn(() => opportunity.CurrentAvailability != OpportunityAvailability.Available);
 			research.FailOn(() => ResearchBench.IsForbidden(pawn));
 			research.FailOn(() => {
 				CompPowerTrader comp = ResearchBench.GetComp<CompPowerTrader>();
