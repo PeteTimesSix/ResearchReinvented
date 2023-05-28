@@ -24,7 +24,7 @@
 			<availableAtOverallProgress>0.3~1.0</availableAtOverallProgress>
 		</li>
 		<li>
-			<category>Medical</category>
+			<category>Clinical</category>
 			
 			<targetFractionMultiplier>1.25</targetFractionMultiplier>
 			<targetIterations>2.0</targetIterations>

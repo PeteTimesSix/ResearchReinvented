@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
+using Verse.Noise;
 
 namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 {
@@ -110,13 +111,21 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             Widgets.DrawLineHorizontal(titlebarRect.x, titlebarRect.y + titlebarRect.height, titlebarRect.width);
             DrawOpportunitiesList(contentRect, ResearchOpportunityManager.instance.CurrentProject, opportunityCategories, opportunities);
 
-            if (DebugSettings.godMode) 
+            if (DebugSettings.ShowDevGizmos) 
             {
-                if (GUI.Button(footerRect.LeftPartPixels(120f), "DEBUG:Regen"))
+                var but1rect = footerRect.LeftPartPixels(150f);
+                var but2rect = new Rect(but1rect);
+                but2rect.x += 150f;
+
+				if (GUI.Button(but1rect, "DEBUG:Toggle extras"))
                 {
-                    ResearchOpportunityManager.instance.GenerateOpportunities(Find.ResearchManager.currentProj, true);
-                }
-            }
+                    ResearchReinventedMod.Settings.debugPrintouts = !ResearchReinventedMod.Settings.debugPrintouts;
+				}
+				if (GUI.Button(but2rect, "DEBUG:Regen"))
+				{
+					ResearchOpportunityManager.instance.GenerateOpportunities(Find.ResearchManager.currentProj, true);
+				}
+			}
 
             Text.Font = cachedStyle;
             Text.Anchor = cachedAnchor;
@@ -353,21 +362,26 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
                 //{Requirements description (usually ThingDef name)}
                 Widgets_Extra.LabelFitHeightAware(textBoxInternal.BottomHalf().Rounded(), $"{opportunity.requirement.ShortDesc.CapitalizeFirst()}");
 
-                    if (ResearchReinventedMod.Settings.debugPrintouts)
+                if (ResearchReinventedMod.Settings.debugPrintouts)
+                {
+                    Text.Anchor = TextAnchor.MiddleCenter;
+                    GUI.color = Color.green;
+                    if (opportunity.IsAlternate)
                     {
-                        Text.Anchor = TextAnchor.MiddleCenter;
-                        GUI.color = Color.green;
-                        if (opportunity.IsAlternate)
-                        {
-                            GUI.DrawTexture(textBoxInternal.TopHalf().RightHalf(), TexUI.GrayTextBG);
-                            Widgets_Extra.LabelFitHeightAware(textBoxInternal.TopHalf().RightHalf(), $"ALT");
-                        }
-                        GUI.DrawTexture(textBoxInternal.TopHalf().LeftHalf(), TexUI.GrayTextBG);
-                        Widgets_Extra.LabelFitHeightAware(textBoxInternal.TopHalf().LeftHalf(), $"{opportunity.relation}");
-                        GUI.DrawTexture(textBoxInternal.BottomHalf(), TexUI.GrayTextBG);
-                        Widgets_Extra.LabelFitHeightAware(textBoxInternal.BottomHalf(), $"{opportunity.debug_source}");
-                        GUI.color = Color.white;
+                        GUI.DrawTexture(textBoxInternal.TopHalf().RightHalf(), TexUI.GrayTextBG);
+                        Widgets_Extra.LabelFitHeightAware(textBoxInternal.TopHalf().RightHalf(), $"ALT");
                     }
+                    GUI.DrawTexture(textBoxInternal.TopHalf().LeftHalf(), TexUI.GrayTextBG);
+                    Widgets_Extra.LabelFitHeightAware(textBoxInternal.TopHalf().LeftHalf(), $"{opportunity.relation}");
+                    GUI.DrawTexture(textBoxInternal.BottomHalf(), TexUI.GrayTextBG);
+                    Widgets_Extra.LabelFitHeightAware(textBoxInternal.BottomHalf(), $"{opportunity.debug_source}");
+                    GUI.color = Color.white;
+
+                    if (GUI.Button(textBoxInternal.TopHalf().RightHalf(), "Finish")) 
+                    {
+                        opportunity.FinishImmediately();
+                    }
+                }
 
                 Text.Anchor = TextAnchor.MiddleRight;
                 //{Progress} "X.x%"
@@ -392,20 +406,31 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
         private void DrawIconForOpportunity(ResearchOpportunity opportunity, Rect iconBox)
         {
-            Def onlyDef = null;
-            if (opportunity.requirement is ROComp_RequiresThing requiresThingComp)
-            {
-                var thing = requiresThingComp.thingDef;
-                if (thing.IsCorpse)
-                {
-                    var deadThing = thing.ingestible?.sourceDef;
-                    if (deadThing != null)
-                        Widgets.DefIcon(iconBox, deadThing);
-                }
+            Def onlyDef = null; 
+            
+            if (opportunity.requirement is ROComp_RequiresRecipe requiresRecipeComp)
+			{
+                var recipeDef = requiresRecipeComp.recipeDef;
+                if(recipeDef.UIIconThing != null)
+				{
+					Widgets.ThingIcon(iconBox, recipeDef.UIIconThing);
+				}
                 else
-                {
-                    Widgets.DefIcon(iconBox, requiresThingComp.thingDef);
-                }
+				{
+                    if (recipeDef.IsSurgery)
+					{
+						Widgets.DrawTextureFitted(iconBox, Textures.medicalRecipeIcon, 1f);
+					}
+                    else
+					{
+						Widgets.DrawTextureFitted(iconBox, Textures.recipeIcon, 1f);
+					}
+				}
+				onlyDef = recipeDef;
+			}
+			else if (opportunity.requirement is ROComp_RequiresThing requiresThingComp)
+            {
+                Widgets.ThingIcon(iconBox, requiresThingComp.thingDef);
                 onlyDef = requiresThingComp.thingDef;
             }
             // unused for now

@@ -4,6 +4,7 @@ using PeteTimesSix.ResearchReinvented.Extensions;
 using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.OpportunityComps;
 using PeteTimesSix.ResearchReinvented.Rimworld;
+using PeteTimesSix.ResearchReinvented.Utilities;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -172,7 +173,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                 {
                     if(typeof(Pawn).IsAssignableFrom(productionFacility.thingClass))
                     {
-                        if (productionFacility.race.IsFlesh)
+                        if (productionFacility.race.IsFleshModAware())
                         {
                             yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalysePawn, set.relation, new ROComp_RequiresThing(productionFacility), "set.production facility pawn", isAlternate: false);
                             if (productionFacility.race.corpseDef != null)
@@ -194,7 +195,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                 {
                     if (typeof(Pawn).IsAssignableFrom(productionFacility.thingClass))
                     {
-                        if (productionFacility.race.IsFlesh)
+                        if (productionFacility.race.IsFleshModAware())
                         {
                             yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalysePawn, set.relation, new ROComp_RequiresThing(productionFacility), "alt set.production facility pawn", isAlternate: true);
                             if (productionFacility.race.corpseDef != null)
@@ -356,7 +357,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                         var deadThingRace = deadThing.race;
                         if (deadThingRace != null)
                         {
-                            if (deadThingRace.IsFlesh)
+                            if (deadThingRace.IsFleshModAware())
                                 yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissect, relation, new ROComp_RequiresThing(material), "direct analysis (corpse)", isAlternate: isAlternate);
                             else
                                 yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissectNonFlesh, relation, new ROComp_RequiresThing(material), "direct analysis (corpse non-flesh)", isAlternate: isAlternate);
@@ -382,7 +383,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             {
                 if (typeof(Pawn).IsAssignableFrom(asThing.thingClass) && asThing.race != null)
                 {
-                    if (asThing.race.IsFlesh)
+                    if (asThing.race.IsFleshModAware())
                     {
                         yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalysePawn, relation, new ROComp_RequiresThing(asThing), "direct analysis pawn", isAlternate: isAlternate);
                         if (asThing.race.corpseDef != null)
@@ -453,7 +454,20 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
 
         public IEnumerable<ResearchOpportunity> OpportunitiesFromPrototyping(ResearchProjectDef project, Def prototypeable, ResearchRelation relation, bool isAlternate = false)
         {
-            if (prototypeable is ThingDef asThing)
+            if(prototypeable is RecipeDef asRecipe)
+            {
+                if (asRecipe.IsSurgery)
+				{
+					if (!isAlternate && relation == ResearchRelation.Direct)
+						yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeSurgery, relation, new ROComp_RequiresRecipe(asRecipe), "prototype surgery", isAlternate: isAlternate);
+				}
+				else if (asRecipe.ProducedThingDef != null) //only non-null if produces exactly one product
+				{
+					if (!isAlternate && relation == ResearchRelation.Direct)
+						yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeProduction, relation, new ROComp_RequiresRecipe(asRecipe), "prototype", isAlternate: isAlternate);
+				}
+			}
+            else if (prototypeable is ThingDef asThing)
             {
                 if (typeof(Plant).IsAssignableFrom(asThing.thingClass))
                     yield break;
@@ -462,13 +476,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                     if (!asThing.IsInstantBuild())
                     {
                         if (!isAlternate && relation == ResearchRelation.Direct && asThing.BuildableByPlayer)
-                            yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeConstruction, relation, new ROComp_RequiresThing(asThing), "direct analysis (unhaulable)", isAlternate: isAlternate);
+                            yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeConstruction, relation, new ROComp_RequiresThing(asThing), "prototype (unhaulable)", isAlternate: isAlternate);
                     }
-                }
-                else
-                {
-                    if (!isAlternate && relation == ResearchRelation.Direct)
-                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeProduction, relation, new ROComp_RequiresThing(asThing), "direct analysis", isAlternate: isAlternate);
                 }
 
             }
@@ -477,7 +486,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                 if (asTerrain.BuildableByPlayer)
                 {
                     if (!isAlternate && relation == ResearchRelation.Direct && asTerrain.BuildableByPlayer)
-                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeTerrainConstruction, relation, new ROComp_RequiresTerrain(asTerrain), "direct analysis tr. (builable)", isAlternate: isAlternate);
+                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeTerrainConstruction, relation, new ROComp_RequiresTerrain(asTerrain), "prototype tr. (builable)", isAlternate: isAlternate);
                 }
             }
         }

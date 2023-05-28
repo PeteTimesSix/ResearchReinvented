@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="ResearchOpportunityBase">
+		<defName>AnalyseMedicine</defName>
+		<handledBy>Special_Medicine</handledBy>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_NoJob</jobPickerClass>
+		<header_Direct>medicine efficacy trial</header_Direct>
+		<shortDesc_Direct>Determine efficacy of {0} as applied during surgeries and wound threatment.</shortDesc_Direct>
+		<category_Direct>Biology</category_Direct>
+		<handlingModeModifiers>
+		  <li>
+			<key>Special_Medicine</key>
+			<value>0.25</value>
+		  </li>
+		</handlingModeModifiers>
+		<hintIcons>
+			<li>UI/hintIcons/med_watched</li>
+		</hintIcons>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="IngestibleOpportunity">
+		<defName>TrialDrug</defName>
+		<handledBy>Special_OnIngest, Special_OnIngest_Observable</handledBy>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_NoJob</jobPickerClass>
+		<header_Direct>drug trial</header_Direct>
+		<shortDesc_Direct>Observe the effects of {0} by administering it to living subjects or self-trials.</shortDesc_Direct>
+		<category_Direct>Clinical</category_Direct>
+		<handlingModeModifiers>
+		  <li>
+			<key>Special_OnIngest</key>
+			<value>0.25</value>
+		  </li>
+		  <li>
+			<key>Special_OnIngest_Observable</key>
+			<value>0.5</value>
+		  </li>
+		</handlingModeModifiers>
+		<hintIcons>
+			<li>UI/hintIcons/food</li>
+			<li>UI/hintIcons/med_watched</li>
+		</hintIcons>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="PrototypeOpportunity">
+		<defName>PrototypeSurgery</defName>
+		<header_Direct>experimental surgery</header_Direct>
+		<shortDesc_Direct>Attempt an experimental surgical procedure: {0}.</shortDesc_Direct>
+		<category_Direct>Clinical</category_Direct>
+		<hintIcons>
+			<li>UI/hintIcons/med_watched</li>
+		</hintIcons>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+</Defs>

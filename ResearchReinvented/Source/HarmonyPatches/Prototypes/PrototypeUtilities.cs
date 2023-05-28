@@ -79,17 +79,42 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             return category;
         }
 
+        public static void DoPostFinishSurgeryResearch(Pawn target, Pawn worker, float totalWork, RecipeDef usedRecipe)
+		{
+			Log.Message($"doing post-surgery `{target?.Label ?? "No target"}` rec: `{usedRecipe?.label ?? "No recipe"}`");
+			bool isPrototype = usedRecipe != null && usedRecipe.IsAvailableOnlyForPrototyping(true);
+			if (isPrototype)
+			{
+				var opportunity = ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
+					.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && (usedRecipe != null && o.requirement.MetBy(usedRecipe)))
+					.FirstOrDefault();
+
+				if (opportunity != null)
+				{
+					Log.Message($"found matching opp. {opportunity.ShortDesc}");
+					opportunity.ResearchChunkPerformed(worker, usedRecipe.LabelCap.ToString(), HandlingMode.Special_Prototype);
+					if (worker?.skills != null)
+					{
+						var xp = 0.1f * totalWork;
+						worker.skills.Learn(SkillDefOf.Intellectual, xp, false);
+					}
+				}
+			}
+		}
+
         public static void DoPostFinishThingResearch(Thing product, Pawn worker, float totalWork, RecipeDef usedRecipe = null)
         {
+            //Log.Message($"doing post-finish `{product?.Label ?? "No product"}` rec: `{usedRecipe?.label ?? "No recipe"}`");
             bool isPrototype = product.def.IsAvailableOnlyForPrototyping() || (usedRecipe != null && usedRecipe.IsAvailableOnlyForPrototyping(true));
             if (isPrototype)
             {
                 var opportunity = ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
-                    .Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && o.requirement.MetBy(product.def))
+                    .Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && (usedRecipe != null && o.requirement.MetBy(usedRecipe)) || o.requirement.MetBy(product))
                     .FirstOrDefault();
 
                 if (opportunity != null)
                 {
+                    //Log.Message($"found matching opp. {opportunity.ShortDesc}");
                     opportunity.ResearchChunkPerformed(worker, usedRecipe != null ? usedRecipe.LabelCap.ToString() : product.LabelCapNoCount, HandlingMode.Special_Prototype); 
                     if (worker?.skills != null)
                     {

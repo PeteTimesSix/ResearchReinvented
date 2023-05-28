@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>  
-	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef Name="AnalysisOpportunity" ParentName="ResearchOpportunityBase" Abstract="True">
-		<handledBy>Job_Analysis</handledBy>
-		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_AnalyseInPlaceOrMinified</jobPickerClass>
-		<hintIcons>
-			<li>UI/hintIcons/analysis</li>
-		</hintIcons>
-	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="AnalysisOpportunity">
 		<defName>AnalyseProductionFacility</defName>		

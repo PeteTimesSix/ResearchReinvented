@@ -19,7 +19,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             HashSet<ThingDef> users = new HashSet<ThingDef>();
             HashSet<ThingDef> ingredients = new HashSet<ThingDef>();
             HashSet<ThingDef> products = new HashSet<ThingDef>();
-            HashSet<ThingDef> prototypeables = new HashSet<ThingDef>();
+            HashSet<Def> prototypeables = new HashSet<Def>();
 
             foreach (var recipe in GatherDirectRecipes(project).Where(r => r.PassesIdeoCheck()))
             {
@@ -32,7 +32,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                 }
 
                 if (!recipe.AllResearchPrerequisites().Except(project).Any())
-                    prototypeables.AddRange(recipe.products.Select(p => p.thingDef));
+                    prototypeables.Add(recipe);
+                    //prototypeables.AddRange(recipe.products.Select(p => p.thingDef));
             }
 
             foreach (var recipe in GatherCreationRecipes(project).Where(r => r.PassesIdeoCheck()))

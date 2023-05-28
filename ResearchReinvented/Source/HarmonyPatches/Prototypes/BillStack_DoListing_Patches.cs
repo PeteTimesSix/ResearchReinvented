@@ -9,32 +9,106 @@ using System.Reflection;
 using Verse;
 using UnityEngine;
 using PeteTimesSix.ResearchReinvented.Extensions;
+using Verse.AI;
+using static HarmonyLib.AccessTools;
 
 namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 {
     [HarmonyPatch(typeof(BillStack), nameof(BillStack.DoListing))]
     public static class Patch_BillStack_DoListing_Patches
-    {
-        [HarmonyPrefix]
+	{
+		public delegate FloatMenuOption GenerateSurgeryOptionDelegate(Pawn pawn, Thing thingForMedBills, RecipeDef recipe, IEnumerable<ThingDef> missingIngredients, AcceptanceReport report, int index, BodyPartRecord part = null);
+
+		public static GenerateSurgeryOptionDelegate method_GenerateSurgeryOptionDelegate;
+
+        public static FieldRef<FloatMenuOption, string> field_FloatMenuOption_label;
+
+        static Patch_BillStack_DoListing_Patches() 
+        {
+            method_GenerateSurgeryOptionDelegate = AccessTools.MethodDelegate<GenerateSurgeryOptionDelegate>(AccessTools.Method(typeof(HealthCardUtility), "GenerateSurgeryOption"));
+            field_FloatMenuOption_label = AccessTools.FieldRefAccess<string>(typeof(FloatMenuOption), "labelInt");
+		}
+
+		[HarmonyPrefix]
         public static void Prefix(BillStack __instance, ref Func<List<FloatMenuOption>> recipeOptionsMaker) 
         {
             var oldRecipeOptionsMaker = recipeOptionsMaker;
             Func<List<FloatMenuOption>> newRecipeOptionsMaker = () =>
             {
                 var vanillaResult = oldRecipeOptionsMaker();
-                var prototypes = GetAvailablePrototypeOptions(__instance.billGiver);
-                if (!prototypes.NullOrEmpty()) 
-                {
-                    if(vanillaResult.Count == 1 && vanillaResult[0].Label == "NoneBrackets".Translate())
-                        vanillaResult.RemoveAt(0);
-                    vanillaResult.AddRange(prototypes);
-                }
+                var billGiver = __instance.billGiver;
+                if(billGiver is Pawn pawnBillGiver)
+				{
+					var surgeries = GetAvaiableExperimentalSurgeryOptions(pawnBillGiver, pawnBillGiver);
+					if (!surgeries.NullOrEmpty())
+					{
+						if (vanillaResult.Count == 1 && vanillaResult[0].Label == "NoneBrackets".Translate())
+							vanillaResult.RemoveAt(0);
+						vanillaResult.AddRange(surgeries);
+					}
+				}
+                else
+				{
+					var prototypes = GetAvailablePrototypeOptions(billGiver);
+					if (!prototypes.NullOrEmpty())
+					{
+						if (vanillaResult.Count == 1 && vanillaResult[0].Label == "NoneBrackets".Translate())
+							vanillaResult.RemoveAt(0);
+						vanillaResult.AddRange(prototypes);
+					}
+				}
                 return vanillaResult;
             };
             recipeOptionsMaker = newRecipeOptionsMaker;
         }
 
-        internal static List<FloatMenuOption> GetAvailablePrototypeOptions(IBillGiver billGiver)
+        public static List<FloatMenuOption> GetAvaiableExperimentalSurgeryOptions(Pawn pawn, Thing thingForMedBills) 
+        {
+			List<FloatMenuOption> list = new List<FloatMenuOption>();
+			int index = 0;
+			foreach (RecipeDef recipe in thingForMedBills.def.AllRecipes)
+			{
+				if (recipe.IsAvailableOnlyForPrototyping(true))
+				{
+					AcceptanceReport report = recipe.Worker.AvailableReport(pawn, null);
+					if (report.Accepted || !report.Reason.NullOrEmpty())
+					{
+						var missingIngredients = recipe.PotentiallyMissingIngredients(null, thingForMedBills.MapHeld);
+						if (!missingIngredients.Any((ThingDef x) => x.isTechHediff))
+						{
+							if (!missingIngredients.Any((ThingDef x) => x.IsDrug) && (!missingIngredients.Any() || !recipe.dontShowIfAnyIngredientMissing))
+							{
+                                if (recipe.targetsBodyPart)
+                                {
+                                    foreach (var part in recipe.Worker.GetPartsToApplyOn(pawn, recipe))
+                                    {
+                                        if (recipe.AvailableOnNow(pawn, part))
+                                        {
+                                            Log.Message($"pawn {pawn}/{thingForMedBills} adding {recipe} on part {part}");
+                                            var option = method_GenerateSurgeryOptionDelegate(pawn, thingForMedBills, recipe, missingIngredients, report, index, part);
+                                            field_FloatMenuOption_label(option) = "RR_ExperimentalSurgeryPrefix".Translate() + " " + field_FloatMenuOption_label(option);
+											list.Add(option);
+                                            index++;
+                                        }
+                                    }
+                                }
+                                else
+								{
+									Log.Message($"pawn {pawn}/{thingForMedBills} adding {recipe}");
+                                    var option = method_GenerateSurgeryOptionDelegate(pawn, thingForMedBills, recipe, missingIngredients, report, index, null);
+									field_FloatMenuOption_label(option) = "RR_ExperimentalSurgeryPrefix".Translate() + " " + field_FloatMenuOption_label(option);
+									list.Add(option);
+                                    index++;
+								}
+							}
+						}
+					}
+				}
+			}
+			return list;
+		}
+
+        public static List<FloatMenuOption> GetAvailablePrototypeOptions(IBillGiver billGiver)
         {
             var asThing = billGiver as Thing;
             if (asThing == null)
@@ -67,7 +141,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             return retList;
         }
 
-        internal static void OnClick(IBillGiver asBillGiver, Thing asThing, RecipeDef recipe, Precept_ThingStyle precept)
+        public static void OnClick(IBillGiver asBillGiver, Thing asThing, RecipeDef recipe, Precept_ThingStyle precept)
         {
             List<Pawn> freeColonists = asThing.Map.mapPawns.FreeColonists;
             if (!freeColonists.Any(p => recipe.PawnSatisfiesSkillRequirements(p)))
@@ -86,7 +160,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             }
         }
 
-        internal static bool ExtraPartOnGUI(Rect rect, RecipeDef recipe, Precept_ThingStyle precept)
+        public static bool ExtraPartOnGUI(Rect rect, RecipeDef recipe, Precept_ThingStyle precept)
         {
             return Widgets.InfoCardButton(rect.x + 5f, rect.y + (rect.height - 24f) / 2f, recipe, precept);
         }

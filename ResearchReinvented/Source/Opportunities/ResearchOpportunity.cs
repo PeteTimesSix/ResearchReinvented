@@ -263,5 +263,10 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
         {
             return "ResearchOpportunity_" + this.loadID;
         }
-    }
+
+		public void FinishImmediately()
+		{
+            ResearchPerformed(MaximumProgress, null);
+		}
+	}
 }

@@ -1,18 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>  
-	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef Name="PrototypeOpportunity" ParentName="ResearchOpportunityBase" Abstract="True">
-		<handledBy>Special_Prototype</handledBy>
-		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_NoJob</jobPickerClass>
-		<handlingModeModifiers>
-		  <li>
-			<key>Special_Prototype</key>
-			<value>0.5</value>
-		  </li>
-		</handlingModeModifiers>
-		<hintIcons>
-			<li>UI/hintIcons/cog</li>
-		</hintIcons>
-	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="PrototypeOpportunity">
 		<defName>PrototypeConstruction</defName>
@@ -34,4 +21,5 @@
 		<shortDesc_Direct>Produce a prototype of {0} at the appropriate production facility.</shortDesc_Direct>
 		<category_Direct>Prototyping</category_Direct>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
 </Defs>

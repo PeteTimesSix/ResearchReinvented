@@ -81,7 +81,7 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 				return null;
 			else
 				return //ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities(true)
-					PrototypeOpportunitiesCached.FirstOrDefault(o => o.requirement.MetBy(recipe.ProducedThingDef));
+					PrototypeOpportunitiesCached.FirstOrDefault(o => o.requirement.MetBy(recipe) || (recipe.ProducedThingDef != null && o.requirement.MetBy(recipe.ProducedThingDef)));
 		}
 
 		public static bool PassesIdeoCheck(this RecipeDef recipe)

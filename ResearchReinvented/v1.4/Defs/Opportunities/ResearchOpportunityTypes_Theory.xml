@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>  
 	
-	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef Name="TheoryOpportunity" ParentName="ResearchOpportunityBase" Abstract="True">
-		<handledBy>Job_Theory</handledBy>
-	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
-	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="TheoryOpportunity">
 		<defName>BasicResearch</defName>
 		<jobDef>RR_Research</jobDef>

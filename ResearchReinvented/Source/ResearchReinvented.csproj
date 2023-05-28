@@ -64,6 +64,7 @@
     <Compile Include="HarmonyPatches\Ingestibles\Thing_Patches.cs" />
     <Compile Include="HarmonyPatches\Medicine\SurgeryOutcomeComp_MedicineQuality_Patches.cs" />
     <Compile Include="HarmonyPatches\Medicine\TendUtility_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\Bill_Medical_Notify_IterationCompleted_Patches.cs" />
     <Compile Include="HarmonyPatches\_ModCompatibility\Combat_Extended\Harmony_PawnRenderer_DrawBodyApparel_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\DesignationCategoryDef_Patches.cs" />
     <Compile Include="HarmonyPatches\DefGenerator_Patches.cs" />
@@ -77,7 +78,6 @@
     <Compile Include="HarmonyPatches\Prototypes\WorkToBuild_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\GenRecipe_PostProcessProduct_Patches.cs" />
     <Compile Include="HarmonyPatches\_ModCompatibility\Dubs_Mint_Menus\DMM_Patch_BillStack_DoListing_Patches.cs" />
-    <Compile Include="HarmonyPatches\Pawn_JobTracker_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\PrototypeUtilities.cs" />
     <Compile Include="HarmonyPatches\RecipeDef_Patches.cs" />
     <Compile Include="HarmonyPatches\ResearchManager_Patches.cs" />
@@ -90,6 +90,7 @@
     <Compile Include="Managers\OpportunityFactories\OF_Unlocks.cs" />
     <Compile Include="Opportunities\ResearchOpportunityCategoryTotalsStore.cs" />
     <Compile Include="OpportunityComps\ROComp_RequiresTerrain.cs" />
+    <Compile Include="OpportunityComps\ROComp_RequiresRecipe.cs" />
     <Compile Include="OpportunityComps\ROComp_RequiresThing.cs" />
     <Compile Include="OpportunityComps\ROComp_RequiresIngredients.cs" />
     <Compile Include="OpportunityComps\ROComp_RequiresNothing.cs" />
@@ -146,6 +147,7 @@
     <Compile Include="Rimworld\Textures.cs" />
     <Compile Include="Utilities\ExposableList.cs" />
     <Compile Include="Utilities\ListingExtensions.cs" />
+    <Compile Include="Extensions\RacePropertiesExtensions.cs" />
     <Compile Include="Utilities\ThingChecks.cs" />
     <Compile Include="Utilities\TranspilerUtils.cs" />
     <Compile Include="Utilities\UIComponents.cs" />

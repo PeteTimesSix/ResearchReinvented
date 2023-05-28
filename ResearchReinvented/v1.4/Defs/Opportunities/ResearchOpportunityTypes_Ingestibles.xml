@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>  
-
-	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef Name="IngestibleOpportunity" ParentName="ResearchOpportunityBase" Abstract="True">
-	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="IngestibleOpportunity">
 		<defName>AnalyseFood</defName>
-		<handledBy>Special_OnIngest</handledBy>
-		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_NoJob</jobPickerClass>
 		<header_Direct>reproduce recipe</header_Direct>
 		<header_Ancestor>iterate on recipe</header_Ancestor>
 		<shortDesc_Direct>Attempt to determine the recipe used to create {0}.</shortDesc_Direct>
@@ -58,30 +53,8 @@
 		  </li>
 		</handlingModeModifiers>
 		<hintIcons>
+			<li>UI/hintIcons/analysis</li>
 			<li>UI/hintIcons/food</li>
-		</hintIcons>
-	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
-	
-	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="IngestibleOpportunity">
-		<defName>TrialDrug</defName>
-		<handledBy>Special_OnIngest, Special_OnIngest_Observable</handledBy>
-		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_NoJob</jobPickerClass>
-		<header_Direct>drug trial</header_Direct>
-		<shortDesc_Direct>Observe the effects of {0} by administering it to living subjects or self-trials.</shortDesc_Direct>
-		<category_Direct>Medical</category_Direct>
-		<handlingModeModifiers>
-		  <li>
-			<key>Special_OnIngest</key>
-			<value>0.25</value>
-		  </li>
-		  <li>
-			<key>Special_OnIngest_Observable</key>
-			<value>0.5</value>
-		  </li>
-		</handlingModeModifiers>
-		<hintIcons>
-			<li>UI/hintIcons/food</li>
-			<li>UI/hintIcons/med_watched</li>
 		</hintIcons>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 </Defs>
