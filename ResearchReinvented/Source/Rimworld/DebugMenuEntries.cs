@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using PeteTimesSix.ResearchReinvented.Managers;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Verse;
+using static UnityEngine.Random;
 
 namespace PeteTimesSix.ResearchReinvented.Rimworld
 {
@@ -17,9 +19,22 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld
         [DebugAction(category = CATEGORY, actionType = DebugActionType.Action)]
         static void ToggleDebugPrintouts() 
         {
-            ResearchReinventedMod.Settings.debugPrintouts = !ResearchReinventedMod.Settings.debugPrintouts;
-            string state = ResearchReinventedMod.Settings.debugPrintouts ? "on" : "off";
-            Log.Message($"Toggled debug printouts {state}");
+            ResearchReinvented_Debug.debugPrintouts = !ResearchReinvented_Debug.debugPrintouts;
+            Log.Message($"Toggled debug printouts {(ResearchReinvented_Debug.debugPrintouts ? "on" : "off")}");
+        }
+
+
+        [DebugAction(category = CATEGORY, actionType = DebugActionType.Action)]
+        static void TogglePrototypeGridDrawing()
+        {
+            ResearchReinvented_Debug.drawPrototypeGrid = !ResearchReinvented_Debug.drawPrototypeGrid;
+            Log.Message($"Toggled drawing of PrototypeGrid {(ResearchReinvented_Debug.drawPrototypeGrid ? "on" : "off")}");
+        }
+
+        [DebugAction(category = CATEGORY, actionType = DebugActionType.Action)]
+        static void ListPrototypes()
+        {
+            Log.Message("Prototypes: " + string.Join(", ", PrototypeKeeper.Instance.Prototypes));
         }
 
         [DebugAction(category = CATEGORY, actionType = DebugActionType.Action)]

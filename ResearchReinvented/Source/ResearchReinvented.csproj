@@ -60,6 +60,7 @@
     <Compile Include="Extensions\ResearchProjectDefExtensions.cs" />
     <Compile Include="Extensions\ThingDefExtensions.cs" />
     <Compile Include="HarmonyPatches\ApparelLayerDef_Patches.cs" />
+    <Compile Include="HarmonyPatches\DebugPatches.cs" />
     <Compile Include="HarmonyPatches\Ingestibles\Recipe_AdministerIngestible_Patches.cs" />
     <Compile Include="HarmonyPatches\Ingestibles\Thing_Patches.cs" />
     <Compile Include="HarmonyPatches\Medicine\SurgeryOutcomeComp_MedicineQuality_Patches.cs" />
@@ -88,6 +89,8 @@
     <Compile Include="Managers\OpportunityFactories\OF_Recipes.cs" />
     <Compile Include="Managers\OpportunityFactories\OF_Specials.cs" />
     <Compile Include="Managers\OpportunityFactories\OF_Unlocks.cs" />
+    <Compile Include="Managers\PrototypeKeeper.cs" />
+    <Compile Include="Managers\PrototypeTerrainGrid.cs" />
     <Compile Include="Opportunities\ResearchOpportunityCategoryTotalsStore.cs" />
     <Compile Include="OpportunityComps\ROComp_RequiresTerrain.cs" />
     <Compile Include="OpportunityComps\ROComp_RequiresRecipe.cs" />
@@ -99,6 +102,7 @@
     <Compile Include="OpportunityJobPickers\JobPicker_FromOpportunityDef.cs" />
     <Compile Include="OpportunityJobPickers\JobPicker_NoJob.cs" />
     <Compile Include="OpportunityJobPickers\OpportunityJobPickerBase.cs" />
+    <Compile Include="ResearchReinvented_Debug.cs" />
     <Compile Include="Rimworld\Comps\CompProperties\CompProperties_ResearchKit.cs" />
     <Compile Include="Rimworld\Comps\Comp_ResearchKit.cs" />
     <Compile Include="Rimworld\DefModExtensions\RarityMarker.cs" />
@@ -130,7 +134,6 @@
     <Compile Include="Utilities\CustomMinifyUtility.cs" />
     <Compile Include="Utilities\CustomWidgets\CategoriesVisualizer.cs" />
     <Compile Include="Utilities\CustomWidgets\CustomFloatRange.cs" />
-    <Compile Include="Utilities\Debug.cs" />
     <Compile Include="Opportunities\ResearchOpportunity.cs" />
     <Compile Include="Managers\ResearchOpportunityManager.cs" />
     <Compile Include="Managers\ResearchOpportunityPrefabs.cs" />

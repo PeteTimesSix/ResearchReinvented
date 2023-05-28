@@ -1,4 +1,6 @@
 ﻿using HarmonyLib;
+using PeteTimesSix.ResearchReinvented.Extensions;
+using PeteTimesSix.ResearchReinvented.Managers;
 using PeteTimesSix.ResearchReinvented.Utilities;
 using RimWorld;
 using System;
@@ -71,7 +73,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
         private static QualityCategory PostQuality(QualityCategory category, Thing product, Pawn worker)
         {
-            return PrototypeUtilities.DoPrototypeQualityDecreaseThing(category, product, worker);
+            return PrototypeUtilities.DoPrototypeQualityDecreaseThing(category, worker, product, null);
         }
 
         public static IEnumerable<CodeInstruction> TranspilerSpawn(IEnumerable<CodeInstruction> instructions)
@@ -143,13 +145,14 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
         private static void PreSpawn(Frame frame, Thing product, Pawn worker)
         {
-            PrototypeUtilities.DoPrototypeHealthDecrease(product);
+            PrototypeUtilities.DoPrototypeHealthDecrease(product, null);
         }
 
         private static void PostSpawn(Frame frame, Thing product, Pawn worker)
         {
-            PrototypeUtilities.DoPrototypeBadComps(product);
-            PrototypeUtilities.DoPostFinishThingResearch(product, worker, frame.WorkToBuild);
+            PrototypeUtilities.DoPrototypeBadComps(product, null);
+            PrototypeKeeper.Instance.MarkAsPrototype(product);
+            PrototypeUtilities.DoPostFinishThingResearch(worker, frame.WorkToBuild, product, null);
         }
 
         public static IEnumerable<CodeInstruction> TranspilerPostTerrainSet(IEnumerable<CodeInstruction> instructions)
@@ -169,6 +172,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             };
 
             var add_terrain_instructions = new CodeInstruction[] {
+                new CodeInstruction(OpCodes.Ldloc_1),
                 new CodeInstruction(OpCodes.Ldarg_0),
                 new CodeInstruction(OpCodes.Ldarg_0),
                 new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(Frame), nameof(Frame.def))),
@@ -202,9 +206,18 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             }
         }
 
-        private static void PostSetTerrain(Frame frame, TerrainDef terrain, Pawn worker)
+        private static void PostSetTerrain(Map map, Frame frame, TerrainDef terrainDef, Pawn worker)
         {
-            PrototypeUtilities.DoPostFinishTerrainResearch(terrain, worker, frame.WorkToBuild);
+            bool isPrototype = terrainDef.IsAvailableOnlyForPrototyping(true);
+            if (isPrototype)
+            {
+                PrototypeKeeper.Instance.MarkTerrainAsPrototype(frame.Position, map, terrainDef);
+                PrototypeUtilities.DoPostFinishTerrainResearch(worker, frame.WorkToBuild, terrainDef);
+            }
+            else
+            {
+                PrototypeKeeper.Instance.UnmarkTerrainAsPrototype(frame.Position, map);
+            }
         }
     }
 }

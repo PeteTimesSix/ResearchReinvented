@@ -35,9 +35,9 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
         public static (List<ResearchOpportunity> opportunities, List<ResearchOpportunityCategoryTotalsStore> categoryStores) MakeOpportunitiesForProject(ResearchProjectDef project)
         {
-            if (ResearchReinventedMod.Settings.debugPrintouts)
+            if (ResearchReinvented_Debug.debugPrintouts)
             {
-                Debug.LogMessage($"Generating opportunities for project {project.label}...");
+                Log.Message($"Generating opportunities for project {project.label}...");
             }
 
             var projectOpportunities = new List<ResearchOpportunity>();

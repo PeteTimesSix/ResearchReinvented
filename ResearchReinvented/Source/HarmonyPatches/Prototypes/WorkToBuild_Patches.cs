@@ -37,7 +37,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             if (Current.ProgramState != ProgramState.Playing) //only modify during game
                 return __result;
 
-            if (!__instance.IsAvailableOnlyForPrototyping(true))
+            if (!__instance.IsAvailableOnlyForPrototyping())
                 return __result;
             else
             {

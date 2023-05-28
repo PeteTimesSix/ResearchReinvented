@@ -19,7 +19,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches
             if (proj == null)
                 return;
 
-            ResearchOpportunityManager.instance.PostFinishProject(proj);
+            ResearchOpportunityManager.Instance.PostFinishProject(proj);
         }
     }
 
@@ -29,7 +29,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches
         [HarmonyPostfix]
         public static void Postfix()
         {
-            ResearchOpportunityManager.instance.ResetAllProgress();
+            ResearchOpportunityManager.Instance.ResetAllProgress();
         }
     }
 }

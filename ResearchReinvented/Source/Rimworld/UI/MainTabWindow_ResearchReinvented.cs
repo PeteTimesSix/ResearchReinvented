@@ -78,8 +78,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
             var fullRect = inRect;
             //Rect fullRect = new Rect(0f, TITLEBAR_HEIGHT, this.size.x, this.size.y - TITLEBAR_HEIGHT).Rounded();
-            IReadOnlyCollection<ResearchOpportunity> opportunities = ResearchOpportunityManager.instance.CurrentProjectOpportunities;
-            IReadOnlyCollection<ResearchOpportunityCategoryDef> opportunityCategories = ResearchOpportunityManager.instance.CurrentProjectOpportunityCategories;
+            IReadOnlyCollection<ResearchOpportunity> opportunities = ResearchOpportunityManager.Instance.CurrentProjectOpportunities;
+            IReadOnlyCollection<ResearchOpportunityCategoryDef> opportunityCategories = ResearchOpportunityManager.Instance.CurrentProjectOpportunityCategories;
 
             var titlebarRect = fullRect.TopPartPixels(TITLEBAR_HEIGHT);
             var footerRect = fullRect.BottomPartPixels(FOOTER_HEIGHT);
@@ -109,7 +109,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             }
 
             Widgets.DrawLineHorizontal(titlebarRect.x, titlebarRect.y + titlebarRect.height, titlebarRect.width);
-            DrawOpportunitiesList(contentRect, ResearchOpportunityManager.instance.CurrentProject, opportunityCategories, opportunities);
+            DrawOpportunitiesList(contentRect, ResearchOpportunityManager.Instance.CurrentProject, opportunityCategories, opportunities);
 
             if (DebugSettings.ShowDevGizmos) 
             {
@@ -160,13 +160,13 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
         private void DrawOpportunityCategory(Rect wrapperRect, Rect internalRect, bool hasScrollbar, ref float heightTotal, ResearchProjectDef project, ResearchOpportunityCategoryDef category, IEnumerable<ResearchOpportunity> matchingOpportunitites)
         {
-            var totalsStore = ResearchOpportunityManager.instance.GetTotalsStore(project, category);
+            var totalsStore = ResearchOpportunityManager.Instance.GetTotalsStore(project, category);
 
             Rect headerRect = new Rect(internalRect.x, internalRect.y + heightTotal, internalRect.width, HEADER_ROW_HEIGHT).Rounded();
 
             if (totalsStore == null)
             {
-                ResearchOpportunityManager.instance.DelayedRegeneration();
+                ResearchOpportunityManager.Instance.DelayedRegeneration();
                 GUI.color = Color.red;
                 Widgets.Label(headerRect, $"Category {category.LabelCap} totalsStore missing!");
                 GUI.color = Color.white;
@@ -278,7 +278,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
                 labelBox.height = (float)(Text.LineHeightOf(GameFont.Tiny) * Math.Ceiling(labelBox.height / Text.LineHeightOf(GameFont.Tiny))) + 1f;
                 Widgets_Extra.LabelFitHeightAware(labelBox, $"{opportunity.requirement.ShortDesc.CapitalizeFirst()}");
 
-                if (ResearchReinventedMod.Settings.debugPrintouts)
+                if (ResearchReinvented_Debug.debugPrintouts)
                 {
                     Text.Anchor = TextAnchor.MiddleCenter;
                     GUI.color = Color.green;

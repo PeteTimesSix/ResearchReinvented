@@ -18,7 +18,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 {
     public class ResearchOpportunityManager : GameComponent
     {
-        public static ResearchOpportunityManager instance => Current.Game.GetComponent<ResearchOpportunityManager>();
+        public static ResearchOpportunityManager Instance => Current.Game.GetComponent<ResearchOpportunityManager>();
 
 
         private List<ResearchOpportunity> _allGeneratedOpportunities = new List<ResearchOpportunity>();
@@ -313,12 +313,12 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             _allGeneratedOpportunities.AddRange(newOpportunities.Where(o => o.IsValid()));
             _projectsGenerated.Add(project);
 
-            if (ResearchReinventedMod.Settings.debugPrintouts)
+            if (ResearchReinvented_Debug.debugPrintouts)
             {
-                Debug.LogMessage($"Listing generated opportunities for current project {_currentProject.label}...");
+                Log.Message($"Listing generated opportunities for current project {_currentProject.label}...");
                 foreach (var opportunity in newOpportunities)
                 {
-                    Debug.LogMessage($" |-- {opportunity.ShortDesc} -- {opportunity.debug_source}");
+                    Log.Message($" |-- {opportunity.ShortDesc} -- {opportunity.debug_source}");
                 }
             }
         }

@@ -219,7 +219,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             ResearchManagerAccess.Field_progress[project] = total;
             if (project.IsFinished)
             {
-                ResearchOpportunityManager.instance.FinishProject(project, true, researcher);
+                ResearchOpportunityManager.Instance.FinishProject(project, true, researcher);
             }
 
             return project.IsFinished || this.IsFinished;

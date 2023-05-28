@@ -34,7 +34,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			{
 				if (_matchingOpportunitiesCachedFor != Find.ResearchManager.currentProj)
 				{
-					_matchingOpportunitesCache = ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities(true)
+					_matchingOpportunitesCache = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities(true)
 						.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Job_Analysis) && o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass)).ToArray();
 					_matchingOpportunitiesCachedFor = Find.ResearchManager.currentProj;
 				}
@@ -81,6 +81,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
             if (!pawn.CanReserve(thing, 1, -1, null, forced))
                 return false;
+
+            if (PrototypeKeeper.Instance.IsPrototype(thing))
+            {
+                JobFailReason.Is(StringsCache.JobFail_IsPrototype, null);
+                return false;
+            }
 
             if (thing.def.hasInteractionCell)
             {

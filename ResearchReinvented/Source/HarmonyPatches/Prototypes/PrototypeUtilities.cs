@@ -23,18 +23,18 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         public static float PROTOTYPE_FUEL_REFUELABLE_MULTIPLIER = 0.95f;
 
 
-        public static void DoPrototypeHealthDecrease(Thing product)
+        public static void DoPrototypeHealthDecrease(Thing product, RecipeDef usedRecipe)
         {
-            bool isPrototype = product.def.IsAvailableOnlyForPrototyping();
+            bool isPrototype = product.def.IsAvailableOnlyForPrototyping() || (usedRecipe != null && usedRecipe.IsAvailableOnlyForPrototyping());
             if (isPrototype)
             {
                 product.HitPoints = (int)Math.Max(1, (product.HitPoints * PROTOTYPE_HEALTH_MULTIPLIER));
             }
         }
 
-        public static void DoPrototypeBadComps(Thing product)
+        public static void DoPrototypeBadComps(Thing product, RecipeDef usedRecipe)
         {
-            bool isPrototype = product.def.IsAvailableOnlyForPrototyping();
+            bool isPrototype = product.def.IsAvailableOnlyForPrototyping() || (usedRecipe != null && usedRecipe.IsAvailableOnlyForPrototyping());
             if (isPrototype)
             {
                 var breakDownComp = product.TryGetComp<CompBreakdownable>();
@@ -53,9 +53,9 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             }
         }
 
-        public static QualityCategory DoPrototypeQualityDecreaseThing(QualityCategory category, Thing product, Pawn worker)
+        public static QualityCategory DoPrototypeQualityDecreaseThing(QualityCategory category, Pawn worker, Thing product, RecipeDef usedRecipe)
         {
-            bool isPrototype = product.def.IsAvailableOnlyForPrototyping();
+            bool isPrototype = product.def.IsAvailableOnlyForPrototyping() || (usedRecipe != null && usedRecipe.IsAvailableOnlyForPrototyping());
             if (isPrototype)
             {
                 byte asByte = (byte)category;
@@ -66,9 +66,9 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             return category;
         }
 
-        public static QualityCategory DoPrototypeQualityDecreaseRecipe(QualityCategory category, Thing product, RecipeDef recipe, Pawn worker)
+        public static QualityCategory DoPrototypeQualityDecreaseRecipe(QualityCategory category, Pawn worker, Thing product, RecipeDef usedRecipe)
         {
-            bool isPrototype = recipe.IsAvailableOnlyForPrototyping(true);
+            bool isPrototype = product.def.IsAvailableOnlyForPrototyping() || (usedRecipe != null && usedRecipe.IsAvailableOnlyForPrototyping());
             if (isPrototype)
             {
                 byte asByte = (byte)category;
@@ -102,14 +102,13 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 			}
 		}
 
-        public static void DoPostFinishThingResearch(Thing product, Pawn worker, float totalWork, RecipeDef usedRecipe = null)
+        public static void DoPostFinishThingResearch(Pawn worker, float totalWork, Thing product, RecipeDef usedRecipe)
         {
-            //Log.Message($"doing post-finish `{product?.Label ?? "No product"}` rec: `{usedRecipe?.label ?? "No recipe"}`");
-            bool isPrototype = product.def.IsAvailableOnlyForPrototyping() || (usedRecipe != null && usedRecipe.IsAvailableOnlyForPrototyping(true));
+            bool isPrototype = product.def.IsAvailableOnlyForPrototyping() || (usedRecipe != null && usedRecipe.IsAvailableOnlyForPrototyping());
             if (isPrototype)
             {
-                var opportunity = ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
-                    .Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && (usedRecipe != null && o.requirement.MetBy(usedRecipe)) || o.requirement.MetBy(product))
+                var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
+                    .Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && o.requirement.MetBy(product.def))
                     .FirstOrDefault();
 
                 if (opportunity != null)
@@ -125,12 +124,12 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             }
         }
 
-        public static void DoPostFinishTerrainResearch(TerrainDef terrainDef, Pawn worker, float totalWork)
+        public static void DoPostFinishTerrainResearch(Pawn worker, float totalWork, TerrainDef terrainDef)
         {
             bool isPrototype = terrainDef.IsAvailableOnlyForPrototyping(true);
             if (isPrototype)
             {
-                var opportunity = ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
+                var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
                     .Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && o.requirement.MetBy(terrainDef))
                     .FirstOrDefault();
 

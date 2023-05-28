@@ -95,7 +95,7 @@ namespace PeteTimesSix.ResearchReinvented.Defs
                 return OpportunityAvailability.ResearchTooLow;
             if (project.ProgressPercent > Settings.availableAtOverallProgress.max)
                 return OpportunityAvailability.ResearchTooHigh;
-            var totalsStore = ResearchOpportunityManager.instance.GetTotalsStore(project, this);
+            var totalsStore = ResearchOpportunityManager.Instance.GetTotalsStore(project, this);
             if (totalsStore == null)
                 return OpportunityAvailability.UnavailableReasonUnknown;
             if (!Settings.infiniteOverflow && GetCurrentTotal() >= totalsStore.allResearchPoints)
@@ -105,7 +105,7 @@ namespace PeteTimesSix.ResearchReinvented.Defs
 
         public float GetCurrentTotal() 
         {
-            var matchingOpportunities = ResearchOpportunityManager.instance.CurrentProjectOpportunities.Where(o => o.IsValid() && o.def.GetCategory(o.relation) == this);
+            var matchingOpportunities = ResearchOpportunityManager.Instance.CurrentProjectOpportunities.Where(o => o.IsValid() && o.def.GetCategory(o.relation) == this);
             var totalProgress = matchingOpportunities.Sum(o => o.Progress);
             return totalProgress;
         }

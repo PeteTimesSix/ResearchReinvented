@@ -16,7 +16,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Ingestibles
     public static class Recipe_AdministerIngestible_Patches
     {
         private static IEnumerable<ResearchOpportunity> MatchingOpportunities =>
-            ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities()
+            ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
             .Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Special_OnIngest_Observable));
 
         [HarmonyPrefix]

@@ -3,4 +3,5 @@
 	<RR_jobFail_incapableOfResearch>Incapable of research</RR_jobFail_incapableOfResearch>
 	<RR_jobFail_needResearchKit>Need a research kit capable of analysis</RR_jobFail_needResearchKit>
 	<RR_jobFail_needResearchBench>Cannot find or reach a research bench capable of analysis</RR_jobFail_needResearchBench>
+	<RR_jobFail_isPrototype>This is a prototype</RR_jobFail_isPrototype>
 </LanguageData>

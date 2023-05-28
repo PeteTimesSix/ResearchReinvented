@@ -118,7 +118,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
             foreach (var recipe in asThing.def.AllRecipes) 
             {
-                if (recipe.IsAvailableOnlyForPrototyping(true) && recipe.AvailableOnNow(asThing, null))
+                if (recipe.IsAvailableOnlyForPrototyping() && recipe.AvailableOnNow(asThing, null))
                 {
                     var option = new FloatMenuOption("RR_PrototypePrefix".Translate() + " " + recipe.LabelCap, () => OnClick(billGiver, asThing, recipe, null), recipe.UIIconThing, extraPartWidth: 29f, extraPartOnGUI: (Rect rect) => ExtraPartOnGUI(rect, recipe, null));
                     //var option = (new FloatMenuOption("RR_PrototypePrefix".Translate() + " " + recipe.LabelCap, () => OnClick(billGiver, asThing, recipe, null), recipe.UIIconThing, MenuOptionPriority.Default, null, null, , null, true, 0));

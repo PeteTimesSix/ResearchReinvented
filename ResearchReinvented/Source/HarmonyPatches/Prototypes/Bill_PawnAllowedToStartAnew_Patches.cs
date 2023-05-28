@@ -21,7 +21,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             if (__result == false)
                 return __result;
 
-            if (__instance.recipe.IsAvailableOnlyForPrototyping(true)) 
+            if (__instance.recipe.IsAvailableOnlyForPrototyping()) 
             {
                 if (p.WorkTypeIsDisabled(WorkTypeDefOf.Research))
                 {

@@ -36,7 +36,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			{
 				if (_matchingOpportunitiesCachedFor != Find.ResearchManager.currentProj)
 				{
-					_matchingOpportunitesCache = ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities(true)
+					_matchingOpportunitesCache = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities(true)
 						.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Job_Analysis) && o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass)).ToArray();
 					_matchingOpportunitiesCachedFor = Find.ResearchManager.currentProj;
 				}
@@ -81,7 +81,13 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 				BuildCache();
 			}
 
-			var terrainAt = cell.GetTerrain(pawn.Map);
+            if (PrototypeKeeper.Instance.IsTerrainPrototype(cell, pawn.Map))
+            {
+                JobFailReason.Is(StringsCache.JobFail_IsPrototype, null);
+                return false;
+            }
+
+            var terrainAt = cell.GetTerrain(pawn.Map);
 			if (!OpportunityCache.ContainsKey(terrainAt))
 				return false;
 			return
