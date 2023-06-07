@@ -406,9 +406,24 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
         private void DrawIconForOpportunity(ResearchOpportunity opportunity, Rect iconBox)
         {
-            Def onlyDef = null; 
-            
-            if (opportunity.requirement is ROComp_RequiresRecipe requiresRecipeComp)
+            if (opportunity.requirement is ROComp_RequiresPawnOfFaction requiresPawnOfFaction) 
+            {
+                var faction = requiresPawnOfFaction.faction;
+                GUI.color = requiresPawnOfFaction.faction.Color;
+                if(faction.def.FactionIcon != null && faction.def.FactionIcon != BaseContent.BadTex)
+                {
+                    Widgets.DrawTextureFitted(iconBox, requiresPawnOfFaction.faction.def.FactionIcon, 1f);
+                }
+                else
+                {
+                    Widgets.DrawTextureFitted(iconBox, Textures.genericIcon, 1f);
+                }
+                GUI.color = Color.white;
+
+                if (Widgets.ButtonInvisible(iconBox))
+                    Find.WindowStack.Add(new Dialog_InfoCard(requiresPawnOfFaction.faction));
+            }
+            else if (opportunity.requirement is ROComp_RequiresRecipe requiresRecipeComp)
 			{
                 var recipeDef = requiresRecipeComp.recipeDef;
                 if(recipeDef.UIIconThing != null)
@@ -419,19 +434,41 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 				{
                     if (recipeDef.IsSurgery)
 					{
-						Widgets.DrawTextureFitted(iconBox, Textures.medicalRecipeIcon, 1f);
+						Widgets.DrawTextureFitted(iconBox, Textures.medicalInvasiveIcon, 1f);
 					}
                     else
 					{
-						Widgets.DrawTextureFitted(iconBox, Textures.recipeIcon, 1f);
+						Widgets.DrawTextureFitted(iconBox, Textures.medicalNoninvasiveIcon, 1f);
 					}
 				}
-				onlyDef = recipeDef;
+
+                if (Widgets.ButtonInvisible(iconBox))
+                    Find.WindowStack.Add(new Dialog_InfoCard(recipeDef));
 			}
 			else if (opportunity.requirement is ROComp_RequiresThing requiresThingComp)
             {
-                Widgets.ThingIcon(iconBox, requiresThingComp.thingDef);
-                onlyDef = requiresThingComp.thingDef;
+                var thingDef = requiresThingComp.thingDef;
+                if (thingDef.uiIcon != null && thingDef.uiIcon != BaseContent.BadTex)
+                {
+                    Widgets.DefIcon(iconBox, thingDef); //has own icon. Use DefIcon when possible to preserve colors
+                }
+                else
+                {
+                    if(thingDef.IsCorpse && thingDef.ingestible?.sourceDef?.uiIcon != null && thingDef.ingestible?.sourceDef?.uiIcon != BaseContent.BadTex)
+                    {
+                        Widgets.DefIcon(iconBox, thingDef.ingestible.sourceDef); //is a corpse and the pawn has an icon
+                    }
+                    else if(thingDef.race != null || thingDef.IsCorpse)
+                        Widgets.DrawTextureFitted(iconBox, Textures.genericPawnIcon, 1f); //is a corspe or a pawn with no icon
+                    else
+                        Widgets.DrawTextureFitted(iconBox, Textures.genericIcon, 1f); //isnt pawn-like and has no icon??
+                }
+                if(thingDef.IsCorpse)
+                {
+                    Widgets.DrawTextureFitted(iconBox, Textures.corpseIconOverlay, 1f);
+                }
+                if (Widgets.ButtonInvisible(iconBox))
+                    Find.WindowStack.Add(new Dialog_InfoCard(thingDef));
             }
             // unused for now
             //else if (opportunity.requirement is ROComp_RequiresIngredients requiresIngredientsComp)
@@ -456,17 +493,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             else if (opportunity.requirement is ROComp_RequiresTerrain requiresTerrainComp)
             {
                 Widgets.DefIcon(iconBox, requiresTerrainComp.terrainDef);
-                onlyDef = requiresTerrainComp.terrainDef;
+                if (Widgets.ButtonInvisible(iconBox))
+                    Find.WindowStack.Add(new Dialog_InfoCard(requiresTerrainComp.terrainDef));
             }
             else
             {
                 Widgets.DrawTextureFitted(iconBox, Textures.scienceIconDark, 1f);
-            }
-
-            if (onlyDef != null)
-            {
-                if (Widgets.ButtonInvisible(iconBox))
-                    Find.WindowStack.Add(new Dialog_InfoCard(onlyDef));
             }
         }
 

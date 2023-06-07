@@ -15,7 +15,8 @@
 		  </li>
 		</handlingModeModifiers>
 		<hintIcons>
-			<li>UI/hintIcons/med_watched</li>
+			<li>UI/hintIcons/clipboard</li>
+			<li>UI/hintIcons/pills</li>
 		</hintIcons>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
@@ -38,8 +39,8 @@
 		  </li>
 		</handlingModeModifiers>
 		<hintIcons>
-			<li>UI/hintIcons/food</li>
-			<li>UI/hintIcons/med_watched</li>
+			<li>UI/hintIcons/clipboard</li>
+			<li>UI/hintIcons/pills</li>
 		</hintIcons>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
@@ -50,7 +51,7 @@
 		<shortDesc_Direct>Attempt an experimental surgical procedure: {0}.</shortDesc_Direct>
 		<category_Direct>Clinical</category_Direct>
 		<hintIcons>
-			<li>UI/hintIcons/med_watched</li>
+			<li>UI/hintIcons/medical</li>
 		</hintIcons>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 </Defs>

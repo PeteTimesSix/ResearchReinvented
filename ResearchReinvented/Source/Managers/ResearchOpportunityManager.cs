@@ -139,7 +139,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 			WorkGiver_AnalyseInPlace.ClearMatchingOpportunityCache();
 			WorkGiver_AnalyseTerrain.ClearMatchingOpportunityCache();
 			WorkGiver_ResearcherRR.ClearMatchingOpportunityCache();
-		}
+            WorkGiver_Warden_Interrogate.ClearMatchingOpportunityCache();
+        }
 
         public bool CheckForRegeneration() 
         {

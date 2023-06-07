@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="TheoryOpportunity">
+		<defName>GainFactionKnowledge</defName>	
+		<handledBy>Social</handledBy>
+		<header_Direct>learn faction knowledge</header_Direct>
+		<shortDesc_Direct>Learn applicable knowledge from members of {0}, either by cooperative exchange of ideas, or extracting information from prisoners.</shortDesc_Direct>
+		<category_Direct>Social</category_Direct>	
+		<hintIcons>
+			<li>UI/hintIcons/speak</li>
+		</hintIcons>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+</Defs>

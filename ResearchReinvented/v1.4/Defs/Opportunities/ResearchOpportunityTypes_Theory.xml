@@ -8,7 +8,7 @@
 		<shortDesc_Direct>Theorise from fundamentals.</shortDesc_Direct>
 		<category_Direct>Theory</category_Direct>
 		<hintIcons>
-			<li>UI/hintIcons/theory</li>
+			<li>UI/hintIcons/books</li>
 		</hintIcons>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 </Defs>

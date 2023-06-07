@@ -90,6 +90,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 var categoryImportanceTotal = matchingOpportunities.Sum(o => o.importance);
                 var matchingOpportunityTypes = matchingOpportunities.Select(o => (def: o.def, rel: o.relation)).ToHashSet();
 
+                var minimumOpportunityResearchPoints = totalsStore.baseResearchPoints / category.Settings.targetIterations;
+
                 foreach (var type in matchingOpportunityTypes)
                 {
                     float typeResearchPoints = totalsStore.allResearchPoints / matchingOpportunityTypes.Count();
@@ -104,7 +106,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                         typeImportanceTotal = category.Settings.targetIterations;
                     float baseImportance = 1f / typeImportanceTotal;
 
-                    //Log.Message($"project {project} ({projectResearchPoints}) category {category.label} ({categoryImportanceTotal}) type.def {type.def.defName} type.rel {type.rel} (points: {typeResearchPoints} base imp.: {baseImportance} count:{matchCount}) points per: {(typeResearchPoints / typeImportanceTotal)}");
+                    Log.Message($"project {project} ({projectResearchPoints}) category {category.label} ({categoryImportanceTotal}) min: {minimumOpportunityResearchPoints} type.def {type.def.defName} type.rel {type.rel} (points: {typeResearchPoints} base imp.: {baseImportance} count:{matchCount}) points per: {(typeResearchPoints * baseImportance)}");
 
                     foreach (var opportunity in matchingOpportunitiesOfType)
                     {
@@ -112,9 +114,9 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                         if (category.Settings.infiniteOverflow)
                             opportunityResearchPoints = projectResearchPoints;
                         else if (opportunity.requirement.IsRare)
-                            opportunityResearchPoints = (typeResearchPoints * baseImportance) * matchCount;
+                            opportunityResearchPoints = Math.Max(typeResearchPoints, minimumOpportunityResearchPoints);
                         else
-                            opportunityResearchPoints = (typeResearchPoints * baseImportance) * opportunity.importance;
+                            opportunityResearchPoints = Math.Max(((typeResearchPoints * baseImportance) * opportunity.importance), minimumOpportunityResearchPoints);
 
                         opportunity.SetMaxProgress(Math.Max(MIN_RESEARCH_POINTS, opportunityResearchPoints));
                     }

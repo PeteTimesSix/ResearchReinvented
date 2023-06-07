@@ -225,16 +225,17 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             return project.IsFinished || this.IsFinished;
         }
 
-        public bool ResearchChunkPerformed(Pawn researcher, string subjectName, HandlingMode mode, float moteOffsetHint = 0f)
+        public bool ResearchChunkPerformed(Pawn researcher, string subjectName, HandlingMode mode, float modifier = 1f, float moteOffsetHint = 0f)
         {
             if (Find.ResearchManager.currentProj == null) //current project either unset or finished this tick
                 return true;
 
             if (!StatDefOf.ResearchSpeed.Worker.IsDisabledFor(researcher))
             {
-                var amount = MaximumProgress * def.handlingModeModifiers.GetValueOrDefault(mode) * researcher.GetStatValue(StatDefOf.ResearchSpeed, true);
+                var handlingModeModifier = def.handlingModeModifiers.ContainsKey(mode) ? def.handlingModeModifiers[mode] : 1f;
+                var amount = MaximumProgress * handlingModeModifier * researcher.GetStatValue(StatDefOf.ResearchSpeed, true) * modifier;
                 amount = Math.Min(amount, MaximumProgress);
-                //Log.Message($"permorming research chunk for {ShortDesc} : modifier: {mode} -> {def.handlingModeModifiers.GetValueOrDefault(mode)} amount {amount} (of {MaximumProgress})");
+                Log.Message($"permorming research chunk for {ShortDesc} : handling modifier: {mode} -> {handlingModeModifier} amount {amount} (of {MaximumProgress})");
                 if (ResearchReinventedMod.Settings.showProgressMotes && amount >= 1) 
                 {
                     DoResearchProgressMote(researcher, subjectName, (int)amount, moteOffsetHint);

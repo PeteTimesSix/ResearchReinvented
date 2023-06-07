@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <InteractionDef>
+    <defName>RR_ScienceInterrogation</defName>
+    <label>extract knowledge</label>
+	<workerClass>PeteTimesSix.ResearchReinvented.Rimworld.InteractionWorkers.InteractionWorker_ScienceInterrogation</workerClass>
+    <symbol>Things/Mote/SpeechSymbols/BuildRapport</symbol>
+    <initiatorXpGainSkill>Intellectual</initiatorXpGainSkill>
+    <initiatorXpGainAmount>50</initiatorXpGainAmount>
+    <logRulesInitiator>
+      <rulesStrings>
+        <li>r_logentry->[INITIATOR_nameDef] spoke to [RECIPIENT_nameDef] about [subject].</li>
+        <li>r_logentry->[INITIATOR_nameDef] described [subject] to [RECIPIENT_nameDef].</li>
+        <li>r_logentry->[INITIATOR_nameDef] encouraged [RECIPIENT_nameDef] to [talkabout] [knowledge].</li>
+        <li>r_logentry->[INITIATOR_nameDef] offered a chance for [RECIPIENT_nameDef] to [talkabout] [knowledge].</li>
+
+        <li>talkabout->talk about</li>
+        <li>talkabout->discuss</li>
+        <li>talkabout->have a discussion about</li>
+        <li>talkabout->think about</li>
+
+        <li>subject->science</li>
+        <li>subject->previous experiments</li>
+        <li>subject->the scientific method</li>
+		
+        <li>knowledge->science</li>
+        <li>knowledge->experimentation</li>
+        <li>knowledge->[RECIPIENT_possessive] knowledge</li>
+      </rulesStrings>
+    </logRulesInitiator>
+  </InteractionDef>  
+  
+  <InteractionDef>
+    <defName>RR_ScienceInterrogationFinalize</defName>
+    <label>extract knowledge F</label>
+	<workerClass>PeteTimesSix.ResearchReinvented.Rimworld.InteractionWorkers.InteractionWorker_LearnScience</workerClass>
+    <symbol>Things/Mote/SpeechSymbols/BuildRapport</symbol>
+    <initiatorXpGainSkill>Intellectual</initiatorXpGainSkill>
+    <initiatorXpGainAmount>50</initiatorXpGainAmount>
+    <logRulesInitiator>
+      <rulesStrings>
+        <li>r_logentry->[INITIATOR_nameDef] F spoke to [RECIPIENT_nameDef] about [subject].</li>
+        <li>r_logentry->[INITIATOR_nameDef] F described [subject] to [RECIPIENT_nameDef].</li>
+        <li>r_logentry->[INITIATOR_nameDef] F encouraged [RECIPIENT_nameDef] to [talkabout] [knowledge].</li>
+        <li>r_logentry->[INITIATOR_nameDef] F offered a chance for [RECIPIENT_nameDef] to [talkabout] [knowledge].</li>
+
+        <li>talkabout->talk about</li>
+        <li>talkabout->discuss</li>
+        <li>talkabout->have a discussion about</li>
+        <li>talkabout->think about</li>
+
+        <li>subject->science</li>
+        <li>subject->previous experiments</li>
+        <li>subject->the scientific method</li>
+		
+        <li>knowledge->science</li>
+        <li>knowledge->experimentation</li>
+        <li>knowledge->[RECIPIENT_possessive] knowledge</li>
+      </rulesStrings>
+    </logRulesInitiator>
+  </InteractionDef>
+</Defs>

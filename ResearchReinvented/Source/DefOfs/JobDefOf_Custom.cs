@@ -16,10 +16,13 @@ namespace PeteTimesSix.ResearchReinvented.DefOfs
         public static JobDef RR_AnalyseTerrain;
         public static JobDef RR_Research;
 
+        public static JobDef RR_InterrogatePrisoner;
+
 
         static JobDefOf_Custom()
         {
             DefOfHelper.EnsureInitializedInCtor(typeof(JobDefOf_Custom));
         }
+
     }
 }

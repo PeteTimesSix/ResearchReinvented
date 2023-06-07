@@ -16,10 +16,11 @@ namespace PeteTimesSix.ResearchReinvented.Defs
 	{
 		Job_Theory = 1,
         Job_Analysis = 1 << 1,
-        Special_OnIngest = 1 << 2,
-        Special_OnIngest_Observable = 1 << 3,
-		Special_Medicine = 1 << 4,
-        Special_Prototype = 1 << 5,
+		Social = 1 << 2,
+        Special_OnIngest = 1 << 3,
+        Special_OnIngest_Observable = 1 << 4,
+		Special_Medicine = 1 << 5,
+        Special_Prototype = 1 << 6,
 	}
 
     public class ResearchOpportunityTypeDef : Def

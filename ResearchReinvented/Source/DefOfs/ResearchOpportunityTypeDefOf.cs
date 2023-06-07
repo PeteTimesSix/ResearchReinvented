@@ -12,6 +12,10 @@ namespace PeteTimesSix.ResearchReinvented.DefOfs
     public static class ResearchOpportunityTypeDefOf
     {
 
+        public static ResearchOpportunityTypeDef BasicResearch;
+
+        public static ResearchOpportunityTypeDef GainFactionKnowledge;
+
         public static ResearchOpportunityTypeDef Analyse;
         public static ResearchOpportunityTypeDef AnalysePawn;
         public static ResearchOpportunityTypeDef AnalysePawnNonFlesh;
@@ -38,8 +42,6 @@ namespace PeteTimesSix.ResearchReinvented.DefOfs
         public static ResearchOpportunityTypeDef AnalyseTerrain;
         public static ResearchOpportunityTypeDef AnalyseSoil;
         public static ResearchOpportunityTypeDef AnalyseFloor;
-
-        public static ResearchOpportunityTypeDef BasicResearch;
 
         public static ResearchOpportunityTypeDef PrototypeConstruction;
         public static ResearchOpportunityTypeDef PrototypeTerrainConstruction;

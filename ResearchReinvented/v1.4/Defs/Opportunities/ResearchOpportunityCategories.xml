@@ -13,6 +13,14 @@
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
+		<defName>Social</defName>
+		<label>knowledge base</label>
+		<priority>900</priority>
+		<color>(187,250,170)</color>
+		<description>Knowledge gained from external sources.</description>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
 		<defName>Prototyping</defName>
 		<label>prototyping</label>
 		<priority>800</priority>

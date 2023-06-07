@@ -45,7 +45,9 @@
     <Compile Include="DefGenerators\AlternateResearchSubjectDefGenerator.cs" />
     <Compile Include="DefOfs\ApparelLayerDefOf_Custom.cs" />
     <Compile Include="DefOfs\EffecterDefOf_Custom.cs" />
+    <Compile Include="DefOfs\InteractionDefOf_Custom.cs" />
     <Compile Include="DefOfs\JobDefOf_Custom.cs" />
+    <Compile Include="DefOfs\PrisonerInteractionModeDefOf_Custom.cs" />
     <Compile Include="DefOfs\ResearchOpportunityCategoryDefOf.cs" />
     <Compile Include="DefOfs\SettingsPresetDefOf.cs" />
     <Compile Include="DefOfs\StatDefOf_Custom.cs" />
@@ -61,6 +63,7 @@
     <Compile Include="Extensions\ThingDefExtensions.cs" />
     <Compile Include="HarmonyPatches\ApparelLayerDef_Patches.cs" />
     <Compile Include="HarmonyPatches\DebugPatches.cs" />
+    <Compile Include="HarmonyPatches\DesignationCategoryDef_Patches.cs" />
     <Compile Include="HarmonyPatches\Ingestibles\Recipe_AdministerIngestible_Patches.cs" />
     <Compile Include="HarmonyPatches\Ingestibles\Thing_Patches.cs" />
     <Compile Include="HarmonyPatches\Medicine\SurgeryOutcomeComp_MedicineQuality_Patches.cs" />
@@ -92,6 +95,7 @@
     <Compile Include="Managers\PrototypeKeeper.cs" />
     <Compile Include="Managers\PrototypeTerrainGrid.cs" />
     <Compile Include="Opportunities\ResearchOpportunityCategoryTotalsStore.cs" />
+    <Compile Include="OpportunityComps\ROComp_RequiresPawnOfFaction.cs" />
     <Compile Include="OpportunityComps\ROComp_RequiresTerrain.cs" />
     <Compile Include="OpportunityComps\ROComp_RequiresRecipe.cs" />
     <Compile Include="OpportunityComps\ROComp_RequiresThing.cs" />
@@ -106,9 +110,12 @@
     <Compile Include="Rimworld\Comps\CompProperties\CompProperties_ResearchKit.cs" />
     <Compile Include="Rimworld\Comps\Comp_ResearchKit.cs" />
     <Compile Include="Rimworld\DefModExtensions\RarityMarker.cs" />
+    <Compile Include="Rimworld\InteractionWorkers\InteractionWorker_LearnScience.cs" />
+    <Compile Include="Rimworld\InteractionWorkers\InteractionWorker_ScienceInterrogation.cs" />
     <Compile Include="Rimworld\JobDrivers\JobDriver_Analyse.cs" />
     <Compile Include="Rimworld\JobDrivers\JobDriver_AnalyseTerrain.cs" />
     <Compile Include="Rimworld\JobDrivers\JobDriver_AnalyseInPlace.cs" />
+    <Compile Include="Rimworld\JobDrivers\JobDriver_InterrogatePrisoner.cs" />
     <Compile Include="Rimworld\JobDrivers\JobDriver_ResearchRR.cs" />
     <Compile Include="Rimworld\JobDrivers\JobDriver_RRBase.cs" />
     <Compile Include="Rimworld\Jobs\TypedJobMaker.cs" />
@@ -127,6 +134,7 @@
     <Compile Include="Rimworld\WorkGivers\WorkGiver_AnalyseTerrain.cs" />
     <Compile Include="Rimworld\WorkGivers\WorkGiver_ResearcherRR.cs" />
     <Compile Include="Rimworld\WorkGivers\WorkGiver_AnalyseInPlace.cs" />
+    <Compile Include="Rimworld\WorkGivers\WorkGiver_Warden_Interrogate.cs" />
     <Compile Include="StatWorkers\StatWorker_RemoteResearchSpeedFactor.cs" />
     <Compile Include="StringsCache.cs" />
     <Compile Include="Utilities\AdjacencyHelper.cs" />

@@ -260,6 +260,9 @@ namespace PeteTimesSix.ResearchReinvented
                         categorySettingChanges.Remove(temp_categoryChanges);
                         categorySettings.Remove(temp_categorySettings);
                     }
+
+                    sectionListing.Gap();
+                    sectionListing.Label(temp_categorySettings.category.description);
                 }
 
                 listingStandard.EndHiddenSection(sectionListing, maxHeightAccumulator);

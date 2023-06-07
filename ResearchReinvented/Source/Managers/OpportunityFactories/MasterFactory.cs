@@ -160,6 +160,15 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
         {
             yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.BasicResearch, ResearchRelation.Direct, new ROComp_RequiresNothing(), "Project");
 
+            {
+                var factions = Find.FactionManager.GetFactions(/*not of player,*/ allowHidden: true, allowDefeated: true, allowNonHumanlike: false, minTechLevel: TechLevel.Neolithic, allowTemporary: false);
+
+                foreach (var faction in factions) 
+                {
+                    yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.GainFactionKnowledge, ResearchRelation.Direct, new ROComp_RequiresPawnOfFaction(faction), "faction");
+                }
+            }
+
             //var specials = new HashSet<SpecialResearchOpportunityDef>();
             //specials.AddRange(DefDatabase<SpecialResearchOpportunityDef>.AllDefsListForReading.Where(o => o.originalProject == project));
 

@@ -33,7 +33,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Ingestibles
             {
                 if (opportunity.requirement.MetBy(ingestible))
                 {
-                    opportunity.ResearchChunkPerformed(observer, ingestible.LabelCapNoCount, HandlingMode.Special_OnIngest_Observable, 0.5f/*avoid overlap with ingester's mote*/);
+                    opportunity.ResearchChunkPerformed(observer, ingestible.LabelCapNoCount, HandlingMode.Special_OnIngest_Observable, moteOffsetHint: 0.5f/*avoid overlap with ingester's mote*/);
                 }
             }
         }
