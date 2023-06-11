@@ -73,9 +73,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
                 JobFailReason.Is("PrisonerInteractedTooRecently".Translate(), null);
                 return false;
             }
-            if (!MatchingOpportunities.Any(o => o.requirement.MetBy(prisoner)))
+            if (!MatchingOpportunities.Any(o => !o.IsFinished && o.requirement.MetBy(prisoner)))
             {
-                Log.Message("no match opportunity");
+                JobFailReason.Is("RR_jobFail_PrisonerHasNothingToTeach".Translate(), null);
                 return false;
             }
             

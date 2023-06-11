@@ -3,103 +3,117 @@
   <PeteTimesSix.ResearchReinvented.Defs.SettingsPresetDef>
     <defName>SettingsPreset_RR_ScienceMarchesOn</defName>
     <label>science marches on</label>
-    <description>No limit on research gained by prototyping or reverse engineering. Theoretical research speed decreased.</description>
+    <description>No limit on research gained by prototyping or reverse engineering. Theoretical research speed greatly decreased.</description>
 	<priority>800</priority>
 	<categorySettingPresets>
 		<li>
 			<category>Theory</category>
 			
-			<targetFractionMultiplier>0.0</targetFractionMultiplier>
+			<importanceMultiplier>0.0</importanceMultiplier>
+			<importanceMultiplierCounted>0.0</importanceMultiplierCounted>
 			<infiniteOverflow>true</infiniteOverflow>
-			<researchSpeedMultiplier>0.5</researchSpeedMultiplier>
+			<targetIterations>0.0</targetIterations>
+			<researchSpeedMultiplier>0.25</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>Social</category>
+			
+			<importanceMultiplier>1.5</importanceMultiplier>
+			<importanceMultiplierCounted>0.5</importanceMultiplierCounted>
+			<targetIterations>3.0</targetIterations>
+			<researchSpeedMultiplier>2.5</researchSpeedMultiplier>
 		</li>
 		<li>
 			<category>Prototyping</category>
 			
-			<targetFractionMultiplier>1.25</targetFractionMultiplier>
+			<importanceMultiplier>1.0</importanceMultiplier>
+			<importanceMultiplierCounted>1.0</importanceMultiplierCounted>
 			<infiniteOverflow>true</infiniteOverflow>
-			<targetIterations>3.0</targetIterations>
+			<targetIterations>2.0</targetIterations>
 			<researchSpeedMultiplier>3.0</researchSpeedMultiplier>
 			<availableAtOverallProgress>0.3~1.0</availableAtOverallProgress>
 		</li>
 		<li>
 			<category>Clinical</category>
 			
-			<targetFractionMultiplier>1.25</targetFractionMultiplier>
+			<importanceMultiplier>1.0</importanceMultiplier>
+			<importanceMultiplierCounted>1.0</importanceMultiplierCounted>
+			<infiniteOverflow>true</infiniteOverflow>
 			<targetIterations>2.0</targetIterations>
-			<extraFractionMultiplier>0.5</extraFractionMultiplier>
 			<researchSpeedMultiplier>2.5</researchSpeedMultiplier>
+			<availableAtOverallProgress>0.3~1.0</availableAtOverallProgress>
 		</li>
 		<li>
 			<category>Tooling</category>
 			
-			<targetFractionMultiplier>1.0</targetFractionMultiplier>
+			<importanceMultiplier>1.25</importanceMultiplier>
+			<importanceMultiplierCounted>1.0</importanceMultiplierCounted>
 			<targetIterations>2.0</targetIterations>
-			<extraFractionMultiplier>0.0</extraFractionMultiplier>
 			<researchSpeedMultiplier>2.5</researchSpeedMultiplier>
 		</li>
 		<li>
 			<category>ReverseEngineering</category>
 			
-			<targetFractionMultiplier>1.0</targetFractionMultiplier>
-			<targetIterations>5.0</targetIterations>
+			<importanceMultiplier>1.0</importanceMultiplier>
+			<importanceMultiplierCounted>1.0</importanceMultiplierCounted>
 			<infiniteOverflow>true</infiniteOverflow>
+			<targetIterations>4.0</targetIterations>
 			<researchSpeedMultiplier>2.0</researchSpeedMultiplier>
 		</li>
 		<li>
 			<category>ForwardEngineering</category>
 			
-			<targetFractionMultiplier>1.0</targetFractionMultiplier>
+			<importanceMultiplier>1.25</importanceMultiplier>
+			<importanceMultiplierCounted>1.0</importanceMultiplierCounted>
 			<targetIterations>15.0</targetIterations>
-			<extraFractionMultiplier>0.25</extraFractionMultiplier>
 			<researchSpeedMultiplier>1.5</researchSpeedMultiplier>
 		</li>
 		<li>
 			<category>Logistics</category>
 			
-			<targetFractionMultiplier>1.0</targetFractionMultiplier>
+			<importanceMultiplier>1.25</importanceMultiplier>
+			<importanceMultiplierCounted>1.0</importanceMultiplierCounted>
 			<targetIterations>2</targetIterations>
-			<extraFractionMultiplier>0.0</extraFractionMultiplier>
 			<researchSpeedMultiplier>2.5</researchSpeedMultiplier>
 		</li>
 		<li>
 			<category>Geology</category>
 			
-			<targetFractionMultiplier>1.0</targetFractionMultiplier>
+			<importanceMultiplier>1.25</importanceMultiplier>
+			<importanceMultiplierCounted>1.0</importanceMultiplierCounted>
 			<targetIterations>5.0</targetIterations>
-			<extraFractionMultiplier>0.5</extraFractionMultiplier>
 			<researchSpeedMultiplier>2.0</researchSpeedMultiplier>
 		</li>
 		<li>
 			<category>Biology</category>
 			
-			<targetFractionMultiplier>1.0</targetFractionMultiplier>
+			<importanceMultiplier>1.25</importanceMultiplier>
+			<importanceMultiplierCounted>1.0</importanceMultiplierCounted>
 			<targetIterations>5.0</targetIterations>
-			<extraFractionMultiplier>0.5</extraFractionMultiplier>
 			<researchSpeedMultiplier>2.0</researchSpeedMultiplier>
 		</li>
 		<li>
 			<category>Chemistry</category>
 			
-			<targetFractionMultiplier>1.0</targetFractionMultiplier>
+			<importanceMultiplier>1.25</importanceMultiplier>
+			<importanceMultiplierCounted>1.0</importanceMultiplierCounted>
 			<targetIterations>5.0</targetIterations>
-			<extraFractionMultiplier>0.5</extraFractionMultiplier>
 			<researchSpeedMultiplier>2.0</researchSpeedMultiplier>
 		</li>
 		<li>
 			<category>Gastronomy</category>
 			
-			<targetFractionMultiplier>1.0</targetFractionMultiplier>
+			<importanceMultiplier>1.25</importanceMultiplier>
+			<importanceMultiplierCounted>1.0</importanceMultiplierCounted>
 			<targetIterations>5.0</targetIterations>
-			<extraFractionMultiplier>0.5</extraFractionMultiplier>
 			<researchSpeedMultiplier>2.0</researchSpeedMultiplier>
 		</li>
 		<li>
 			<category>Material</category>
 			
-			<targetFractionMultiplier>0.75</targetFractionMultiplier>
+			<importanceMultiplier>1.25</importanceMultiplier>
+			<importanceMultiplierCounted>1.0</importanceMultiplierCounted>
 			<targetIterations>8.0</targetIterations>
-			<extraFractionMultiplier>0.25</extraFractionMultiplier>
 			<researchSpeedMultiplier>1.5</researchSpeedMultiplier>
 		</li>
 	</categorySettingPresets>

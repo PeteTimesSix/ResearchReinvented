@@ -56,7 +56,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.MiscData
             var researchKits = pawn.apparel.WornApparel.Where(a => a.TryGetComp<Comp_ResearchKit>() != null);
             if (!researchKits.Any())
             {
-                return EffecterDefOf_Custom.NoResearchKitEffect;
+                return EffecterDefOf_Custom.RR_NoResearchKitEffect;
             }
             else
             {

@@ -5,15 +5,15 @@
     <defName>RR_ScienceInterrogation</defName>
     <label>extract knowledge</label>
 	<workerClass>PeteTimesSix.ResearchReinvented.Rimworld.InteractionWorkers.InteractionWorker_ScienceInterrogation</workerClass>
-    <symbol>Things/Mote/SpeechSymbols/BuildRapport</symbol>
+    <symbol>Motes/Speech/scienceIcon</symbol>
     <initiatorXpGainSkill>Intellectual</initiatorXpGainSkill>
     <initiatorXpGainAmount>50</initiatorXpGainAmount>
     <logRulesInitiator>
       <rulesStrings>
         <li>r_logentry->[INITIATOR_nameDef] spoke to [RECIPIENT_nameDef] about [subject].</li>
         <li>r_logentry->[INITIATOR_nameDef] described [subject] to [RECIPIENT_nameDef].</li>
-        <li>r_logentry->[INITIATOR_nameDef] encouraged [RECIPIENT_nameDef] to [talkabout] [knowledge].</li>
-        <li>r_logentry->[INITIATOR_nameDef] offered a chance for [RECIPIENT_nameDef] to [talkabout] [knowledge].</li>
+        <li>r_logentry->[INITIATOR_nameDef] encouraged [RECIPIENT_nameDef] to [talkabout] [knowledge_requested].</li>
+        <li>r_logentry->[INITIATOR_nameDef] offered a chance for [RECIPIENT_nameDef] to [talkabout] [knowledge_requested].</li>
 
         <li>talkabout->talk about</li>
         <li>talkabout->discuss</li>
@@ -24,9 +24,9 @@
         <li>subject->previous experiments</li>
         <li>subject->the scientific method</li>
 		
-        <li>knowledge->science</li>
-        <li>knowledge->experimentation</li>
-        <li>knowledge->[RECIPIENT_possessive] knowledge</li>
+        <li>knowledge_requested->science</li>
+        <li>knowledge_requested->experimentation</li>
+        <li>knowledge_requested->[RECIPIENT_possessive] knowledge</li>
       </rulesStrings>
     </logRulesInitiator>
   </InteractionDef>  
@@ -34,29 +34,39 @@
   <InteractionDef>
     <defName>RR_ScienceInterrogationFinalize</defName>
     <label>extract knowledge F</label>
-	<workerClass>PeteTimesSix.ResearchReinvented.Rimworld.InteractionWorkers.InteractionWorker_LearnScience</workerClass>
-    <symbol>Things/Mote/SpeechSymbols/BuildRapport</symbol>
+	<workerClass>PeteTimesSix.ResearchReinvented.Rimworld.InteractionWorkers.InteractionWorker_LearnScienceFromPrisoner</workerClass>
+    <symbol>Motes/Speech/scienceIcon</symbol>
     <initiatorXpGainSkill>Intellectual</initiatorXpGainSkill>
     <initiatorXpGainAmount>50</initiatorXpGainAmount>
     <logRulesInitiator>
       <rulesStrings>
-        <li>r_logentry->[INITIATOR_nameDef] F spoke to [RECIPIENT_nameDef] about [subject].</li>
-        <li>r_logentry->[INITIATOR_nameDef] F described [subject] to [RECIPIENT_nameDef].</li>
-        <li>r_logentry->[INITIATOR_nameDef] F encouraged [RECIPIENT_nameDef] to [talkabout] [knowledge].</li>
-        <li>r_logentry->[INITIATOR_nameDef] F offered a chance for [RECIPIENT_nameDef] to [talkabout] [knowledge].</li>
+        <li>r_logentry->[INITIATOR_nameDef] [noted] [knowledge] [given] by [RECIPIENT_nameDef] [about] [subject].</li>
 
-        <li>talkabout->talk about</li>
-        <li>talkabout->discuss</li>
-        <li>talkabout->have a discussion about</li>
-        <li>talkabout->think about</li>
+		<li>noted->noted down</li>
+		<li>noted->wrote down</li>
+		<li>noted->logged</li>
+		<li>noted->memorized</li>
+		<li>noted->gained</li>
+
+		<li>given->given</li>
+		<li>given->provided</li>
+		<li>given->doled out</li>
+		<li>given->handed over</li>
+		<li>given->dispensed</li>
+		
+		<li>about->about</li>
+		<li>about->regarding</li>
+		<li>about->about</li>
+		<li>about->about</li>
 
         <li>subject->science</li>
         <li>subject->previous experiments</li>
-        <li>subject->the scientific method</li>
+        <li>subject->prototypes</li>
+        <li>subject->research</li>
 		
-        <li>knowledge->science</li>
-        <li>knowledge->experimentation</li>
-        <li>knowledge->[RECIPIENT_possessive] knowledge</li>
+        <li>knowledge->knowledge</li>
+        <li>knowledge->information</li>
+        <li>knowledge->scientific data</li>
       </rulesStrings>
     </logRulesInitiator>
   </InteractionDef>

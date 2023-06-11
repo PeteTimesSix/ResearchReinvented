@@ -54,12 +54,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 				Pawn actor = research.actor;
 				float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true);
 				num *= ResearchBench.GetStatValue(StatDefOf.ResearchSpeedFactor, true);
-				var speedMult = opportunity.def.GetCategory(opportunity.relation).Settings.researchSpeedMultiplier;
-				num *= speedMult;
-				//num *= ResearchReinventedMod.Settings.theoryResearchSpeedMult;
-				actor.skills.Learn(SkillDefOf.Intellectual, 0.1f * speedMult, false);
 				actor.GainComfortFromCellIfPossible(true);
-				bool finished = opportunity.ResearchTickPerformed(num, actor);
+				bool finished = opportunity.ResearchTickPerformed(num, actor, SkillDefOf.Intellectual);
 				if (finished)
 					this.ReadyForNextToil();
 			};
@@ -80,53 +76,5 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 			yield return research;
 			yield break;
 		}
-
-		/*public const int JobEndInterval = 4000;
-
-		public override bool TryMakePreToilReservations(bool errorOnFailed)
-		{
-			return this.pawn.Reserve(this.ResearchBench, this.job, 1, -1, null, errorOnFailed);
-		}
-
-		protected override IEnumerable<Toil> MakeNewToils()
-		{
-			ResearchOpportunity opportunity = ResearchOpportunityManager.instance.GetOpportunityForPawn(this.pawn);
-			ResearchProjectDef currentProject = Find.ResearchManager.currentProj;
-
-			this.FailOnDespawnedNullOrForbidden(ResearchBenchIndex);
-			yield return Toils_Goto.GotoThing(ResearchBenchIndex, PathEndMode.InteractionCell);
-			Toil research = new Toil();
-			research.tickAction = delegate ()
-			{
-				Pawn actor = research.actor;
-				float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true);
-				num *= ResearchBench.GetStatValue(StatDefOf.ResearchSpeedFactor, true);
-				actor.skills.Learn(SkillDefOf.Intellectual, 0.1f, false);
-				actor.GainComfortFromCellIfPossible(true);
-				bool finished = opportunity.ResearchPerformed(num, actor);
-				if (finished)
-					this.ReadyForNextToil();
-			};
-			research.FailOn(() => Find.ResearchManager.currentProj != currentProject);
-			research.FailOn(() => !Find.ResearchManager.currentProj.CanBeResearchedAt(ResearchBench, false));
-			research.AddEndCondition(() => opportunity.IsFinished ? JobCondition.Succeeded : JobCondition.Ongoing);
-			research.FailOnCannotTouch(ResearchBenchIndex, PathEndMode.InteractionCell);
-			research.WithEffect(EffecterDefOf.Research, ResearchBenchIndex);
-			research.WithProgressBar(ResearchBenchIndex, delegate
-			{
-				if (opportunity == null)
-				{
-					return 0f;
-				}
-				return opportunity.ProgressFraction;
-			}, false, -0.5f);
-			research.defaultCompleteMode = ToilCompleteMode.Never;
-			//research.defaultDuration = JobEndInterval;
-			research.activeSkill = (() => SkillDefOf.Intellectual);
-			yield return research;
-			yield return Toils_General.Wait(2, TargetIndex.None);
-			yield break;
-		}*/
-
 	}
 }

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<RR_RequestLecture>Request lecture on {1} (Requires goodwill: {0})</RR_RequestLecture>
+	<RR_RequestLecture_FailNotResearcher>{0} cannot take part in lectures.</RR_RequestLecture_FailNotResearcher>
+	<RR_RequestLecture_Reply>{0} agreed to spend some time talking about {1}.</RR_RequestLecture_Reply>
+</LanguageData>

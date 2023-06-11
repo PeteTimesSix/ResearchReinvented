@@ -74,12 +74,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
             {
                 Pawn actor = research.actor;
                 float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true);
-				var speedMult = opportunity.def.GetCategory(opportunity.relation).Settings.researchSpeedMultiplier;
-				num *= speedMult;
                 num *= ResearchBench.GetStatValue(StatDefOf.ResearchSpeedFactor, true);
-                actor.skills.Learn(SkillDefOf.Intellectual, 0.1f * speedMult, false);
                 actor.GainComfortFromCellIfPossible(true);
-                bool finished = opportunity.ResearchTickPerformed(num, actor);
+                bool finished = opportunity.ResearchTickPerformed(num, actor, SkillDefOf.Intellectual);
                 if (finished)
                     this.ReadyForNextToil();
             };

@@ -3,6 +3,7 @@ using PeteTimesSix.ResearchReinvented.Extensions;
 using PeteTimesSix.ResearchReinvented.Managers;
 using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.OpportunityComps;
+using PeteTimesSix.ResearchReinvented.Utilities;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -123,7 +124,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 				}
 				if (GUI.Button(but2rect, "DEBUG:Regen"))
 				{
-					ResearchOpportunityManager.Instance.GenerateOpportunities(Find.ResearchManager.currentProj, true);
+                    ResearchOpportunityManager.Instance.ResetAllProgress();
+                    CacheClearer.ClearCaches();
+                    ResearchOpportunityManager.Instance.GenerateOpportunities(Find.ResearchManager.currentProj, true);
 				}
 			}
 
@@ -198,7 +201,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             if (!category.Settings.infiniteOverflow)
             {
                 //{Progress} "X"
-                Widgets_Extra.LabelFitHeightAware(headerRect, $"{Math.Round(category.GetCurrentTotal(), 0)} / {Math.Round(totalsStore.allResearchPoints, 0)}");
+                Widgets_Extra.LabelFitHeightAware(headerRect, $"{Math.Round(category.GetCurrentTotal(), 0)} / {Math.Round(totalsStore.researchPoints, 0)}");
             }
             else
             {
@@ -374,7 +377,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
                     GUI.DrawTexture(textBoxInternal.TopHalf().LeftHalf(), TexUI.GrayTextBG);
                     Widgets_Extra.LabelFitHeightAware(textBoxInternal.TopHalf().LeftHalf(), $"{opportunity.relation}");
                     GUI.DrawTexture(textBoxInternal.BottomHalf(), TexUI.GrayTextBG);
-                    Widgets_Extra.LabelFitHeightAware(textBoxInternal.BottomHalf(), $"{opportunity.debug_source}");
+                    Widgets_Extra.LabelFitHeightAware(textBoxInternal.BottomHalf(), $"{opportunity.debug_source} (imp.: {opportunity.importance})");
                     GUI.color = Color.white;
 
                     if (GUI.Button(textBoxInternal.TopHalf().RightHalf(), "Finish")) 

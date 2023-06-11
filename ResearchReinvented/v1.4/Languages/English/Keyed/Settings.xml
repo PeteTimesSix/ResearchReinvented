@@ -8,8 +8,8 @@
 	<RR_setting_tab_CATEGORY_PRESETS_tooltip>Select a preset of research point distribution between opportunity categories.</RR_setting_tab_CATEGORY_PRESETS_tooltip>
 	<RR_setting_tab_CATEGORY_CONFIG_tooltip>Configure individual research opportunity categories.</RR_setting_tab_CATEGORY_CONFIG_tooltip>
 	
-	<RR_setting_debugPrintouts>Enable debug mode</RR_setting_debugPrintouts>
-	<RR_setting_debugPrintouts_tooltip>When enabled, various developer printouts and visuals will be active.</RR_setting_debugPrintouts_tooltip>
+	<RR_setting_showProgressMotes>Show progress motes</RR_setting_showProgressMotes>
+	<RR_setting_defaultCompactMode_showProgressMotes_tooltip>When enabled, motes (floating messages) will briefly appear above pawns that have made significant research progress.</RR_setting_defaultCompactMode_showProgressMotes_tooltip>
 	
 	<RR_setting_defaultCompactMode>Research window defaults to compact mode</RR_setting_defaultCompactMode>
 	<RR_setting_defaultCompactMode_tooltip>When enabled, the research opportunities list window will default to compact mode.</RR_setting_defaultCompactMode_tooltip>
@@ -29,17 +29,17 @@
 	<RR_setting_category_availableAtOverallProgress>Available at overall progress</RR_setting_category_availableAtOverallProgress>
 	<RR_setting_category_availableAtOverallProgress_tooltip>Controls during which phase of research is this category available.</RR_setting_category_availableAtOverallProgress_tooltip>
 	
+	<RR_setting_category_importanceMultiplier>Importance</RR_setting_category_importanceMultiplier>
+	<RR_setting_category_importanceMultiplier_tooltip>Importance of this category relative to others used when calculating how how many research points will be distributed to this category.</RR_setting_category_importanceMultiplier_tooltip>
+	
+	<RR_setting_category_importanceMultiplierCounted>Importance counted</RR_setting_category_importanceMultiplierCounted>
+	<RR_setting_category_importanceMultiplierCounted_tooltip>Importance of this category relative to others used when calculating how how many research points will be distributed to other categories. Must be smaller or equal to the actual importance multiplier.</RR_setting_category_importanceMultiplierCounted_tooltip>
+	
 	<RR_setting_category_targetIterations>Target iterations</RR_setting_category_targetIterations>
-	<RR_setting_category_targetIterations_tooltip>The maximum individual opportunities required to complete this category.</RR_setting_category_targetIterations_tooltip>
-		
-	<RR_setting_category_targetFractionMultiplier>Target fraction multiplier</RR_setting_category_targetFractionMultiplier>
-	<RR_setting_category_targetFractionMultiplier_tooltip>The generated opportunities try to split the research cost of the project according to the relative fraction sizes of categories, depending on this value.</RR_setting_category_targetFractionMultiplier_tooltip>
+	<RR_setting_category_targetIterations_tooltip>The maximum individual opportunities required to fully complete this category.</RR_setting_category_targetIterations_tooltip>
 	
 	<RR_setting_category_infiniteOverflow>Infinite overflow</RR_setting_category_infiniteOverflow>
 	<RR_setting_category_infiniteOverflow_tooltip>Allow research in this category to always continue if there are more opportunities of this type available.</RR_setting_category_infiniteOverflow_tooltip>
-	
-	<RR_setting_category_extraFractionMultiplier>Extra fraction multiplier</RR_setting_category_extraFractionMultiplier>
-	<RR_setting_category_extraFractionMultiplier_tooltip>Additional research allowed for this category that is not included in the initial fraction assigned to it.</RR_setting_category_extraFractionMultiplier_tooltip>
 	
 	<RR_setting_category_researchSpeedMultiplier>Research speed multiplier</RR_setting_category_researchSpeedMultiplier>
 	<RR_setting_category_researchSpeedMultiplier_tooltip>Opportunities of this category will have their research speed multiplied by the set percentage.</RR_setting_category_researchSpeedMultiplier_tooltip>
@@ -48,4 +48,16 @@
 	<RR_setting_category_researchSpeedAxis>Research speed</RR_setting_category_researchSpeedAxis>
 	
 	<RR_setting_category_resetToDefault>Reset to preset default</RR_setting_category_resetToDefault>
+	
+	
+	<!--- Obsolete -->
+	<RR_setting_debugPrintouts>Enable debug mode</RR_setting_debugPrintouts>
+	<RR_setting_debugPrintouts_tooltip>When enabled, various developer printouts and visuals will be active.</RR_setting_debugPrintouts_tooltip>
+	
+	<RR_setting_category_targetFractionMultiplier>Target fraction multiplier</RR_setting_category_targetFractionMultiplier>
+	<RR_setting_category_targetFractionMultiplier_tooltip>The generated opportunities try to split the research cost of the project according to the relative fraction sizes of categories, depending on this value.</RR_setting_category_targetFractionMultiplier_tooltip>
+	
+	<RR_setting_category_extraFractionMultiplier>Extra fraction multiplier</RR_setting_category_extraFractionMultiplier>
+	<RR_setting_category_extraFractionMultiplier_tooltip>Additional research allowed for this category that is not included in the initial fraction assigned to it.</RR_setting_category_extraFractionMultiplier_tooltip>
+	
 </LanguageData>

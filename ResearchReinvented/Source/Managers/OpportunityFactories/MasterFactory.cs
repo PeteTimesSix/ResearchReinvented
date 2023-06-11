@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using static System.Collections.Specialized.BitVector32;
 
 namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
 {
@@ -161,11 +162,20 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.BasicResearch, ResearchRelation.Direct, new ROComp_RequiresNothing(), "Project");
 
             {
+                {
+                    var playerFaction = Faction.OfPlayer;
+                    var playerTechLevelModifier = OF_Factions.Modifiers.GetValueOrDefault((playerFaction.def.techLevel, project.techLevel), 0f);
+                    if(playerTechLevelModifier > 0f)
+                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.Brainstorming, ResearchRelation.Direct, new ROComp_RequiresPawnOfFaction(playerFaction), "player faction", importance: playerTechLevelModifier);
+                }
+
                 var factions = Find.FactionManager.GetFactions(/*not of player,*/ allowHidden: true, allowDefeated: true, allowNonHumanlike: false, minTechLevel: TechLevel.Neolithic, allowTemporary: false);
 
                 foreach (var faction in factions) 
                 {
-                    yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.GainFactionKnowledge, ResearchRelation.Direct, new ROComp_RequiresPawnOfFaction(faction), "faction");
+                    var techLevelModifier = OF_Factions.Modifiers.GetValueOrDefault((faction.def.techLevel, project.techLevel), 0f);
+                    if(techLevelModifier > 0f)
+                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.GainFactionKnowledge, ResearchRelation.Direct, new ROComp_RequiresPawnOfFaction(faction), "faction", importance: techLevelModifier);
                 }
             }
 

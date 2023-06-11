@@ -1,4 +1,5 @@
-﻿using PeteTimesSix.ResearchReinvented.Defs;
+﻿using PeteTimesSix.ResearchReinvented.Data;
+using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Extensions;
 using PeteTimesSix.ResearchReinvented.Managers;
 using PeteTimesSix.ResearchReinvented.OpportunityComps;
@@ -91,8 +92,9 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
 				if (opportunity != null)
 				{
-					Log.Message($"found matching opp. {opportunity.ShortDesc}");
-					opportunity.ResearchChunkPerformed(worker, usedRecipe.LabelCap.ToString(), HandlingMode.Special_Prototype);
+                    var amount = totalWork * BaseResearchAmounts.DoneWorkMultiplier;
+                    var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
+                    opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, SkillDefOf.Intellectual, moteSubjectName: usedRecipe.LabelCap.ToString());
 					if (worker?.skills != null)
 					{
 						var xp = 0.1f * totalWork;
@@ -101,6 +103,53 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 				}
 			}
 		}
+
+        public static void DoPostFailToFinishThingResearch(Pawn worker, float totalWork, float doneWork, ThingDef productDef, RecipeDef usedRecipe)
+        {
+            bool isPrototype = productDef.IsAvailableOnlyForPrototyping() || (usedRecipe != null && usedRecipe.IsAvailableOnlyForPrototyping());
+            if (isPrototype)
+            {
+                var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
+                    .Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && o.requirement.MetBy(productDef))
+                    .FirstOrDefault();
+
+                if (opportunity != null)
+                {
+                    //Log.Message($"found matching opp. {opportunity.ShortDesc}");
+                    var amount = doneWork / BaseResearchAmounts.DoneWorkMultiplier;
+                    var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
+                    opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, SkillDefOf.Intellectual, moteSubjectName: usedRecipe != null ? usedRecipe.LabelCap.ToString() : productDef.LabelCap.ToString());
+                    if (worker?.skills != null)
+                    {
+                        var xp = 0.1f * totalWork;
+                        worker.skills.Learn(SkillDefOf.Intellectual, xp, false);
+                    }
+                }
+            }
+        }
+
+        public static void DoPostFailToFinishTerrainResearch(Pawn worker, float totalWork, float doneWork, TerrainDef terrainDef)
+        {
+            bool isPrototype = terrainDef.IsAvailableOnlyForPrototyping(true);
+            if (isPrototype)
+            {
+                var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
+                    .Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && o.requirement.MetBy(terrainDef))
+                    .FirstOrDefault();
+
+                if (opportunity != null)
+                {
+                    var amount = doneWork / BaseResearchAmounts.DoneWorkMultiplier;
+                    var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
+                    opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, SkillDefOf.Intellectual, moteSubjectName: terrainDef.LabelCap);
+                    if (worker?.skills != null)
+                    {
+                        var xp = 0.1f * totalWork;
+                        worker.skills.Learn(SkillDefOf.Intellectual, xp, false);
+                    }
+                }
+            }
+        }
 
         public static void DoPostFinishThingResearch(Pawn worker, float totalWork, Thing product, RecipeDef usedRecipe)
         {
@@ -114,7 +163,9 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
                 if (opportunity != null)
                 {
                     //Log.Message($"found matching opp. {opportunity.ShortDesc}");
-                    opportunity.ResearchChunkPerformed(worker, usedRecipe != null ? usedRecipe.LabelCap.ToString() : product.LabelCapNoCount, HandlingMode.Special_Prototype); 
+                    var amount = totalWork / BaseResearchAmounts.DoneWorkMultiplier;
+                    var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
+                    opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, SkillDefOf.Intellectual, moteSubjectName: usedRecipe != null ? usedRecipe.LabelCap.ToString() : product.LabelCapNoCount); 
                     if (worker?.skills != null)
                     {
                         var xp = 0.1f * totalWork;
@@ -135,7 +186,9 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
                 if (opportunity != null)
                 {
-                    opportunity.ResearchChunkPerformed(worker, terrainDef.LabelCap, HandlingMode.Special_Prototype);
+                    var amount = totalWork / BaseResearchAmounts.DoneWorkMultiplier;
+                    var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
+                    opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, SkillDefOf.Intellectual, moteSubjectName: terrainDef.LabelCap);
                     if (worker?.skills != null)
                     {
                         var xp = 0.1f * totalWork;

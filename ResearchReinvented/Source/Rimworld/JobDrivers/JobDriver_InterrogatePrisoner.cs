@@ -24,7 +24,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
         {
             if (this.Talkee.guest.interactionMode == PrisonerInteractionModeDefOf_Custom.RR_ScienceInterrogation)
             {
-                return "RR_JobReport_ScienceInterrogation".Translate(this.Talkee);
+                return "RR_jobReport_ScienceInterrogation".Translate(this.Talkee);
             }
             return base.ReportStringProcessed(str);
         }

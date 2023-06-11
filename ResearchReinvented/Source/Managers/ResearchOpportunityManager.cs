@@ -135,11 +135,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             }
 
             //clear caches. TODO: centralize caches in here instead?
-            WorkGiver_Analyse.ClearMatchingOpportunityCache();
-			WorkGiver_AnalyseInPlace.ClearMatchingOpportunityCache();
-			WorkGiver_AnalyseTerrain.ClearMatchingOpportunityCache();
-			WorkGiver_ResearcherRR.ClearMatchingOpportunityCache();
-            WorkGiver_Warden_Interrogate.ClearMatchingOpportunityCache();
+            CacheClearer.ClearCaches();
         }
 
         public bool CheckForRegeneration() 
@@ -181,6 +177,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 _currentOpportunityCategoriesCache?.Clear();
             }
         }
+
         public void ResetAllProgress()
         {
             _allGeneratedOpportunities?.Clear();
@@ -319,7 +316,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 Log.Message($"Listing generated opportunities for current project {_currentProject.label}...");
                 foreach (var opportunity in newOpportunities)
                 {
-                    Log.Message($" |-- {opportunity.ShortDesc} -- {opportunity.debug_source}");
+                    Log.Message($" |-- {opportunity.ShortDesc} -- {opportunity.debug_source} (imp.: {opportunity.importance})");
                 }
             }
         }

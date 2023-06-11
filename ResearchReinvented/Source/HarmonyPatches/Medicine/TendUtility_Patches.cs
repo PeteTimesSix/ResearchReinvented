@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using PeteTimesSix.ResearchReinvented.Data;
 using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Managers;
 using PeteTimesSix.ResearchReinvented.Opportunities;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Verse;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Medicine
 {
@@ -31,14 +33,16 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Medicine
 
         public static void DoForObserver(Pawn observer, ThingDef medicine, float offsetHint = 0f) 
         {
-            if (!observer.RaceProps.Humanlike || observer.Faction != Faction.OfPlayer || observer.skills == null || !observer.Awake() || StatDefOf.ResearchSpeed.Worker.IsDisabledFor(observer))
+            if (!observer.RaceProps.Humanlike || observer.Faction != Faction.OfPlayer || observer.skills == null || !observer.Awake() || observer.WorkTypeIsDisabled(WorkTypeDefOf.Research))
                 return;
 
             foreach (var opportunity in MatchingOpportunities)
             {
                 if (opportunity.requirement.MetBy(medicine))
                 {
-                    opportunity.ResearchChunkPerformed(observer, medicine.LabelCap, HandlingMode.Special_Medicine, offsetHint);
+                    var amount = BaseResearchAmounts.OnTendObserver;
+                    var modifier = observer.GetStatValue(StatDefOf.ResearchSpeed, true);
+                    opportunity.ResearchChunkPerformed(observer, HandlingMode.Special_Medicine, amount, modifier, SkillDefOf.Intellectual, moteSubjectName: medicine.LabelCap);
                 }
             }
         }

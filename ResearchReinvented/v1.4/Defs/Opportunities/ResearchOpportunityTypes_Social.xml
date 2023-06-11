@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>  
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="TheoryOpportunity">
+		<defName>Brainstorming</defName>	
+		<handledBy>Social</handledBy>
+		<header_Direct>brainstorming</header_Direct>
+		<shortDesc_Direct>Brainstorm new ideas and approaches during social exchanges between members of {0}.</shortDesc_Direct>
+		<category_Direct>Social</category_Direct>	
+		<hintIcons>
+			<li>UI/hintIcons/speak</li>
+		</hintIcons>
+		<handlingModeModifiers>
+		  <li>
+			<key>Social</key>
+			<value>0.25</value>
+		  </li>
+		</handlingModeModifiers>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="TheoryOpportunity">
 		<defName>GainFactionKnowledge</defName>	

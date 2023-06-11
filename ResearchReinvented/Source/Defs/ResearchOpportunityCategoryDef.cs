@@ -98,7 +98,7 @@ namespace PeteTimesSix.ResearchReinvented.Defs
             var totalsStore = ResearchOpportunityManager.Instance.GetTotalsStore(project, this);
             if (totalsStore == null)
                 return OpportunityAvailability.UnavailableReasonUnknown;
-            if (!Settings.infiniteOverflow && GetCurrentTotal() >= totalsStore.allResearchPoints)
+            if (!Settings.infiniteOverflow && GetCurrentTotal() >= totalsStore.researchPoints)
                 return OpportunityAvailability.CategoryFinished;
             return OpportunityAvailability.Available;
         }

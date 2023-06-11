@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using PeteTimesSix.ResearchReinvented.Data;
 using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Managers;
 using PeteTimesSix.ResearchReinvented.Opportunities;
@@ -15,6 +16,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Ingestibles
     [HarmonyPatch(typeof(Recipe_AdministerIngestible), nameof(Recipe_AdministerIngestible.ApplyOnPawn))]
     public static class Recipe_AdministerIngestible_Patches
     {
+
         private static IEnumerable<ResearchOpportunity> MatchingOpportunities =>
             ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
             .Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Special_OnIngest_Observable));
@@ -25,7 +27,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Ingestibles
             var ingestible = ingredients[0];
             var ingester = pawn;
             var observer = billDoer;
-            if (!observer.RaceProps.Humanlike || observer.Faction != Faction.OfPlayer || observer.skills == null || StatDefOf.ResearchSpeed.Worker.IsDisabledFor(observer))
+            if (!observer.RaceProps.Humanlike || observer.Faction != Faction.OfPlayer || observer.skills == null || observer.WorkTypeIsDisabled(WorkTypeDefOf.Research))
                 return;
 
             //Log.Message($"pawn {ingester.LabelCap} observed pawn {ingester.LabelCap} ingest {ingestible.LabelCap}, checking opportunities (count: {MatchingOpportunities.Count()})");
@@ -33,7 +35,9 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Ingestibles
             {
                 if (opportunity.requirement.MetBy(ingestible))
                 {
-                    opportunity.ResearchChunkPerformed(observer, ingestible.LabelCapNoCount, HandlingMode.Special_OnIngest_Observable, moteOffsetHint: 0.5f/*avoid overlap with ingester's mote*/);
+                    var amount = BaseResearchAmounts.AdministerIngestibleObserver;
+                    var modifier = ingester.GetStatValue(StatDefOf.ResearchSpeed, true);
+                    opportunity.ResearchChunkPerformed(observer, HandlingMode.Special_OnIngest_Observable, amount, modifier, SkillDefOf.Intellectual, moteSubjectName: ingestible.LabelCapNoCount, moteOffsetHint: 0.5f/*avoid overlap with ingester's mote*/);
                 }
             }
         }
