@@ -4,7 +4,7 @@
 	<RR_PrototypeLabel>Prototype</RR_PrototypeLabel>
 	
 	<RR_ExperimentalSurgeryPrefix>[Experimental]</RR_ExperimentalSurgeryPrefix>
-	<RR_ExperimentalSurgeryLabel>Experimental surgery</RR_ExperimentalSurgeryLabel>
+	<RR_ExperimentalSurgeryLabel>Experimental</RR_ExperimentalSurgeryLabel>
 	
 	<RR_EquivalentResearchBench>Equivalent research bench</RR_EquivalentResearchBench>
 	<RR_EquivalentResearchBench_desc>This kit provives portable versions of the tools avaiable at this type of research bench.</RR_EquivalentResearchBench_desc>

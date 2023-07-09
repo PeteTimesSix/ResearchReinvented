@@ -67,6 +67,8 @@
     <Compile Include="HarmonyPatches\DesignationCategoryDef_Patches.cs" />
     <Compile Include="HarmonyPatches\Ingestibles\Recipe_AdministerIngestible_Patches.cs" />
     <Compile Include="HarmonyPatches\Ingestibles\Thing_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\Blueprint_TryReplaceWithSolidThing_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\JobDriver_ConstructFinishFrame_MakeNewToils_Patches.cs" />
     <Compile Include="HarmonyPatches\Medicine\SurgeryOutcomeComp_MedicineQuality_Patches.cs" />
     <Compile Include="HarmonyPatches\Medicine\TendUtility_Patches.cs" />
     <Compile Include="HarmonyPatches\Negotiation\FactionDialogMaker_FactionDialogFor_Patches.cs" />
@@ -75,6 +77,7 @@
     <Compile Include="HarmonyPatches\_ModCompatibility\Combat_Extended\Harmony_PawnRenderer_DrawBodyApparel_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\DesignationCategoryDef_Patches.cs" />
     <Compile Include="HarmonyPatches\DefGenerator_Patches.cs" />
+    <Compile Include="HarmonyPatches\_ModCompatibility\Dubs_Mint_Menus\DMM_Patch_HealthCardUtility_Patches.cs" />
     <Compile Include="HarmonyPatches\_ModCompatibility\OptionalPatches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\BillStack_DoListing_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\Designators_GizmoOnGUI_Patches.cs" />
@@ -99,6 +102,7 @@
     <Compile Include="Managers\PrototypeKeeper.cs" />
     <Compile Include="Managers\PrototypeTerrainGrid.cs" />
     <Compile Include="Opportunities\ResearchOpportunityCategoryTotalsStore.cs" />
+    <Compile Include="OpportunityComps\ROComp_RequiresPawnFactionless.cs" />
     <Compile Include="OpportunityComps\ROComp_RequiresPawnOfFaction.cs" />
     <Compile Include="OpportunityComps\ROComp_RequiresTerrain.cs" />
     <Compile Include="OpportunityComps\ROComp_RequiresRecipe.cs" />
@@ -115,7 +119,7 @@
     <Compile Include="Rimworld\Comps\Comp_ResearchKit.cs" />
     <Compile Include="Rimworld\DefModExtensions\RarityMarker.cs" />
     <Compile Include="Rimworld\InteractionWorkers\InteractionWorker_Brainstorm.cs" />
-    <Compile Include="Rimworld\InteractionWorkers\InteractionWorker_LearnScience.cs" />
+    <Compile Include="Rimworld\InteractionWorkers\InteractionWorker_LearnScienceFromPrisoner.cs" />
     <Compile Include="Rimworld\InteractionWorkers\InteractionWorker_ScienceInterrogation.cs" />
     <Compile Include="Rimworld\JobDrivers\JobDriver_Analyse.cs" />
     <Compile Include="Rimworld\JobDrivers\JobDriver_AnalyseTerrain.cs" />

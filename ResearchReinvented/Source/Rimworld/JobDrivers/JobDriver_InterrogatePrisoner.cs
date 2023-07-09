@@ -42,22 +42,26 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
             {
                 yield return Toils_Interpersonal.GotoPrisoner(this.pawn, this.Talkee, this.Talkee.guest.interactionMode);
                 yield return Toils_Interpersonal.GotoInteractablePosition(TargetIndex.A);
-                yield return ScienceInterrogation(this.pawn, this.Talkee);
+                yield return ScienceInterrogationRequest(this.pawn, this.Talkee);
+                yield return Toils_Interpersonal.GotoPrisoner(this.pawn, this.Talkee, this.Talkee.guest.interactionMode);
+                yield return Toils_Interpersonal.GotoInteractablePosition(TargetIndex.A);
+                yield return ScienceInterrogationReply(this.pawn, this.Talkee);
             }
             yield return Toils_Interpersonal.GotoPrisoner(this.pawn, this.Talkee, this.Talkee.guest.interactionMode);
             yield return Toils_Interpersonal.GotoInteractablePosition(TargetIndex.A).FailOn(() => !this.Talkee.guest.ScheduledForInteraction);
             yield return Toils_Interpersonal.SetLastInteractTime(TargetIndex.A);
-            yield return NoteResultsOfInterrogation(this.pawn, this.Talkee);
+            yield return ScienceInterrogationFinalize(this.pawn, this.Talkee);
             yield break;
         }
 
-        public static Toil ScienceInterrogation(Pawn warden, Pawn talkee)
+        public static Toil ScienceInterrogationRequest(Pawn warden, Pawn talkee)
         {
             Toil toil = ToilMaker.MakeToil("ScienceInterrogation");
             toil.initAction = delegate ()
             {
-                Log.Message($"warden: {warden} {warden?.interactions} {warden?.jobs} {warden?.jobs?.curDriver} {warden?.records} talkee: {talkee} {talkee?.guest} def: {InteractionDefOf_Custom.RR_ScienceInterrogation}");
-                if (!warden.interactions.TryInteractWith(talkee, InteractionDefOf_Custom.RR_ScienceInterrogation))
+                var interaction = InteractionDefOf_Custom.RR_ScienceInterrogation_Demand;
+                //Log.Message($"warden to talkee: {warden} {warden?.interactions} {warden?.jobs} {warden?.jobs?.curDriver} {warden?.records} talkee: {talkee} {talkee?.guest} def: {interaction}");
+                if (!warden.interactions.TryInteractWith(talkee, interaction))
                 {
                     warden.jobs.curDriver.ReadyForNextToil();
                     return;
@@ -67,12 +71,50 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
             toil.FailOn(() => !talkee.guest.ScheduledForInteraction);
             toil.socialMode = RandomSocialMode.Off;
             toil.defaultCompleteMode = ToilCompleteMode.Delay;
-            toil.defaultDuration = 350;
+            toil.defaultDuration = 200;
             toil.activeSkill = (() => SkillDefOf.Social);
             return toil;
         }
 
-        public static Toil NoteResultsOfInterrogation(Pawn pawn, Pawn talkee)
+        public static Toil ScienceInterrogationReply(Pawn warden, Pawn talkee)
+        {
+            Toil toil = ToilMaker.MakeToil("ScienceInterrogation");
+            toil.initAction = delegate ()
+            {
+                var interaction = InteractionDefOf_Custom.RR_ScienceInterrogation_Reply_Reluctant;
+                if (talkee.needs?.mood != null)
+                {
+                    var moodPercent = talkee.needs.mood.CurLevelPercentage;
+                    if(moodPercent < 0.5)
+                    {
+                        var fraction = 1f - (moodPercent * 2f);
+                        if (Rand.Chance(fraction))
+                            interaction = InteractionDefOf_Custom.RR_ScienceInterrogation_Reply_Resistant;
+                    }
+                    else 
+                    {
+                        var fraction = ((moodPercent - 0.5f) * 2f);
+                        if (Rand.Chance(fraction))
+                            interaction = InteractionDefOf_Custom.RR_ScienceInterrogation_Reply_Cooperative;
+                    }
+                }
+                //Log.Message($"talkee to warden: {warden} {warden?.interactions} {warden?.jobs} {warden?.jobs?.curDriver} {warden?.records} talkee: {talkee} {talkee?.guest} def: {interaction}");
+                if (!warden.interactions.TryInteractWith(talkee, interaction))
+                {
+                    warden.jobs.curDriver.ReadyForNextToil();
+                    return;
+                }
+                warden.records.Increment(RecordDefOf.PrisonersChatted);
+            };
+            toil.FailOn(() => !talkee.guest.ScheduledForInteraction);
+            toil.socialMode = RandomSocialMode.Off;
+            toil.defaultCompleteMode = ToilCompleteMode.Delay;
+            toil.defaultDuration = 200;
+            toil.activeSkill = (() => SkillDefOf.Social);
+            return toil;
+        }
+
+        public static Toil ScienceInterrogationFinalize(Pawn pawn, Pawn talkee)
         {
             Toil toil = ToilMaker.MakeToil("NoteResultsOfInterrogation");
             toil.initAction = delegate ()

@@ -1,4 +1,6 @@
 ﻿using HarmonyLib;
+using PeteTimesSix.ResearchReinvented.Extensions;
+using PeteTimesSix.ResearchReinvented.Managers;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -16,14 +18,17 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         public static void Frame_FailConstruction_Postfix(Frame __instance, Pawn worker)
         {
             Frame frame = __instance;
-            if(frame.def.entityDefToBuild is TerrainDef terrainDef)
+            if (PrototypeKeeper.Instance.IsPrototype(__instance) || frame.def.entityDefToBuild.IsAvailableOnlyForPrototyping(true))
             {
-                PrototypeUtilities.DoPostFailToFinishTerrainResearch(worker, frame.WorkToBuild, frame.workDone, terrainDef);
-            }
-            else if(frame.def.entityDefToBuild is ThingDef thingDef)
-            {
-
-                PrototypeUtilities.DoPostFailToFinishThingResearch(worker, frame.WorkToBuild, frame.workDone, thingDef, null);
+                if (frame.def.entityDefToBuild is TerrainDef terrainDef)
+                {
+                    PrototypeUtilities.DoPostFailToFinishTerrainResearch(worker, frame.WorkToBuild, frame.workDone, terrainDef);
+                }
+                else if (frame.def.entityDefToBuild is ThingDef thingDef)
+                {
+                    PrototypeUtilities.DoPostFailToFinishThingResearch(worker, frame.WorkToBuild, frame.workDone, thingDef, null);
+                }
+                PrototypeKeeper.Instance.UnmarkAsPrototype(__instance);
             }
         }
     }

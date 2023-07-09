@@ -12,7 +12,7 @@
 		<handledBy>Job_Analysis</handledBy>
 		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_AnalyseInPlaceOrMinified</jobPickerClass>
 		<hintIcons>
-			<li>UI/hintIcons/analysis</li>
+			<li>UI/hintIcons/magnifier</li>
 		</hintIcons>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
@@ -20,7 +20,7 @@
 		<handledBy>Job_Analysis</handledBy>
 		<jobDef>RR_AnalyseTerrain</jobDef>
 		<hintIcons>
-			<li>UI/hintIcons/analysis</li>
+			<li>UI/hintIcons/magnifier</li>
 		</hintIcons>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 
@@ -32,12 +32,6 @@
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef Name="PrototypeOpportunity" ParentName="ResearchOpportunityBase" Abstract="True">
 		<handledBy>Special_Prototype</handledBy>
 		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_NoJob</jobPickerClass>
-		<handlingModeModifiers>
-		  <li>
-			<key>Special_Prototype</key>
-			<value>0.5</value>
-		  </li>
-		</handlingModeModifiers>
 		<hintIcons>
 			<li>UI/hintIcons/cog</li>
 		</hintIcons>

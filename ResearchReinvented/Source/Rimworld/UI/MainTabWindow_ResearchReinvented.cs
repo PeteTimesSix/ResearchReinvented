@@ -409,7 +409,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
         private void DrawIconForOpportunity(ResearchOpportunity opportunity, Rect iconBox)
         {
-            if (opportunity.requirement is ROComp_RequiresPawnOfFaction requiresPawnOfFaction) 
+            if(opportunity.requirement is ROComp_RequiresPawnFactionless)
+            {
+                GUI.color = Color.white;
+                Widgets.DrawTextureFitted(iconBox, Textures.genericIcon, 1f);
+            }
+            else if (opportunity.requirement is ROComp_RequiresPawnOfFaction requiresPawnOfFaction) 
             {
                 var faction = requiresPawnOfFaction.faction;
                 GUI.color = requiresPawnOfFaction.faction.Color;
@@ -509,13 +514,14 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
         {
             float offset = 0;
             var width = HINTICON_BOUNDING_BOX;
+            var heightOffset = (container.height - HINTICON_BOUNDING_BOX) / 2;
             if (useWholeWidth)
             {
                 width = Mathf.Max(width, container.width / opportunity.def.Icons.Count);
             }
             foreach(var icon in opportunity.def.Icons)
             {
-                var iconRect = new Rect(container.x + offset, container.y, width, container.height);
+                var iconRect = new Rect(container.x + offset, container.y + heightOffset, width, HINTICON_BOUNDING_BOX);
 
                 Widgets.DrawBoxSolid(iconRect, borderColor);
                 iconRect = iconRect.ContractedBy(MARGIN);

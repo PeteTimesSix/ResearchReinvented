@@ -9,12 +9,6 @@
 		<hintIcons>
 			<li>UI/hintIcons/speak</li>
 		</hintIcons>
-		<handlingModeModifiers>
-		  <li>
-			<key>Social</key>
-			<value>0.25</value>
-		  </li>
-		</handlingModeModifiers>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="TheoryOpportunity">
@@ -22,6 +16,18 @@
 		<handledBy>Social</handledBy>
 		<header_Direct>learn faction knowledge</header_Direct>
 		<shortDesc_Direct>Learn applicable knowledge from members of {0}, either by cooperative exchange of ideas, or extracting information from prisoners.</shortDesc_Direct>
+		<category_Direct>Social</category_Direct>	
+		<hintIcons>
+			<li>UI/hintIcons/speak</li>
+		</hintIcons>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="TheoryOpportunity">
+		<defName>GainFactionlessKnowledge</defName>	
+		<handledBy>Social</handledBy>
+		<header_Direct>learn outsider knowledge</header_Direct>
+		<shortDesc_Direct>Learn applicable knowledge from outsiders that are not members of any faction.</shortDesc_Direct>
 		<category_Direct>Social</category_Direct>	
 		<hintIcons>
 			<li>UI/hintIcons/speak</li>

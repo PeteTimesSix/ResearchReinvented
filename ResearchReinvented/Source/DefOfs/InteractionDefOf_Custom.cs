@@ -10,7 +10,10 @@ namespace PeteTimesSix.ResearchReinvented.DefOfs
     [DefOf]
     public static class InteractionDefOf_Custom
     {
-        public static InteractionDef RR_ScienceInterrogation;
+        public static InteractionDef RR_ScienceInterrogation_Demand;
+        public static InteractionDef RR_ScienceInterrogation_Reply_Cooperative;
+        public static InteractionDef RR_ScienceInterrogation_Reply_Reluctant;
+        public static InteractionDef RR_ScienceInterrogation_Reply_Resistant;
         public static InteractionDef RR_ScienceInterrogationFinalize;
 
         static InteractionDefOf_Custom()

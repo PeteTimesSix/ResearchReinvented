@@ -57,10 +57,11 @@ namespace PeteTimesSix.ResearchReinvented.Managers
         }
         public HashSet<ResearchProjectDef> _projectsGenerated = new HashSet<ResearchProjectDef>();
 
-        private Dictionary<int, ResearchOpportunity> _jobToOpportunityMap = new Dictionary<int, ResearchOpportunity>();
         private List<ResearchOpportunityCategoryTotalsStore> _categoryStores = new List<ResearchOpportunityCategoryTotalsStore>();
 
         private bool regenerateWhenPossible = false;
+
+        private Dictionary<ResearchOpportunityCategoryDef, OpportunityAvailability> _categoryAvailability = new Dictionary<ResearchOpportunityCategoryDef, OpportunityAvailability>();
 
         public ResearchOpportunityManager(Game game)
         {
@@ -76,6 +77,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             }
             CheckForRegeneration();
             //CancelMarkedPrototypes();
+            CheckForPopups();
         }
 
         public override void FinalizeInit()
@@ -99,10 +101,10 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 _allGeneratedOpportunities = new List<ResearchOpportunity>();
                 forceRegen = true;
             }
-            if (_jobToOpportunityMap == null)
+            if (_categoryAvailability == null)
             {
-                Log.Warning("RR: _jobToOpportunityMap was missing!");
-                _jobToOpportunityMap = new Dictionary<int, ResearchOpportunity>();
+                Log.Warning("RR: _categoryAvailability was missing!");
+                _categoryAvailability = new Dictionary<ResearchOpportunityCategoryDef, OpportunityAvailability>();
                 forceRegen = true;
             }
             if (_categoryStores == null)
@@ -147,6 +149,39 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 return true;
             }
             return false;
+        }
+
+        public void CheckForPopups()
+        {
+            foreach (var category in CurrentProjectOpportunityCategories)
+            {
+                var current = category.GetCurrentAvailability(Find.ResearchManager.currentProj);
+                if (!_categoryAvailability.ContainsKey(category))
+                    _categoryAvailability[category] = current;
+                else if (_categoryAvailability[category] != current)
+                {
+                    _categoryAvailability[category] = current;
+                    if(current == OpportunityAvailability.Available)
+                    {
+                        var toPopup = CurrentProjectOpportunities.Where(o => o.def.generatesPopups &&  o.def.GetCategory(o.relation) == category).ToList();
+                        if (toPopup.Any())
+                        {
+                            var groups = toPopup.GroupBy(o => new { o.def, o.relation });
+                            foreach(var group in groups)
+                            {
+                                bool tooLong = group.Count() > 5;
+                                string label = group.Key.def.GetHeaderCap(group.Key.relation);
+                                string msg;
+                                if (tooLong)
+                                    msg = "RR_opportunityTypeReady_Many".Translate(label, string.Join(", ", group.Take(5).Select(o => o.requirement.Subject)), group.Count() - 6);
+                                else
+                                    msg = "RR_opportunityTypeReady".Translate(label, string.Join(", ", group.Select(o => o.requirement.Subject)));
+                                Messages.Message(msg, MessageTypeDefOf.TaskCompletion, historical: false);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         public IEnumerable<ResearchOpportunity> GetCurrentlyAvailableOpportunities(bool includeFinished = false)
@@ -318,6 +353,12 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 {
                     Log.Message($" |-- {opportunity.ShortDesc} -- {opportunity.debug_source} (imp.: {opportunity.importance})");
                 }
+            }
+
+            _categoryAvailability.Clear();
+            foreach(var category in CurrentProjectOpportunityCategories)
+            {
+                _categoryAvailability[category] = category.GetCurrentAvailability(project);
             }
         }
 

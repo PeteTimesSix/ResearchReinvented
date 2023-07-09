@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using PeteTimesSix.ResearchReinvented.Extensions;
+using PeteTimesSix.ResearchReinvented.Managers;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -19,11 +20,13 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             if (Current.ProgramState != ProgramState.Playing) //only modify during game
                 return __result;
 
-            if (!__instance.def.entityDefToBuild.IsAvailableOnlyForPrototyping(true))
-                return __result;
-            else 
+            if (PrototypeKeeper.Instance.IsPrototype(__instance))
             {
                 return __result * PrototypeUtilities.PROTOTYPE_WORK_MULTIPLIER;
+            }
+            else 
+            {
+                return __result;
             }
         }
     }

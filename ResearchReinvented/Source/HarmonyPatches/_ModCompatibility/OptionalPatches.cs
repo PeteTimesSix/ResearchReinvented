@@ -42,11 +42,16 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.ModCompatibility
 
         public static void Patch_DubsMintMenus(Harmony harmony)
         {
-            Type type = AccessTools.TypeByName("DubsMintMenus.Patch_BillStack_DoListing");
+            Type billStack_DoListing = AccessTools.TypeByName("DubsMintMenus.Patch_BillStack_DoListing");
 
-            DMM_Patch_BillStack_DoListing_Patches.GizmoListRect = AccessTools.StaticFieldRefAccess<Rect>(AccessTools.Field(type, "GizmoListRect"));
-            harmony.Patch(AccessTools.Method(type, "Doink"), transpiler: new HarmonyMethod(AccessTools.Method(typeof(DMM_Patch_BillStack_DoListing_Patches), nameof(DMM_Patch_BillStack_DoListing_Patches.Doink_Transpiler))));
-            harmony.Patch(AccessTools.Method(type, "DoRow"), transpiler: new HarmonyMethod(AccessTools.Method(typeof(DMM_Patch_BillStack_DoListing_Patches), nameof(DMM_Patch_BillStack_DoListing_Patches.DoRow_Transpiler))));
+            DMM_Patch_BillStack_DoListing_Patches.GizmoListRect = AccessTools.StaticFieldRefAccess<Rect>(AccessTools.Field(billStack_DoListing, "GizmoListRect"));
+            harmony.Patch(AccessTools.Method(billStack_DoListing, "Doink"), transpiler: new HarmonyMethod(AccessTools.Method(typeof(DMM_Patch_BillStack_DoListing_Patches), nameof(DMM_Patch_BillStack_DoListing_Patches.Doink_Transpiler))));
+            harmony.Patch(AccessTools.Method(billStack_DoListing, "DoRow"), transpiler: new HarmonyMethod(AccessTools.Method(typeof(DMM_Patch_BillStack_DoListing_Patches), nameof(DMM_Patch_BillStack_DoListing_Patches.DoRow_Transpiler))));
+
+            Type healthCardUtility = AccessTools.TypeByName("DubsMintMenus.Patch_HealthCardUtility");
+
+            DMM_Patch_HealthCardUtility_Patches.searchString = AccessTools.StaticFieldRefAccess<string>(AccessTools.Field(healthCardUtility, "searchString"));
+            harmony.Patch(AccessTools.Method(healthCardUtility, "Postfix"), transpiler: new HarmonyMethod(AccessTools.Method(typeof(DMM_Patch_HealthCardUtility_Patches), nameof(DMM_Patch_HealthCardUtility_Patches.Postfix_Transpiler))));
         }
 
         public static void Patch_CombatExtended(Harmony harmony)

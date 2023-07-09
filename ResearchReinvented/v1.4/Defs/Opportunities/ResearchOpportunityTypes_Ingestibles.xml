@@ -9,12 +9,6 @@
 		<shortDesc_Ancestor>Gather subjective opinions on the quality of the recipe used to create {0}.</shortDesc_Ancestor>
 		<category_Direct>Gastronomy</category_Direct>
 		<category_Ancestor>Gastronomy</category_Ancestor>
-		<handlingModeModifiers>
-		  <li>
-			<key>Special_OnIngest</key>
-			<value>0.25</value>
-		  </li>
-		</handlingModeModifiers>
 		<hintIcons>
 			<li>UI/hintIcons/food</li>
 		</hintIcons>
@@ -27,14 +21,8 @@
 		<header_Direct>determine flavor profile</header_Direct>
 		<shortDesc_Direct>Determine the flavor profile of {0}, either by scientific analysis at research benches or by directly tasting {0}.</shortDesc_Direct>
 		<category_Direct>Gastronomy</category_Direct>
-		<handlingModeModifiers>
-		  <li>
-			<key>Special_OnIngest</key>
-			<value>0.5</value>
-		  </li>
-		</handlingModeModifiers>
 		<hintIcons>
-			<li>UI/hintIcons/analysis</li>
+			<li>UI/hintIcons/magnifier</li>
 			<li>UI/hintIcons/food</li>
 		</hintIcons>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
@@ -46,14 +34,8 @@
 		<header_Direct>nutrient content analysis</header_Direct>
 		<shortDesc_Direct>Determine the nutrient content of {0}, either by scientific analysis at research benches or by subsisting on {0} directly.</shortDesc_Direct>
 		<category_Direct>Gastronomy</category_Direct>
-		<handlingModeModifiers>
-		  <li>
-			<key>Special_OnIngest</key>
-			<value>0.2</value>
-		  </li>
-		</handlingModeModifiers>
 		<hintIcons>
-			<li>UI/hintIcons/analysis</li>
+			<li>UI/hintIcons/magnifier</li>
 			<li>UI/hintIcons/food</li>
 		</hintIcons>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>

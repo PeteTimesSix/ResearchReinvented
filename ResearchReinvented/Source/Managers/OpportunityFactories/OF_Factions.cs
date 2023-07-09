@@ -44,13 +44,13 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                 }
             }
 
-            foreach (TechLevel factionLevel in values)
+            /*foreach (TechLevel factionLevel in values)
             {
                 foreach (TechLevel projectLevel in values)
                 {
                     Log.Message($"faction {factionLevel} to project {projectLevel} = {Modifiers[(factionLevel, projectLevel)]}");
                 }
-            }
+            }*/
         }
     }
 }

@@ -177,6 +177,11 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                     if(techLevelModifier > 0f)
                         yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.GainFactionKnowledge, ResearchRelation.Direct, new ROComp_RequiresPawnOfFaction(faction), "faction", importance: techLevelModifier);
                 }
+
+                {
+                    var techLevelModifier = 0.5f;
+                    yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.GainFactionlessKnowledge, ResearchRelation.Direct, new ROComp_RequiresPawnFactionless(), "no faction", importance: techLevelModifier);
+                }
             }
 
             //var specials = new HashSet<SpecialResearchOpportunityDef>();

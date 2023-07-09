@@ -8,13 +8,7 @@
 		<header_Direct>medicine efficacy trial</header_Direct>
 		<shortDesc_Direct>Determine efficacy of {0} as applied during surgeries and wound threatment.</shortDesc_Direct>
 		<category_Direct>Biology</category_Direct>
-		<handlingModeModifiers>
-		  <li>
-			<key>Special_Medicine</key>
-			<value>0.25</value>
-		  </li>
-		</handlingModeModifiers>
-		<hintIcons>
+		<hintIcons Inherit="false">
 			<li>UI/hintIcons/clipboard</li>
 			<li>UI/hintIcons/pills</li>
 		</hintIcons>
@@ -28,20 +22,11 @@
 		<header_Direct>drug trial</header_Direct>
 		<shortDesc_Direct>Observe the effects of {0} by administering it to living subjects or self-trials.</shortDesc_Direct>
 		<category_Direct>Clinical</category_Direct>
-		<handlingModeModifiers>
-		  <li>
-			<key>Special_OnIngest</key>
-			<value>0.25</value>
-		  </li>
-		  <li>
-			<key>Special_OnIngest_Observable</key>
-			<value>0.5</value>
-		  </li>
-		</handlingModeModifiers>
-		<hintIcons>
+		<hintIcons Inherit="false">
 			<li>UI/hintIcons/clipboard</li>
 			<li>UI/hintIcons/pills</li>
 		</hintIcons>
+		<generatesPopups>true</generatesPopups>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
 	
@@ -50,8 +35,9 @@
 		<header_Direct>experimental surgery</header_Direct>
 		<shortDesc_Direct>Attempt an experimental surgical procedure: {0}.</shortDesc_Direct>
 		<category_Direct>Clinical</category_Direct>
-		<hintIcons>
+		<hintIcons Inherit="false">
 			<li>UI/hintIcons/medical</li>
 		</hintIcons>
+		<generatesPopups>true</generatesPopups>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 </Defs>

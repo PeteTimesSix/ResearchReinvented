@@ -6,6 +6,7 @@
 		<header_Direct>prototype construction</header_Direct>
 		<shortDesc_Direct>Construct a prototype of {0}.</shortDesc_Direct>
 		<category_Direct>Prototyping</category_Direct>
+		<generatesPopups>true</generatesPopups>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="PrototypeOpportunity">
@@ -13,6 +14,7 @@
 		<header_Direct>prototype construction</header_Direct>
 		<shortDesc_Direct>Construct a prototype of {0}.</shortDesc_Direct>
 		<category_Direct>Prototyping</category_Direct>
+		<generatesPopups>true</generatesPopups>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="PrototypeOpportunity">
@@ -20,6 +22,7 @@
 		<header_Direct>prototype production</header_Direct>
 		<shortDesc_Direct>Produce a prototype of {0} at the appropriate production facility.</shortDesc_Direct>
 		<category_Direct>Prototyping</category_Direct>
+		<generatesPopups>true</generatesPopups>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
 </Defs>

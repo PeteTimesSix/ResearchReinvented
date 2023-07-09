@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using PeteTimesSix.ResearchReinvented.Extensions;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,11 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 		public static void Postfix(Bill_Medical __instance, Pawn billDoer)
 		{
 			var recipe = __instance.recipe;
-			PrototypeUtilities.DoPostFinishSurgeryResearch(__instance.GiverPawn, billDoer, recipe.WorkAmountTotal(null), recipe);
+            bool isPrototype = recipe != null && recipe.IsAvailableOnlyForPrototyping(true);
+            if (isPrototype)
+            {
+                PrototypeUtilities.DoPostFinishSurgeryResearch(__instance.GiverPawn, billDoer, recipe.WorkAmountTotal(null), recipe);
+            }
 		}
 	}
 }

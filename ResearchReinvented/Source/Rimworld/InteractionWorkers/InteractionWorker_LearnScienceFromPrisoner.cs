@@ -15,6 +15,16 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.InteractionWorkers
     {
         public float BaseResearchAmount => 10f;
 
+        public SimpleCurve moodCurve = new SimpleCurve()
+        {
+            Points = {
+                new CurvePoint(0f, 0),
+                new CurvePoint(0.1f, 0),
+                new CurvePoint(0.75f, 1f),
+                new CurvePoint(1f, 1f)
+            }
+        };
+
         public override void Interacted(Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks, out string letterText, out string letterLabel, out LetterDef letterDef, out LookTargets lookTargets)
         {
             letterText = null;
@@ -30,7 +40,14 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.InteractionWorkers
             {
                 var amount = BaseResearchAmounts.InteractionLearnFromPrisoner;
                 var modifier = initiator.GetStatValue(StatDefOf.NegotiationAbility) * Math.Max(initiator.GetStatValue(StatDefOf.ResearchSpeed), recipient.GetStatValue(StatDefOf.ResearchSpeed));
-                opportunity.ResearchChunkPerformed(initiator, HandlingMode.Social, amount, modifier, SkillDefOf.Intellectual, recipient.Faction.Name);
+
+                if(recipient.needs?.mood != null) 
+                {
+                    var moodPercent = recipient.needs.mood.CurLevelPercentage;
+                    var moodModifier = moodCurve.Evaluate(moodPercent);
+                    modifier *= moodModifier;
+                }
+                opportunity.ResearchChunkPerformed(initiator, HandlingMode.Social, amount, modifier, SkillDefOf.Intellectual, recipient.Faction?.Name);
             }
         }
     }

@@ -235,16 +235,17 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
 
         public bool ResearchChunkPerformed(Pawn researcher, HandlingMode mode, float amount, float modifier, SkillDef activeSkill, string moteSubjectName = null, float moteOffsetHint = 0f)
         {
+            var startAmount = amount;
             if (Find.ResearchManager.currentProj == null) //current project either unset or finished this tick
                 return true;
 
             if (!researcher.WorkTypeIsDisabled(WorkTypeDefOf.Research))
             {
-                var handlingModeModifier = def.handlingModeModifiers.ContainsKey(mode) ? def.handlingModeModifiers[mode] : 1f;
+                //var handlingModeModifier = def.handlingModeModifiers.ContainsKey(mode) ? def.handlingModeModifiers[mode] : 1f;
                 
-                amount = amount * handlingModeModifier * modifier; 
+                amount *= modifier; 
                 amount = Math.Min(amount, MaximumProgress);
-                Log.Message($"permorming research chunk for {ShortDesc} : handling modifier: {mode} -> {handlingModeModifier} amount {amount} (of {MaximumProgress})");
+                Log.Message($"performing research chunk for {ShortDesc}: modifier: {modifier} startAmount: {startAmount} amount {amount} ({amount * def.GetCategory(relation).Settings.researchSpeedMultiplier} after speedmult) (of {MaximumProgress})");
                 return ResearchPerformed(amount, researcher, activeSkill, moteSubjectName, moteOffsetHint);
             }
             else 

@@ -30,10 +30,10 @@
 	<RR_setting_category_availableAtOverallProgress_tooltip>Controls during which phase of research is this category available.</RR_setting_category_availableAtOverallProgress_tooltip>
 	
 	<RR_setting_category_importanceMultiplier>Importance</RR_setting_category_importanceMultiplier>
-	<RR_setting_category_importanceMultiplier_tooltip>Importance of this category relative to others used when calculating how how many research points will be distributed to this category.</RR_setting_category_importanceMultiplier_tooltip>
+	<RR_setting_category_importanceMultiplier_tooltip>Importance of this category relative to others used when calculating how many research points will be distributed to this category.</RR_setting_category_importanceMultiplier_tooltip>
 	
 	<RR_setting_category_importanceMultiplierCounted>Importance counted</RR_setting_category_importanceMultiplierCounted>
-	<RR_setting_category_importanceMultiplierCounted_tooltip>Importance of this category relative to others used when calculating how how many research points will be distributed to other categories. Must be smaller or equal to the actual importance multiplier.</RR_setting_category_importanceMultiplierCounted_tooltip>
+	<RR_setting_category_importanceMultiplierCounted_tooltip>Importance of this category relative to others used when calculating how many research points will be distributed to other categories. Must be smaller or equal to the actual importance multiplier.</RR_setting_category_importanceMultiplierCounted_tooltip>
 	
 	<RR_setting_category_targetIterations>Target iterations</RR_setting_category_targetIterations>
 	<RR_setting_category_targetIterations_tooltip>The maximum individual opportunities required to fully complete this category.</RR_setting_category_targetIterations_tooltip>

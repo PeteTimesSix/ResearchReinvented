@@ -75,7 +75,8 @@ namespace PeteTimesSix.ResearchReinvented.Defs
             }
         }
 
-        public Dictionary<HandlingMode, float> handlingModeModifiers = new Dictionary<HandlingMode, float>();
+        //public Dictionary<HandlingMode, float> handlingModeModifiers = new Dictionary<HandlingMode, float>();
+        public bool generatesPopups = false;
 
         public TaggedString Header_DirectCap
 		{
