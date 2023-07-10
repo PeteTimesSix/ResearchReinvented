@@ -4,6 +4,7 @@ using PeteTimesSix.ResearchReinvented.Extensions;
 using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.OpportunityComps;
 using PeteTimesSix.ResearchReinvented.Rimworld;
+using PeteTimesSix.ResearchReinvented.Rimworld.DefModExtensions;
 using PeteTimesSix.ResearchReinvented.Utilities;
 using RimWorld;
 using System;
@@ -14,7 +15,6 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 using Verse.AI;
-using static System.Collections.Specialized.BitVector32;
 
 namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
 {
@@ -37,7 +37,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             this.relation = relation;
         }
 
-        internal void AddAlternates(bool isDirectRelation)
+        public void AddAlternates(bool isDirectRelation)
         {
             alts = new OpportunityFactoryCollectionsSetForRelation(this.relation);
 
@@ -69,7 +69,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             return alternates.Except(originals);
         }
 
-        internal void RemoveDuplicates(OpportunityFactoryCollectionsSetForRelation other)
+        public void RemoveDuplicates(OpportunityFactoryCollectionsSetForRelation other)
         {
             forProductionFacilityAnalysis.ExceptWith(other.forProductionFacilityAnalysis);
             forDirectAnalysis.ExceptWith(other.forDirectAnalysis);
@@ -82,6 +82,21 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
 
             if(alts != null) //if we ARE alts, we cant do this
                 alts.RemoveDuplicates(other.alts);
+        }
+
+        public void RemoveBlacklisted()
+        {
+            forProductionFacilityAnalysis.RemoveWhere(d => d.modExtensions != null && d.modExtensions.Any(e => e is Blacklisted));
+            forDirectAnalysis.RemoveWhere(d => d.modExtensions != null && d.modExtensions.Any(e => e is Blacklisted));
+            forIngredientsAnalysis.RemoveWhere(d => d.modExtensions != null && d.modExtensions.Any(e => e is Blacklisted));
+            forHarvestProductAnalysis.RemoveWhere(d => d.modExtensions != null && d.modExtensions.Any(e => e is Blacklisted));
+            forFuelAnalysis.RemoveWhere(d => d.modExtensions != null && d.modExtensions.Any(e => e is Blacklisted));
+            forPrototyping.RemoveWhere(d => d.modExtensions != null && d.modExtensions.Any(e => e is Blacklisted));
+
+            specials.RemoveWhere(d => d.modExtensions != null && d.modExtensions.Any(e => e is Blacklisted));
+
+            if (alts != null) //if we ARE alts, we cant do this
+                alts.RemoveBlacklisted();
         }
     }
 
@@ -115,6 +130,12 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             collections_direct.AddAlternates(true);
             collections_ancestor.AddAlternates(false);
             collections_descendant.AddAlternates(false);
+        }
+        public void RemoveBlacklisted()
+        {
+            collections_direct.RemoveBlacklisted();
+            collections_ancestor.RemoveBlacklisted();
+            collections_descendant.RemoveBlacklisted();
         }
 
         public void RemoveDuplicates()
@@ -556,6 +577,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             }*/
 
             /*discard what we dont want to generate from*/
+            collections.RemoveBlacklisted();
+
             collections.GetSet(ResearchRelation.Ancestor).forIngredientsAnalysis.Clear();
             collections.GetSet(ResearchRelation.Descendant).forIngredientsAnalysis.Clear();
 

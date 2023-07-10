@@ -87,24 +87,6 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
 
             return recipes;
         }
-        private static HashSet<RecipeDef> GatherNewImpliedRecipes(ResearchProjectDef project)
-        {
-            HashSet<RecipeDef> recipes = new HashSet<RecipeDef>();
-
-            if (project.UnlockedDefs != null)
-            {
-                var unlockedThings = project.UnlockedDefs.Where(u => u is ThingDef).Cast<ThingDef>().ToList();
-                foreach (var thing in unlockedThings)
-                {
-                    if (thing.AllRecipes != null)
-                    {
-                        recipes.AddRange(thing.AllRecipes.Where(r => r.IsAvailableOnlyForPrototyping()));
-                    }
-                }
-            }
-
-            return recipes;
-        }
 
         private static HashSet<RecipeDef> GatherCreationRecipes(ResearchProjectDef project) 
         {

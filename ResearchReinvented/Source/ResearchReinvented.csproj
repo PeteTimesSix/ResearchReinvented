@@ -117,6 +117,7 @@
     <Compile Include="ResearchReinvented_Debug.cs" />
     <Compile Include="Rimworld\Comps\CompProperties\CompProperties_ResearchKit.cs" />
     <Compile Include="Rimworld\Comps\Comp_ResearchKit.cs" />
+    <Compile Include="Rimworld\DefModExtensions\Blacklisted.cs" />
     <Compile Include="Rimworld\DefModExtensions\RarityMarker.cs" />
     <Compile Include="Rimworld\InteractionWorkers\InteractionWorker_Brainstorm.cs" />
     <Compile Include="Rimworld\InteractionWorkers\InteractionWorker_LearnScienceFromPrisoner.cs" />
