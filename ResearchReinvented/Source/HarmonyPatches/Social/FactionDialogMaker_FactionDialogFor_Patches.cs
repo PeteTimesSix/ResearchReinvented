@@ -18,7 +18,7 @@ using Verse.Noise;
 using static HarmonyLib.AccessTools;
 using static UnityEngine.GraphicsBuffer;
 
-namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Negotiation
+namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Social
 {
 
     [HarmonyPatch(typeof(FactionDialogMaker), nameof(FactionDialogMaker.FactionDialogFor))]
@@ -27,7 +27,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Negotiation
         public static FieldRef<DiaOption, string> optionText;
         public static string disconnectTranslated;
 
-        public static int RequiredGoodwill => 10;
+        public static int RequiredGoodwill => 5;
 
         static FactionDialogMaker_FactionDialogFor_Patches() 
         {
@@ -48,12 +48,19 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Negotiation
                 return; //not home
 
             var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
-                   .Where(o => o.def.handledBy.HasFlag(HandlingMode.Social) && o.requirement is ROComp_RequiresPawnOfFaction requiresFaction && requiresFaction.MetByFaction(faction))
+                   .Where(o => o.def.handledBy.HasFlag(HandlingMode.Social) 
+                        && o.requirement is ROComp_RequiresFaction requiresFaction 
+                        && requiresFaction.MetByFaction(faction))
                    .Where(o => !o.IsFinished)
             .FirstOrDefault();
 
+            Log.Message("op:"+(opportunity?.ShortDesc ?? "null"));
+
             if (opportunity == null)
                 return; //no opportunity to learn
+
+            if (faction.RelationKindWith(Faction.OfPlayer) == FactionRelationKind.Hostile)
+                return;
 
             DiaOption askForScience = RequestLectureSimple(map, negotiator, faction, opportunity);
 
@@ -64,19 +71,31 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Negotiation
                 __result.options.Add(askForScience);
         }
 
-        public static DiaOption RequestLectureSimple(Map map, Pawn negotiator, Faction faction, ResearchOpportunity opportunity) 
+        public static DiaOption RequestLectureSimple(Map map, Pawn negotiator, Faction faction, ResearchOpportunity opportunity)
         {
-            TaggedString requestlecture = "RR_RequestLecture".Translate(RequiredGoodwill, opportunity.project.label);
-            if (faction.PlayerGoodwill < RequiredGoodwill)
-            {
-                DiaOption diaOption = new DiaOption(requestlecture);
-                diaOption.Disable("RequiredGoodwill".Translate(RequiredGoodwill));
-                return diaOption;
-            }
+            bool allies = faction.RelationKindWith(Faction.OfPlayer) == FactionRelationKind.Ally;
+            TaggedString requestlecture = allies ? 
+                "RR_RequestLectureAlly".Translate(opportunity.project.label) : 
+                "RR_RequestLectureNeutral".Translate(RequiredGoodwill, opportunity.project.label);
+
             if (negotiator.WorkTypeIsDisabled(WorkTypeDefOf.Research))
             {
                 DiaOption diaOption = new DiaOption(requestlecture);
                 diaOption.Disable("RR_RequestLecture_FailNotResearcher".Translate(negotiator.LabelCap));
+                return diaOption;
+            }
+
+            if(FactionLectureManager.Instance.IsOnCooldown(faction))
+            {
+                DiaOption diaOption = new DiaOption(requestlecture);
+                diaOption.Disable("RR_RequestLecture_FailTooRecent".Translate());
+                return diaOption;
+            }
+
+            if (!allies && faction.PlayerGoodwill < RequiredGoodwill)
+            {
+                DiaOption diaOption = new DiaOption(requestlecture);
+                diaOption.Disable("NeedGoodwill".Translate(RequiredGoodwill));
                 return diaOption;
             }
 
@@ -90,13 +109,14 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Negotiation
                         {
                             action = () =>
                             {
+                                if(!allies)
+                                    faction.TryAffectGoodwillWith(Faction.OfPlayer, -RequiredGoodwill);
+
                                 var commsConsole = FindNearestCommsConsole(negotiator, map);
-                                if((negotiator.CurJob?.targetA).HasValue)
-                                {
-                                    Job job = JobMaker.MakeJob(JobDefOf_Custom.RR_LearnRemotely, commsConsole);
-                                    job.commTarget = faction;
-                                    negotiator.jobs.TryTakeOrderedJob(job, new JobTag?(JobTag.Misc), false);
-                                }
+                                //if((negotiator.CurJob?.targetA).HasValue) ?????
+                                Job job = JobMaker.MakeJob(JobDefOf_Custom.RR_LearnRemotely, commsConsole);
+                                job.commTarget = faction;
+                                negotiator.jobs.TryTakeOrderedJob(job);
                             },
                             resolveTree = true
                         }, 
@@ -114,7 +134,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Negotiation
             var usableConsoles = new List<Building_CommsConsole>();
             foreach (var building in map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial))
             {
-                if(building is Building_CommsConsole commsConsole && commsConsole.CanUseCommsNow)
+                if(building.def.IsCommsConsole && building is Building_CommsConsole commsConsole && commsConsole.CanUseCommsNow)
                     usableConsoles.Add(commsConsole);
             }
             return GenClosest.ClosestThing_Global_Reachable(pawn.PositionHeld, map, usableConsoles, PathEndMode.InteractionCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false, false, false), validator: (Thing thing) => pawn.CanReserve(thing));

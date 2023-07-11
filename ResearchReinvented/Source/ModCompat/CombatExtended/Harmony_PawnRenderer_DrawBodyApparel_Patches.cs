@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Verse;
 
-namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.ModCompatibility.Combat_Extended
+namespace PeteTimesSix.ResearchReinvented.ModCompat
 {
     public static class Harmony_PawnRenderer_DrawBodyApparel_Patches
     {

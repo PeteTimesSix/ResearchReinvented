@@ -15,7 +15,7 @@ using PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes;
 using Verse.Sound;
 using static HarmonyLib.AccessTools;
 
-namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.ModCompatibility.Dubs_Mint_Menus
+namespace PeteTimesSix.ResearchReinvented.ModCompat
 {
     public static class DMM_Patch_BillStack_DoListing_Patches 
     {

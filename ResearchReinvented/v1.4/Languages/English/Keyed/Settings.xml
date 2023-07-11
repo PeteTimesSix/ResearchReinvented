@@ -3,6 +3,7 @@
 	<RR_setting_tab_GLOBAL_CONFIG>Global config</RR_setting_tab_GLOBAL_CONFIG>
 	<RR_setting_tab_CATEGORY_PRESETS>Category presets</RR_setting_tab_CATEGORY_PRESETS>
 	<RR_setting_tab_CATEGORY_CONFIG>Category config</RR_setting_tab_CATEGORY_CONFIG>
+	<RR_setting_tab_MOD_INTEGRATIONS>Mod integrations</RR_setting_tab_MOD_INTEGRATIONS>
 	
 	<RR_setting_tab_GLOBAL_CONFIG_tooltip>Configure global Research Reinvented settings.</RR_setting_tab_GLOBAL_CONFIG_tooltip>
 	<RR_setting_tab_CATEGORY_PRESETS_tooltip>Select a preset of research point distribution between opportunity categories.</RR_setting_tab_CATEGORY_PRESETS_tooltip>
@@ -48,6 +49,16 @@
 	<RR_setting_category_researchSpeedAxis>Research speed</RR_setting_category_researchSpeedAxis>
 	
 	<RR_setting_category_resetToDefault>Reset to preset default</RR_setting_category_resetToDefault>
+	
+	
+	<!--- Mod compat -->
+	
+	<RR_setting_modCompat_detected_combatExtended>Combat Extended detected.</RR_setting_modCompat_detected_combatExtended>
+	<RR_setting_modCompat_notDetected_combatExtended>Combat Extended not detected.</RR_setting_modCompat_notDetected_combatExtended>
+	<RR_setting_modCompat_detected_dubsMintMenus>Dubs Mint Menus detected.</RR_setting_modCompat_detected_dubsMintMenus>
+	<RR_setting_modCompat_notDetected_dubsMintMenus>Dubs Mint Menus detected.</RR_setting_modCompat_notDetected_dubsMintMenus>
+	<RR_setting_modCompat_detected_humanoidAlienRaces>Humanoid Alien Races detected.</RR_setting_modCompat_detected_humanoidAlienRaces>
+	<RR_setting_modCompat_notDetected_humanoidAlienRaces>Humanoid Alien Races not detected.</RR_setting_modCompat_notDetected_humanoidAlienRaces>
 	
 	
 	<!--- Obsolete -->

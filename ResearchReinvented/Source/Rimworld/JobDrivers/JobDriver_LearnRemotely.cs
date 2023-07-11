@@ -13,8 +13,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Verse;
 using Verse.AI;
-using static System.Collections.Specialized.BitVector32;
-
 namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 {
     public class JobDriver_LearnRemotely : JobDriver
@@ -27,6 +25,10 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
             return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null, errorOnFailed);
         }
 
+        public class ExceptionToken
+        {
+            public bool hasException = false;
+        }
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
@@ -40,7 +42,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
             }
 
             var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
-                   .Where(o => o.def.handledBy.HasFlag(HandlingMode.Social) && o.requirement is ROComp_RequiresPawnOfFaction requiresFaction && requiresFaction.MetByFaction(faction))
+                   .Where(o => o.def.handledBy.HasFlag(HandlingMode.Social) && o.requirement is ROComp_RequiresFaction requiresFaction && requiresFaction.MetByFaction(faction))
                    .Where(o => !o.IsFinished)
             .FirstOrDefault();
             //ResearchOpportunity opportunity = ResearchOpportunityManager.instance.GetOpportunityForJob(this.job);
@@ -59,6 +61,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
             this.FailOn(() => currentProject != Find.ResearchManager.currentProj);
             this.FailOn(() => opportunity.CurrentAvailability != OpportunityAvailability.Available);
 
+            ExceptionToken token = new ExceptionToken();
+            this.FailOn(() => !token.hasException && FactionLectureManager.Instance.IsOnCooldown((opportunity.requirement as ROComp_RequiresFaction).faction));
+
             this.FailOnDespawnedOrNull(TargetIndex.A);
             Toil walkTo = Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.InteractionCell)
                 .FailOn((Toil to) => !((Building_CommsConsole)to.actor.jobs.curJob.GetTarget(TargetIndex.A).Thing).CanUseCommsNow);
@@ -73,7 +78,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
             research.defaultDuration = 3000;
             research.FailOnCannotTouch(TargetThingIndex, PathEndMode.InteractionCell);
             research.activeSkill = (() => SkillDefOf.Intellectual);
-            research.tickAction = delegate ()
+            research.initAction = () =>
+            {
+                token.hasException = true;
+                FactionLectureManager.Instance.PutOnCooldown((opportunity.requirement as ROComp_RequiresFaction).faction);
+            };
+            research.tickAction = () =>
             {
                 Pawn actor = research.actor;
                 float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true);

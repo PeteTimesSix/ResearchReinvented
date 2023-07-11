@@ -10,7 +10,7 @@ using Verse;
 
 namespace PeteTimesSix.ResearchReinvented.OpportunityComps
 {
-    public class ROComp_RequiresPawnFactionless : ResearchOpportunityComp
+    public class ROComp_RequiresFactionlessPawn : ResearchOpportunityComp
     {
         public override string ShortDesc => "outsider";
         public override TaggedString Subject => "outsider";
@@ -18,10 +18,10 @@ namespace PeteTimesSix.ResearchReinvented.OpportunityComps
 
         public override bool IsRare => false;
         public override bool MetBy(Def def) => false;
-        public override bool MetBy(Thing thing) => thing is Pawn pawn && pawn.Faction == null;
+        public override bool MetBy(Thing thing) => thing is Pawn pawn && (pawn.Faction == null || pawn.Faction.temporary);
         public override bool IsValid => true;
 
-        public ROComp_RequiresPawnFactionless()
+        public ROComp_RequiresFactionlessPawn()
         {
             //for deserialization
         }

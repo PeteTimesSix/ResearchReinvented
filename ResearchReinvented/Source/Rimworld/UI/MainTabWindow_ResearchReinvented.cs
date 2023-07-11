@@ -409,12 +409,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
         private void DrawIconForOpportunity(ResearchOpportunity opportunity, Rect iconBox)
         {
-            if(opportunity.requirement is ROComp_RequiresPawnFactionless)
+            if(opportunity.requirement is ROComp_RequiresFactionlessPawn)
             {
                 GUI.color = Color.white;
                 Widgets.DrawTextureFitted(iconBox, Textures.genericIcon, 1f);
             }
-            else if (opportunity.requirement is ROComp_RequiresPawnOfFaction requiresPawnOfFaction) 
+            else if (opportunity.requirement is ROComp_RequiresFaction requiresPawnOfFaction) 
             {
                 var faction = requiresPawnOfFaction.faction;
                 GUI.color = requiresPawnOfFaction.faction.Color;

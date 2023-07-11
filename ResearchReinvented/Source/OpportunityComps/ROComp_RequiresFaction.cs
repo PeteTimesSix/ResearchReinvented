@@ -10,7 +10,7 @@ using Verse;
 
 namespace PeteTimesSix.ResearchReinvented.OpportunityComps
 {
-    public class ROComp_RequiresPawnOfFaction : ResearchOpportunityComp
+    public class ROComp_RequiresFaction : ResearchOpportunityComp
     {
         public Faction faction;
 
@@ -24,12 +24,12 @@ namespace PeteTimesSix.ResearchReinvented.OpportunityComps
         public bool MetByFaction(Faction faction) => faction == this.faction;
         public override bool IsValid => faction != null;
 
-        public ROComp_RequiresPawnOfFaction()
+        public ROComp_RequiresFaction()
         {
             //for deserialization
         }
 
-        public ROComp_RequiresPawnOfFaction(Faction faction)
+        public ROComp_RequiresFaction(Faction faction)
         {
             this.faction = faction;
         }

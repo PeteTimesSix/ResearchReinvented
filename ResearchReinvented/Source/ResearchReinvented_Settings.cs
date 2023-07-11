@@ -17,7 +17,8 @@ namespace PeteTimesSix.ResearchReinvented
     {
         GLOBAL_CONFIG,
         CATEGORY_PRESETS,
-        CATEGORY_CONFIG
+        CATEGORY_CONFIG,
+        MOD_INTEGRATIONS
     }
 
     public class ResearchReinvented_Settings : ModSettings
@@ -39,6 +40,8 @@ namespace PeteTimesSix.ResearchReinvented
 
         public SettingTab temp_activeTab = SettingTab.CATEGORY_PRESETS;
         public ResearchOpportunityCategoryDef temp_selectedCategory = null;
+
+        private static Color LightGreen = new Color(0.7f, 1f, 0.7f);
 
         public override void ExposeData()
         {
@@ -84,6 +87,9 @@ namespace PeteTimesSix.ResearchReinvented
                     break;
                 case SettingTab.CATEGORY_CONFIG:
                     DoCategoriesConfigTab(restOfRect);
+                    break;
+                case SettingTab.MOD_INTEGRATIONS:
+                    DoModIntegrationTab(restOfRect);
                     break;
             }
 
@@ -303,6 +309,55 @@ namespace PeteTimesSix.ResearchReinvented
                 categorySettings.Add(settings);
             }
             return settings;
+        }
+
+        private void DoModIntegrationTab(Rect inRect)
+        {
+            Listing_Standard listingStandard = new Listing_Standard();
+            listingStandard.Begin(inRect);
+
+            float maxWidth = listingStandard.ColumnWidth;
+
+            listingStandard.Indent(maxWidth / 4f);
+            listingStandard.ColumnWidth = maxWidth / 2f;
+
+            //active
+            if(ModCompat.CombatExtended.active)
+            {
+                GUI.color = LightGreen;
+                listingStandard.Label("RR_setting_modCompat_detected_combatExtended".Translate());
+            }
+
+            if (ModCompat.DubsMintMenus.active)
+            {
+                GUI.color = LightGreen;
+                listingStandard.Label("RR_setting_modCompat_detected_dubsMintMenus".Translate());
+            }
+
+            if (ModCompat.HumanoidAlienRaces.active)
+            {
+                GUI.color = LightGreen;
+                listingStandard.Label("RR_setting_modCompat_detected_humanoidAlienRaces".Translate());
+            }
+
+            //inactive
+            if (!ModCompat.CombatExtended.active)
+            {
+                GUI.color = Color.gray;
+                listingStandard.Label("RR_setting_modCompat_notDetected_combatExtended".Translate());
+            }
+            if (!ModCompat.DubsMintMenus.active)
+            {
+                GUI.color = Color.gray;
+                listingStandard.Label("RR_setting_modCompat_notDetected_dubsMintMenus".Translate());
+            }
+            if (!ModCompat.HumanoidAlienRaces.active)
+            {
+                GUI.color = Color.gray;
+                listingStandard.Label("RR_setting_modCompat_notDetected_humanoidAlienRaces".Translate());
+            }
+
+            listingStandard.End();
         }
     }
 }

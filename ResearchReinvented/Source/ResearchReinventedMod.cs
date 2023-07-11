@@ -16,7 +16,7 @@ using PeteTimesSix.ResearchReinvented.Rimworld.Comps.CompProperties;
 using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Rimworld.DefModExtensions;
 using PeteTimesSix.ResearchReinvented.Rimworld.Comps;
-using PeteTimesSix.ResearchReinvented.HarmonyPatches.ModCompatibility;
+using PeteTimesSix.ResearchReinvented.ModCompat;
 
 namespace PeteTimesSix.ResearchReinvented
 {
