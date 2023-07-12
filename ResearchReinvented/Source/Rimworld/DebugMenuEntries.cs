@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Managers;
 using RimWorld;
 using System;
@@ -66,6 +67,25 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld
                 }
             }
             researchManager.ReapplyAllMods();
+        }
+
+        [DebugOutput(category = CATEGORY, name = "Special opportunities")]
+        public static void ResearchProjects()
+        {
+            IEnumerable<SpecialResearchOpportunityDef> allDefs = DefDatabase<SpecialResearchOpportunityDef>.AllDefs;
+            var entries = new List<TableDataGetter<SpecialResearchOpportunityDef>>
+            {
+                new TableDataGetter<SpecialResearchOpportunityDef>("defName", (SpecialResearchOpportunityDef d) => d.defName),
+                new TableDataGetter<SpecialResearchOpportunityDef>("label", (SpecialResearchOpportunityDef d) => d.label),
+                new TableDataGetter<SpecialResearchOpportunityDef>("type", (SpecialResearchOpportunityDef d) => d.opportunityType?.defName ?? "NULL"),
+                new TableDataGetter<SpecialResearchOpportunityDef>("project", (SpecialResearchOpportunityDef d) => d.originalProject?.defName ?? "NULL"),
+                new TableDataGetter<SpecialResearchOpportunityDef>("rare", (SpecialResearchOpportunityDef d) => d.rareForThis),
+                new TableDataGetter<SpecialResearchOpportunityDef>("alternate", (SpecialResearchOpportunityDef d) => d.markAsAlternate),
+                new TableDataGetter<SpecialResearchOpportunityDef>("originals", (SpecialResearchOpportunityDef d) => d.originals == null ? "NULL" : string.Join(",", d.originals.Select(a => a.defName))),
+                new TableDataGetter<SpecialResearchOpportunityDef>("alternates", (SpecialResearchOpportunityDef d) => d.alternates == null ? "NULL" : string.Join(",", d.alternates.Select(a => a.defName))),
+                new TableDataGetter<SpecialResearchOpportunityDef>("alternates (terrain)", (SpecialResearchOpportunityDef d) => d.alternateTerrains == null ? "NULL" : string.Join(",", d.alternateTerrains.Select(a => a.defName)))
+            };
+            DebugTables.MakeTablesDialog<SpecialResearchOpportunityDef>(allDefs, entries.ToArray());
         }
     }
 }
