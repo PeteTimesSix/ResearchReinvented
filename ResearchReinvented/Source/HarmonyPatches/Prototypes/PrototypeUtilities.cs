@@ -15,6 +15,8 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 {
     public static class PrototypeUtilities
     {
+        public static float EXPERIMENTAL_SURGERY_SUCCESS_MODIFIER = 0.65f;
+        public static float EXPERIMENTAL_SURGERY_MAX_SUCCESS_CHANCE = 0.85f;
 
         private static float PROTOTYPE_QUALITY_MULTIPLIER = 0.3f;
         private static float PROTOTYPE_HEALTH_MULTIPLIER = 0.3f;
@@ -22,6 +24,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         public static float PROTOTYPE_WORK_MULTIPLIER = 3.0f;
         public static float PROTOTYPE_FUEL_DISPOSABLE_MULTIPLIER = 0.75f;
         public static float PROTOTYPE_FUEL_REFUELABLE_MULTIPLIER = 0.95f;
+
 
 
         public static void DoPrototypeHealthDecrease(Thing product, RecipeDef usedRecipe)

@@ -136,6 +136,8 @@
     <Compile Include="Rimworld\Jobs\TypedJobMaker.cs" />
     <Compile Include="Rimworld\MiscData\FieldResearchHelper.cs" />
     <Compile Include="Rimworld\RR_UniqueIDsManager.cs" />
+    <Compile Include="Rimworld\SurgeryComps\SurgeryOutcomeComp_ExperimentalSurgeryModifier.cs" />
+    <Compile Include="Rimworld\SurgeryComps\SurgeryOutcomeComp_ExperimentalSurgeryClamp.cs" />
     <Compile Include="Rimworld\Toils\Toils_ClearArea.cs" />
     <Compile Include="Rimworld\Toils\Toils_Goto_Custom.cs" />
     <Compile Include="Rimworld\Toils\Toils_Haul_Custom.cs" />
