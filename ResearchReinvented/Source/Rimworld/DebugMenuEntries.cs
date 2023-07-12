@@ -41,6 +41,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld
         static void ResetResearchProgress()
         {
             Find.ResearchManager.ResetAllProgress();
+
+            var pawns = PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_OfPlayerFaction;
+            foreach (Pawn pawn in pawns)
+            {
+                pawn.health.capacities.Notify_CapacityLevelsDirty();
+            }
         }
 
         [DebugAction(category = CATEGORY, actionType = DebugActionType.Action)]

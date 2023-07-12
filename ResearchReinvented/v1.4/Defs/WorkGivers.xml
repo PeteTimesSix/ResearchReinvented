@@ -53,9 +53,6 @@
     <verb>research</verb>
     <gerund>researching at</gerund>
     <priorityInType>110</priorityInType>
-    <requiredCapacities>
-      <li>Manipulation</li>
-    </requiredCapacities>
     <canBeDoneByMechs>false</canBeDoneByMechs>
   </WorkGiverDef>
   
