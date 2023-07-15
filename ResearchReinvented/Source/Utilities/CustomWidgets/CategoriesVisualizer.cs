@@ -26,8 +26,6 @@ namespace PeteTimesSix.ResearchReinvented.Utilities.CustomWidgets
 
         private static readonly Color WindowBGBorderColor = new ColorInt(97, 108, 122).ToColor;
 
-        private static float INFINITE_EXTRA_STANDIN = 0.25f;
-
         public static void DrawCategories(Rect rect) 
         {
             var anchor = Text.Anchor;

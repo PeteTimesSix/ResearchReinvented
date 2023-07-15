@@ -30,7 +30,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Medicine
                 {
                     if (ingredient.def.IsMedicine)
                     {
-                        TendUtility_Patches.DoForObserver(surgeon, ingredient.def, 0.5f/*avoid overlap with patient's mote*/);
+                        TendUtility_Patches.DoForObserver(surgeon, ingredient.def, 1.0f/*avoid overlap with patient's mote*/);
                         TendUtility_Patches.DoForObserver(patient, ingredient.def);
                         return;
                     }

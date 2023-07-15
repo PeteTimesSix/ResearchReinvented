@@ -35,10 +35,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
         public static (List<ResearchOpportunity> opportunities, List<ResearchOpportunityCategoryTotalsStore> categoryStores) MakeOpportunitiesForProject(ResearchProjectDef project)
         {
-            if (ResearchReinvented_Debug.debugPrintouts)
-            {
+            if (ResearchReinvented_Debug.debugPrintouts) 
                 Log.Message($"Generating opportunities for project {project.label}...");
-            }
 
             var projectOpportunities = new List<ResearchOpportunity>();
 
@@ -105,7 +103,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                         typeImportanceTotal = category.Settings.targetIterations;
                     float baseImportance = 1f / typeImportanceTotal;
 
-                    Log.Message($"project {project} ({projectResearchPoints}) category {category.label} ({categoryImportanceTotal}) min: {minimumOpportunityResearchPoints} type.def {type.def.defName} type.rel {type.rel} (points: {typeResearchPoints} base imp.: {baseImportance} count:{matchCount}) points per: {(typeResearchPoints * baseImportance)}");
+                    if (ResearchReinvented_Debug.debugPrintouts)
+                        Log.Message($"project {project} ({projectResearchPoints}) category {category.label} ({categoryImportanceTotal}) min: {minimumOpportunityResearchPoints} type.def {type.def.defName} type.rel {type.rel} (points: {typeResearchPoints} base imp.: {baseImportance} count:{matchCount}) points per: {(typeResearchPoints * baseImportance)}");
 
                     foreach (var opportunity in matchingOpportunitiesOfType)
                     {

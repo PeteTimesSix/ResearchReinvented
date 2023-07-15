@@ -60,7 +60,10 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
             toil.initAction = delegate ()
             {
                 var interaction = InteractionDefOf_Custom.RR_ScienceInterrogation_Demand;
-                //Log.Message($"warden to talkee: {warden} {warden?.interactions} {warden?.jobs} {warden?.jobs?.curDriver} {warden?.records} talkee: {talkee} {talkee?.guest} def: {interaction}");
+
+                if (ResearchReinvented_Debug.debugPrintouts)
+                    Log.Message($"warden to talkee: {warden} {warden?.interactions} {warden?.jobs} {warden?.jobs?.curDriver} {warden?.records} talkee: {talkee} {talkee?.guest} def: {interaction}");
+                
                 if (!warden.interactions.TryInteractWith(talkee, interaction))
                 {
                     warden.jobs.curDriver.ReadyForNextToil();
@@ -98,7 +101,10 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
                             interaction = InteractionDefOf_Custom.RR_ScienceInterrogation_Reply_Cooperative;
                     }
                 }
-                //Log.Message($"talkee to warden: {warden} {warden?.interactions} {warden?.jobs} {warden?.jobs?.curDriver} {warden?.records} talkee: {talkee} {talkee?.guest} def: {interaction}");
+
+                if (ResearchReinvented_Debug.debugPrintouts)
+                    Log.Message($"talkee to warden: {warden} {warden?.interactions} {warden?.jobs} {warden?.jobs?.curDriver} {warden?.records} talkee: {talkee} {talkee?.guest} def: {interaction}");
+                
                 if (!warden.interactions.TryInteractWith(talkee, interaction))
                 {
                     warden.jobs.curDriver.ReadyForNextToil();

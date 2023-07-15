@@ -84,7 +84,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
                                     {
                                         if (recipe.AvailableOnNow(pawn, part))
                                         {
-                                            Log.Message($"pawn {pawn}/{thingForMedBills} adding {recipe} on part {part}");
+                                            //Log.Message($"pawn {pawn}/{thingForMedBills} adding {recipe} on part {part}");
                                             var option = method_GenerateSurgeryOptionDelegate(pawn, thingForMedBills, recipe, missingIngredients, report, index, part);
                                             field_FloatMenuOption_label(option) = "RR_ExperimentalSurgeryPrefix".Translate() + " " + field_FloatMenuOption_label(option);
 											list.Add(option);
@@ -94,7 +94,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
                                 }
                                 else
 								{
-									Log.Message($"pawn {pawn}/{thingForMedBills} adding {recipe}");
+									//Log.Message($"pawn {pawn}/{thingForMedBills} adding {recipe}");
                                     var option = method_GenerateSurgeryOptionDelegate(pawn, thingForMedBills, recipe, missingIngredients, report, index, null);
 									field_FloatMenuOption_label(option) = "RR_ExperimentalSurgeryPrefix".Translate() + " " + field_FloatMenuOption_label(option);
 									list.Add(option);

@@ -15,7 +15,10 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.SurgeryComps
         public override void AffectQuality(RecipeDef recipe, Pawn surgeon, Pawn patient, List<Thing> ingredients, BodyPartRecord part, Bill bill, ref float quality)
         {
             if(recipe.IsAvailableOnlyForPrototyping())
+            {
+                //Log.Message($"RR: clamping surgery {bill.Label} of {quality} to {this.range.ClampToRange(quality)} ({this.range.min} - {this.range.max})");
                 quality = this.range.ClampToRange(quality);
+            }
         }
 
         public SurgeryOutcomeComp_ExperimentalSurgeryClamp()

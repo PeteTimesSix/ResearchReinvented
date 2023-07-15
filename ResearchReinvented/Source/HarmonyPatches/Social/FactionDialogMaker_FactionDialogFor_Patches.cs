@@ -54,8 +54,6 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Social
                    .Where(o => !o.IsFinished)
             .FirstOrDefault();
 
-            Log.Message("op:"+(opportunity?.ShortDesc ?? "null"));
-
             if (opportunity == null)
                 return; //no opportunity to learn
 

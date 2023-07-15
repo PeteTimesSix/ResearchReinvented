@@ -28,7 +28,9 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Ingestibles
             if (!ingester.RaceProps.Humanlike || ingester.Faction != Faction.OfPlayer || ingester.skills == null || !ingester.Awake() || ingester.WorkTypeIsDisabled(WorkTypeDefOf.Research))
                 return;
 
-            //Log.Message($"pawn {ingester.LabelCap} ingested {__instance.LabelCap}, checking opportunities (count: {MatchingOpportunities.Count()})");
+            if (ResearchReinvented_Debug.debugPrintouts)
+                Log.Message($"pawn {ingester.LabelCap} ingested {__instance.LabelCap}, checking opportunities (count: {MatchingOpportunities.Count()})");
+
             foreach(var opportunity in MatchingOpportunities)
             {
                 if (opportunity.requirement.MetBy(__instance))

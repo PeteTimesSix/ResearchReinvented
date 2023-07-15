@@ -12,16 +12,18 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.SurgeryComps
 {
     public class SurgeryOutcomeComp_ExperimentalSurgeryModifier : SurgeryOutcomeComp
     {
-        public override void AffectQuality(RecipeDef recipe, Pawn surgeon, Pawn patient, List<Thing> ingredients, BodyPartRecord part, Bill bill, ref float quality)
-        {
-            if(recipe.IsAvailableOnlyForPrototyping())
-                quality *= modifier;
-        }
+        public float modifier;
 
         public SurgeryOutcomeComp_ExperimentalSurgeryModifier()
         {
         }
-
-        public float modifier;
+        public override void AffectQuality(RecipeDef recipe, Pawn surgeon, Pawn patient, List<Thing> ingredients, BodyPartRecord part, Bill bill, ref float quality)
+        {
+            if (recipe.IsAvailableOnlyForPrototyping())
+            {
+                //Log.Message($"RR: reducing surgery {bill.Label} from {quality} to {quality * modifier}");
+                quality *= modifier;
+            }
+        }
     }
 }

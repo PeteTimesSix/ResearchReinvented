@@ -245,7 +245,10 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
                 
                 amount *= modifier; 
                 amount = Math.Min(amount, MaximumProgress);
-                Log.Message($"performing research chunk for {ShortDesc}: modifier: {modifier} startAmount: {startAmount} amount {amount} ({amount * def.GetCategory(relation).Settings.researchSpeedMultiplier} after speedmult) (of {MaximumProgress})");
+
+                if (ResearchReinvented_Debug.debugPrintouts)
+                    Log.Message($"performing research chunk for {ShortDesc}: modifier: {modifier} startAmount: {startAmount} amount {amount} ({amount * def.GetCategory(relation).Settings.researchSpeedMultiplier} after speedmult) (of {MaximumProgress})");
+                
                 return ResearchPerformed(amount, researcher, activeSkill, moteSubjectName, moteOffsetHint);
             }
             else 

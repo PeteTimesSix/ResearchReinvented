@@ -30,7 +30,9 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Ingestibles
             if (!observer.RaceProps.Humanlike || observer.Faction != Faction.OfPlayer || observer.skills == null || observer.WorkTypeIsDisabled(WorkTypeDefOf.Research))
                 return;
 
-            //Log.Message($"pawn {ingester.LabelCap} observed pawn {ingester.LabelCap} ingest {ingestible.LabelCap}, checking opportunities (count: {MatchingOpportunities.Count()})");
+            if (ResearchReinvented_Debug.debugPrintouts)
+                Log.Message($"pawn {ingester.LabelCap} observed pawn {ingester.LabelCap} ingest {ingestible.LabelCap}, checking opportunities (count: {MatchingOpportunities.Count()})");
+
             foreach (var opportunity in MatchingOpportunities)
             {
                 if (opportunity.requirement.MetBy(ingestible))
