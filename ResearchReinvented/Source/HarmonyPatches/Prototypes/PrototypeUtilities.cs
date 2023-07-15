@@ -81,7 +81,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         {
             {
                 var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
-                    .Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && o.requirement.MetBy(productDef))
+                    .Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && (o.requirement.MetBy(usedRecipe) || o.requirement.MetBy(productDef)))
                     .FirstOrDefault();
 
                 if (opportunity != null)
@@ -124,7 +124,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         {
             {
                 var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
-                    .Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && o.requirement.MetBy(product.def))
+                    .Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && (o.requirement.MetBy(usedRecipe) || o.requirement.MetBy(product.def)))
                     .FirstOrDefault();
 
                 if (opportunity != null)
