@@ -102,7 +102,7 @@
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
 		<defName>Social</defName>
-		<label>knowledge base</label>
+		<label>information exchange</label>
 		<priority>100</priority>
 		<color>(187,250,170)</color>
 		<description>Knowledge gained from social interactions between your faction members and members of other factions.</description>

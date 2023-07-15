@@ -1,6 +1,7 @@
 using PeteTimesSix.ResearchReinvented.Data;
 using PeteTimesSix.ResearchReinvented.DefOfs;
 using PeteTimesSix.ResearchReinvented.Defs;
+using PeteTimesSix.ResearchReinvented.ModCompat;
 using PeteTimesSix.ResearchReinvented.Rimworld;
 using PeteTimesSix.ResearchReinvented.Utilities;
 using PeteTimesSix.ResearchReinvented.Utilities.CustomWidgets;
@@ -41,6 +42,8 @@ namespace PeteTimesSix.ResearchReinvented
         public SettingTab temp_activeTab = SettingTab.CATEGORY_PRESETS;
         public ResearchOpportunityCategoryDef temp_selectedCategory = null;
 
+        public ResearchData.ResearchDataCompatMode researchDataCompatMode = ResearchData.ResearchDataCompatMode.AllBenchResearch;
+
         private static Color LightGreen = new Color(0.7f, 1f, 0.7f);
 
         public override void ExposeData()
@@ -56,6 +59,8 @@ namespace PeteTimesSix.ResearchReinvented
             Scribe_Values.Look(ref kitlessNeolithicResearch, "kitlessNeolithicResearch", true);
 
             Scribe_Collections.Look(ref categorySettingChanges, "categorySettingChanges", LookMode.Deep);
+
+            Scribe_Values.Look(ref researchDataCompatMode, "researchDataCompatMode", ResearchData.ResearchDataCompatMode.AllBenchResearch);
             //do not save/load categorySettings, let them generate
         }
 
@@ -322,39 +327,48 @@ namespace PeteTimesSix.ResearchReinvented
             listingStandard.ColumnWidth = maxWidth / 2f;
 
             //active
-            if(ModCompat.CombatExtended.active)
+            if(CombatExtended.active)
             {
                 GUI.color = LightGreen;
                 listingStandard.Label("RR_setting_modCompat_detected_combatExtended".Translate());
             }
-
-            if (ModCompat.DubsMintMenus.active)
+            if (DubsMintMenus.active)
             {
                 GUI.color = LightGreen;
                 listingStandard.Label("RR_setting_modCompat_detected_dubsMintMenus".Translate());
             }
-
-            if (ModCompat.HumanoidAlienRaces.active)
+            if (HumanoidAlienRaces.active)
             {
                 GUI.color = LightGreen;
                 listingStandard.Label("RR_setting_modCompat_detected_humanoidAlienRaces".Translate());
             }
+            if (ResearchData.active)
+            {
+                GUI.color = LightGreen;
+                listingStandard.Label("RR_setting_modCompat_detected_researchData".Translate());
+                listingStandard.EnumSelector("RR_setting_modCompat_researchData_mode".Translate(), ref researchDataCompatMode, "RR_modCompat_researchData_mode_");
+            }
 
             //inactive
-            if (!ModCompat.CombatExtended.active)
+            if (!CombatExtended.active)
             {
                 GUI.color = Color.gray;
                 listingStandard.Label("RR_setting_modCompat_notDetected_combatExtended".Translate());
             }
-            if (!ModCompat.DubsMintMenus.active)
+            if (!DubsMintMenus.active)
             {
                 GUI.color = Color.gray;
                 listingStandard.Label("RR_setting_modCompat_notDetected_dubsMintMenus".Translate());
             }
-            if (!ModCompat.HumanoidAlienRaces.active)
+            if (!HumanoidAlienRaces.active)
             {
                 GUI.color = Color.gray;
                 listingStandard.Label("RR_setting_modCompat_notDetected_humanoidAlienRaces".Translate());
+            }
+            if (!ResearchData.active)
+            {
+                GUI.color = Color.gray;
+                listingStandard.Label("RR_setting_modCompat_notDetected_researchData".Translate());
             }
 
             listingStandard.End();

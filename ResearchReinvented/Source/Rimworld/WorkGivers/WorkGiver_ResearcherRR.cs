@@ -89,12 +89,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 				new HistoryEvent(HistoryEventDefOf.Researching, pawn.Named(HistoryEventArgsNames.Doer)).Notify_PawnAboutToDo_Job();
 		}
 
-		public override Job JobOnThing(Pawn pawn, Thing thing, bool forced = false)
+		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			var opportunity = MatchingOpportunities.FirstOrDefault();
 
 			var jobDef = opportunity.JobDefs.First(j => j.driverClass == DriverClass);
-			Job job = JobMaker.MakeJob(jobDef, thing, expiryInterval: 3000, checkOverrideOnExpiry: true);
+			Job job = JobMaker.MakeJob(jobDef, t, expiryInterval: 3000, checkOverrideOnExpiry: true);
 			//ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
 			return job;
 		}

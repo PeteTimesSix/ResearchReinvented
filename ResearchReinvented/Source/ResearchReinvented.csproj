@@ -105,6 +105,7 @@
     <Compile Include="Managers\OpportunityFactories\OF_Unlocks.cs" />
     <Compile Include="Managers\PrototypeKeeper.cs" />
     <Compile Include="Managers\PrototypeTerrainGrid.cs" />
+    <Compile Include="ModCompat\ResearchData\_ResearchData.cs" />
     <Compile Include="Opportunities\ResearchOpportunityCategoryTotalsStore.cs" />
     <Compile Include="OpportunityComps\ROComp_RequiresFaction.cs" />
     <Compile Include="OpportunityComps\ROComp_RequiresFactionlessPawn.cs" />

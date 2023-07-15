@@ -1,6 +1,7 @@
 ﻿using PeteTimesSix.ResearchReinvented.DefOfs;
 using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Managers;
+using PeteTimesSix.ResearchReinvented.ModCompat;
 using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.Rimworld.Toils;
 using PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers;
@@ -12,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Verse;
 using Verse.AI;
+using static UnityEngine.GridBrushBase;
 
 namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 {
@@ -56,6 +58,10 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 
             this.FailOn(() => currentProject != Find.ResearchManager.currentProj);
             this.FailOn(() => opportunity.CurrentAvailability != OpportunityAvailability.Available);
+            if(ResearchData.active && ResearchReinventedMod.Settings.researchDataCompatMode == ResearchData.ResearchDataCompatMode.AllBenchResearch)
+            {
+                this.FailOn(() => ResearchBench.GetComp<CompRefuelable>() is CompRefuelable comp && comp.HasFuel is false);
+            }
 
             this.FailOnBurningImmobile(ResearchBenchIndex);
 
@@ -76,6 +82,14 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
                 float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true);
                 num *= ResearchBench.GetStatValue(StatDefOf.ResearchSpeedFactor, true);
                 actor.GainComfortFromCellIfPossible(true);
+                if (ResearchData.active && ResearchReinventedMod.Settings.researchDataCompatMode == ResearchData.ResearchDataCompatMode.AllBenchResearch)
+                {
+                    var fuelComp = ResearchBench.GetComp<CompRefuelable>();
+                    if (fuelComp != null && fuelComp.Props.consumeFuelOnlyWhenUsed)
+                    {
+                        fuelComp.ConsumeTickFuel();
+                    }
+                }
                 bool finished = opportunity.ResearchTickPerformed(num, actor, SkillDefOf.Intellectual);
                 if (finished)
                     this.ReadyForNextToil();

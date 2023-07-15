@@ -32,8 +32,12 @@ namespace PeteTimesSix.ResearchReinvented.ModCompat
 			if (HumanoidAlienRaces.active)
 			{
 				HumanoidAlienRaces.PatchDelayed(harmony);
-			}
-		}
+            }
+            if (ResearchData.active)
+            {
+                ResearchData.PatchDelayed(harmony);
+            }
+        }
 
 	}
 }

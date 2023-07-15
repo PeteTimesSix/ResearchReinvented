@@ -22,10 +22,10 @@ namespace PeteTimesSix.ResearchReinvented.ModCompat
         public static void PatchDelayed(Harmony harmony)
         {
             var raceCheck = new HarmonyMethod(AccessTools.TypeByName("AlienRace.HarmonyPatches").GetMethod("ShouldSkipResearchPostfix"));
+            harmony.Patch(AccessTools.Method(typeof(WorkGiver_ResearcherRR), nameof(WorkGiver_ResearcherRR.ShouldSkip)), postfix: raceCheck);
             harmony.Patch(AccessTools.Method(typeof(WorkGiver_Analyse), nameof(WorkGiver_Analyse.ShouldSkip)), postfix: raceCheck);
             harmony.Patch(AccessTools.Method(typeof(WorkGiver_AnalyseInPlace), nameof(WorkGiver_AnalyseInPlace.ShouldSkip)), postfix: raceCheck);
             harmony.Patch(AccessTools.Method(typeof(WorkGiver_AnalyseTerrain), nameof(WorkGiver_AnalyseTerrain.ShouldSkip)), postfix: raceCheck);
-            harmony.Patch(AccessTools.Method(typeof(WorkGiver_ResearcherRR), nameof(WorkGiver_ResearcherRR.ShouldSkip)), postfix: raceCheck);
         }
     }
 }

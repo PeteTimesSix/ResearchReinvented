@@ -55,10 +55,20 @@
 	
 	<RR_setting_modCompat_detected_combatExtended>Combat Extended detected.</RR_setting_modCompat_detected_combatExtended>
 	<RR_setting_modCompat_notDetected_combatExtended>Combat Extended not detected.</RR_setting_modCompat_notDetected_combatExtended>
+	
 	<RR_setting_modCompat_detected_dubsMintMenus>Dubs Mint Menus detected.</RR_setting_modCompat_detected_dubsMintMenus>
 	<RR_setting_modCompat_notDetected_dubsMintMenus>Dubs Mint Menus detected.</RR_setting_modCompat_notDetected_dubsMintMenus>
+	
 	<RR_setting_modCompat_detected_humanoidAlienRaces>Humanoid Alien Races detected.</RR_setting_modCompat_detected_humanoidAlienRaces>
 	<RR_setting_modCompat_notDetected_humanoidAlienRaces>Humanoid Alien Races not detected.</RR_setting_modCompat_notDetected_humanoidAlienRaces>
+	
+	<RR_setting_modCompat_detected_researchData>Research Data detected.</RR_setting_modCompat_detected_researchData>
+	<RR_setting_modCompat_researchData_mode>Compatability mode</RR_setting_modCompat_researchData_mode>
+	<RR_modCompat_researchData_mode_TheoryOnly>Theory only</RR_modCompat_researchData_mode_TheoryOnly>
+	<RR_modCompat_researchData_mode_TheoryOnly_tooltip>Research Data "fuel" will only be needed and consumed by theory research.</RR_modCompat_researchData_mode_TheoryOnly_tooltip>
+	<RR_modCompat_researchData_mode_AllBenchResearch>All research</RR_modCompat_researchData_mode_AllBenchResearch>
+	<RR_modCompat_researchData_mode_AllBenchResearch_tooltip>Research Data "fuel" will be needed and consumed by any research done at a research bench.</RR_modCompat_researchData_mode_AllBenchResearch_tooltip>
+	<RR_setting_modCompat_notDetected_researchData>Research Data not detected.</RR_setting_modCompat_notDetected_researchData>
 	
 	
 	<!--- Obsolete -->

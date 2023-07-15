@@ -1,6 +1,7 @@
 ﻿using PeteTimesSix.ResearchReinvented.DefOfs;
 using PeteTimesSix.ResearchReinvented.Extensions;
 using PeteTimesSix.ResearchReinvented.Managers;
+using PeteTimesSix.ResearchReinvented.ModCompat;
 using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers;
 using RimWorld;
@@ -43,6 +44,10 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 
             this.FailOn(() => currentProject != Find.ResearchManager.currentProj);
             this.FailOn(() => opportunity.CurrentAvailability != OpportunityAvailability.Available);
+            if (ResearchData.active)
+            {
+                this.FailOn(() => ResearchBench.TryGetComp<CompRefuelable>() is CompRefuelable comp && comp.HasFuel is false);
+            }
 
             this.FailOnDespawnedNullOrForbidden(ResearchBenchIndex);
 			this.FailOnBurningImmobile(ResearchBenchIndex);
@@ -55,7 +60,15 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 				float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true);
 				num *= ResearchBench.GetStatValue(StatDefOf.ResearchSpeedFactor, true);
 				actor.GainComfortFromCellIfPossible(true);
-				bool finished = opportunity.ResearchTickPerformed(num, actor, SkillDefOf.Intellectual);
+                if (ResearchData.active)
+                {
+                    var fuelComp = ResearchBench.GetComp<CompRefuelable>();
+                    if (fuelComp != null && fuelComp.Props.consumeFuelOnlyWhenUsed)
+                    {
+                        fuelComp.ConsumeTickFuel();
+                    }
+                }
+                bool finished = opportunity.ResearchTickPerformed(num, actor, SkillDefOf.Intellectual);
 				if (finished)
 					this.ReadyForNextToil();
 			};

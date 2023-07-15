@@ -1,6 +1,7 @@
 ﻿using PeteTimesSix.ResearchReinvented.DefOfs;
 using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Managers;
+using PeteTimesSix.ResearchReinvented.ModCompat;
 using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.OpportunityComps;
 using PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers;
@@ -61,15 +62,15 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			return !MatchingOpportunities.Any(o => !o.IsFinished);
 		}
 
-		public override bool HasJobOnThing(Pawn pawn, Thing thing, bool forced = false)
+		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
         {
-            if (thing.IsForbidden(pawn))
+            if (t.IsForbidden(pawn))
                 return false;
 
-            if (!pawn.CanReserve(thing, 1, -1, null, forced))
+            if (!pawn.CanReserve(t, 1, -1, null, forced))
                 return false;
 
-			if (PrototypeKeeper.Instance.IsPrototype(thing))
+			if (PrototypeKeeper.Instance.IsPrototype(t))
             {
                 JobFailReason.Is(StringsCache.JobFail_IsPrototype, null);
                 return false;
@@ -89,22 +90,22 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			return true;
 		}
 
-		public override Job JobOnThing(Pawn pawn, Thing thing, bool forced = false)
+		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
         {
             var researchBench = GetBestResearchBench(pawn);
 
-			var thingDef = MinifyUtility.GetInnerIfMinified(thing).def;
+			var thingDef = MinifyUtility.GetInnerIfMinified(t).def;
 
 			if(!OpportunityCache.ContainsKey(thingDef)) 
 			{
-				Log.Warning($"opportunity cache did not contain {thingDef} for thing {thing}");
+				Log.Warning($"opportunity cache did not contain {thingDef} for thing {t}");
 				return null;
 			}
 
 			var opportunity = OpportunityCache[thingDef].First();
 
 			JobDef jobDef = opportunity.JobDefs.First(j => j.driverClass == DriverClass);
-			Job job = JobMaker.MakeJob(jobDef, thing, expiryInterval: 20000, checkOverrideOnExpiry: true);
+			Job job = JobMaker.MakeJob(jobDef, t, expiryInterval: 20000, checkOverrideOnExpiry: true);
 			job.targetB = researchBench;
 			//ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
 			job.count = 1;
@@ -157,6 +158,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
                     if (!pawn.CanReserveAndReach(new LocalTargetInfo(researchBench), PathEndMode.InteractionCell, Danger.Unspecified))
                         continue;
+
+					if (ResearchData.active && ResearchReinventedMod.Settings.researchDataCompatMode == ResearchData.ResearchDataCompatMode.AllBenchResearch)
+					{
+						if (researchBench.TryGetComp<CompRefuelable>() is CompRefuelable comp && comp.HasFuel is false)
+							continue;
+					}
 
 					found = true;
                     _benchCache[pawn] = researchBench;
