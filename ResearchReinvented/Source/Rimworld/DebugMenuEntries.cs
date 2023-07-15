@@ -42,12 +42,6 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld
         static void ResetResearchProgress()
         {
             Find.ResearchManager.ResetAllProgress();
-
-            var pawns = PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_OfPlayerFaction;
-            foreach (Pawn pawn in pawns)
-            {
-                pawn.health.capacities.Notify_CapacityLevelsDirty();
-            }
         }
 
         [DebugAction(category = CATEGORY, actionType = DebugActionType.Action)]
@@ -66,6 +60,13 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld
                     progressDict.Add(allDef, 0); 
                 }
             }
+
+            var pawns = PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_OfPlayerFaction;
+            foreach (Pawn pawn in pawns) //for LIFE support
+            {
+                pawn.health.capacities.Notify_CapacityLevelsDirty();
+            }
+
             researchManager.ReapplyAllMods();
         }
 

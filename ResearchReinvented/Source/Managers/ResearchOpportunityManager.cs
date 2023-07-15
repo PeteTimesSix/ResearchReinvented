@@ -144,7 +144,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
         {
             if(Find.ResearchManager.currentProj != _currentProject)
             {
-                //MarkUnfinishedPrototypesForCancellation(Find.ResearchManager.currentProj);
+                PrototypeKeeper.Instance.CancelPrototypes(_currentProject, Find.ResearchManager.currentProj);
                 GenerateOpportunities(Find.ResearchManager.currentProj, false);
                 return true;
             }
@@ -231,80 +231,6 @@ namespace PeteTimesSix.ResearchReinvented.Managers
         public void DelayedRegeneration()
         {
             this.regenerateWhenPossible = true;
-        }
-
-        private (HashSet<Thing> blueprints, HashSet<Thing> frames, HashSet<UnfinishedThing> ufts, HashSet<Bill> bills) toCancel = (new HashSet<Thing>(), new HashSet<Thing>(), new HashSet<UnfinishedThing>(), new HashSet<Bill>());
-        public void CancelMarkedPrototypes()
-        {
-            //Log.Message("cancelling prototypes...");
-            foreach (var blueprint in toCancel.blueprints)
-            {
-                //Log.Message($"cancelling blueprint {blueprint} at {blueprint.Position}");
-                if (!blueprint.Destroyed)
-                    blueprint.Destroy(DestroyMode.Cancel);
-            }
-            foreach (var frame in toCancel.frames)
-            {
-                //Log.Message($"cancelling frame {frame} at {frame.Position}");
-                if (!frame.Destroyed)
-                    frame.Destroy(DestroyMode.Cancel);
-            }
-            foreach (var uft in toCancel.ufts)
-            {
-                //Log.Message($"cancelling uft {uft} at {uft.Position}");
-                if (!uft.Destroyed)
-                    uft.Destroy(DestroyMode.Cancel);
-            }
-
-            foreach (var bill in toCancel.bills)
-            {
-                //Log.Message($"cancelling bill {bill} at {bill.billStack.billGiver}");
-                bill.billStack.Delete(bill);
-            }
-
-            toCancel.blueprints.Clear();
-            toCancel.frames.Clear();
-            toCancel.ufts.Clear();
-            toCancel.bills.Clear();
-        }
-
-        public void MarkUnfinishedPrototypesForCancellation(ResearchProjectDef currentProject)
-        {
-            foreach (var map in Find.Maps)
-            {
-                var mapBlueprints = map.listerThings.ThingsInGroup(ThingRequestGroup.Blueprint).Where(t => t.Faction == Faction.OfPlayer); //lets not cancel hostile mortars and such
-                var mapFrames = map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingFrame).Where(t => t.Faction == Faction.OfPlayer); //lets not cancel hostile mortars and such
-                var mapUnfinishedThings = map.listerThings.AllThings.Where(t => t.def.isUnfinishedThing || t.def.thingClass == typeof(UnfinishedThing)).Cast<UnfinishedThing>();
-                var mapBillHolders = map.listerThings.ThingsInGroup(ThingRequestGroup.PotentialBillGiver).Where(t => t is IBillGiver).Cast<IBillGiver>();
-
-                foreach (var protoOpportunity in _allGeneratedOpportunities.Where(o => o.project != currentProject && o.def.handledBy.HasFlag(HandlingMode.Special_Prototype)))
-                {
-                    if(protoOpportunity.requirement is ROComp_RequiresThing regThing)
-                    {
-                        var thingDef = regThing.thingDef;
-                        var matchBlueprint = mapBlueprints.Where(f => f.def.entityDefToBuild == thingDef);
-                        var matchFrames = mapFrames.Where(f => f.def.entityDefToBuild == thingDef);
-                        var matchUnfinishedThings = mapUnfinishedThings.Where(f => f.Recipe.products.Any(p => p.thingDef == thingDef));
-
-                        var matchBills = mapBillHolders.Select(b => b.BillStack).SelectMany(bs => bs.Bills).Where(b => b.recipe.products.Any(p => p.thingDef == thingDef));
-
-                        toCancel.blueprints.AddRange(matchBlueprint);
-                        toCancel.frames.AddRange(matchFrames);
-                        toCancel.ufts.AddRange(matchUnfinishedThings);
-
-                        toCancel.bills.AddRange(matchBills);
-                    }
-                    else if(protoOpportunity.requirement is ROComp_RequiresTerrain regTerrain)
-                    {
-                        var terrainDef = regTerrain.terrainDef;
-                        var matchBlueprint = mapBlueprints.Where(f => f.def.entityDefToBuild == terrainDef);
-                        var matchFrames = mapFrames.Where(f => f.def.entityDefToBuild == terrainDef);
-
-                        toCancel.blueprints.AddRange(matchBlueprint);
-                        toCancel.frames.AddRange(matchFrames);
-                    }
-                }
-            }
         }
 
         public void GenerateOpportunities(ResearchProjectDef project, bool forceRegen)

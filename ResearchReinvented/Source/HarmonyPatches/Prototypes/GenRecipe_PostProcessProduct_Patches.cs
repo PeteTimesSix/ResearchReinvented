@@ -10,7 +10,6 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using Verse;
-using static UnityEngine.UI.GridLayoutGroup;
 
 namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 {
@@ -21,7 +20,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         [HarmonyPostfix]
         public static void Postfix(Thing product, RecipeDef recipeDef, Pawn worker, Precept_ThingStyle precept = null)
         {
-            var usedRecipe = recipeDef;
+            var usedRecipe = recipeDef; 
             bool isPrototype = product.def.IsAvailableOnlyForPrototyping() || (usedRecipe != null && usedRecipe.IsAvailableOnlyForPrototyping());
             if (isPrototype)
             {
