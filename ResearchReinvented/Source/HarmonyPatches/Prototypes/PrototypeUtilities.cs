@@ -80,8 +80,9 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         public static void DoPostFailToFinishThingResearch(Pawn worker, float totalWork, float doneWork, ThingDef productDef, RecipeDef usedRecipe)
         {
             {
-                var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
-                    .Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && (o.requirement.MetBy(usedRecipe) || o.requirement.MetBy(productDef)))
+                var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunitiesFiltered(true, HandlingMode.Special_Prototype, (op) => op.requirement.MetBy(usedRecipe) || op.requirement.MetBy(productDef))
+                    //.GetCurrentlyAvailableOpportunities()
+                    //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && (o.requirement.MetBy(usedRecipe) || o.requirement.MetBy(productDef)))
                     .FirstOrDefault();
 
                 if (opportunity != null)
@@ -102,8 +103,10 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         public static void DoPostFailToFinishTerrainResearch(Pawn worker, float totalWork, float doneWork, TerrainDef terrainDef)
         {
             {
-                var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
-                    .Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && o.requirement.MetBy(terrainDef))
+                var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunitiesFiltered(true, HandlingMode.Special_Prototype, terrainDef)
+
+                    //.GetCurrentlyAvailableOpportunities()
+                    //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && o.requirement.MetBy(terrainDef))
                     .FirstOrDefault();
 
                 if (opportunity != null)
@@ -123,8 +126,10 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         public static void DoPostFinishThingResearch(Pawn worker, float totalWork, Thing product, RecipeDef usedRecipe)
         {
             {
-                var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
-                    .Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && (o.requirement.MetBy(usedRecipe) || o.requirement.MetBy(product.def)))
+                var opportunity = ResearchOpportunityManager.Instance
+                    .GetCurrentlyAvailableOpportunitiesFiltered(true, HandlingMode.Special_Prototype, (op) => op.requirement.MetBy(usedRecipe) || op.requirement.MetBy(product.def))
+                    //.GetCurrentlyAvailableOpportunities()
+                    //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && (o.requirement.MetBy(usedRecipe) || o.requirement.MetBy(product.def)))
                     .FirstOrDefault();
 
                 if (opportunity != null)
@@ -145,8 +150,9 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         public static void DoPostFinishTerrainResearch(Pawn worker, float totalWork, TerrainDef terrainDef)
         {
             {
-                var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
-                    .Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && o.requirement.MetBy(terrainDef))
+                var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunitiesFiltered(true, HandlingMode.Special_Prototype, terrainDef)
+                    //.GetCurrentlyAvailableOpportunities()
+                    //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && o.requirement.MetBy(terrainDef))
                     .FirstOrDefault();
 
                 if (opportunity != null)
@@ -165,9 +171,11 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
         public static void DoPostFinishSurgeryResearch(Pawn target, Pawn worker, float totalWork, RecipeDef usedRecipe)
         {
+            if(usedRecipe != null)
             {
-                var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
-                    .Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && (usedRecipe != null && o.requirement.MetBy(usedRecipe)))
+                var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunitiesFiltered(true, HandlingMode.Special_Prototype, usedRecipe)
+                    //.GetCurrentlyAvailableOpportunities()
+                    //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && (usedRecipe != null && o.requirement.MetBy(usedRecipe)))
                     .FirstOrDefault();
 
                 if (opportunity != null)

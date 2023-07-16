@@ -47,11 +47,11 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Social
             if (map == null || !map.IsPlayerHome)
                 return; //not home
 
-            var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
-                   .Where(o => o.def.handledBy.HasFlag(HandlingMode.Social) 
-                        && o.requirement is ROComp_RequiresFaction requiresFaction 
-                        && requiresFaction.MetByFaction(faction))
-                   .Where(o => !o.IsFinished)
+            var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunitiesFiltered(true, HandlingMode.Social, faction)
+                //.GetCurrentlyAvailableOpportunities()
+                //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Social) 
+                //    && o.requirement is ROComp_RequiresFaction requiresFaction 
+                //    && requiresFaction.MetByFaction(faction))
             .FirstOrDefault();
 
             if (opportunity == null)

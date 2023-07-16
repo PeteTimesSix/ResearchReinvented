@@ -27,8 +27,9 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
                 var bench = toil.actor.CurJob.GetTarget(TargetIndex.A).Thing;
                 if (bench != null)
                 {
-                    var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
-                               .Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Tooling) && o.requirement.MetBy(bench))
+                    var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunitiesFiltered(true, HandlingMode.Special_Tooling, bench)
+                        //.GetCurrentlyAvailableOpportunities()
+                        //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Tooling) && o.requirement.MetBy(bench))
                         .FirstOrDefault();
                     if(opportunity != null)
                     {

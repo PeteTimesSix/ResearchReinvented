@@ -41,11 +41,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
                 yield break;
             }
 
-            var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
-                   .Where(o => o.def.handledBy.HasFlag(HandlingMode.Social) && o.requirement is ROComp_RequiresFaction requiresFaction && requiresFaction.MetByFaction(faction))
-                   .Where(o => !o.IsFinished)
+            var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunitiesFiltered(false, HandlingMode.Social, faction)
+                //.GetCurrentlyAvailableOpportunities()
+                //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Social) && o.requirement is ROComp_RequiresFaction requiresFaction && requiresFaction.MetByFaction(faction))
+                //.Where(o => !o.IsFinished)
             .FirstOrDefault();
-            //ResearchOpportunity opportunity = ResearchOpportunityManager.instance.GetOpportunityForJob(this.job);
+
             ResearchProjectDef currentProject = Find.ResearchManager.currentProj;
 
             if (currentProject == null || opportunity == null)

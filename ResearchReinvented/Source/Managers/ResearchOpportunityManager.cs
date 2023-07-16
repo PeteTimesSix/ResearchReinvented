@@ -8,6 +8,8 @@ using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -184,15 +186,73 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             }
         }
 
-        public IEnumerable<ResearchOpportunity> GetCurrentlyAvailableOpportunities(bool includeFinished = false)
+        public IEnumerable<ResearchOpportunity> GetCurrentlyAvailableOpportunitiesFiltered(bool includeFinished, HandlingMode? handledBy)
+        {
+            return GetCurrentlyAvailableOpportunitiesFilter(includeFinished, handledBy, null);
+        }
+
+        public IEnumerable<ResearchOpportunity> GetCurrentlyAvailableOpportunitiesFiltered(bool includeFinished, HandlingMode? handledBy, Type driverClass)
+        {
+            return GetCurrentlyAvailableOpportunitiesFilter(includeFinished, handledBy, (op) => op.JobDefs != null && op.JobDefs.Any(jd => jd.driverClass == driverClass));
+        }
+
+        public IEnumerable<ResearchOpportunity> GetCurrentlyAvailableOpportunitiesFiltered(bool includeFinished, HandlingMode? handledBy, Def def)
+        {
+            return GetCurrentlyAvailableOpportunitiesFilter(includeFinished, handledBy, (op) => op.requirement.MetBy(def));
+        }
+
+        public IEnumerable<ResearchOpportunity> GetCurrentlyAvailableOpportunitiesFiltered(bool includeFinished, HandlingMode? handledBy, Thing thing)
+        {
+            return GetCurrentlyAvailableOpportunitiesFilter(includeFinished, handledBy, (op) => op.requirement.MetBy(thing));
+        }
+
+        public IEnumerable<ResearchOpportunity> GetCurrentlyAvailableOpportunitiesFiltered(bool includeFinished, HandlingMode? handledBy, Faction faction)
+        {
+            return GetCurrentlyAvailableOpportunitiesFilter(includeFinished, handledBy, (op) => op.requirement is ROComp_RequiresFaction requiresFaction && requiresFaction.MetByFaction(faction));
+        }
+
+        public IEnumerable<ResearchOpportunity> GetCurrentlyAvailableOpportunitiesFiltered(bool includeFinished, HandlingMode? handledBy, Func<ResearchOpportunity, bool> validator)
+        {
+            return GetCurrentlyAvailableOpportunitiesFilter(includeFinished, handledBy, validator);
+        }
+
+        private IEnumerable<ResearchOpportunity> GetCurrentlyAvailableOpportunitiesFilter(bool includeFinished, HandlingMode? handledBy, Func<ResearchOpportunity, bool> validator)
+        {
+            List<ResearchOpportunity> opportunities = new List<ResearchOpportunity>();
+            foreach (var op in CurrentProjectOpportunities)
+            {
+                if ((op.CurrentAvailability == OpportunityAvailability.Available || (includeFinished && op.CurrentAvailability == OpportunityAvailability.Finished)) &&
+                    (!handledBy.HasValue || op.def.handledBy.HasFlag(handledBy.Value)) &&
+                    (validator == null || validator(op)))
+                opportunities.Add(op);
+            }
+            return opportunities;
+        }
+
+        /*public IEnumerable<ResearchOpportunity> GetCurrentlyAvailableOpportunitiesFiltered(bool includeFinished, HandlingMode? handledBy, Func<ResearchOpportunity, bool> validator)
+        {
+            CheckForRegeneration();
+            var ops = CurrentProjectOpportunities.Where(o => o.IsValid());
+            if(includeFinished)
+                ops = ops.Where(o => o.CurrentAvailability == OpportunityAvailability.Available);
+            else
+                ops = ops.Where(o => o.CurrentAvailability == OpportunityAvailability.Available || o.CurrentAvailability == OpportunityAvailability.Finished);
+            if (handledBy.HasValue)
+                ops = ops.Where(o => o.def.handledBy.HasFlag(handledBy));
+            if (validator != null)
+                ops = ops.Where(o => validator(o));
+
+            return ops;
+        }*/
+
+        /*public IEnumerable<ResearchOpportunity> GetCurrentlyAvailableOpportunities(bool includeFinished = false)
         {
             bool currentProjectRegenned = CheckForRegeneration();
             if (!includeFinished)
                 return CurrentProjectOpportunities.Where(o => o.IsValid() && o.CurrentAvailability == OpportunityAvailability.Available);
             else
                 return CurrentProjectOpportunities.Where(o => o.IsValid() && (o.CurrentAvailability == OpportunityAvailability.Available || o.CurrentAvailability == OpportunityAvailability.Finished));
-
-        }
+        }*/
 
         public ResearchOpportunityCategoryTotalsStore GetTotalsStore(ResearchProjectDef project, ResearchOpportunityCategoryDef category)
         {

@@ -18,8 +18,9 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Ingestibles
     {
 
         private static IEnumerable<ResearchOpportunity> MatchingOpportunities =>
-            ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
-            .Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Special_OnIngest_Observable));
+            ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunitiesFiltered(true, HandlingMode.Special_OnIngest_Observable);
+            //.GetCurrentlyAvailableOpportunities()
+            //.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Special_OnIngest_Observable));
 
         [HarmonyPrefix]
         public static void Recipe_AdministerIngestible_ApplyOnPawn_Prefix(Recipe_AdministerIngestible __instance, Pawn pawn, Pawn billDoer, List<Thing> ingredients)
