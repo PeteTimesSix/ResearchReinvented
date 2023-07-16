@@ -63,6 +63,7 @@
     <Compile Include="Extensions\ResearchProjectDefExtensions.cs" />
     <Compile Include="Extensions\ThingDefExtensions.cs" />
     <Compile Include="HarmonyPatches\ApparelLayerDef_Patches.cs" />
+    <Compile Include="HarmonyPatches\BackCompatability_BackCompatibleDefName_Patches.cs" />
     <Compile Include="HarmonyPatches\DebugPatches.cs" />
     <Compile Include="HarmonyPatches\DesignationCategoryDef_Patches.cs" />
     <Compile Include="HarmonyPatches\Ingestibles\Recipe_AdministerIngestible_Patches.cs" />
