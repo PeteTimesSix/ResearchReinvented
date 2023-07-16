@@ -162,8 +162,8 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             if(checkedProduct == product && checkedIsPrototype)
             {
                 PrototypeUtilities.DoPrototypeBadComps(product, null);
-                PrototypeKeeper.Instance.MarkAsPrototype(product);
-                PrototypeUtilities.DoPostFinishThingResearch(worker, frame.WorkToBuild, product, null);
+                PrototypeKeeper.Instance.MarkAsPrototype(product);  //now unmarked, so 
+                PrototypeUtilities.DoPostFinishThingResearch(worker, frame.WorkToBuild * PrototypeUtilities.PROTOTYPE_WORK_MULTIPLIER, product, null);
             }
         }
 
