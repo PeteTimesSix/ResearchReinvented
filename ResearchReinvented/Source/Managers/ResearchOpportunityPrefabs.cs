@@ -109,9 +109,9 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                     foreach (var opportunity in matchingOpportunitiesOfType)
                     {
                         float opportunityResearchPoints;
-                        if (category.Settings.infiniteOverflow)
-                            opportunityResearchPoints = projectResearchPoints;
-                        else if (opportunity.requirement.IsRare)
+                        //if (category.Settings.infiniteOverflow)
+                        //    opportunityResearchPoints = projectResearchPoints;
+                        if (opportunity.requirement.IsRare)
                             opportunityResearchPoints = Math.Max(typeResearchPoints, minimumOpportunityResearchPoints);
                         else
                             opportunityResearchPoints = Math.Max(((typeResearchPoints * baseImportance) * opportunity.importance), (minimumOpportunityResearchPoints * opportunity.importance));
