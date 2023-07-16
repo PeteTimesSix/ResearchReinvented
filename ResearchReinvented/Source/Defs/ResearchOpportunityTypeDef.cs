@@ -21,7 +21,8 @@ namespace PeteTimesSix.ResearchReinvented.Defs
         Special_OnIngest_Observable = 1 << 4,
 		Special_Medicine = 1 << 5,
         Special_Prototype = 1 << 6,
-	}
+        Special_Tooling = 1 << 7,
+    }
 
     public class ResearchOpportunityTypeDef : Def
     {

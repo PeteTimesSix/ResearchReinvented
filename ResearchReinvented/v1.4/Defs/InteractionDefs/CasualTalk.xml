@@ -4,7 +4,7 @@
     <defName>RR_ScienceTalk</defName>
     <label>talk about science</label>
 	<workerClass>PeteTimesSix.ResearchReinvented.Rimworld.InteractionWorkers.InteractionWorker_Brainstorm</workerClass>
-    <symbol>Motes/Speech/scienceIcon</symbol>
+    <symbol>Motes/Speech/science</symbol>
     <initiatorXpGainSkill>Intellectual</initiatorXpGainSkill>
     <initiatorXpGainAmount>10</initiatorXpGainAmount>
     <logRulesInitiator>

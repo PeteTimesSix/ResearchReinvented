@@ -23,7 +23,7 @@
 			<li>UI/hintIcons/magnifier</li>
 		</hintIcons>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
-
+	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef Name="IngestibleOpportunity" ParentName="ResearchOpportunityBase" Abstract="True">
 		<handledBy>Special_OnIngest</handledBy>
 		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_NoJob</jobPickerClass>

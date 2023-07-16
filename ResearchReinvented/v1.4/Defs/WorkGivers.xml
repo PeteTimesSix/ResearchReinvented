@@ -30,6 +30,22 @@
   </WorkGiverDef>
   
   <WorkGiverDef>
+    <defName>RR_AnalyseTerrain</defName>
+    <label>analyse terrain</label>
+    <giverClass>PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers.WorkGiver_AnalyseTerrain</giverClass>
+    <workType>Research</workType>
+    <verb>analyse</verb>
+    <gerund>analysing</gerund>
+    <priorityInType>150</priorityInType>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+	<scanThings>false</scanThings>
+	<scanCells>true</scanCells>
+    <canBeDoneByMechs>false</canBeDoneByMechs>
+  </WorkGiverDef>
+  
+  <WorkGiverDef>
     <defName>RR_LearnRemotely</defName>
     <label>learn from allies</label>
     <giverClass>PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers.WorkGiver_LearnRemotely</giverClass>

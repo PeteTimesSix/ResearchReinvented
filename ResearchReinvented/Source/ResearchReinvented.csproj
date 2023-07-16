@@ -73,6 +73,7 @@
     <Compile Include="HarmonyPatches\Medicine\TendUtility_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\Bill_Medical_Notify_IterationCompleted_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\Frame_FailConstruction_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\Toils_Recipe_DoRecipeWork_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\Toils_Recipe_MakeUnfinishedThingIfNeeded_Patches.cs" />
     <Compile Include="HarmonyPatches\Social\FactionDialogMaker_FactionDialogFor_Patches.cs" />
     <Compile Include="Managers\FactionLectureManager.cs" />

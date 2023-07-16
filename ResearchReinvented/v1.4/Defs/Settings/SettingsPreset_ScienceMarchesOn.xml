@@ -55,7 +55,7 @@
 			<category>ReverseEngineering</category>
 			
 			<importanceMultiplier>1.0</importanceMultiplier>
-			<importanceMultiplierCounted>1.0</importanceMultiplierCounted>
+			<importanceMultiplierCounted>0.5</importanceMultiplierCounted>
 			<infiniteOverflow>true</infiniteOverflow>
 			<targetIterations>4.0</targetIterations>
 			<researchSpeedMultiplier>2.0</researchSpeedMultiplier>

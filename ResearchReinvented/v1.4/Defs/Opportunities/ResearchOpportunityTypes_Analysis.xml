@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>  
-	
-	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="AnalysisOpportunity">
-		<defName>AnalyseProductionFacility</defName>		
-		<header_Direct>tooling tests</header_Direct>
-		<shortDesc_Direct>Examine wear patterns of tools at {0}.</shortDesc_Direct>
-		<category_Direct>Tooling</category_Direct>
-	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
-	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="AnalysisOpportunity">
 		<defName>Analyse</defName>
 		<header_Direct>reverse engineer</header_Direct>
