@@ -45,9 +45,10 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 				yield break;
 			}
 
-			this.FailOn(() => { return currentProject != Find.ResearchManager.currentProj; });
+            this.FailOn(() => currentProject != Find.ResearchManager.currentProj);
+            this.FailOn(() => opportunity.CurrentAvailability != OpportunityAvailability.Available);
 
-			Toil walkTo = Toils_Goto.GotoCell(TargetCellIndex, PathEndMode.Touch);
+            Toil walkTo = Toils_Goto.GotoCell(TargetCellIndex, PathEndMode.Touch);
 			yield return walkTo;
 
 			Toil research = new Toil();
@@ -60,16 +61,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 			{
 				Pawn actor = research.actor;
 				float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true);
-				var speedMult = opportunity.def.GetCategory(opportunity.relation).Settings.researchSpeedMultiplier;
-				num *= speedMult;
 				num *= FieldResearchHelper.GetFieldResearchSpeedFactor(actor, opportunity.project);
-				actor.skills.Learn(SkillDefOf.Intellectual, 0.1f * speedMult, false);
-				bool finished = opportunity.ResearchTickPerformed(num, actor);
+				bool finished = opportunity.ResearchTickPerformed(num, actor, SkillDefOf.Intellectual);
 				if (finished)
 					this.ReadyForNextToil();
 			};
-			research.FailOn(() => Find.ResearchManager.currentProj != currentProject);
-			research.FailOn(() => opportunity.CurrentAvailability != OpportunityAvailability.Available);
 			research.FailOn(() => TargetCell.IsForbidden(pawn));
 			research.AddEndCondition(() => opportunity.IsFinished || opportunity.CurrentAvailability != OpportunityAvailability.Available ? JobCondition.Succeeded : JobCondition.Ongoing);
 			yield return research;

@@ -14,10 +14,10 @@ namespace PeteTimesSix.ResearchReinvented.Data
 
         public bool? enabled;
 
-        public float? targetFractionMultiplier;
-        public float? targetIterations;
-        public float? extraFractionMultiplier;
+        public float? importanceMultiplier;
+        public float? importanceMultiplierCounted;
         public bool? infiniteOverflow;
+        public float? targetIterations;
         public float? researchSpeedMultiplier;
 
         public FloatRange? availableAtOverallProgress;
@@ -28,10 +28,10 @@ namespace PeteTimesSix.ResearchReinvented.Data
 
             Scribe_Values.Look(ref enabled, "enabled", null);
 
-            Scribe_Values.Look(ref targetFractionMultiplier, "targetFractionMultiplier", null);
-            Scribe_Values.Look(ref targetIterations, "targetIterations", null);
-            Scribe_Values.Look(ref extraFractionMultiplier, "extraFractionMultiplier", null);
+            Scribe_Values.Look(ref importanceMultiplier, "importanceMultiplier", null);
+            Scribe_Values.Look(ref importanceMultiplierCounted, "importanceMultiplierCounted", null);
             Scribe_Values.Look(ref infiniteOverflow, "infiniteOverflow", null);
+            Scribe_Values.Look(ref targetIterations, "targetIterations", null);
             Scribe_Values.Look(ref researchSpeedMultiplier, "researchSpeedMultiplier", null);
 
             Scribe_Values.Look(ref availableAtOverallProgress, "availableAtOverallProgress", null);
@@ -44,14 +44,14 @@ namespace PeteTimesSix.ResearchReinvented.Data
             if (enabled.HasValue || finals.enabled != defaults.enabled)
                 enabled = finals.enabled;
 
-            if (targetFractionMultiplier.HasValue || finals.targetFractionMultiplier != defaults.targetFractionMultiplier)
-                targetFractionMultiplier = finals.targetFractionMultiplier;
-            if (targetIterations.HasValue || finals.targetIterations != defaults.targetIterations)
-                targetIterations = finals.targetIterations;
-            if (extraFractionMultiplier.HasValue || finals.extraFractionMultiplier != defaults.extraFractionMultiplier)
-                extraFractionMultiplier = finals.extraFractionMultiplier;
+            if (importanceMultiplier.HasValue || finals.importanceMultiplier != defaults.importanceMultiplier)
+                importanceMultiplier = finals.importanceMultiplier;
+            if (importanceMultiplierCounted.HasValue || finals.importanceMultiplierCounted != defaults.importanceMultiplierCounted)
+                importanceMultiplierCounted = finals.importanceMultiplierCounted;
             if (infiniteOverflow.HasValue || finals.infiniteOverflow != defaults.infiniteOverflow)
                 infiniteOverflow = finals.infiniteOverflow;
+            if (targetIterations.HasValue || finals.targetIterations != defaults.targetIterations)
+                targetIterations = finals.targetIterations;
             if (researchSpeedMultiplier.HasValue || finals.researchSpeedMultiplier != defaults.researchSpeedMultiplier)
                 researchSpeedMultiplier = finals.researchSpeedMultiplier;
 

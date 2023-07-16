@@ -28,5 +28,19 @@
     <reportString>researching.</reportString>
     <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
   </JobDef>
+  
+  <JobDef>
+    <defName>RR_InterrogatePrisoner</defName>
+    <driverClass>PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers.JobDriver_InterrogatePrisoner</driverClass>
+    <reportString>interrogating {0}.</reportString>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+  
+  <JobDef>
+    <defName>RR_LearnRemotely</defName>
+    <driverClass>PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers.JobDriver_LearnRemotely</driverClass>
+    <reportString>learning at {0}.</reportString>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
 
 </Defs>

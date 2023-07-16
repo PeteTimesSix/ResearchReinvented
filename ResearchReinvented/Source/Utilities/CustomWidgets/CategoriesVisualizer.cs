@@ -26,21 +26,19 @@ namespace PeteTimesSix.ResearchReinvented.Utilities.CustomWidgets
 
         private static readonly Color WindowBGBorderColor = new ColorInt(97, 108, 122).ToColor;
 
-        private static float INFINITE_EXTRA_STANDIN = 0.25f;
-
         public static void DrawCategories(Rect rect) 
         {
             var anchor = Text.Anchor;
             var color = GUI.color;
 
-            float totalFractionMultiplier = 0;
+            /*float totalFractionMultiplier = 0;
             float totalExtraFractionMultiplier = 0;
-            float totalAllFractionMultiplier = 0;
+            float totalAllFractionMultiplier = 0;*/
 
-            float maxFractionMultiplier = 1;
-            float maxExtraFractionMultiplier = 0;
-            float maxAllFractionMultiplier = 1;
-            float maxResearchSpeedMultiplier = 0;
+            float maxImportanceMultiplier = 1f;
+            //float maxExtraFractionMultiplier = 0f;
+            //loat maxAllFractionMultiplier = 1f;
+            float maxResearchSpeedMultiplier = 0f;
 
             var categories = DefDatabase<ResearchOpportunityCategoryDef>.AllDefsListForReading.OrderByDescending(d => d.priority).ToList();
 
@@ -49,17 +47,17 @@ namespace PeteTimesSix.ResearchReinvented.Utilities.CustomWidgets
                 if (!category.Settings.enabled)
                     continue;
 
-                totalFractionMultiplier += category.Settings.targetFractionMultiplier;
-                var limitedOverflowMultiplier = category.Settings.infiniteOverflow ? INFINITE_EXTRA_STANDIN : category.Settings.extraFractionMultiplier;
-                totalExtraFractionMultiplier += limitedOverflowMultiplier;
-                totalAllFractionMultiplier += category.Settings.targetFractionMultiplier + limitedOverflowMultiplier;
+                //totalFractionMultiplier += category.Settings.targetFractionMultiplier;
+                //var limitedOverflowMultiplier = category.Settings.infiniteOverflow ? INFINITE_EXTRA_STANDIN : category.Settings.extraFractionMultiplier;
+                //totalExtraFractionMultiplier += limitedOverflowMultiplier;
+                //totalAllFractionMultiplier += category.Settings.targetFractionMultiplier + limitedOverflowMultiplier;
 
-                if(category.Settings.targetFractionMultiplier > maxFractionMultiplier)
-                    maxFractionMultiplier = category.Settings.targetFractionMultiplier;
-                if(limitedOverflowMultiplier > maxExtraFractionMultiplier)
+                if(category.Settings.importanceMultiplier > maxImportanceMultiplier)
+                    maxImportanceMultiplier = category.Settings.importanceMultiplier;
+                /*if(limitedOverflowMultiplier > maxExtraFractionMultiplier)
                     maxExtraFractionMultiplier = limitedOverflowMultiplier;
                 if (category.Settings.targetFractionMultiplier + limitedOverflowMultiplier > maxAllFractionMultiplier)
-                    maxAllFractionMultiplier = category.Settings.targetFractionMultiplier + limitedOverflowMultiplier;
+                    maxAllFractionMultiplier = category.Settings.targetFractionMultiplier + limitedOverflowMultiplier;*/
                 if (category.Settings.researchSpeedMultiplier > maxResearchSpeedMultiplier)
                     maxResearchSpeedMultiplier = category.Settings.researchSpeedMultiplier;
             }
@@ -69,7 +67,7 @@ namespace PeteTimesSix.ResearchReinvented.Utilities.CustomWidgets
             graphRect.height -= 30f;
             var fractionsRect = graphRect.LeftPart(0.6f);
             var researchSpeedRect = graphRect.RightPart(0.4f);
-            float fractionWidthBase = fractionsRect.width / maxAllFractionMultiplier;
+            float fractionWidthBase = fractionsRect.width / maxImportanceMultiplier;
             var fractionHeight = fractionsRect.height / categories.Count;
 
             var centerLine = fractionsRect.x + fractionsRect.width;
@@ -106,26 +104,46 @@ namespace PeteTimesSix.ResearchReinvented.Utilities.CustomWidgets
                 }
                 else
                 {
-                    var widthNorm = fractionWidthBase * category.Settings.targetFractionMultiplier;
+                    var widthTotal = fractionWidthBase * category.Settings.importanceMultiplier;
+                    var widthNormal = fractionWidthBase * category.Settings.importanceMultiplierCounted;
+
+                    if (category.Settings.importanceMultiplierCounted > 0)
+                    {
+                        Rect categoryNormRect = new Rect(centerLine - widthNormal, categoryY, widthNormal, fractionHeight);
+                        Widgets.DrawBoxSolidWithOutline(categoryNormRect, Color.Lerp(category.color, Color.black, .8f), Color.Lerp(category.color, Color.black, .5f));
+
+                        /*float iterations = category.Settings.targetIterations * category.Settings.importanceMultiplierCounted;
+                        float offset = 0f;
+                        var outerColor = Color.Lerp(category.color, Color.black, .6f);
+                        var innerColor = Color.Lerp(category.color, Color.black, .7f);
+                        for (; iterations > 0; iterations -= 1f)
+                        {
+                            var width = Math.Min(1f, iterations) * (widthNormal / category.Settings.targetIterations);
+                            var iterRect = categoryNormRect.RightPartPixels(width);
+                            iterRect.x -= offset;
+                            GUI.color = outerColor;
+                            Widgets.DrawBox(iterRect.ContractedBy(1f));
+                            offset += width;
+                        }*/
+                    }
+
                     if (category.Settings.infiniteOverflow)
                     {
-                        var widthExtra = (fractionWidthBase * maxAllFractionMultiplier) - widthNorm;
-                        Rect categoryFadeoutRect = new Rect(centerLine - (widthExtra + widthNorm), categoryY, widthExtra, fractionHeight);
+                        var widthExtra = fractionsRect.width - widthNormal;
+                        Rect categoryFadeoutRect = new Rect(fractionsRect.x, categoryY, widthExtra, fractionHeight);
                         GUI.color = Color.Lerp(category.color, Color.black, .75f);
                         GUI.DrawTextureWithTexCoords(categoryFadeoutRect, FadeGradient, new Rect(0, 0, 1, 1));
                     }
                     else
                     {
-                        var widthExtra = fractionWidthBase * category.Settings.extraFractionMultiplier;
-                        Rect categoryExtraRect = new Rect(centerLine - (widthNorm + widthExtra), categoryY, widthExtra, fractionHeight);
+                        var widthExtra = fractionWidthBase * (category.Settings.importanceMultiplier - category.Settings.importanceMultiplierCounted);
+                        Rect categoryExtraRect = new Rect(centerLine - (widthNormal + widthExtra), categoryY, widthExtra, fractionHeight);
                         GUI.color = Color.Lerp(category.color, Color.black, .5f);
                         Widgets.DrawBoxSolidWithOutline(categoryExtraRect, Color.Lerp(category.color, Color.black, .9f), Color.Lerp(category.color, Color.black, .75f));
                     }
 
-                    if (widthNorm > 0)
                     {
-                        Rect categoryNormRect = new Rect(centerLine - widthNorm, categoryY, widthNorm, fractionHeight);
-                        Widgets.DrawBoxSolidWithOutline(categoryNormRect, Color.Lerp(category.color, Color.black, .8f), Color.Lerp(category.color, Color.black, .5f));
+                        Rect categoryFullRect = new Rect(centerLine - widthTotal, categoryY, widthTotal, fractionHeight);
 
                         float iterations = category.Settings.targetIterations;
                         float offset = 0f;
@@ -133,8 +151,8 @@ namespace PeteTimesSix.ResearchReinvented.Utilities.CustomWidgets
                         var innerColor = Color.Lerp(category.color, Color.black, .7f);
                         for (; iterations > 0; iterations -= 1f)
                         {
-                            var width = Math.Min(1f, iterations) * (widthNorm / category.Settings.targetIterations);
-                            var iterRect = categoryNormRect.RightPartPixels(width);
+                            var width = Math.Min(1f, iterations) * (widthTotal / category.Settings.targetIterations);
+                            var iterRect = categoryFullRect.RightPartPixels(width);
                             iterRect.x -= offset;
                             GUI.color = outerColor;
                             Widgets.DrawBox(iterRect.ContractedBy(1f));

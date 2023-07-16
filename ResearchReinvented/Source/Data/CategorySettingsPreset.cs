@@ -14,10 +14,10 @@ namespace PeteTimesSix.ResearchReinvented.Data
 
         public bool enabled = true;
 
-        public float targetFractionMultiplier = 1f;
-        public float targetIterations = 1f;
-        public float extraFractionMultiplier = 0f;
+        public float importanceMultiplier = 1f;
+        public float importanceMultiplierCounted = 1f;
         public bool infiniteOverflow = false;
+        public float targetIterations = 1f;
         public float researchSpeedMultiplier = 1f;
 
         public FloatRange availableAtOverallProgress = new FloatRange(0f, 1f);

@@ -9,8 +9,13 @@
 		<li>
 			<category>Theory</category>
 			
-			<targetFractionMultiplier>0.0</targetFractionMultiplier>
+			<importanceMultiplier>0.0</importanceMultiplier>
+			<importanceMultiplierCounted>0.0</importanceMultiplierCounted>
 			<infiniteOverflow>true</infiniteOverflow>
+			<targetIterations>0.0</targetIterations>
+		</li>
+		<li>
+			<category>Social</category>
 		</li>
 		<li>
 			<category>Prototyping</category>

@@ -1,6 +1,7 @@
 using PeteTimesSix.ResearchReinvented.Data;
 using PeteTimesSix.ResearchReinvented.DefOfs;
 using PeteTimesSix.ResearchReinvented.Defs;
+using PeteTimesSix.ResearchReinvented.ModCompat;
 using PeteTimesSix.ResearchReinvented.Rimworld;
 using PeteTimesSix.ResearchReinvented.Utilities;
 using PeteTimesSix.ResearchReinvented.Utilities.CustomWidgets;
@@ -17,7 +18,8 @@ namespace PeteTimesSix.ResearchReinvented
     {
         GLOBAL_CONFIG,
         CATEGORY_PRESETS,
-        CATEGORY_CONFIG
+        CATEGORY_CONFIG,
+        MOD_INTEGRATIONS
     }
 
     public class ResearchReinvented_Settings : ModSettings
@@ -27,10 +29,8 @@ namespace PeteTimesSix.ResearchReinvented
 
         public SettingsPresetDef activePreset;
 
-        public bool debugPrintouts = false;
-
         public bool defaultCompactMode = false;
-        public bool showProgressMotes = false;
+        public bool showProgressMotes = true;
 
         public bool kitlessResearch = false;
         public bool kitlessNeolithicResearch = true;
@@ -42,13 +42,15 @@ namespace PeteTimesSix.ResearchReinvented
         public SettingTab temp_activeTab = SettingTab.CATEGORY_PRESETS;
         public ResearchOpportunityCategoryDef temp_selectedCategory = null;
 
+        public ResearchData.ResearchDataCompatMode researchDataCompatMode = ResearchData.ResearchDataCompatMode.AllBenchResearch;
+
+        private static Color LightGreen = new Color(0.7f, 1f, 0.7f);
+
         public override void ExposeData()
         {
             base.ExposeData();
 
             Scribe_Defs.Look(ref activePreset, "activePreset");
-
-            Scribe_Values.Look(ref debugPrintouts, "debugPrintouts", false);
 
             Scribe_Values.Look(ref defaultCompactMode, "defaultCompactMode", false);
             Scribe_Values.Look(ref showProgressMotes, "showProgressMotes", true);
@@ -57,6 +59,8 @@ namespace PeteTimesSix.ResearchReinvented
             Scribe_Values.Look(ref kitlessNeolithicResearch, "kitlessNeolithicResearch", true);
 
             Scribe_Collections.Look(ref categorySettingChanges, "categorySettingChanges", LookMode.Deep);
+
+            Scribe_Values.Look(ref researchDataCompatMode, "researchDataCompatMode", ResearchData.ResearchDataCompatMode.AllBenchResearch);
             //do not save/load categorySettings, let them generate
         }
 
@@ -89,6 +93,9 @@ namespace PeteTimesSix.ResearchReinvented
                 case SettingTab.CATEGORY_CONFIG:
                     DoCategoriesConfigTab(restOfRect);
                     break;
+                case SettingTab.MOD_INTEGRATIONS:
+                    DoModIntegrationTab(restOfRect);
+                    break;
             }
 
             Text.Anchor = anchor;
@@ -105,14 +112,13 @@ namespace PeteTimesSix.ResearchReinvented
             listingStandard.Indent(maxWidth / 4f);
             listingStandard.ColumnWidth = maxWidth / 2f;
             listingStandard.CheckboxLabeled("RR_setting_defaultCompactMode".Translate(), ref defaultCompactMode, "RR_setting_defaultCompactMode_tooltip".Translate());
-            listingStandard.CheckboxLabeled("RR_setting_showProgressMotes".Translate(), ref defaultCompactMode, "RR_setting_defaultCompactMode_showProgressMotes_tooltip".Translate());
+            listingStandard.CheckboxLabeled("RR_setting_showProgressMotes".Translate(), ref showProgressMotes, "RR_setting_defaultCompactMode_showProgressMotes_tooltip".Translate());
 
             listingStandard.CheckboxLabeled("RR_setting_kitlessResearch".Translate(), ref kitlessResearch, "RR_setting_kitlessResearch_tooltip".Translate());
             listingStandard.CheckboxLabeled("RR_setting_kitlessNeolithicResearch".Translate(), ref kitlessNeolithicResearch, "RR_setting_kitlessNeolithicResearch".Translate());
 
             float remainingHeight = inRect.height - listingStandard.CurHeight;
             listingStandard.Gap(remainingHeight - Text.LineHeight * 1.5f);
-            listingStandard.CheckboxLabeled("RR_setting_debugPrintouts".Translate(), ref debugPrintouts, "RR_setting_debugPrintouts_tooltip".Translate());
 
             listingStandard.End();
         }
@@ -236,19 +242,17 @@ namespace PeteTimesSix.ResearchReinvented
                         GUI.color = temp_categoryChanges.availableAtOverallProgress.HasValue ? Color.yellow : Color.white;
                         sectionListing.FloatRangeLabeled("RR_setting_category_availableAtOverallProgress".Translate(), ref temp_categorySettings.availableAtOverallProgress, min: 0, max: 1, roundTo: 0.01f, displayMult: 100, valueSuffix: "%", tooltip: "RR_setting_category_availableAtOverallProgress_tooltip".Translate());
 
+                        GUI.color = temp_categoryChanges.importanceMultiplier.HasValue ? Color.yellow : Color.white;
+                        sectionListing.SliderLabeled("RR_setting_category_importanceMultiplier".Translate(), ref temp_categorySettings.importanceMultiplier, min: 0, max: 5, roundTo: 0.05f, displayMult: 100, valueSuffix: "%", tooltip: "RR_setting_category_importanceMultiplier_tooltip".Translate());
+
+                        GUI.color = temp_categoryChanges.importanceMultiplierCounted.HasValue ? Color.yellow : Color.white;
+                        sectionListing.SliderLabeled("RR_setting_category_importanceMultiplierCounted".Translate(), ref temp_categorySettings.importanceMultiplierCounted, min: 0, max: temp_categorySettings.importanceMultiplier, roundTo: 0.05f, displayMult: 100, valueSuffix: "%", tooltip: "RR_setting_category_importanceMultiplierCounted_tooltip".Translate());
+
                         GUI.color = temp_categoryChanges.targetIterations.HasValue ? Color.yellow : Color.white;
                         sectionListing.SliderLabeled("RR_setting_category_targetIterations".Translate(), ref temp_categorySettings.targetIterations, min: 1, max: 30, roundTo: 0.25f, decimalPlaces: 2, tooltip: "RR_setting_category_targetIterations_tooltip".Translate());
 
-                        GUI.color = temp_categoryChanges.targetFractionMultiplier.HasValue ? Color.yellow : Color.white;
-                        sectionListing.SliderLabeled("RR_setting_category_targetFractionMultiplier".Translate(), ref temp_categorySettings.targetFractionMultiplier, min: 0, max: 5, roundTo: 0.05f, displayMult: 100, valueSuffix: "%", tooltip: "RR_setting_category_targetFractionMultiplier_tooltip".Translate());
-
                         GUI.color = temp_categoryChanges.infiniteOverflow.HasValue ? Color.yellow : Color.white;
                         sectionListing.CheckboxLabeled("RR_setting_category_infiniteOverflow".Translate(), ref temp_categorySettings.infiniteOverflow, "RR_setting_category_infiniteOverflow_tooltip".Translate());
-                        if (!temp_categorySettings.infiniteOverflow)
-                        {
-                            GUI.color = temp_categoryChanges.extraFractionMultiplier.HasValue ? Color.yellow : Color.white; 
-                            sectionListing.SliderLabeled("RR_setting_category_extraFractionMultiplier".Translate(), ref temp_categorySettings.extraFractionMultiplier, min: 0, max: 5, roundTo: 0.05f, displayMult: 100, valueSuffix: "%", tooltip: "RR_setting_category_extraFractionMultiplier_tooltip".Translate());
-                        }
 
                         GUI.color = temp_categoryChanges.researchSpeedMultiplier.HasValue ? Color.yellow : Color.white;
                         sectionListing.SliderLabeled("RR_setting_category_researchSpeedMultiplier".Translate(), ref temp_categorySettings.researchSpeedMultiplier, min: 0.05f, max: 5, roundTo: 0.05f, displayMult: 100, valueSuffix: "%", tooltip: "RR_setting_category_researchSpeedMultiplier_tooltip".Translate());
@@ -265,6 +269,9 @@ namespace PeteTimesSix.ResearchReinvented
                         categorySettingChanges.Remove(temp_categoryChanges);
                         categorySettings.Remove(temp_categorySettings);
                     }
+
+                    sectionListing.Gap();
+                    sectionListing.Label(temp_categorySettings.category.description);
                 }
 
                 listingStandard.EndHiddenSection(sectionListing, maxHeightAccumulator);
@@ -307,6 +314,64 @@ namespace PeteTimesSix.ResearchReinvented
                 categorySettings.Add(settings);
             }
             return settings;
+        }
+
+        private void DoModIntegrationTab(Rect inRect)
+        {
+            Listing_Standard listingStandard = new Listing_Standard();
+            listingStandard.Begin(inRect);
+
+            float maxWidth = listingStandard.ColumnWidth;
+
+            listingStandard.Indent(maxWidth / 4f);
+            listingStandard.ColumnWidth = maxWidth / 2f;
+
+            //active
+            if(CombatExtended.active)
+            {
+                GUI.color = LightGreen;
+                listingStandard.Label("RR_setting_modCompat_detected_combatExtended".Translate());
+            }
+            if (DubsMintMenus.active)
+            {
+                GUI.color = LightGreen;
+                listingStandard.Label("RR_setting_modCompat_detected_dubsMintMenus".Translate());
+            }
+            if (HumanoidAlienRaces.active)
+            {
+                GUI.color = LightGreen;
+                listingStandard.Label("RR_setting_modCompat_detected_humanoidAlienRaces".Translate());
+            }
+            if (ResearchData.active)
+            {
+                GUI.color = LightGreen;
+                listingStandard.Label("RR_setting_modCompat_detected_researchData".Translate());
+                listingStandard.EnumSelector("RR_setting_modCompat_researchData_mode".Translate(), ref researchDataCompatMode, "RR_modCompat_researchData_mode_");
+            }
+
+            //inactive
+            if (!CombatExtended.active)
+            {
+                GUI.color = Color.gray;
+                listingStandard.Label("RR_setting_modCompat_notDetected_combatExtended".Translate());
+            }
+            if (!DubsMintMenus.active)
+            {
+                GUI.color = Color.gray;
+                listingStandard.Label("RR_setting_modCompat_notDetected_dubsMintMenus".Translate());
+            }
+            if (!HumanoidAlienRaces.active)
+            {
+                GUI.color = Color.gray;
+                listingStandard.Label("RR_setting_modCompat_notDetected_humanoidAlienRaces".Translate());
+            }
+            if (!ResearchData.active)
+            {
+                GUI.color = Color.gray;
+                listingStandard.Label("RR_setting_modCompat_notDetected_researchData".Translate());
+            }
+
+            listingStandard.End();
         }
     }
 }

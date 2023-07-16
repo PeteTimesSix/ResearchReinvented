@@ -1,6 +1,7 @@
 ﻿using PeteTimesSix.ResearchReinvented.DefOfs;
 using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Managers;
+using PeteTimesSix.ResearchReinvented.ModCompat;
 using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.Rimworld.Toils;
 using PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers;
@@ -12,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Verse;
 using Verse.AI;
+using static UnityEngine.GridBrushBase;
 
 namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 {
@@ -54,7 +56,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
                 yield break;
             }
 
-            this.FailOn(() => { return currentProject != Find.ResearchManager.currentProj; });
+            this.FailOn(() => currentProject != Find.ResearchManager.currentProj);
+            this.FailOn(() => opportunity.CurrentAvailability != OpportunityAvailability.Available);
+            if(ResearchData.active && ResearchReinventedMod.Settings.researchDataCompatMode == ResearchData.ResearchDataCompatMode.AllBenchResearch)
+            {
+                this.FailOn(() => ResearchBench.GetComp<CompRefuelable>() is CompRefuelable comp && comp.HasFuel is false);
+            }
 
             this.FailOnBurningImmobile(ResearchBenchIndex);
 
@@ -73,19 +80,22 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
             {
                 Pawn actor = research.actor;
                 float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true);
-				var speedMult = opportunity.def.GetCategory(opportunity.relation).Settings.researchSpeedMultiplier;
-				num *= speedMult;
                 num *= ResearchBench.GetStatValue(StatDefOf.ResearchSpeedFactor, true);
-                actor.skills.Learn(SkillDefOf.Intellectual, 0.1f * speedMult, false);
                 actor.GainComfortFromCellIfPossible(true);
-                bool finished = opportunity.ResearchTickPerformed(num, actor);
+                if (ResearchData.active && ResearchReinventedMod.Settings.researchDataCompatMode == ResearchData.ResearchDataCompatMode.AllBenchResearch)
+                {
+                    var fuelComp = ResearchBench.GetComp<CompRefuelable>();
+                    if (fuelComp != null && fuelComp.Props.consumeFuelOnlyWhenUsed)
+                    {
+                        fuelComp.ConsumeTickFuel();
+                    }
+                }
+                bool finished = opportunity.ResearchTickPerformed(num, actor, SkillDefOf.Intellectual);
                 if (finished)
                     this.ReadyForNextToil();
             };
             research.WithEffect(EffecterDefOf.Research, ResearchBenchIndex);
             //research.FailOnDespawnedNullOrForbiddenPlacedThings();                                    //TODO: this is hardcoded nonsense, see Toils_Haul: Action<Thing, int> placedAction = null;
-            research.FailOn(() => Find.ResearchManager.currentProj != currentProject);
-            research.FailOn(() => opportunity.CurrentAvailability != OpportunityAvailability.Available);
             research.FailOn(() => ResearchBench.IsForbidden(pawn));
             research.FailOn(() => TargetThing.IsForbidden(pawn));
             research.FailOn(() => {

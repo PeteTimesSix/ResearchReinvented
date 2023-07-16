@@ -154,6 +154,18 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             }
         }
 
+
+
+        public TaggedString HintText
+        {
+            get
+            {
+                var text = def.GetShortDescCap(relation);
+                string subject = requirement?.Subject;
+                return text.Formatted(subject);
+            }
+        }
+
         public void ExposeData()
         {
             Scribe_Defs.Look(ref project, "project");
@@ -174,17 +186,10 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             Scribe_Values.Look(ref isAlternate, "isAlternate");
         }
 
-        public bool ResearchTickPerformed(float amount, Pawn researcher)
+        private bool ResearchPerformed(float amount, Pawn researcher, SkillDef activeSkill, string moteSubjectName = null, float moteOffsetHint = 0f)
         {
-            if (Find.ResearchManager.currentProj == null) //current project either unset or finished this tick
-                return true;
-            amount *= 0.00825f;
-            return ResearchPerformed(amount, researcher);
-        }
-
-        private bool ResearchPerformed(float amount, Pawn researcher)
-        {
-            amount *= Find.Storyteller.difficulty.researchSpeedFactor;
+            amount *= Find.Storyteller.difficulty.researchSpeedFactor; 
+            amount *= def.GetCategory(relation).Settings.researchSpeedMultiplier;
             if (researcher != null && researcher.Faction != null)
             {
                 amount /= project.CostFactor(researcher.Faction.def.techLevel);
@@ -200,6 +205,13 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             if (researcher != null)
             {
                 researcher.records.AddTo(RecordDefOf.ResearchPointsResearched, amount);
+                if (activeSkill != null)
+                    researcher.skills.Learn(activeSkill, 0.1f * amount);
+
+                if (ResearchReinventedMod.Settings.showProgressMotes && amount >= 1)
+                {
+                    DoResearchProgressMote(researcher, (int)amount, moteSubjectName, moteOffsetHint);
+                }
             }
 
             float total = Find.ResearchManager.GetProgress(project);
@@ -207,40 +219,50 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             ResearchManagerAccess.Field_progress[project] = total;
             if (project.IsFinished)
             {
-                ResearchOpportunityManager.instance.FinishProject(project, true, researcher);
+                ResearchOpportunityManager.Instance.FinishProject(project, true, researcher);
             }
 
             return project.IsFinished || this.IsFinished;
         }
 
-        public bool ResearchChunkPerformed(Pawn researcher, string subjectName, HandlingMode mode, float moteOffsetHint = 0f)
+        public bool ResearchTickPerformed(float amount, Pawn researcher, SkillDef activeSkill)
         {
             if (Find.ResearchManager.currentProj == null) //current project either unset or finished this tick
                 return true;
+            amount *= 0.00825f;
+            return ResearchPerformed(amount, researcher, activeSkill);
+        }
 
-            if (!StatDefOf.ResearchSpeed.Worker.IsDisabledFor(researcher))
+        public bool ResearchChunkPerformed(Pawn researcher, HandlingMode mode, float amount, float modifier, SkillDef activeSkill, string moteSubjectName = null, float moteOffsetHint = 0f)
+        {
+            var startAmount = amount;
+            if (Find.ResearchManager.currentProj == null) //current project either unset or finished this tick
+                return true;
+
+            if (!researcher.WorkTypeIsDisabled(WorkTypeDefOf.Research))
             {
-                var amount = MaximumProgress * def.handlingModeModifiers.GetValueOrDefault(mode) * researcher.GetStatValue(StatDefOf.ResearchSpeed, true);
+                //var handlingModeModifier = def.handlingModeModifiers.ContainsKey(mode) ? def.handlingModeModifiers[mode] : 1f;
+                
+                amount *= modifier; 
                 amount = Math.Min(amount, MaximumProgress);
-                //Log.Message($"permorming research chunk for {ShortDesc} : modifier: {mode} -> {def.handlingModeModifiers.GetValueOrDefault(mode)} amount {amount} (of {MaximumProgress})");
-                if (ResearchReinventedMod.Settings.showProgressMotes && amount >= 1) 
-                {
-                    DoResearchProgressMote(researcher, subjectName, (int)amount, moteOffsetHint);
-                }
-                return ResearchPerformed(amount, researcher);
+
+                if (ResearchReinvented_Debug.debugPrintouts)
+                    Log.Message($"performing research chunk for {ShortDesc}: modifier: {modifier} startAmount: {startAmount} amount {amount} ({amount * def.GetCategory(relation).Settings.researchSpeedMultiplier} after speedmult) (of {MaximumProgress})");
+                
+                return ResearchPerformed(amount, researcher, activeSkill, moteSubjectName, moteOffsetHint);
             }
             else 
             {
-                Log.Warning($"Pawn {researcher} tried to do research chunk despite being incapable of research");
+                Log.Warning($"RR: Pawn {researcher} tried to do research chunk despite being incapable of research");
                 return false;
             }
         }
 
-        public void DoResearchProgressMote(Pawn pawn, string subjectName, float amount, float moteOffsetHint)
+        public void DoResearchProgressMote(Pawn pawn, float amount, string moteSubjectName = null, float moteOffsetHint = 0f)
         {
             var pos = pawn.DrawPos;
             pos.z += moteOffsetHint;
-            MoteMaker.ThrowText(pos, pawn.Map, $"{def.GetHeaderCap(relation)} {(subjectName != null ? $"({subjectName})" : "")}: {Math.Round(amount)}", def.GetCategory(relation).color);
+            MoteMaker.ThrowText(pos, pawn.Map, $"{def.GetHeaderCap(relation)} {(moteSubjectName != null ? $"({moteSubjectName})" : "")}: {Math.Round(amount)}", def.GetCategory(relation).color);
         }
 
         public override string ToString()
@@ -251,5 +273,10 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
         {
             return "ResearchOpportunity_" + this.loadID;
         }
-    }
+
+		public void FinishImmediately()
+		{
+            ResearchPerformed(MaximumProgress, null, null);
+		}
+	}
 }

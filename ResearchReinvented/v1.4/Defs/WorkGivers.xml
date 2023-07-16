@@ -2,7 +2,7 @@
 <Defs>
   
    <WorkGiverDef>
-    <defName>Analyse</defName>
+    <defName>RR_Analyse</defName>
     <label>analyse</label>
     <giverClass>PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers.WorkGiver_Analyse</giverClass>
     <workType>Research</workType>
@@ -16,7 +16,7 @@
   </WorkGiverDef>
   
   <WorkGiverDef>
-    <defName>AnalyseInPlace</defName>
+    <defName>RR_AnalyseInPlace</defName>
     <label>analyse in place</label>
     <giverClass>PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers.WorkGiver_AnalyseInPlace</giverClass>
     <workType>Research</workType>
@@ -30,7 +30,7 @@
   </WorkGiverDef>
   
   <WorkGiverDef>
-    <defName>AnalyseTerrain</defName>
+    <defName>RR_AnalyseTerrain</defName>
     <label>analyse terrain</label>
     <giverClass>PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers.WorkGiver_AnalyseTerrain</giverClass>
     <workType>Research</workType>
@@ -46,15 +46,42 @@
   </WorkGiverDef>
   
   <WorkGiverDef>
-    <defName>ResearchRR</defName>
+    <defName>RR_LearnRemotely</defName>
+    <label>learn from allies</label>
+    <giverClass>PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers.WorkGiver_LearnRemotely</giverClass>
+    <workType>Research</workType>
+    <verb>learn</verb>
+    <gerund>learning at</gerund>
+    <priorityInType>120</priorityInType>
+    <requiredCapacities>
+      <li>Talking</li>
+    </requiredCapacities>
+	<scanThings>true</scanThings>
+	<scanCells>false</scanCells>
+    <canBeDoneByMechs>false</canBeDoneByMechs>
+  </WorkGiverDef>
+  
+  <WorkGiverDef>
+    <defName>RR_ResearchRR</defName>
     <label>do research</label>
     <giverClass>PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers.WorkGiver_ResearcherRR</giverClass>
     <workType>Research</workType>
     <verb>research</verb>
     <gerund>researching at</gerund>
     <priorityInType>110</priorityInType>
+    <canBeDoneByMechs>false</canBeDoneByMechs>
+  </WorkGiverDef>
+  
+  <WorkGiverDef>
+    <defName>RR_InterrogatePrisoner</defName>
+    <label>do research</label>
+    <giverClass>PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers.WorkGiver_Warden_Interrogate</giverClass>
+    <workType>Warden</workType>
+    <verb>interrogate</verb>
+    <gerund>interrogating</gerund>
+    <priorityInType>110</priorityInType>
     <requiredCapacities>
-      <li>Manipulation</li>
+      <li>Talking</li>
     </requiredCapacities>
     <canBeDoneByMechs>false</canBeDoneByMechs>
   </WorkGiverDef>

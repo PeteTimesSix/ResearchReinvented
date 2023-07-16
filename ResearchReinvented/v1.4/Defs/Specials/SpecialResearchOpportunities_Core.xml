@@ -35,7 +35,7 @@
 	
 	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase">
 		<defName>RR_core_autodoor</defName>
-		<opportunityType>AnalyseInPlace</opportunityType>
+		<opportunityType>Analyse</opportunityType>
 		<relationOverride>Ancestor</relationOverride>
 		<importanceMultiplier>2.5</importanceMultiplier>
 		<originals>

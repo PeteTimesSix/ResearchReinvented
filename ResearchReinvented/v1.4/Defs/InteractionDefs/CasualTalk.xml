@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <InteractionDef>
+    <defName>RR_ScienceTalk</defName>
+    <label>talk about science</label>
+	<workerClass>PeteTimesSix.ResearchReinvented.Rimworld.InteractionWorkers.InteractionWorker_Brainstorm</workerClass>
+    <symbol>Motes/Speech/science</symbol>
+    <initiatorXpGainSkill>Intellectual</initiatorXpGainSkill>
+    <initiatorXpGainAmount>10</initiatorXpGainAmount>
+    <logRulesInitiator>
+      <rulesStrings>
+        <li>r_logentry->[RECIPIENT_nameDef] [talkabout] [knowledge] related to [subject] with [INITIATOR_nameDef].</li>
+
+        <li>talkabout->shared</li>
+        <li>talkabout->talked about</li>
+        <li>talkabout->discussed</li>
+        <li>talkabout->had a discussion about</li>
+
+        <li>subject->current research</li>
+        <li>subject->current project</li>
+		
+        <li>knowledge->knowledge</li>
+        <li>knowledge->science</li>
+        <li>knowledge->previous experiments</li>
+        <li>knowledge->[RECIPIENT_possessive] knowledge</li>
+      </rulesStrings>
+    </logRulesInitiator>
+  </InteractionDef>
+</Defs>

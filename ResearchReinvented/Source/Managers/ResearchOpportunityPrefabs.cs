@@ -35,10 +35,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
         public static (List<ResearchOpportunity> opportunities, List<ResearchOpportunityCategoryTotalsStore> categoryStores) MakeOpportunitiesForProject(ResearchProjectDef project)
         {
-            if (ResearchReinventedMod.Settings.debugPrintouts)
-            {
-                Debug.LogMessage($"Generating opportunities for project {project.label}...");
-            }
+            if (ResearchReinvented_Debug.debugPrintouts) 
+                Log.Message($"Generating opportunities for project {project.label}...");
 
             var projectOpportunities = new List<ResearchOpportunity>();
 
@@ -63,9 +61,11 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 var anyOpportunities = projectOpportunities.Any(o => o.def.GetCategory(o.relation) == category/* && o.relation == relation*/);
                 if (anyOpportunities)
                 {
-                    totalMultiplier += category.Settings.targetFractionMultiplier;
+                    totalMultiplier += category.Settings.importanceMultiplierCounted;
                 }
             }
+            if (totalMultiplier < 1f)
+                totalMultiplier = 1f;
 
             List<ResearchOpportunityCategoryTotalsStore> totalStores = new List<ResearchOpportunityCategoryTotalsStore>();
 
@@ -74,13 +74,10 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 var matchingOpportunities = projectOpportunities.Where(o => o.def.GetCategory(o.relation) == category);
 
                 var totalsStore = new ResearchOpportunityCategoryTotalsStore() { project = project, category = category };
-                totalsStore.baseResearchPoints = ((projectResearchPoints / totalMultiplier) * category.Settings.targetFractionMultiplier);
-                totalsStore.allResearchPoints = ((projectResearchPoints / totalMultiplier) * (category.Settings.targetFractionMultiplier + category.Settings.extraFractionMultiplier));
+                totalsStore.researchPoints = ((projectResearchPoints / totalMultiplier) * category.Settings.importanceMultiplier);
 
-                if (totalsStore.baseResearchPoints < MIN_RESEARCH_POINTS)
-                    totalsStore.baseResearchPoints = MIN_RESEARCH_POINTS;
-                if (totalsStore.allResearchPoints < MIN_RESEARCH_POINTS)
-                    totalsStore.allResearchPoints = MIN_RESEARCH_POINTS;
+                if (totalsStore.researchPoints < MIN_RESEARCH_POINTS)
+                    totalsStore.researchPoints = MIN_RESEARCH_POINTS;
 
                 totalStores.Add(totalsStore);
 
@@ -90,9 +87,11 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 var categoryImportanceTotal = matchingOpportunities.Sum(o => o.importance);
                 var matchingOpportunityTypes = matchingOpportunities.Select(o => (def: o.def, rel: o.relation)).ToHashSet();
 
+                var minimumOpportunityResearchPoints = totalsStore.researchPoints / category.Settings.targetIterations;
+
                 foreach (var type in matchingOpportunityTypes)
                 {
-                    float typeResearchPoints = totalsStore.allResearchPoints / matchingOpportunityTypes.Count();
+                    float typeResearchPoints = totalsStore.researchPoints / matchingOpportunityTypes.Count();
 
                     var matchingOpportunitiesOfType = matchingOpportunities.Where(o => o.def == type.def && o.relation == type.rel);
                     var matchCount = matchingOpportunitiesOfType.Count();       //attempt to make rares as valuable for research as all other options combined
@@ -104,7 +103,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                         typeImportanceTotal = category.Settings.targetIterations;
                     float baseImportance = 1f / typeImportanceTotal;
 
-                    //Log.Message($"project {project} ({projectResearchPoints}) category {category.label} ({categoryImportanceTotal}) type.def {type.def.defName} type.rel {type.rel} (points: {typeResearchPoints} base imp.: {baseImportance} count:{matchCount}) points per: {(typeResearchPoints / typeImportanceTotal)}");
+                    if (ResearchReinvented_Debug.debugPrintouts)
+                        Log.Message($"project {project} ({projectResearchPoints}) category {category.label} ({categoryImportanceTotal}) min: {minimumOpportunityResearchPoints} type.def {type.def.defName} type.rel {type.rel} (points: {typeResearchPoints} base imp.: {baseImportance} count:{matchCount}) points per: {(typeResearchPoints * baseImportance)}");
 
                     foreach (var opportunity in matchingOpportunitiesOfType)
                     {
@@ -112,9 +112,9 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                         if (category.Settings.infiniteOverflow)
                             opportunityResearchPoints = projectResearchPoints;
                         else if (opportunity.requirement.IsRare)
-                            opportunityResearchPoints = (typeResearchPoints * baseImportance) * matchCount;
+                            opportunityResearchPoints = Math.Max(typeResearchPoints, minimumOpportunityResearchPoints);
                         else
-                            opportunityResearchPoints = (typeResearchPoints * baseImportance) * opportunity.importance;
+                            opportunityResearchPoints = Math.Max(((typeResearchPoints * baseImportance) * opportunity.importance), (minimumOpportunityResearchPoints * opportunity.importance));
 
                         opportunity.SetMaxProgress(Math.Max(MIN_RESEARCH_POINTS, opportunityResearchPoints));
                     }

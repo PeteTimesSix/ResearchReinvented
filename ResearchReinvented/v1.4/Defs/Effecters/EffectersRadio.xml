@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+ <EffecterDef>
+    <defName>RR_LessonOverRadio</defName>
+    <children>
+		<li>
+			<subEffecterClass>SubEffecter_InteractSymbol</subEffecterClass>
+			<moteDef>RR_LessonOverRadio</moteDef>
+		</li>
+    </children>
+  </EffecterDef>
+  
+</Defs>

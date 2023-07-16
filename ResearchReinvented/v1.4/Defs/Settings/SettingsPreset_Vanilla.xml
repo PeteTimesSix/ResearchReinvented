@@ -9,16 +9,22 @@
 		<li>
 			<category>Theory</category>
 			
-			<targetFractionMultiplier>0.0</targetFractionMultiplier>
+			<importanceMultiplier>0.0</importanceMultiplier>
+			<importanceMultiplierCounted>0.0</importanceMultiplierCounted>
 			<infiniteOverflow>true</infiniteOverflow>
+			<targetIterations>0.0</targetIterations>
 			<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>Social</category>
+			<enabled>false</enabled>
 		</li>
 		<li>
 			<category>Prototyping</category>
 			<enabled>false</enabled>
 		</li>
 		<li>
-			<category>Medical</category>
+			<category>Clinical</category>
 			<enabled>false</enabled>
 		</li>
 		<li>

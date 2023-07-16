@@ -18,7 +18,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 {
     public class ResearchOpportunityManager : GameComponent
     {
-        public static ResearchOpportunityManager instance => Current.Game.GetComponent<ResearchOpportunityManager>();
+        public static ResearchOpportunityManager Instance => Current.Game.GetComponent<ResearchOpportunityManager>();
 
 
         private List<ResearchOpportunity> _allGeneratedOpportunities = new List<ResearchOpportunity>();
@@ -57,10 +57,11 @@ namespace PeteTimesSix.ResearchReinvented.Managers
         }
         public HashSet<ResearchProjectDef> _projectsGenerated = new HashSet<ResearchProjectDef>();
 
-        private Dictionary<int, ResearchOpportunity> _jobToOpportunityMap = new Dictionary<int, ResearchOpportunity>();
         private List<ResearchOpportunityCategoryTotalsStore> _categoryStores = new List<ResearchOpportunityCategoryTotalsStore>();
 
         private bool regenerateWhenPossible = false;
+
+        private Dictionary<ResearchOpportunityCategoryDef, OpportunityAvailability> _categoryAvailability = new Dictionary<ResearchOpportunityCategoryDef, OpportunityAvailability>();
 
         public ResearchOpportunityManager(Game game)
         {
@@ -76,6 +77,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             }
             CheckForRegeneration();
             //CancelMarkedPrototypes();
+            CheckForPopups();
         }
 
         public override void FinalizeInit()
@@ -99,10 +101,10 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 _allGeneratedOpportunities = new List<ResearchOpportunity>();
                 forceRegen = true;
             }
-            if (_jobToOpportunityMap == null)
+            if (_categoryAvailability == null)
             {
-                Log.Warning("RR: _jobToOpportunityMap was missing!");
-                _jobToOpportunityMap = new Dictionary<int, ResearchOpportunity>();
+                Log.Warning("RR: _categoryAvailability was missing!");
+                _categoryAvailability = new Dictionary<ResearchOpportunityCategoryDef, OpportunityAvailability>();
                 forceRegen = true;
             }
             if (_categoryStores == null)
@@ -135,21 +137,51 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             }
 
             //clear caches. TODO: centralize caches in here instead?
-            WorkGiver_Analyse.ClearMatchingOpportunityCache();
-			WorkGiver_AnalyseInPlace.ClearMatchingOpportunityCache();
-			WorkGiver_AnalyseTerrain.ClearMatchingOpportunityCache();
-			WorkGiver_ResearcherRR.ClearMatchingOpportunityCache();
-		}
+            CacheClearer.ClearCaches();
+        }
 
         public bool CheckForRegeneration() 
         {
             if(Find.ResearchManager.currentProj != _currentProject)
             {
-                //MarkUnfinishedPrototypesForCancellation(Find.ResearchManager.currentProj);
+                PrototypeKeeper.Instance.CancelPrototypes(_currentProject, Find.ResearchManager.currentProj);
                 GenerateOpportunities(Find.ResearchManager.currentProj, false);
                 return true;
             }
             return false;
+        }
+
+        public void CheckForPopups()
+        {
+            foreach (var category in CurrentProjectOpportunityCategories)
+            {
+                var current = category.GetCurrentAvailability(Find.ResearchManager.currentProj);
+                if (!_categoryAvailability.ContainsKey(category))
+                    _categoryAvailability[category] = current;
+                else if (_categoryAvailability[category] != current)
+                {
+                    _categoryAvailability[category] = current;
+                    if(current == OpportunityAvailability.Available)
+                    {
+                        var toPopup = CurrentProjectOpportunities.Where(o => o.def.generatesPopups &&  o.def.GetCategory(o.relation) == category).ToList();
+                        if (toPopup.Any())
+                        {
+                            var groups = toPopup.GroupBy(o => new { o.def, o.relation });
+                            foreach(var group in groups)
+                            {
+                                bool tooLong = group.Count() > 5;
+                                string label = group.Key.def.GetHeaderCap(group.Key.relation);
+                                string msg;
+                                if (tooLong)
+                                    msg = "RR_opportunityTypeReady_Many".Translate(label, string.Join(", ", group.Take(5).Select(o => o.requirement.Subject)), group.Count() - 6);
+                                else
+                                    msg = "RR_opportunityTypeReady".Translate(label, string.Join(", ", group.Select(o => o.requirement.Subject)));
+                                Messages.Message(msg, MessageTypeDefOf.TaskCompletion, historical: false);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         public IEnumerable<ResearchOpportunity> GetCurrentlyAvailableOpportunities(bool includeFinished = false)
@@ -180,6 +212,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 _currentOpportunityCategoriesCache?.Clear();
             }
         }
+
         public void ResetAllProgress()
         {
             _allGeneratedOpportunities?.Clear();
@@ -198,80 +231,6 @@ namespace PeteTimesSix.ResearchReinvented.Managers
         public void DelayedRegeneration()
         {
             this.regenerateWhenPossible = true;
-        }
-
-        private (HashSet<Thing> blueprints, HashSet<Thing> frames, HashSet<UnfinishedThing> ufts, HashSet<Bill> bills) toCancel = (new HashSet<Thing>(), new HashSet<Thing>(), new HashSet<UnfinishedThing>(), new HashSet<Bill>());
-        public void CancelMarkedPrototypes()
-        {
-            //Log.Message("cancelling prototypes...");
-            foreach (var blueprint in toCancel.blueprints)
-            {
-                //Log.Message($"cancelling blueprint {blueprint} at {blueprint.Position}");
-                if (!blueprint.Destroyed)
-                    blueprint.Destroy(DestroyMode.Cancel);
-            }
-            foreach (var frame in toCancel.frames)
-            {
-                //Log.Message($"cancelling frame {frame} at {frame.Position}");
-                if (!frame.Destroyed)
-                    frame.Destroy(DestroyMode.Cancel);
-            }
-            foreach (var uft in toCancel.ufts)
-            {
-                //Log.Message($"cancelling uft {uft} at {uft.Position}");
-                if (!uft.Destroyed)
-                    uft.Destroy(DestroyMode.Cancel);
-            }
-
-            foreach (var bill in toCancel.bills)
-            {
-                //Log.Message($"cancelling bill {bill} at {bill.billStack.billGiver}");
-                bill.billStack.Delete(bill);
-            }
-
-            toCancel.blueprints.Clear();
-            toCancel.frames.Clear();
-            toCancel.ufts.Clear();
-            toCancel.bills.Clear();
-        }
-
-        public void MarkUnfinishedPrototypesForCancellation(ResearchProjectDef currentProject)
-        {
-            foreach (var map in Find.Maps)
-            {
-                var mapBlueprints = map.listerThings.ThingsInGroup(ThingRequestGroup.Blueprint).Where(t => t.Faction == Faction.OfPlayer); //lets not cancel hostile mortars and such
-                var mapFrames = map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingFrame).Where(t => t.Faction == Faction.OfPlayer); //lets not cancel hostile mortars and such
-                var mapUnfinishedThings = map.listerThings.AllThings.Where(t => t.def.isUnfinishedThing || t.def.thingClass == typeof(UnfinishedThing)).Cast<UnfinishedThing>();
-                var mapBillHolders = map.listerThings.ThingsInGroup(ThingRequestGroup.PotentialBillGiver).Where(t => t is IBillGiver).Cast<IBillGiver>();
-
-                foreach (var protoOpportunity in _allGeneratedOpportunities.Where(o => o.project != currentProject && o.def.handledBy.HasFlag(HandlingMode.Special_Prototype)))
-                {
-                    if(protoOpportunity.requirement is ROComp_RequiresThing regThing)
-                    {
-                        var thingDef = regThing.thingDef;
-                        var matchBlueprint = mapBlueprints.Where(f => f.def.entityDefToBuild == thingDef);
-                        var matchFrames = mapFrames.Where(f => f.def.entityDefToBuild == thingDef);
-                        var matchUnfinishedThings = mapUnfinishedThings.Where(f => f.Recipe.products.Any(p => p.thingDef == thingDef));
-
-                        var matchBills = mapBillHolders.Select(b => b.BillStack).SelectMany(bs => bs.Bills).Where(b => b.recipe.products.Any(p => p.thingDef == thingDef));
-
-                        toCancel.blueprints.AddRange(matchBlueprint);
-                        toCancel.frames.AddRange(matchFrames);
-                        toCancel.ufts.AddRange(matchUnfinishedThings);
-
-                        toCancel.bills.AddRange(matchBills);
-                    }
-                    else if(protoOpportunity.requirement is ROComp_RequiresTerrain regTerrain)
-                    {
-                        var terrainDef = regTerrain.terrainDef;
-                        var matchBlueprint = mapBlueprints.Where(f => f.def.entityDefToBuild == terrainDef);
-                        var matchFrames = mapFrames.Where(f => f.def.entityDefToBuild == terrainDef);
-
-                        toCancel.blueprints.AddRange(matchBlueprint);
-                        toCancel.frames.AddRange(matchFrames);
-                    }
-                }
-            }
         }
 
         public void GenerateOpportunities(ResearchProjectDef project, bool forceRegen)
@@ -313,13 +272,19 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             _allGeneratedOpportunities.AddRange(newOpportunities.Where(o => o.IsValid()));
             _projectsGenerated.Add(project);
 
-            if (ResearchReinventedMod.Settings.debugPrintouts)
+            if (ResearchReinvented_Debug.debugPrintouts)
             {
-                Debug.LogMessage($"Listing generated opportunities for current project {_currentProject.label}...");
+                Log.Message($"Listing generated opportunities for current project {_currentProject.label}...");
                 foreach (var opportunity in newOpportunities)
                 {
-                    Debug.LogMessage($" |-- {opportunity.ShortDesc}");
+                    Log.Message($" |-- {opportunity.ShortDesc} -- {opportunity.debug_source} (imp.: {opportunity.importance})");
                 }
+            }
+
+            _categoryAvailability.Clear();
+            foreach(var category in CurrentProjectOpportunityCategories)
+            {
+                _categoryAvailability[category] = category.GetCurrentAvailability(project);
             }
         }
 

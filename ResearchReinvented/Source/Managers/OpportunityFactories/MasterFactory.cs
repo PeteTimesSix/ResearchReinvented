@@ -4,6 +4,8 @@ using PeteTimesSix.ResearchReinvented.Extensions;
 using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.OpportunityComps;
 using PeteTimesSix.ResearchReinvented.Rimworld;
+using PeteTimesSix.ResearchReinvented.Rimworld.DefModExtensions;
+using PeteTimesSix.ResearchReinvented.Utilities;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -12,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
+using Verse.AI;
 
 namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
 {
@@ -34,7 +37,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             this.relation = relation;
         }
 
-        internal void AddAlternates(bool isDirectRelation)
+        public void AddAlternates(bool isDirectRelation)
         {
             alts = new OpportunityFactoryCollectionsSetForRelation(this.relation);
 
@@ -66,7 +69,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             return alternates.Except(originals);
         }
 
-        internal void RemoveDuplicates(OpportunityFactoryCollectionsSetForRelation other)
+        public void RemoveDuplicates(OpportunityFactoryCollectionsSetForRelation other)
         {
             forProductionFacilityAnalysis.ExceptWith(other.forProductionFacilityAnalysis);
             forDirectAnalysis.ExceptWith(other.forDirectAnalysis);
@@ -79,6 +82,21 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
 
             if(alts != null) //if we ARE alts, we cant do this
                 alts.RemoveDuplicates(other.alts);
+        }
+
+        public void RemoveBlacklisted()
+        {
+            forProductionFacilityAnalysis.RemoveWhere(d => d.modExtensions != null && d.modExtensions.Any(e => e is Blacklisted));
+            forDirectAnalysis.RemoveWhere(d => d.modExtensions != null && d.modExtensions.Any(e => e is Blacklisted));
+            forIngredientsAnalysis.RemoveWhere(d => d.modExtensions != null && d.modExtensions.Any(e => e is Blacklisted));
+            forHarvestProductAnalysis.RemoveWhere(d => d.modExtensions != null && d.modExtensions.Any(e => e is Blacklisted));
+            forFuelAnalysis.RemoveWhere(d => d.modExtensions != null && d.modExtensions.Any(e => e is Blacklisted));
+            forPrototyping.RemoveWhere(d => d.modExtensions != null && d.modExtensions.Any(e => e is Blacklisted));
+
+            specials.RemoveWhere(d => d.modExtensions != null && d.modExtensions.Any(e => e is Blacklisted));
+
+            if (alts != null) //if we ARE alts, we cant do this
+                alts.RemoveBlacklisted();
         }
     }
 
@@ -112,6 +130,12 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             collections_direct.AddAlternates(true);
             collections_ancestor.AddAlternates(false);
             collections_descendant.AddAlternates(false);
+        }
+        public void RemoveBlacklisted()
+        {
+            collections_direct.RemoveBlacklisted();
+            collections_ancestor.RemoveBlacklisted();
+            collections_descendant.RemoveBlacklisted();
         }
 
         public void RemoveDuplicates()
@@ -158,6 +182,29 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
         {
             yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.BasicResearch, ResearchRelation.Direct, new ROComp_RequiresNothing(), "Project");
 
+            {
+                {
+                    var playerFaction = Faction.OfPlayer;
+                    var playerTechLevelModifier = OF_Factions.Modifiers.GetValueOrDefault((playerFaction.def.techLevel, project.techLevel), 0f);
+                    if(playerTechLevelModifier > 0f)
+                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.Brainstorming, ResearchRelation.Direct, new ROComp_RequiresFaction(playerFaction), "player faction", importance: playerTechLevelModifier);
+                }
+
+                var factions = Find.FactionManager.GetFactions(/*not of player,*/ allowHidden: true, allowDefeated: true, allowNonHumanlike: false, minTechLevel: TechLevel.Neolithic, allowTemporary: false);
+
+                foreach (var faction in factions) 
+                {
+                    var techLevelModifier = OF_Factions.Modifiers.GetValueOrDefault((faction.def.techLevel, project.techLevel), 0f);
+                    if(techLevelModifier > 0f)
+                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.GainFactionKnowledge, ResearchRelation.Direct, new ROComp_RequiresFaction(faction), "faction", importance: techLevelModifier);
+                }
+
+                {
+                    var techLevelModifier = 0.5f;
+                    yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.GainFactionlessKnowledge, ResearchRelation.Direct, new ROComp_RequiresFactionlessPawn(), "no faction", importance: techLevelModifier);
+                }
+            }
+
             //var specials = new HashSet<SpecialResearchOpportunityDef>();
             //specials.AddRange(DefDatabase<SpecialResearchOpportunityDef>.AllDefsListForReading.Where(o => o.originalProject == project));
 
@@ -169,11 +216,47 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             {
                 foreach (var productionFacility in set.forProductionFacilityAnalysis.Where(facility => !project.UnlockedDefs.Contains(facility))) //dont include tables we're trying to invent
                 {
-                    yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseProductionFacility, set.relation, new ROComp_RequiresThing(productionFacility), "set.production facility");
+                    if(typeof(Pawn).IsAssignableFrom(productionFacility.thingClass))
+                    {
+                        if (productionFacility.race.IsFleshModAware())
+                        {
+                            yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalysePawn, set.relation, new ROComp_RequiresThing(productionFacility), "set.production facility pawn", isAlternate: false);
+                            if (productionFacility.race.corpseDef != null)
+                                yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissect, set.relation, new ROComp_RequiresThing(productionFacility.race.corpseDef), "set.production facility pawn (corpse)", isAlternate: true);
+                        }
+                        else
+                        {
+                            yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalysePawnNonFlesh, set.relation, new ROComp_RequiresThing(productionFacility), "set.production facility pawn nonflesh", isAlternate: false);
+                            if (productionFacility.race.corpseDef != null)
+                                yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissectNonFlesh, set.relation, new ROComp_RequiresThing(productionFacility.race.corpseDef), "set.production facility pawn (corpse non-flesh)", isAlternate: true);
+                        }
+                    }
+                    else
+                    {
+                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseProductionFacility, set.relation, new ROComp_RequiresThing(productionFacility), "set.production facility");
+                    }
                 }
                 foreach (var productionFacility in set.alts.forProductionFacilityAnalysis.Where(facility => !project.UnlockedDefs.Contains(facility))) //dont include tables we're trying to invent
                 {
-                    yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseProductionFacility, set.relation, new ROComp_RequiresThing(productionFacility), "alt set. production facility" , isAlternate: true);
+                    if (typeof(Pawn).IsAssignableFrom(productionFacility.thingClass))
+                    {
+                        if (productionFacility.race.IsFleshModAware())
+                        {
+                            yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalysePawn, set.relation, new ROComp_RequiresThing(productionFacility), "alt set.production facility pawn", isAlternate: true);
+                            if (productionFacility.race.corpseDef != null)
+                                yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissect, set.relation, new ROComp_RequiresThing(productionFacility.race.corpseDef), "alt set.production facility pawn (corpse)", isAlternate: true);
+                        }
+                        else
+                        {
+                            yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalysePawnNonFlesh, set.relation, new ROComp_RequiresThing(productionFacility), "alt set.production facility pawn nonflesh", isAlternate: true);
+                            if (productionFacility.race.corpseDef != null)
+                                yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissectNonFlesh, set.relation, new ROComp_RequiresThing(productionFacility.race.corpseDef), "alt set.production facility pawn (corpse non-flesh)", isAlternate: true);
+                        }
+                    }
+                    else
+                    {
+                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseProductionFacility, set.relation, new ROComp_RequiresThing(productionFacility), "set.production facility");
+                    }
                 }
 
                 foreach (var analysable in set.forDirectAnalysis)
@@ -305,8 +388,10 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
 
         public IEnumerable<ResearchOpportunity> OpportunitiesFromIngredientAnalysis(ResearchProjectDef project, ThingDef material, ResearchRelation relation, bool isAlternate = false)
         {
+            if (material.IsMedicine)
+                yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseMedicine, relation, new ROComp_RequiresThing(material), "ingre. analysis (medicine)", isAlternate: isAlternate);
             //food n' drugs
-            if (material.ingestible != null)
+            else if (material.ingestible != null)
             {
                 //corpses
                 if (material.IsCorpse)
@@ -317,7 +402,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                         var deadThingRace = deadThing.race;
                         if (deadThingRace != null)
                         {
-                            if (deadThingRace.IsFlesh)
+                            if (deadThingRace.IsFleshModAware())
                                 yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissect, relation, new ROComp_RequiresThing(material), "direct analysis (corpse)", isAlternate: isAlternate);
                             else
                                 yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDissectNonFlesh, relation, new ROComp_RequiresThing(material), "direct analysis (corpse non-flesh)", isAlternate: isAlternate);
@@ -325,7 +410,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                         }
                     }
                 }
-                else if (material.IsDrug || material.IsMedicine)
+                else if (material.IsDrug)
                     yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseDrug, relation, new ROComp_RequiresThing(material), "ingre. analysis (drug)", isAlternate: isAlternate);
                 else if (material.IsTrulyRawFood())
                     yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseFuelFood, relation, new ROComp_RequiresThing(material), "ingre. analysis (raw food)", isAlternate: isAlternate);
@@ -343,7 +428,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             {
                 if (typeof(Pawn).IsAssignableFrom(asThing.thingClass) && asThing.race != null)
                 {
-                    if (asThing.race.IsFlesh)
+                    if (asThing.race.IsFleshModAware())
                     {
                         yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalysePawn, relation, new ROComp_RequiresThing(asThing), "direct analysis pawn", isAlternate: isAlternate);
                         if (asThing.race.corpseDef != null)
@@ -371,8 +456,12 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                 }
                 else
                 {
+                    if (asThing.IsMedicine)
+                    {
+                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseMedicine, relation, new ROComp_RequiresThing(asThing), "direct analysis (medicine)", isAlternate: isAlternate);
+                    }
                     //food n' drugs
-                    if (asThing.ingestible != null)
+                    else if (asThing.ingestible != null)
                     {
                         if (asThing.IsDrug)
                         {
@@ -410,7 +499,20 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
 
         public IEnumerable<ResearchOpportunity> OpportunitiesFromPrototyping(ResearchProjectDef project, Def prototypeable, ResearchRelation relation, bool isAlternate = false)
         {
-            if (prototypeable is ThingDef asThing)
+            if(prototypeable is RecipeDef asRecipe)
+            {
+                if (asRecipe.IsSurgery)
+				{
+					if (!isAlternate && relation == ResearchRelation.Direct)
+						yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeSurgery, relation, new ROComp_RequiresRecipe(asRecipe), "prototype surgery", isAlternate: isAlternate);
+				}
+				else if (asRecipe.ProducedThingDef != null) //only non-null if produces exactly one product
+				{
+					if (!isAlternate && relation == ResearchRelation.Direct)
+						yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeProduction, relation, new ROComp_RequiresRecipe(asRecipe), "prototype", isAlternate: isAlternate);
+				}
+			}
+            else if (prototypeable is ThingDef asThing)
             {
                 if (typeof(Plant).IsAssignableFrom(asThing.thingClass))
                     yield break;
@@ -419,13 +521,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                     if (!asThing.IsInstantBuild())
                     {
                         if (!isAlternate && relation == ResearchRelation.Direct && asThing.BuildableByPlayer)
-                            yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeConstruction, relation, new ROComp_RequiresThing(asThing), "direct analysis (unhaulable)", isAlternate: isAlternate);
+                            yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeConstruction, relation, new ROComp_RequiresThing(asThing), "prototype (unhaulable)", isAlternate: isAlternate);
                     }
-                }
-                else
-                {
-                    if (!isAlternate && relation == ResearchRelation.Direct)
-                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeProduction, relation, new ROComp_RequiresThing(asThing), "direct analysis", isAlternate: isAlternate);
                 }
 
             }
@@ -434,7 +531,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                 if (asTerrain.BuildableByPlayer)
                 {
                     if (!isAlternate && relation == ResearchRelation.Direct && asTerrain.BuildableByPlayer)
-                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeTerrainConstruction, relation, new ROComp_RequiresTerrain(asTerrain), "direct analysis tr. (builable)", isAlternate: isAlternate);
+                        yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.PrototypeTerrainConstruction, relation, new ROComp_RequiresTerrain(asTerrain), "prototype tr. (builable)", isAlternate: isAlternate);
                 }
             }
         }
@@ -480,6 +577,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             }*/
 
             /*discard what we dont want to generate from*/
+            collections.RemoveBlacklisted();
+
             collections.GetSet(ResearchRelation.Ancestor).forIngredientsAnalysis.Clear();
             collections.GetSet(ResearchRelation.Descendant).forIngredientsAnalysis.Clear();
 

@@ -19,7 +19,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             HashSet<ThingDef> users = new HashSet<ThingDef>();
             HashSet<ThingDef> ingredients = new HashSet<ThingDef>();
             HashSet<ThingDef> products = new HashSet<ThingDef>();
-            HashSet<ThingDef> prototypeables = new HashSet<ThingDef>();
+            HashSet<Def> prototypeables = new HashSet<Def>();
 
             foreach (var recipe in GatherDirectRecipes(project).Where(r => r.PassesIdeoCheck()))
             {
@@ -32,7 +32,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                 }
 
                 if (!recipe.AllResearchPrerequisites().Except(project).Any())
-                    prototypeables.AddRange(recipe.products.Select(p => p.thingDef));
+                    prototypeables.Add(recipe);
+                    //prototypeables.AddRange(recipe.products.Select(p => p.thingDef));
             }
 
             foreach (var recipe in GatherCreationRecipes(project).Where(r => r.PassesIdeoCheck()))
@@ -82,24 +83,6 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                 recipes.AddRange(
                     project.UnlockedDefs.Where(u => u is RecipeDef).Cast<RecipeDef>()
                     );
-            }
-
-            return recipes;
-        }
-        private static HashSet<RecipeDef> GatherNewImpliedRecipes(ResearchProjectDef project)
-        {
-            HashSet<RecipeDef> recipes = new HashSet<RecipeDef>();
-
-            if (project.UnlockedDefs != null)
-            {
-                var unlockedThings = project.UnlockedDefs.Where(u => u is ThingDef).Cast<ThingDef>().ToList();
-                foreach (var thing in unlockedThings)
-                {
-                    if (thing.AllRecipes != null)
-                    {
-                        recipes.AddRange(thing.AllRecipes.Where(r => r.IsAvailableOnlyForPrototyping(true)));
-                    }
-                }
             }
 
             return recipes;

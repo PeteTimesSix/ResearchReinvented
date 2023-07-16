@@ -11,7 +11,9 @@ namespace PeteTimesSix.ResearchReinvented.DefOfs
     [DefOf]
     public static class EffecterDefOf_Custom
     {
-        public static EffecterDef NoResearchKitEffect;
+        public static EffecterDef RR_NoResearchKitEffect;
+
+        public static EffecterDef RR_LessonOverRadio;
 
         static EffecterDefOf_Custom()
         {

@@ -3,6 +3,7 @@ using PeteTimesSix.ResearchReinvented.Extensions;
 using PeteTimesSix.ResearchReinvented.Managers;
 using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.OpportunityComps;
+using PeteTimesSix.ResearchReinvented.Utilities;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
+using Verse.Noise;
 
 namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 {
@@ -41,6 +43,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
         public const float ICON_GAP = 5f;
         public const float ICON_SIZE = ROW_HEIGHT;
         public const float ICON_LARGE_SIZE = 62f;
+        public const float HINTICON_SIZE = 24f;
+        public const float HINTICON_BOUNDING_BOX = HINTICON_SIZE + MARGIN * 2;
         public const float MARGIN = 2f;
         public const float MARGIN_INTERNAL = 2f;
 
@@ -75,8 +79,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
             var fullRect = inRect;
             //Rect fullRect = new Rect(0f, TITLEBAR_HEIGHT, this.size.x, this.size.y - TITLEBAR_HEIGHT).Rounded();
-            IReadOnlyCollection<ResearchOpportunity> opportunities = ResearchOpportunityManager.instance.CurrentProjectOpportunities;
-            IReadOnlyCollection<ResearchOpportunityCategoryDef> opportunityCategories = ResearchOpportunityManager.instance.CurrentProjectOpportunityCategories;
+            IReadOnlyCollection<ResearchOpportunity> opportunities = ResearchOpportunityManager.Instance.CurrentProjectOpportunities;
+            IReadOnlyCollection<ResearchOpportunityCategoryDef> opportunityCategories = ResearchOpportunityManager.Instance.CurrentProjectOpportunityCategories;
 
             var titlebarRect = fullRect.TopPartPixels(TITLEBAR_HEIGHT);
             var footerRect = fullRect.BottomPartPixels(FOOTER_HEIGHT);
@@ -106,15 +110,25 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             }
 
             Widgets.DrawLineHorizontal(titlebarRect.x, titlebarRect.y + titlebarRect.height, titlebarRect.width);
-            DrawOpportunitiesList(contentRect, ResearchOpportunityManager.instance.CurrentProject, opportunityCategories, opportunities);
+            DrawOpportunitiesList(contentRect, ResearchOpportunityManager.Instance.CurrentProject, opportunityCategories, opportunities);
 
-            if (DebugSettings.godMode) 
+            if (DebugSettings.ShowDevGizmos) 
             {
-                if (GUI.Button(footerRect.LeftPartPixels(120f), "DEBUG:Regen"))
+                var but1rect = footerRect.LeftPartPixels(150f);
+                var but2rect = new Rect(but1rect);
+                but2rect.x += 150f;
+
+				if (GUI.Button(but1rect, "DEBUG:Toggle extras"))
                 {
-                    ResearchOpportunityManager.instance.GenerateOpportunities(Find.ResearchManager.currentProj, true);
-                }
-            }
+                    ResearchReinvented_Debug.debugPrintouts = !ResearchReinvented_Debug.debugPrintouts;
+				}
+				if (GUI.Button(but2rect, "DEBUG:Regen"))
+				{
+                    ResearchOpportunityManager.Instance.ResetAllProgress();
+                    CacheClearer.ClearCaches();
+                    ResearchOpportunityManager.Instance.GenerateOpportunities(Find.ResearchManager.currentProj, true);
+				}
+			}
 
             Text.Font = cachedStyle;
             Text.Anchor = cachedAnchor;
@@ -149,13 +163,13 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
         private void DrawOpportunityCategory(Rect wrapperRect, Rect internalRect, bool hasScrollbar, ref float heightTotal, ResearchProjectDef project, ResearchOpportunityCategoryDef category, IEnumerable<ResearchOpportunity> matchingOpportunitites)
         {
-            var totalsStore = ResearchOpportunityManager.instance.GetTotalsStore(project, category);
+            var totalsStore = ResearchOpportunityManager.Instance.GetTotalsStore(project, category);
 
             Rect headerRect = new Rect(internalRect.x, internalRect.y + heightTotal, internalRect.width, HEADER_ROW_HEIGHT).Rounded();
 
             if (totalsStore == null)
             {
-                ResearchOpportunityManager.instance.DelayedRegeneration();
+                ResearchOpportunityManager.Instance.DelayedRegeneration();
                 GUI.color = Color.red;
                 Widgets.Label(headerRect, $"Category {category.LabelCap} totalsStore missing!");
                 GUI.color = Color.white;
@@ -187,7 +201,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             if (!category.Settings.infiniteOverflow)
             {
                 //{Progress} "X"
-                Widgets_Extra.LabelFitHeightAware(headerRect, $"{Math.Round(category.GetCurrentTotal(), 0)} / {Math.Round(totalsStore.allResearchPoints, 0)}");
+                Widgets_Extra.LabelFitHeightAware(headerRect, $"{Math.Round(category.GetCurrentTotal(), 0)} / {Math.Round(totalsStore.researchPoints, 0)}");
             }
             else
             {
@@ -267,7 +281,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
                 labelBox.height = (float)(Text.LineHeightOf(GameFont.Tiny) * Math.Ceiling(labelBox.height / Text.LineHeightOf(GameFont.Tiny))) + 1f;
                 Widgets_Extra.LabelFitHeightAware(labelBox, $"{opportunity.requirement.ShortDesc.CapitalizeFirst()}");
 
-                if (ResearchReinventedMod.Settings.debugPrintouts)
+                if (ResearchReinvented_Debug.debugPrintouts)
                 {
                     Text.Anchor = TextAnchor.MiddleCenter;
                     GUI.color = Color.green;
@@ -291,6 +305,13 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
                     Widgets_Extra.LabelFitHeightAware(textBoxInternal, $"{Math.Round(opportunity.Progress, 0)} / {Math.Round(opportunity.MaximumProgress, 0)}");
                 }
 
+                if (Mouse.IsOver(textBoxInternal))
+                {
+                    var diff = ((textBoxInternal.height - HINTICON_BOUNDING_BOX) / 2);
+                    var contracted = new Rect(textBoxInternal.x, textBoxInternal.y + diff, textBoxInternal.width, HINTICON_BOUNDING_BOX);
+                    var usedWidth = DrawHandlingModeHints(contracted, true, opportunity, borderColor, bgColor);
+                }
+
                 if (opportunity.CurrentAvailability != OpportunityAvailability.Available)
                     DoUnavailabilityLabel(opportunity.CurrentAvailability, textBoxInternal.ContractedBy(2f), true);
 
@@ -303,6 +324,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
                 heightTotal += ICON_LARGE_SIZE + ROW_GAP;
                 horizontalOffset = 0;
             }
+
+            TooltipHandler.TipRegion(fullRect, () => opportunity.HintText, 554410123 + opportunity.GetHashCode());
         }
 
 
@@ -334,26 +357,34 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
                 Text.Anchor = TextAnchor.MiddleLeft;
 
+                var usedWidth = DrawHandlingModeHints(textBoxInternal, false, opportunity, borderColor, bgColor);
+                textBoxInternal = textBoxInternal.RightPartPixels(textBoxInternal.width - usedWidth);
+
                 //{Opportunity name}
                 Widgets_Extra.LabelFitHeightAware(textBoxInternal.TopHalf().Rounded(), $"{opportunity.def.GetHeaderCap(opportunity.relation)}");
                 //{Requirements description (usually ThingDef name)}
                 Widgets_Extra.LabelFitHeightAware(textBoxInternal.BottomHalf().Rounded(), $"{opportunity.requirement.ShortDesc.CapitalizeFirst()}");
 
-                    if (ResearchReinventedMod.Settings.debugPrintouts)
+                if (ResearchReinvented_Debug.debugPrintouts)
+                {
+                    Text.Anchor = TextAnchor.MiddleCenter;
+                    GUI.color = Color.green;
+                    if (opportunity.IsAlternate)
                     {
-                        Text.Anchor = TextAnchor.MiddleCenter;
-                        GUI.color = Color.green;
-                        if (opportunity.IsAlternate)
-                        {
-                            GUI.DrawTexture(textBoxInternal.TopHalf().RightHalf(), TexUI.GrayTextBG);
-                            Widgets_Extra.LabelFitHeightAware(textBoxInternal.TopHalf().RightHalf(), $"ALT");
-                        }
-                        GUI.DrawTexture(textBoxInternal.TopHalf().LeftHalf(), TexUI.GrayTextBG);
-                        Widgets_Extra.LabelFitHeightAware(textBoxInternal.TopHalf().LeftHalf(), $"{opportunity.relation}");
-                        GUI.DrawTexture(textBoxInternal.BottomHalf(), TexUI.GrayTextBG);
-                        Widgets_Extra.LabelFitHeightAware(textBoxInternal.BottomHalf(), $"{opportunity.debug_source}");
-                        GUI.color = Color.white;
+                        GUI.DrawTexture(textBoxInternal.TopHalf().RightHalf(), TexUI.GrayTextBG);
+                        Widgets_Extra.LabelFitHeightAware(textBoxInternal.TopHalf().RightHalf(), $"ALT");
                     }
+                    GUI.DrawTexture(textBoxInternal.TopHalf().LeftHalf(), TexUI.GrayTextBG);
+                    Widgets_Extra.LabelFitHeightAware(textBoxInternal.TopHalf().LeftHalf(), $"{opportunity.relation}");
+                    GUI.DrawTexture(textBoxInternal.BottomHalf(), TexUI.GrayTextBG);
+                    Widgets_Extra.LabelFitHeightAware(textBoxInternal.BottomHalf(), $"{opportunity.debug_source} (imp.: {opportunity.importance})");
+                    GUI.color = Color.white;
+
+                    if (GUI.Button(textBoxInternal.TopHalf().RightHalf(), "Finish")) 
+                    {
+                        opportunity.FinishImmediately();
+                    }
+                }
 
                 Text.Anchor = TextAnchor.MiddleRight;
                 //{Progress} "X.x%"
@@ -372,25 +403,104 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             }
 
             heightTotal += ROW_HEIGHT + ROW_GAP;
+
+            TooltipHandler.TipRegion(fullRect, () => opportunity.HintText, 554410123 + opportunity.GetHashCode());
         }
 
         private void DrawIconForOpportunity(ResearchOpportunity opportunity, Rect iconBox)
         {
-            Def onlyDef = null;
-            if (opportunity.requirement is ROComp_RequiresThing requiresThingComp)
+            if(opportunity.requirement is ROComp_RequiresFactionlessPawn)
             {
-                var thing = requiresThingComp.thingDef;
-                if (thing.IsCorpse)
+                GUI.color = Color.white;
+                Widgets.DrawTextureFitted(iconBox, Textures.genericIcon, 1f);
+            }
+            else if (opportunity.requirement is ROComp_RequiresFaction requiresPawnOfFaction) 
+            {
+                var faction = requiresPawnOfFaction.faction;
+                GUI.color = requiresPawnOfFaction.faction.Color;
+                if(faction.def.FactionIcon != null && faction.def.FactionIcon != BaseContent.BadTex)
                 {
-                    var deadThing = thing.ingestible?.sourceDef;
-                    if (deadThing != null)
-                        Widgets.DefIcon(iconBox, deadThing);
+                    Widgets.DrawTextureFitted(iconBox, requiresPawnOfFaction.faction.def.FactionIcon, 1f);
                 }
                 else
                 {
-                    Widgets.DefIcon(iconBox, requiresThingComp.thingDef);
+                    Widgets.DrawTextureFitted(iconBox, Textures.genericIcon, 1f);
                 }
-                onlyDef = requiresThingComp.thingDef;
+                GUI.color = Color.white;
+
+                if (Widgets.ButtonInvisible(iconBox))
+                    Find.WindowStack.Add(new Dialog_InfoCard(requiresPawnOfFaction.faction));
+            }
+            else if (opportunity.requirement is ROComp_RequiresRecipe requiresRecipeComp)
+			{
+                var recipeDef = requiresRecipeComp.recipeDef;
+                if(recipeDef.UIIconThing != null)
+				{
+					Widgets.ThingIcon(iconBox, recipeDef.UIIconThing);
+				}
+                else
+                {
+                    bool hadThingIcon = false;
+                    {
+                        ThingDef fixedIngredient = null;
+                        if (recipeDef.ingredients.Count == 1 && recipeDef.ingredients[0].IsFixedIngredient)
+                        {
+                            fixedIngredient = recipeDef.ingredients[0].FixedIngredient;
+                        }
+                        else
+                        {
+                            var fixedIngredients = recipeDef.ingredients.Where(i => i.IsFixedIngredient).ToList();
+                            if(fixedIngredients.Count == 1)
+                            {
+                                fixedIngredient = fixedIngredients[0].FixedIngredient;
+                            }
+                        }
+                        if (fixedIngredient != null && fixedIngredient.uiIcon != null && fixedIngredient.uiIcon != BaseContent.BadTex)
+                        {
+                            hadThingIcon = true;
+                            Widgets.DefIcon(iconBox, fixedIngredient); //has own icon. Use DefIcon when possible to preserve colors
+                        }
+                    }
+                    if(!hadThingIcon)
+                    {
+                        if (recipeDef.IsSurgery)
+                        {
+                            Widgets.DrawTextureFitted(iconBox, Textures.medicalInvasiveIcon, 1f);
+                        }
+                        else
+                        {
+                            Widgets.DrawTextureFitted(iconBox, Textures.medicalNoninvasiveIcon, 1f);
+                        }
+                    }
+				}
+
+                if (Widgets.ButtonInvisible(iconBox))
+                    Find.WindowStack.Add(new Dialog_InfoCard(recipeDef));
+			}
+			else if (opportunity.requirement is ROComp_RequiresThing requiresThingComp)
+            {
+                var thingDef = requiresThingComp.thingDef;
+                if (thingDef.uiIcon != null && thingDef.uiIcon != BaseContent.BadTex)
+                {
+                    Widgets.DefIcon(iconBox, thingDef); //has own icon. Use DefIcon when possible to preserve colors
+                }
+                else
+                {
+                    if(thingDef.IsCorpse && thingDef.ingestible?.sourceDef?.uiIcon != null && thingDef.ingestible?.sourceDef?.uiIcon != BaseContent.BadTex)
+                    {
+                        Widgets.DefIcon(iconBox, thingDef.ingestible.sourceDef); //is a corpse and the pawn has an icon
+                    }
+                    else if(thingDef.race != null || thingDef.IsCorpse)
+                        Widgets.DrawTextureFitted(iconBox, Textures.genericPawnIcon, 1f); //is a corspe or a pawn with no icon
+                    else
+                        Widgets.DrawTextureFitted(iconBox, Textures.genericIcon, 1f); //isnt pawn-like and has no icon??
+                }
+                if(thingDef.IsCorpse)
+                {
+                    Widgets.DrawTextureFitted(iconBox, Textures.corpseIconOverlay, 1f);
+                }
+                if (Widgets.ButtonInvisible(iconBox))
+                    Find.WindowStack.Add(new Dialog_InfoCard(thingDef));
             }
             // unused for now
             //else if (opportunity.requirement is ROComp_RequiresIngredients requiresIngredientsComp)
@@ -415,18 +525,37 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             else if (opportunity.requirement is ROComp_RequiresTerrain requiresTerrainComp)
             {
                 Widgets.DefIcon(iconBox, requiresTerrainComp.terrainDef);
-                onlyDef = requiresTerrainComp.terrainDef;
+                if (Widgets.ButtonInvisible(iconBox))
+                    Find.WindowStack.Add(new Dialog_InfoCard(requiresTerrainComp.terrainDef));
             }
             else
             {
                 Widgets.DrawTextureFitted(iconBox, Textures.scienceIconDark, 1f);
             }
+        }
 
-            if (onlyDef != null)
+        private float DrawHandlingModeHints(Rect container, bool useWholeWidth, ResearchOpportunity opportunity, Color borderColor, Color bgColor)
+        {
+            float offset = 0;
+            var width = HINTICON_BOUNDING_BOX;
+            var heightOffset = (container.height - HINTICON_BOUNDING_BOX) / 2;
+            if (useWholeWidth)
             {
-                if (Widgets.ButtonInvisible(iconBox))
-                    Find.WindowStack.Add(new Dialog_InfoCard(onlyDef));
+                width = Mathf.Max(width, container.width / opportunity.def.Icons.Count);
             }
+            foreach(var icon in opportunity.def.Icons)
+            {
+                var iconRect = new Rect(container.x + offset, container.y + heightOffset, width, HINTICON_BOUNDING_BOX);
+
+                Widgets.DrawBoxSolid(iconRect, borderColor);
+                iconRect = iconRect.ContractedBy(MARGIN);
+                Widgets.DrawBoxSolid(iconRect, bgColor);
+                Widgets.DrawTextureFitted(iconRect, icon, 1f);
+                //TooltipHandler.TipRegion(iconRect, () => hintTooltipText, 554410123);
+
+                offset += width;
+            }
+            return offset;
         }
 
         private static bool precachedTranslations = false;
@@ -478,7 +607,6 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             RR_OpportunityBlocked_ResearchTooLow = "RR_OpportunityBlocked_ResearchTooLow".Translate();
             RR_OpportunityBlocked_ResearchTooHigh = "RR_OpportunityBlocked_ResearchTooHigh".Translate();
             RR_OpportunityBlocked_ReasonUnknown = "RR_OpportunityBlocked_ReasonUnknown".Translate();
-
         }
 
 

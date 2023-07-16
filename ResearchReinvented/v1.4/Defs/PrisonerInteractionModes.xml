@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+ <PrisonerInteractionModeDef>
+    <defName>RR_ScienceInterrogation</defName>
+    <label>knowledge extraction</label>
+    <description>Extract useful knowledge relating to current research project.</description>
+  </PrisonerInteractionModeDef> 
+</Defs>

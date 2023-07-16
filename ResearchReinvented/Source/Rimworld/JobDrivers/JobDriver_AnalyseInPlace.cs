@@ -45,9 +45,10 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 				yield break;
 			}
 
-			this.FailOn(() => { return currentProject != Find.ResearchManager.currentProj; });
+            this.FailOn(() => currentProject != Find.ResearchManager.currentProj);
+            this.FailOn(() => opportunity.CurrentAvailability != OpportunityAvailability.Available);
 
-			var pokeMode = TargetThing.def.hasInteractionCell ? PathEndMode.InteractionCell : PathEndMode.Touch;
+            var pokeMode = TargetThing.def.hasInteractionCell ? PathEndMode.InteractionCell : PathEndMode.Touch;
 			this.FailOnDespawnedNullOrForbidden(TargetThingIndex);
 			this.FailOnBurningImmobile(TargetThingIndex);
 
@@ -72,17 +73,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 			{
 				Pawn actor = research.actor;
 				float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true);
-				var speedMult = opportunity.def.GetCategory(opportunity.relation).Settings.researchSpeedMultiplier;
-				num *= speedMult;
 				num *= FieldResearchHelper.GetFieldResearchSpeedFactor(actor, opportunity.project);
-				actor.skills.Learn(SkillDefOf.Intellectual, 0.1f * speedMult, false);
 				actor.GainComfortFromCellIfPossible(true);
-				bool finished = opportunity.ResearchTickPerformed(num, actor);
+				bool finished = opportunity.ResearchTickPerformed(num, actor, SkillDefOf.Intellectual);
 				if (finished)
 					this.ReadyForNextToil();
 			};
-			research.FailOn(() => Find.ResearchManager.currentProj != currentProject);
-			research.FailOn(() => opportunity.CurrentAvailability != OpportunityAvailability.Available);
 			research.FailOn(() => TargetThing.IsForbidden(pawn));
 			research.AddEndCondition(() => opportunity.IsFinished || opportunity.CurrentAvailability != OpportunityAvailability.Available ? JobCondition.Succeeded : JobCondition.Ongoing);
 			yield return research;

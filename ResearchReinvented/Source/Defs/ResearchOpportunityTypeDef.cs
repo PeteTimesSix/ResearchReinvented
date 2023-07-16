@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using Verse;
 
 namespace PeteTimesSix.ResearchReinvented.Defs
@@ -13,17 +14,19 @@ namespace PeteTimesSix.ResearchReinvented.Defs
 	[Flags]
 	public enum HandlingMode 
 	{
-		None = 0,
 		Job_Theory = 1,
         Job_Analysis = 1 << 1,
-        Special_OnIngest = 1 << 2,
-        Special_OnIngest_Observable = 1 << 3,
-        Special_Prototype = 1 << 4,
-	}
+		Social = 1 << 2,
+        Special_OnIngest = 1 << 3,
+        Special_OnIngest_Observable = 1 << 4,
+		Special_Medicine = 1 << 5,
+        Special_Prototype = 1 << 6,
+        Special_Tooling = 1 << 7,
+    }
 
     public class ResearchOpportunityTypeDef : Def
     {
-		public HandlingMode handledBy = HandlingMode.None;
+		public HandlingMode handledBy;
 
 		public Type jobPickerClass;
 		public JobDef jobDef;
@@ -54,7 +57,27 @@ namespace PeteTimesSix.ResearchReinvented.Defs
 		public ResearchOpportunityCategoryDef category_Ancestor;
 		public ResearchOpportunityCategoryDef category_Descendant;
 
-		public Dictionary<HandlingMode, float> handlingModeModifiers = new Dictionary<HandlingMode, float>();
+		public List<string> hintIcons;
+		private List<Texture2D> _icons;
+        public List<Texture2D> Icons
+        {
+            get
+            {
+                if (_icons == null)
+                {
+					_icons = new List<Texture2D>();
+					if(hintIcons != null)
+                    {
+                        foreach (var path in hintIcons)
+                            _icons.Add(ContentFinder<Texture2D>.Get(path, true));
+                    }
+                }
+				return _icons;
+            }
+        }
+
+        //public Dictionary<HandlingMode, float> handlingModeModifiers = new Dictionary<HandlingMode, float>();
+        public bool generatesPopups = false;
 
         public TaggedString Header_DirectCap
 		{
@@ -202,5 +225,5 @@ namespace PeteTimesSix.ResearchReinvented.Defs
 				case ResearchRelation.Direct: default: return this.ShortDesc_DirectCap;
 			}
 		}
-	}
+    }
 }

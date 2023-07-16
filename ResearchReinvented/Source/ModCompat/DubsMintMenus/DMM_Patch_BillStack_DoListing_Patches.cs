@@ -15,7 +15,7 @@ using PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes;
 using Verse.Sound;
 using static HarmonyLib.AccessTools;
 
-namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.ModCompatibility.Dubs_Mint_Menus
+namespace PeteTimesSix.ResearchReinvented.ModCompat
 {
     public static class DMM_Patch_BillStack_DoListing_Patches 
     {
@@ -52,7 +52,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.ModCompatibility.Dubs_M
 
             if (!found)
             {
-                Log.Warning("DMM_Patch_BillStack_DoListing_Patches - Doink - failed to apply patch (instructions not found)");
+                Log.Warning("RR: DMM_Patch_BillStack_DoListing_Patches - Doink - failed to apply patch (instructions not found)");
 
                 foreach (var instruction in iteratedOver)
                     yield return instruction;
@@ -107,7 +107,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.ModCompatibility.Dubs_M
 
             if (!found)
             {
-                Log.Warning("DMM_Patch_BillStack_DoListing_Patches - DoRow - failed to apply patch (instructions not found)");
+                Log.Warning("RR: DMM_Patch_BillStack_DoListing_Patches - DoRow - failed to apply patch (instructions not found)");
 
                 foreach (var instruction in iteratedOver)
                     yield return instruction;
@@ -159,7 +159,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.ModCompatibility.Dubs_M
 
                 foreach (var recipe in building.def.AllRecipes)
                 {
-                    if (recipe.IsAvailableOnlyForPrototyping(true) && recipe.AvailableOnNow(building, null))
+                    if (recipe.IsAvailableOnlyForPrototyping() && recipe.AvailableOnNow(building, null))
                     {
                         prototypeRecipes.Add(recipe);
                     }

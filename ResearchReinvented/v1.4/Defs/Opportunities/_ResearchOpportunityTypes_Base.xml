@@ -3,4 +3,37 @@
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef Name="ResearchOpportunityBase" Abstract="True">
 		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_FromOpportunityDef</jobPickerClass>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef Name="TheoryOpportunity" ParentName="ResearchOpportunityBase" Abstract="True">
+		<handledBy>Job_Theory</handledBy>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef Name="AnalysisOpportunity" ParentName="ResearchOpportunityBase" Abstract="True">
+		<handledBy>Job_Analysis</handledBy>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_AnalyseInPlaceOrMinified</jobPickerClass>
+		<hintIcons>
+			<li>UI/hintIcons/magnifier</li>
+		</hintIcons>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef Name="FloorAnalysisOpportunity" ParentName="ResearchOpportunityBase" Abstract="True">
+		<handledBy>Job_Analysis</handledBy>
+		<jobDef>RR_AnalyseTerrain</jobDef>
+		<hintIcons>
+			<li>UI/hintIcons/magnifier</li>
+		</hintIcons>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef Name="IngestibleOpportunity" ParentName="ResearchOpportunityBase" Abstract="True">
+		<handledBy>Special_OnIngest</handledBy>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_NoJob</jobPickerClass>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef Name="PrototypeOpportunity" ParentName="ResearchOpportunityBase" Abstract="True">
+		<handledBy>Special_Prototype</handledBy>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_NoJob</jobPickerClass>
+		<hintIcons>
+			<li>UI/hintIcons/cog</li>
+		</hintIcons>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 </Defs>

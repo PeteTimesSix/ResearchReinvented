@@ -10,8 +10,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
 {
     public class ResearchOpportunityCategoryTotalsStore : IExposable
     {
-        public float baseResearchPoints;
-        public float allResearchPoints;
+        public float researchPoints;
         public ResearchProjectDef project;
         public ResearchOpportunityCategoryDef category;
 
@@ -19,8 +18,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
 
         public void ExposeData()
         {
-            Scribe_Values.Look(ref baseResearchPoints, "baseResearchPoints", forceSave: true);
-            Scribe_Values.Look(ref allResearchPoints, "allResearchPoints", forceSave: true);
+            Scribe_Values.Look(ref researchPoints, "allResearchPoints", forceSave: true);
             Scribe_Defs.Look(ref project, "project");
             Scribe_Defs.Look(ref category, "category");
         }
