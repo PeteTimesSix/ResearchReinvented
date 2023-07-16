@@ -439,15 +439,39 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 					Widgets.ThingIcon(iconBox, recipeDef.UIIconThing);
 				}
                 else
-				{
-                    if (recipeDef.IsSurgery)
-					{
-						Widgets.DrawTextureFitted(iconBox, Textures.medicalInvasiveIcon, 1f);
-					}
-                    else
-					{
-						Widgets.DrawTextureFitted(iconBox, Textures.medicalNoninvasiveIcon, 1f);
-					}
+                {
+                    bool hadThingIcon = false;
+                    {
+                        ThingDef fixedIngredient = null;
+                        if (recipeDef.ingredients.Count == 1 && recipeDef.ingredients[0].IsFixedIngredient)
+                        {
+                            fixedIngredient = recipeDef.ingredients[0].FixedIngredient;
+                        }
+                        else
+                        {
+                            var fixedIngredients = recipeDef.ingredients.Where(i => i.IsFixedIngredient).ToList();
+                            if(fixedIngredients.Count == 1)
+                            {
+                                fixedIngredient = fixedIngredients[0].FixedIngredient;
+                            }
+                        }
+                        if (fixedIngredient != null && fixedIngredient.uiIcon != null && fixedIngredient.uiIcon != BaseContent.BadTex)
+                        {
+                            hadThingIcon = true;
+                            Widgets.DefIcon(iconBox, fixedIngredient); //has own icon. Use DefIcon when possible to preserve colors
+                        }
+                    }
+                    if(!hadThingIcon)
+                    {
+                        if (recipeDef.IsSurgery)
+                        {
+                            Widgets.DrawTextureFitted(iconBox, Textures.medicalInvasiveIcon, 1f);
+                        }
+                        else
+                        {
+                            Widgets.DrawTextureFitted(iconBox, Textures.medicalNoninvasiveIcon, 1f);
+                        }
+                    }
 				}
 
                 if (Widgets.ButtonInvisible(iconBox))

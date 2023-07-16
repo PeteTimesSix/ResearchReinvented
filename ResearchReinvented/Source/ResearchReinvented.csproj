@@ -207,7 +207,7 @@
   <PropertyGroup>
     <PostBuildEvent>PATH
 
-"$(ProjectDir)Install.bat" $(ConfigurationName) "$(ProjectDir)" "$(ProjectName)" "About Assemblies Defs Languages Textures v1.3 v1.4" "LoadFolders.xml"
+"$(ProjectDir)Install.bat" $(ConfigurationName) "$(ProjectDir)" "$(ProjectName)" "About Assemblies Defs Languages Textures v1.3 v1.4 ModSpecific" "LoadFolders.xml"
 
 </PostBuildEvent>
   </PropertyGroup>
