@@ -10,6 +10,7 @@
 		<priority>1000</priority>
 		<color>(187,250,250)</color>
 		<description>Theoretical or abstract research.</description>
+		<maxAsRemaining>true</maxAsRemaining>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">

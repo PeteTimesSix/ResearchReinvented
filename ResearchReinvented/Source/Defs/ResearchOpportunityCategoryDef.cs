@@ -28,6 +28,8 @@ namespace PeteTimesSix.ResearchReinvented.Defs
 
         public FloatRange availableAtOverallProgress;*/
 
+        public bool maxAsRemaining = false;
+
         private CategorySettingsFinal _settingsCached;
         public CategorySettingsFinal Settings { get 
             {

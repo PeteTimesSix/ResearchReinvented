@@ -68,7 +68,18 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
 
 
         public float Progress => currentProgress;
-        public float MaximumProgress => def.GetCategory(relation).Settings.infiniteOverflow ? (project.baseCost - project.ProgressReal + Progress) : maximumProgress;
+        public float MaximumProgress
+        {
+            get
+            {
+                var category = def.GetCategory(relation);
+                if (category.maxAsRemaining && category.Settings.infiniteOverflow)
+                    return project.baseCost - project.ProgressReal + Progress;
+                else
+                    return maximumProgress;
+            }
+        }
+
         public float ProgressFraction => Progress / MaximumProgress;
         public bool IsFinished => ProgressFraction >= 1f;
 

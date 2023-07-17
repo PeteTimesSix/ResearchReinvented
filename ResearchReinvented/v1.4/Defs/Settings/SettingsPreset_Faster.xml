@@ -12,7 +12,7 @@
 			<importanceMultiplier>0.0</importanceMultiplier>
 			<importanceMultiplierCounted>0.0</importanceMultiplierCounted>
 			<infiniteOverflow>true</infiniteOverflow>
-			<targetIterations>0.0</targetIterations>
+			<targetIterations>1.0</targetIterations>
 			<researchSpeedMultiplier>0.7</researchSpeedMultiplier>
 		</li>
 		<li>
