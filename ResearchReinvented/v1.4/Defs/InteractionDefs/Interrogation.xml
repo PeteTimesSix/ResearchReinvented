@@ -140,7 +140,7 @@
 	<workerClass>PeteTimesSix.ResearchReinvented.Rimworld.InteractionWorkers.InteractionWorker_LearnScienceFromPrisoner</workerClass>
     <symbol>Motes/Speech/scienceCheck</symbol>
     <initiatorXpGainSkill>Intellectual</initiatorXpGainSkill>
-    <initiatorXpGainAmount>50</initiatorXpGainAmount>
+    <initiatorXpGainAmount>250</initiatorXpGainAmount>
     <logRulesInitiator>
       <rulesStrings>
         <li>r_logentry->[INITIATOR_nameDef] [noted] [knowledge] [given] by [RECIPIENT_nameDef] [about] [subject].</li>

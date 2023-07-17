@@ -18,8 +18,9 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Ingestibles
     {
 
         private static IEnumerable<ResearchOpportunity> MatchingOpportunities =>
-            ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
-            .Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Special_OnIngest_Observable));
+            ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities(false, HandlingMode.Special_OnIngest_Observable);
+            //.GetCurrentlyAvailableOpportunities()
+            //.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Special_OnIngest_Observable));
 
         [HarmonyPrefix]
         public static void Recipe_AdministerIngestible_ApplyOnPawn_Prefix(Recipe_AdministerIngestible __instance, Pawn pawn, Pawn billDoer, List<Thing> ingredients)
@@ -39,7 +40,8 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Ingestibles
                 {
                     var amount = BaseResearchAmounts.AdministerIngestibleObserver;
                     var modifier = ingester.GetStatValue(StatDefOf.ResearchSpeed, true);
-                    opportunity.ResearchChunkPerformed(observer, HandlingMode.Special_OnIngest_Observable, amount, modifier, SkillDefOf.Intellectual, moteSubjectName: ingestible.LabelCapNoCount, moteOffsetHint: 0.5f/*avoid overlap with ingester's mote*/);
+                    var xp = ResearchXPAmounts.AdministerIngestibleObserver;
+                    opportunity.ResearchChunkPerformed(observer, HandlingMode.Special_OnIngest_Observable, amount, modifier, xp, moteSubjectName: ingestible.LabelCapNoCount, moteOffsetHint: 0.5f/*avoid overlap with ingester's mote*/);
                 }
             }
         }

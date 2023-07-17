@@ -6,7 +6,7 @@
 	<workerClass>PeteTimesSix.ResearchReinvented.Rimworld.InteractionWorkers.InteractionWorker_Brainstorm</workerClass>
     <symbol>Motes/Speech/science</symbol>
     <initiatorXpGainSkill>Intellectual</initiatorXpGainSkill>
-    <initiatorXpGainAmount>10</initiatorXpGainAmount>
+    <initiatorXpGainAmount>50</initiatorXpGainAmount>
     <logRulesInitiator>
       <rulesStrings>
         <li>r_logentry->[RECIPIENT_nameDef] [talkabout] [knowledge] related to [subject] with [INITIATOR_nameDef].</li>

@@ -18,8 +18,9 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Medicine
     public static class TendUtility_Patches
     {
         private static IEnumerable<ResearchOpportunity> MatchingOpportunities =>
-            ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
-            .Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Special_Medicine));
+            ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities(false, HandlingMode.Special_Medicine);
+            //.GetCurrentlyAvailableOpportunities()
+            //.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Special_Medicine));
 
         [HarmonyPrefix]
         public static void TendUtility_DoTend_Prefix(Pawn doctor, Pawn patient, RimWorld.Medicine medicine)
@@ -42,7 +43,8 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Medicine
                 {
                     var amount = BaseResearchAmounts.OnTendObserver;
                     var modifier = observer.GetStatValue(StatDefOf.ResearchSpeed, true);
-                    opportunity.ResearchChunkPerformed(observer, HandlingMode.Special_Medicine, amount, modifier, SkillDefOf.Intellectual, moteSubjectName: medicine.LabelCap);
+                    var xp = ResearchXPAmounts.OnTendObserver;
+                    opportunity.ResearchChunkPerformed(observer, HandlingMode.Special_Medicine, amount, modifier, xp, moteSubjectName: medicine.LabelCap);
                 }
             }
         }

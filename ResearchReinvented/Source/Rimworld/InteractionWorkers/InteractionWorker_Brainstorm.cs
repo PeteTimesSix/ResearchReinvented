@@ -29,15 +29,18 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.InteractionWorkers
             letterDef = null;
             lookTargets = null;
 
-            var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities()
-                   .Where(o => o.def.handledBy.HasFlag(HandlingMode.Social) && o.requirement.MetBy(recipient))
-            .FirstOrDefault();
+            var opportunity = ResearchOpportunityManager.Instance
+                .GetFirstCurrentlyAvailableOpportunity(false, HandlingMode.Social, recipient);
+                //.GetCurrentlyAvailableOpportunities()
+                //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Social) && o.requirement.MetBy(recipient))
+                //.FirstOrDefault();
 
             if (opportunity != null)
             {
                 var amount = BaseResearchAmounts.InteractionBrainstorm;
                 var modifier = Math.Max(initiator.GetStatValue(StatDefOf.ResearchSpeed), recipient.GetStatValue(StatDefOf.ResearchSpeed));
-                opportunity.ResearchChunkPerformed(initiator, HandlingMode.Social, amount, modifier, SkillDefOf.Intellectual);
+                var xp = 0; //handled in the interaction def
+                opportunity.ResearchChunkPerformed(initiator, HandlingMode.Social, amount, modifier, xp);
             }
         }
     }

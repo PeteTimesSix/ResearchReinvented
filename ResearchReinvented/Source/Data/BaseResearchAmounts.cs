@@ -25,4 +25,14 @@ namespace PeteTimesSix.ResearchReinvented.Data
                                                   /*from ticks to seconds, as in the UI*/
         public static float DoneWorkMultiplier => (1f / 60f) * 0.25f;
     }
+
+    public static class ResearchXPAmounts
+    {
+        public static float AdministerIngestibleObserver => 100f;
+        public static float OnIngestIngester => 100f;
+        public static float OnTendObserver => 200f;
+
+        /*from ticks to seconds, as in the UI*/
+        public static float DoneWorkMultiplier => (1f / 60f) * 2.5f;
+    }
 }
