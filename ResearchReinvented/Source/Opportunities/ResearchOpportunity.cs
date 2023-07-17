@@ -40,7 +40,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
     {
         public static bool IsValid(this ResearchOpportunity opportunity)
         {
-            return opportunity != null && opportunity.project != null && opportunity.requirement != null && opportunity.requirement.IsValid;
+            return opportunity != null && opportunity.def != null && opportunity.project != null && opportunity.requirement != null && opportunity.requirement.IsValid;
         }
     }
 

@@ -1,6 +1,8 @@
 ﻿using PeteTimesSix.ResearchReinvented.Defs;
+using PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes;
 using PeteTimesSix.ResearchReinvented.Managers;
 using PeteTimesSix.ResearchReinvented.Opportunities;
+using PeteTimesSix.ResearchReinvented.OpportunityComps;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -13,25 +15,8 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 {
     public static class RecipeDefExtensions
 	{
-		public static IEnumerable<ResearchOpportunity> PrototypeOpportunities => ResearchOpportunityManager.Instance.CurrentProjectOpportunities.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Special_Prototype));
-
 		public static ResearchProjectDef cacheBuiltForProject = null;
-		public static List<ResearchOpportunity> _prototypeOpportunitiesCache = new List<ResearchOpportunity>();
 		public static Dictionary<RecipeDef, ResearchOpportunity> _prototypeOpportunitiesMappedCache = new Dictionary<RecipeDef, ResearchOpportunity>();
-		public static IEnumerable<ResearchOpportunity> PrototypeOpportunitiesCached
-		{
-			get
-			{
-				if (cacheBuiltForProject != Find.ResearchManager.currentProj)
-				{
-					_prototypeOpportunitiesCache.Clear();
-					_prototypeOpportunitiesMappedCache.Clear();
-					_prototypeOpportunitiesCache = PrototypeOpportunities.ToList();
-					cacheBuiltForProject = Find.ResearchManager.currentProj;
-				}
-				return _prototypeOpportunitiesCache;
-			}
-		}
 
 		public static Dictionary<RecipeDef, ResearchOpportunity> PrototypeOpportunitiesMappedCache
 		{
@@ -39,9 +24,12 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 			{
 				if (cacheBuiltForProject != Find.ResearchManager.currentProj)
 				{
-					_prototypeOpportunitiesCache.Clear();
 					_prototypeOpportunitiesMappedCache.Clear();
-					_prototypeOpportunitiesCache = PrototypeOpportunities.ToList();
+                    foreach (var op in PrototypeUtilities.PrototypeOpportunities)
+                    {
+                        if (op.requirement is ROComp_RequiresRecipe requiresRecipe)
+                            _prototypeOpportunitiesMappedCache[requiresRecipe.recipeDef] = op;
+                    }
 					cacheBuiltForProject = Find.ResearchManager.currentProj;
 				}
 				return _prototypeOpportunitiesMappedCache;
@@ -74,11 +62,9 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
                     return false;
                 if (unfinishedPreregs.Any((ResearchProjectDef r) => Find.ResearchManager.currentProj != r))
                     return false;
+				if (!PrototypeOpportunitiesMappedCache.ContainsKey(def))
+					return false;
 
-                if (!PrototypeOpportunitiesMappedCache.ContainsKey(def))
-                {
-                    PrototypeOpportunitiesMappedCache[def] = FindPrototypeOpportunity(def);
-                }
                 var opportunity = PrototypeOpportunitiesMappedCache[def];
                 if (opportunity == null)
                     return false;
@@ -90,32 +76,6 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
             return false;
         }
 
-        /*public static bool IsAvailableOnlyForPrototyping(this RecipeDef def, bool evenIfFinished)
-		{
-			if (!PrototypeOpportunitiesMappedCache.ContainsKey(def))
-			{
-				PrototypeOpportunitiesMappedCache[def] = FindPrototypeOpportunity(def);
-			}
-			var opportunity = PrototypeOpportunitiesMappedCache[def];
-			if (opportunity == null)
-				return false;
-			if (!evenIfFinished)
-				return opportunity.CurrentAvailability == OpportunityAvailability.Available;
-			else
-				return opportunity.CurrentAvailability == OpportunityAvailability.Available || opportunity.CurrentAvailability == OpportunityAvailability.Finished || opportunity.CurrentAvailability == OpportunityAvailability.CategoryFinished;
-		}*/
-
-		public static ResearchOpportunity FindPrototypeOpportunity(this RecipeDef recipe)
-		{
-			bool canBePrototyped = !recipe.AvailableNow && recipe.IsAvailableForPrototyping();
-
-			if (!canBePrototyped)
-				return null;
-			else
-				return //ResearchOpportunityManager.instance.GetCurrentlyAvailableOpportunities(true)
-					PrototypeOpportunitiesCached.FirstOrDefault(o => o.requirement.MetBy(recipe) || (recipe.ProducedThingDef != null && o.requirement.MetBy(recipe.ProducedThingDef)));
-		}
-
 		public static bool PassesIdeoCheck(this RecipeDef recipe)
 		{
 			if (!ModsConfig.IdeologyActive)
@@ -125,7 +85,7 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 			return recipe.memePrerequisitesAny.Any(mp => Faction.OfPlayer.ideos.HasAnyIdeoWithMeme(mp));
 		}
 
-        private static bool IsAvailableForPrototyping(this RecipeDef recipe) 
+        /*private static bool IsAvailableForPrototyping(this RecipeDef recipe) 
         {
 			if (recipe.researchPrerequisite != null && !recipe.researchPrerequisite.IsFinished && Find.ResearchManager.currentProj != recipe.researchPrerequisite)
 			{
@@ -190,6 +150,6 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 				}
 			}
 			return false;
-		}
+		}*/
     }
 }

@@ -1,4 +1,5 @@
 ﻿using PeteTimesSix.ResearchReinvented.Defs;
+using PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes;
 using PeteTimesSix.ResearchReinvented.Managers;
 using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.OpportunityComps;
@@ -13,25 +14,8 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 {
 	public static class BuildableDefExtensions
 	{
-		public static IEnumerable<ResearchOpportunity> PrototypeOpportunities => ResearchOpportunityManager.Instance.CurrentProjectOpportunities.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Special_Prototype));
-
 		public static ResearchProjectDef cacheBuiltForProject = null; 
-		public static List<ResearchOpportunity> _prototypeOpportunitiesCache = new List<ResearchOpportunity>();
 		public static Dictionary<BuildableDef, ResearchOpportunity> _prototypeOpportunitiesMappedCache = new Dictionary<BuildableDef, ResearchOpportunity>();
-		public static IEnumerable<ResearchOpportunity> PrototypeOpportunitiesCached 
-		{
-            get 
-			{
-				if (cacheBuiltForProject != Find.ResearchManager.currentProj)
-				{
-					_prototypeOpportunitiesCache.Clear();
-					_prototypeOpportunitiesMappedCache.Clear();
-					_prototypeOpportunitiesCache = PrototypeOpportunities.ToList();
-					cacheBuiltForProject = Find.ResearchManager.currentProj;
-				}
-				return _prototypeOpportunitiesCache;
-			}
-		}
 
 		public static Dictionary<BuildableDef, ResearchOpportunity> PrototypeOpportunitiesMappedCache
         {
@@ -39,9 +23,12 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 			{
 				if (cacheBuiltForProject != Find.ResearchManager.currentProj)
 				{
-					_prototypeOpportunitiesCache.Clear();
 					_prototypeOpportunitiesMappedCache.Clear();
-					_prototypeOpportunitiesCache = PrototypeOpportunities.ToList();
+                    foreach(var op in PrototypeUtilities.PrototypeOpportunities)
+                    {
+                        if (op.requirement is ROComp_RequiresThing requiresThing && requiresThing.thingDef is BuildableDef buildableDef)
+                            _prototypeOpportunitiesMappedCache[buildableDef] = op;
+                    }
 					cacheBuiltForProject = Find.ResearchManager.currentProj;
 				}
 				return _prototypeOpportunitiesMappedCache;
@@ -57,11 +44,9 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
                     return false;
                 if (unfinishedPreregs.Any((ResearchProjectDef r) => Find.ResearchManager.currentProj != r))
                     return false;
-
                 if (!PrototypeOpportunitiesMappedCache.ContainsKey(def))
-                {
-                    PrototypeOpportunitiesMappedCache[def] = FindPrototypeOpportunity(def);
-                }
+                    return false;
+
                 var opportunity = PrototypeOpportunitiesMappedCache[def];
 
                 if (opportunity == null)
@@ -76,9 +61,9 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 
 		}
 
-		public static ResearchOpportunity FindPrototypeOpportunity(this BuildableDef def) 
+		/*public static ResearchOpportunity FindPrototypeOpportunity(this BuildableDef def) 
 		{
-			return PrototypeOpportunitiesCached.FirstOrDefault(o => o.requirement.MetBy(def));
-		}
+			return PrototypeUtilities.PrototypeOpportunities.FirstOrDefault(o => o.requirement.MetBy(def));
+		}*/
 	}
 }

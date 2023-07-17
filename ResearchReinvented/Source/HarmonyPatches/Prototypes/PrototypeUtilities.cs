@@ -2,6 +2,7 @@
 using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Extensions;
 using PeteTimesSix.ResearchReinvented.Managers;
+using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.OpportunityComps;
 using RimWorld;
 using System;
@@ -25,6 +26,28 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         public static float PROTOTYPE_FUEL_DISPOSABLE_MULTIPLIER = 0.75f;
         public static float PROTOTYPE_FUEL_REFUELABLE_MULTIPLIER = 0.95f;
 
+        private static ResearchProjectDef cacheBuiltForProject = null;
+        private static ResearchOpportunity[] _prototypeOpportunitiesCache = Array.Empty<ResearchOpportunity>();
+
+        public static IEnumerable<ResearchOpportunity> PrototypeOpportunities
+        {
+            get 
+			{
+				if (cacheBuiltForProject != Find.ResearchManager.currentProj)
+				{
+                    _prototypeOpportunitiesCache = ResearchOpportunityManager.Instance
+                        .GetCurrentlyAvailableOpportunities(true, HandlingMode.Special_Prototype).ToArray();
+					cacheBuiltForProject = Find.ResearchManager.currentProj;
+				}
+				return _prototypeOpportunitiesCache;
+			}
+		}
+
+        public static void ClearPrototypeOpportunityCache()
+        {
+            cacheBuiltForProject = null;
+            _prototypeOpportunitiesCache = Array.Empty<ResearchOpportunity>();
+        }
 
 
         public static void DoPrototypeHealthDecrease(Thing product, RecipeDef usedRecipe)

@@ -1,4 +1,5 @@
-﻿using PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers;
+﻿using PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes;
+using PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace PeteTimesSix.ResearchReinvented.Utilities
             WorkGiver_LearnRemotely.ClearMatchingOpportunityCache();   
             WorkGiver_ResearcherRR.ClearMatchingOpportunityCache();
             WorkGiver_Warden_Interrogate.ClearMatchingOpportunityCache();
+            PrototypeUtilities.ClearPrototypeOpportunityCache();
         }
     }
 }
