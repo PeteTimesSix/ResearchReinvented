@@ -30,7 +30,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 				if (_matchingOpportunitiesCachedFor != Find.ResearchManager.currentProj)
 				{
                     _matchingOpportunitesCache = ResearchOpportunityManager.Instance
-                        .GetCurrentlyAvailableOpportunitiesFiltered(true, HandlingMode.Social, (op) => op.requirement is ROComp_RequiresFaction requiresFaction && requiresFaction.faction != Faction.OfPlayer).ToArray();
+                        .GetCurrentlyAvailableOpportunities(true, HandlingMode.Social, (op) => op.requirement is ROComp_RequiresFaction requiresFaction && requiresFaction.faction != Faction.OfPlayer).ToArray();
                         //.GetCurrentlyAvailableOpportunities(true)
 						//.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Social) && o.requirement is ROComp_RequiresFaction requiresFaction && requiresFaction.faction != Faction.OfPlayer).ToArray();
                     _matchingOpportunitiesCachedFor = Find.ResearchManager.currentProj;

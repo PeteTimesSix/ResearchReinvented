@@ -16,8 +16,6 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.InteractionWorkers
             letterLabel = null;
             letterDef = null;
             lookTargets = null;
-
-
         }
     }
 }

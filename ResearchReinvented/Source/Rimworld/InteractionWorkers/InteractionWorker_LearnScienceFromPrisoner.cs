@@ -32,10 +32,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.InteractionWorkers
             letterDef = null;
             lookTargets = null;
 
-            var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunitiesFiltered(true, HandlingMode.Social, recipient)
+            var opportunity = ResearchOpportunityManager.Instance
+                .GetFirstCurrentlyAvailableOpportunity(false, HandlingMode.Social, recipient);
                 //.GetCurrentlyAvailableOpportunities()
                 //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Social) && o.requirement.MetBy(recipient))
-            .FirstOrDefault();
+                //.FirstOrDefault();
 
             if (opportunity != null)
             {
@@ -48,7 +49,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.InteractionWorkers
                     var moodModifier = moodCurve.Evaluate(moodPercent);
                     modifier *= moodModifier;
                 }
-                opportunity.ResearchChunkPerformed(initiator, HandlingMode.Social, amount, modifier, SkillDefOf.Intellectual, recipient.Faction?.Name);
+                var xp = 0; //handled in the interaction def
+
+                opportunity.ResearchChunkPerformed(initiator, HandlingMode.Social, amount, modifier, xp, recipient.Faction?.Name);
             }
         }
     }

@@ -80,22 +80,19 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         public static void DoPostFailToFinishThingResearch(Pawn worker, float totalWork, float doneWork, ThingDef productDef, RecipeDef usedRecipe)
         {
             {
-                var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunitiesFiltered(true, HandlingMode.Special_Prototype, (op) => op.requirement.MetBy(usedRecipe) || op.requirement.MetBy(productDef))
+                var opportunity = ResearchOpportunityManager.Instance
+                    .GetFirstCurrentlyAvailableOpportunity(true, HandlingMode.Special_Prototype, (op) => op.requirement.MetBy(usedRecipe) || op.requirement.MetBy(productDef));
                     //.GetCurrentlyAvailableOpportunities()
                     //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && (o.requirement.MetBy(usedRecipe) || o.requirement.MetBy(productDef)))
-                    .FirstOrDefault();
+                    //.FirstOrDefault();
 
                 if (opportunity != null)
                 {
                     //Log.Message($"found matching opp. {opportunity.ShortDesc}");
                     var amount = doneWork * BaseResearchAmounts.DoneWorkMultiplier;
                     var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
-                    opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, SkillDefOf.Intellectual, moteSubjectName: usedRecipe != null ? usedRecipe.LabelCap.ToString() : productDef.LabelCap.ToString());
-                    if (worker?.skills != null)
-                    {
-                        var xp = 0.1f * totalWork;
-                        worker.skills.Learn(SkillDefOf.Intellectual, xp, false);
-                    }
+                    var xp = doneWork * ResearchXPAmounts.DoneWorkMultiplier;
+                    opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, xp, moteSubjectName: usedRecipe != null ? usedRecipe.LabelCap.ToString() : productDef.LabelCap.ToString());
                 }
             }
         }
@@ -103,22 +100,18 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         public static void DoPostFailToFinishTerrainResearch(Pawn worker, float totalWork, float doneWork, TerrainDef terrainDef)
         {
             {
-                var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunitiesFiltered(true, HandlingMode.Special_Prototype, terrainDef)
-
+                var opportunity = ResearchOpportunityManager.Instance
+                    .GetFirstCurrentlyAvailableOpportunity(true, HandlingMode.Special_Prototype, terrainDef);
                     //.GetCurrentlyAvailableOpportunities()
                     //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && o.requirement.MetBy(terrainDef))
-                    .FirstOrDefault();
+                    //.FirstOrDefault();
 
                 if (opportunity != null)
                 {
                     var amount = doneWork * BaseResearchAmounts.DoneWorkMultiplier;
                     var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
-                    opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, SkillDefOf.Intellectual, moteSubjectName: terrainDef.LabelCap);
-                    if (worker?.skills != null)
-                    {
-                        var xp = 0.1f * totalWork;
-                        worker.skills.Learn(SkillDefOf.Intellectual, xp, false);
-                    }
+                    var xp = doneWork * ResearchXPAmounts.DoneWorkMultiplier;
+                    opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, xp, moteSubjectName: terrainDef.LabelCap);
                 }
             }
         }
@@ -127,22 +120,18 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         {
             {
                 var opportunity = ResearchOpportunityManager.Instance
-                    .GetCurrentlyAvailableOpportunitiesFiltered(true, HandlingMode.Special_Prototype, (op) => op.requirement.MetBy(usedRecipe) || op.requirement.MetBy(product.def))
+                    .GetFirstCurrentlyAvailableOpportunity(true, HandlingMode.Special_Prototype, (op) => op.requirement.MetBy(usedRecipe) || op.requirement.MetBy(product.def));
                     //.GetCurrentlyAvailableOpportunities()
                     //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && (o.requirement.MetBy(usedRecipe) || o.requirement.MetBy(product.def)))
-                    .FirstOrDefault();
+                    //.FirstOrDefault();
 
                 if (opportunity != null)
                 {
                     //Log.Message($"found matching opp. {opportunity.ShortDesc}");
                     var amount = totalWork * BaseResearchAmounts.DoneWorkMultiplier;
                     var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
-                    opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, SkillDefOf.Intellectual, moteSubjectName: usedRecipe != null ? usedRecipe.LabelCap.ToString() : product.LabelCapNoCount); 
-                    if (worker?.skills != null)
-                    {
-                        var xp = 0.1f * totalWork;
-                        worker.skills.Learn(SkillDefOf.Intellectual, xp, false);
-                    }
+                    var xp = totalWork * ResearchXPAmounts.DoneWorkMultiplier;
+                    opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, xp, moteSubjectName: usedRecipe != null ? usedRecipe.LabelCap.ToString() : product.LabelCapNoCount); 
                 }
             }
         }
@@ -150,21 +139,18 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         public static void DoPostFinishTerrainResearch(Pawn worker, float totalWork, TerrainDef terrainDef)
         {
             {
-                var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunitiesFiltered(true, HandlingMode.Special_Prototype, terrainDef)
+                var opportunity = ResearchOpportunityManager.Instance
+                    .GetFirstCurrentlyAvailableOpportunity(true, HandlingMode.Special_Prototype, terrainDef);
                     //.GetCurrentlyAvailableOpportunities()
                     //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && o.requirement.MetBy(terrainDef))
-                    .FirstOrDefault();
+                    //.FirstOrDefault();
 
                 if (opportunity != null)
                 {
                     var amount = totalWork * BaseResearchAmounts.DoneWorkMultiplier;
                     var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
-                    opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, SkillDefOf.Intellectual, moteSubjectName: terrainDef.LabelCap);
-                    if (worker?.skills != null)
-                    {
-                        var xp = 0.1f * totalWork;
-                        worker.skills.Learn(SkillDefOf.Intellectual, xp, false);
-                    }
+                    var xp = totalWork * ResearchXPAmounts.DoneWorkMultiplier;
+                    opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, xp, moteSubjectName: terrainDef.LabelCap);
                 }
             }
         }
@@ -173,21 +159,18 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         {
             if(usedRecipe != null)
             {
-                var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunitiesFiltered(true, HandlingMode.Special_Prototype, usedRecipe)
+                var opportunity = ResearchOpportunityManager.Instance
+                    .GetFirstCurrentlyAvailableOpportunity(true, HandlingMode.Special_Prototype, usedRecipe);
                     //.GetCurrentlyAvailableOpportunities()
                     //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && (usedRecipe != null && o.requirement.MetBy(usedRecipe)))
-                    .FirstOrDefault();
+                    //.FirstOrDefault();
 
                 if (opportunity != null)
                 {
                     var amount = totalWork * BaseResearchAmounts.DoneWorkMultiplier;
                     var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
-                    opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, SkillDefOf.Intellectual, moteSubjectName: usedRecipe.LabelCap.ToString());
-                    if (worker?.skills != null)
-                    {
-                        var xp = 0.1f * totalWork;
-                        worker.skills.Learn(SkillDefOf.Intellectual, xp, false);
-                    }
+                    var xp = totalWork * ResearchXPAmounts.DoneWorkMultiplier;
+                    opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, xp, moteSubjectName: usedRecipe.LabelCap.ToString());
                 }
             }
         }

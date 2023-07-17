@@ -18,7 +18,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         [HarmonyPostfix]
         public static void Toils_Recipe_MakeUnfinishedThingIfNeeded(Toil __result)
         {
-            __result.initAction += () =>
+            __result.AddPreInitAction(() =>
             {
                 var toil = __result;
                 var actor = toil.actor;
@@ -35,7 +35,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
                         Log.Message($"Marking {unfinishedThing} as prototype");
                     PrototypeKeeper.Instance.MarkAsPrototype(unfinishedThing);
                 }
-            };
+            });
         }
     }
 }

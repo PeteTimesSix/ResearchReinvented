@@ -19,7 +19,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         [HarmonyPostfix]
         public static void Toils_Recipe_DoRecipeWork_Postfix(Toil __result)
         {
-            __result.tickAction += () =>
+            __result.AddPreInitAction(() =>
             {
                 //find tooling opportunity and do research
                 var toil = __result;
@@ -27,18 +27,22 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
                 var bench = toil.actor.CurJob.GetTarget(TargetIndex.A).Thing;
                 if (bench != null)
                 {
-                    var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunitiesFiltered(true, HandlingMode.Special_Tooling, bench)
+                    var opportunity = ResearchOpportunityManager.Instance
+                        .GetFirstCurrentlyAvailableOpportunity(true, HandlingMode.Special_Tooling, bench);
                         //.GetCurrentlyAvailableOpportunities()
                         //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Tooling) && o.requirement.MetBy(bench))
-                        .FirstOrDefault();
-                    if(opportunity != null)
+                        //.FirstOrDefault();
+                    if (opportunity != null)
                     {
-                        float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true);
-                        num *= FieldResearchHelper.GetFieldResearchSpeedFactor(actor, opportunity.project);
-                        opportunity.ResearchTickPerformed(num, actor, null);
+                        __result.AddPreTickAction(() =>
+                        {
+                            float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true);
+                            num *= FieldResearchHelper.GetFieldResearchSpeedFactor(actor, opportunity.project);
+                            opportunity.ResearchTickPerformed(num, actor);
+                        });
                     }
                 }
-            };
+            });
         }
     }
 }

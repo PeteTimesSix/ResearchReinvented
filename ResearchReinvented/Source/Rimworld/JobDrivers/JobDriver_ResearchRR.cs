@@ -68,7 +68,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
                         fuelComp.ConsumeTickFuel();
                     }
                 }
-                bool finished = opportunity.ResearchTickPerformed(num, actor, SkillDefOf.Intellectual);
+                bool finished = opportunity.ResearchTickPerformed(num, actor);
 				if (finished)
 					this.ReadyForNextToil();
 			};

@@ -41,11 +41,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
                 yield break;
             }
 
-            var opportunity = ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunitiesFiltered(false, HandlingMode.Social, faction)
+            var opportunity = ResearchOpportunityManager.Instance
+                .GetFirstCurrentlyAvailableOpportunity(false, HandlingMode.Social, faction);
                 //.GetCurrentlyAvailableOpportunities()
                 //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Social) && o.requirement is ROComp_RequiresFaction requiresFaction && requiresFaction.MetByFaction(faction))
                 //.Where(o => !o.IsFinished)
-            .FirstOrDefault();
+                //.FirstOrDefault();
 
             ResearchProjectDef currentProject = Find.ResearchManager.currentProj;
 
@@ -89,7 +90,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
                 Pawn actor = research.actor;
                 float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true);
                 actor.GainComfortFromCellIfPossible(true);
-                bool finished = opportunity.ResearchTickPerformed(num, actor, SkillDefOf.Intellectual);
+                bool finished = opportunity.ResearchTickPerformed(num, actor);
                 if (finished)
                     this.ReadyForNextToil();
             };

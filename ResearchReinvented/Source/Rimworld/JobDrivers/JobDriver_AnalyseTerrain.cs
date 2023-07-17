@@ -62,7 +62,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 				Pawn actor = research.actor;
 				float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true);
 				num *= FieldResearchHelper.GetFieldResearchSpeedFactor(actor, opportunity.project);
-				bool finished = opportunity.ResearchTickPerformed(num, actor, SkillDefOf.Intellectual);
+				bool finished = opportunity.ResearchTickPerformed(num, actor);
 				if (finished)
 					this.ReadyForNextToil();
 			};

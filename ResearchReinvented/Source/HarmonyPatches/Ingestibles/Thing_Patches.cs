@@ -19,9 +19,9 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Ingestibles
     public static class Thing_PrePostIngested_Patches
     {
         private static IEnumerable<ResearchOpportunity> MatchingOpportunities =>
-            ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunitiesFiltered(true, HandlingMode.Special_OnIngest);
-        //.GetCurrentlyAvailableOpportunities()
-        //.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Special_OnIngest));
+            ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities(true, HandlingMode.Special_OnIngest);
+                //.GetCurrentlyAvailableOpportunities()
+                //.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Special_OnIngest));
 
         [HarmonyPostfix]
         public static void Thing_PrePostIngested_Postfix(Thing __instance, Pawn ingester)
@@ -38,7 +38,8 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Ingestibles
                 {
                     var amount = BaseResearchAmounts.OnIngestIngester;
                     var modifier = ingester.GetStatValue(StatDefOf.ResearchSpeed, true);
-                    opportunity.ResearchChunkPerformed(ingester, HandlingMode.Special_OnIngest, amount, modifier, SkillDefOf.Intellectual, moteSubjectName: __instance.LabelCapNoCount);
+                    var xp = ResearchXPAmounts.OnIngestIngester;
+                    opportunity.ResearchChunkPerformed(ingester, HandlingMode.Special_OnIngest, amount, modifier, xp, moteSubjectName: __instance.LabelCapNoCount);
                 }
             }
         }
