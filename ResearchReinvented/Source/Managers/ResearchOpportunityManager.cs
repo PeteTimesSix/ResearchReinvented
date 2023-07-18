@@ -186,42 +186,42 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             }
         }
 
-        public ResearchOpportunity GetFirstCurrentlyAvailableOpportunity(bool includeFinished, HandlingMode? handledBy)
+        public ResearchOpportunity GetFirstFilteredOpportunity(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy)
         {
-            return GetFirstCurrentlyAvailableOpportunityFilter(includeFinished, handledBy, null);
+            return GetOpportunityFilter(desiredAvailability, handledBy, null);
         }
 
-        public ResearchOpportunity GetFirstCurrentlyAvailableOpportunity(bool includeFinished, HandlingMode? handledBy, Type driverClass)
+        public ResearchOpportunity GetFirstFilteredOpportunity(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Type driverClass)
         {
-            return GetFirstCurrentlyAvailableOpportunityFilter(includeFinished, handledBy, (op) => op.JobDefs != null && op.JobDefs.Any(jd => jd.driverClass == driverClass));
+            return GetOpportunityFilter(desiredAvailability, handledBy, (op) => op.JobDefs != null && op.JobDefs.Any(jd => jd.driverClass == driverClass));
         }
 
-        public ResearchOpportunity GetFirstCurrentlyAvailableOpportunity(bool includeFinished, HandlingMode? handledBy, Def def)
+        public ResearchOpportunity GetFirstFilteredOpportunity(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Def def)
         {
-            return GetFirstCurrentlyAvailableOpportunityFilter(includeFinished, handledBy, (op) => op.requirement.MetBy(def));
+            return GetOpportunityFilter(desiredAvailability, handledBy, (op) => op.requirement.MetBy(def));
         }
 
-        public ResearchOpportunity GetFirstCurrentlyAvailableOpportunity(bool includeFinished, HandlingMode? handledBy, Thing thing)
+        public ResearchOpportunity GetFirstFilteredOpportunity(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Thing thing)
         {
-            return GetFirstCurrentlyAvailableOpportunityFilter(includeFinished, handledBy, (op) => op.requirement.MetBy(thing));
+            return GetOpportunityFilter(desiredAvailability, handledBy, (op) => op.requirement.MetBy(thing));
         }
 
-        public ResearchOpportunity GetFirstCurrentlyAvailableOpportunity(bool includeFinished, HandlingMode? handledBy, Faction faction)
+        public ResearchOpportunity GetFirstFilteredOpportunity(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Faction faction)
         {
-            return GetFirstCurrentlyAvailableOpportunityFilter(includeFinished, handledBy, (op) => op.requirement is ROComp_RequiresFaction requiresFaction && requiresFaction.MetByFaction(faction));
+            return GetOpportunityFilter(desiredAvailability, handledBy, (op) => op.requirement is ROComp_RequiresFaction requiresFaction && requiresFaction.MetByFaction(faction));
         }
 
-        public ResearchOpportunity GetFirstCurrentlyAvailableOpportunity(bool includeFinished, HandlingMode? handledBy, Func<ResearchOpportunity, bool> validator)
+        public ResearchOpportunity GetFirstFilteredOpportunity(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Func<ResearchOpportunity, bool> validator)
         {
-            return GetFirstCurrentlyAvailableOpportunityFilter(includeFinished, handledBy, validator);
+            return GetOpportunityFilter(desiredAvailability, handledBy, validator);
         }
 
-        private ResearchOpportunity GetFirstCurrentlyAvailableOpportunityFilter(bool includeFinished, HandlingMode? handledBy, Func<ResearchOpportunity, bool> validator)
+        private ResearchOpportunity GetOpportunityFilter(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Func<ResearchOpportunity, bool> validator)
         {
             List<ResearchOpportunity> opportunities = new List<ResearchOpportunity>();
             foreach (var op in CurrentProjectOpportunities)
             {
-                if ((op.CurrentAvailability == OpportunityAvailability.Available || (includeFinished && op.CurrentAvailability == OpportunityAvailability.Finished)) &&
+                if (((!desiredAvailability.HasValue) || (desiredAvailability.Value & op.CurrentAvailability) != 0) &&
                     (!handledBy.HasValue || op.def.handledBy.HasFlag(handledBy.Value)) &&
                     (validator == null || validator(op)))
                     return op;
@@ -229,42 +229,42 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             return null;
         }
 
-        public IEnumerable<ResearchOpportunity> GetCurrentlyAvailableOpportunities(bool includeFinished, HandlingMode? handledBy)
+        public IEnumerable<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy)
         {
-            return GetCurrentlyAvailableOpportunitiesFilter(includeFinished, handledBy, null);
+            return GetAvailableOpportunitiesFilter(desiredAvailability, handledBy, null);
         }
 
-        public IEnumerable<ResearchOpportunity> GetCurrentlyAvailableOpportunities(bool includeFinished, HandlingMode? handledBy, Type driverClass)
+        public IEnumerable<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Type driverClass)
         {
-            return GetCurrentlyAvailableOpportunitiesFilter(includeFinished, handledBy, (op) => op.JobDefs != null && op.JobDefs.Any(jd => jd.driverClass == driverClass));
+            return GetAvailableOpportunitiesFilter(desiredAvailability, handledBy, (op) => op.JobDefs != null && op.JobDefs.Any(jd => jd.driverClass == driverClass));
         }
 
-        public IEnumerable<ResearchOpportunity> GetCurrentlyAvailableOpportunities(bool includeFinished, HandlingMode? handledBy, Def def)
+        public IEnumerable<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Def def)
         {
-            return GetCurrentlyAvailableOpportunitiesFilter(includeFinished, handledBy, (op) => op.requirement.MetBy(def));
+            return GetAvailableOpportunitiesFilter(desiredAvailability, handledBy, (op) => op.requirement.MetBy(def));
         }
 
-        public IEnumerable<ResearchOpportunity> GetCurrentlyAvailableOpportunities(bool includeFinished, HandlingMode? handledBy, Thing thing)
+        public IEnumerable<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Thing thing)
         {
-            return GetCurrentlyAvailableOpportunitiesFilter(includeFinished, handledBy, (op) => op.requirement.MetBy(thing));
+            return GetAvailableOpportunitiesFilter(desiredAvailability, handledBy, (op) => op.requirement.MetBy(thing));
         }
 
-        public IEnumerable<ResearchOpportunity> GetCurrentlyAvailableOpportunities(bool includeFinished, HandlingMode? handledBy, Faction faction)
+        public IEnumerable<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Faction faction)
         {
-            return GetCurrentlyAvailableOpportunitiesFilter(includeFinished, handledBy, (op) => op.requirement is ROComp_RequiresFaction requiresFaction && requiresFaction.MetByFaction(faction));
+            return GetAvailableOpportunitiesFilter(desiredAvailability, handledBy, (op) => op.requirement is ROComp_RequiresFaction requiresFaction && requiresFaction.MetByFaction(faction));
         }
 
-        public IEnumerable<ResearchOpportunity> GetCurrentlyAvailableOpportunities(bool includeFinished, HandlingMode? handledBy, Func<ResearchOpportunity, bool> validator)
+        public IEnumerable<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Func<ResearchOpportunity, bool> validator)
         {
-            return GetCurrentlyAvailableOpportunitiesFilter(includeFinished, handledBy, validator);
+            return GetAvailableOpportunitiesFilter(desiredAvailability, handledBy, validator);
         }
 
-        private IEnumerable<ResearchOpportunity> GetCurrentlyAvailableOpportunitiesFilter(bool includeFinished, HandlingMode? handledBy, Func<ResearchOpportunity, bool> validator)
+        private IEnumerable<ResearchOpportunity> GetAvailableOpportunitiesFilter(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Func<ResearchOpportunity, bool> validator)
         {
             List<ResearchOpportunity> opportunities = new List<ResearchOpportunity>();
             foreach (var op in CurrentProjectOpportunities)
             {
-                if ((op.CurrentAvailability == OpportunityAvailability.Available || (includeFinished && op.CurrentAvailability == OpportunityAvailability.Finished)) &&
+                if (((!desiredAvailability.HasValue) || (desiredAvailability.Value & op.CurrentAvailability) != 0) &&
                     (!handledBy.HasValue || op.def.handledBy.HasFlag(handledBy.Value)) &&
                     (validator == null || validator(op)))
                 opportunities.Add(op);

@@ -36,7 +36,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 				if (cacheBuiltForProject != Find.ResearchManager.currentProj)
 				{
                     _prototypeOpportunitiesCache = ResearchOpportunityManager.Instance
-                        .GetCurrentlyAvailableOpportunities(true, HandlingMode.Special_Prototype).ToArray();
+                        .GetFilteredOpportunities(null, HandlingMode.Special_Prototype).ToArray();
 					cacheBuiltForProject = Find.ResearchManager.currentProj;
 				}
 				return _prototypeOpportunitiesCache;
@@ -103,14 +103,16 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         public static void DoPostFailToFinishThingResearch(Pawn worker, float totalWork, float doneWork, ThingDef productDef, RecipeDef usedRecipe)
         {
             {
-                var opportunity = ResearchOpportunityManager.Instance
-                    .GetFirstCurrentlyAvailableOpportunity(true, HandlingMode.Special_Prototype, (op) => op.requirement.MetBy(usedRecipe) || op.requirement.MetBy(productDef));
+                var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Prototype, (op) => op.requirement.MetBy(usedRecipe) || op.requirement.MetBy(productDef));
                     //.GetCurrentlyAvailableOpportunities()
                     //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && (o.requirement.MetBy(usedRecipe) || o.requirement.MetBy(productDef)))
                     //.FirstOrDefault();
 
                 if (opportunity != null)
                 {
+                    if (ResearchReinvented_Debug.debugPrintouts)
+                        Log.Message($"pawn {worker.LabelCap} finished (failure) thing {productDef.LabelCap} {(usedRecipe != null ? usedRecipe.LabelCap.ToString() : "")} and there's an opportunity {opportunity.ShortDesc}");
+
                     //Log.Message($"found matching opp. {opportunity.ShortDesc}");
                     var amount = doneWork * BaseResearchAmounts.DoneWorkMultiplier;
                     var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
@@ -123,14 +125,16 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         public static void DoPostFailToFinishTerrainResearch(Pawn worker, float totalWork, float doneWork, TerrainDef terrainDef)
         {
             {
-                var opportunity = ResearchOpportunityManager.Instance
-                    .GetFirstCurrentlyAvailableOpportunity(true, HandlingMode.Special_Prototype, terrainDef);
+                var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Prototype, terrainDef);
                     //.GetCurrentlyAvailableOpportunities()
                     //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && o.requirement.MetBy(terrainDef))
                     //.FirstOrDefault();
 
                 if (opportunity != null)
                 {
+                    if (ResearchReinvented_Debug.debugPrintouts)
+                        Log.Message($"pawn {worker.LabelCap} finished (failure) terrain {terrainDef.LabelCap} and there's an opportunity {opportunity.ShortDesc}");
+
                     var amount = doneWork * BaseResearchAmounts.DoneWorkMultiplier;
                     var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
                     var xp = doneWork * ResearchXPAmounts.DoneWorkMultiplier;
@@ -142,14 +146,16 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         public static void DoPostFinishThingResearch(Pawn worker, float totalWork, Thing product, RecipeDef usedRecipe)
         {
             {
-                var opportunity = ResearchOpportunityManager.Instance
-                    .GetFirstCurrentlyAvailableOpportunity(true, HandlingMode.Special_Prototype, (op) => op.requirement.MetBy(usedRecipe) || op.requirement.MetBy(product.def));
+                var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Prototype, (op) => op.requirement.MetBy(usedRecipe) || op.requirement.MetBy(product.def));
                     //.GetCurrentlyAvailableOpportunities()
                     //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && (o.requirement.MetBy(usedRecipe) || o.requirement.MetBy(product.def)))
                     //.FirstOrDefault();
 
                 if (opportunity != null)
                 {
+                    if (ResearchReinvented_Debug.debugPrintouts)
+                        Log.Message($"pawn {worker.LabelCap} finished thing {product.LabelCap} {(usedRecipe != null ? usedRecipe.LabelCap.ToString() : "")} and there's an opportunity {opportunity.ShortDesc}");
+
                     //Log.Message($"found matching opp. {opportunity.ShortDesc}");
                     var amount = totalWork * BaseResearchAmounts.DoneWorkMultiplier;
                     var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
@@ -162,14 +168,16 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         public static void DoPostFinishTerrainResearch(Pawn worker, float totalWork, TerrainDef terrainDef)
         {
             {
-                var opportunity = ResearchOpportunityManager.Instance
-                    .GetFirstCurrentlyAvailableOpportunity(true, HandlingMode.Special_Prototype, terrainDef);
+                var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Prototype, terrainDef);
                     //.GetCurrentlyAvailableOpportunities()
                     //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && o.requirement.MetBy(terrainDef))
                     //.FirstOrDefault();
 
                 if (opportunity != null)
                 {
+                    if (ResearchReinvented_Debug.debugPrintouts)
+                        Log.Message($"pawn {worker.LabelCap} finished terrain {terrainDef.LabelCap} and there's an opportunity {opportunity.ShortDesc}");
+
                     var amount = totalWork * BaseResearchAmounts.DoneWorkMultiplier;
                     var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
                     var xp = totalWork * ResearchXPAmounts.DoneWorkMultiplier;
@@ -182,14 +190,16 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         {
             if(usedRecipe != null)
             {
-                var opportunity = ResearchOpportunityManager.Instance
-                    .GetFirstCurrentlyAvailableOpportunity(true, HandlingMode.Special_Prototype, usedRecipe);
+                var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Prototype, usedRecipe);
                     //.GetCurrentlyAvailableOpportunities()
                     //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && (usedRecipe != null && o.requirement.MetBy(usedRecipe)))
                     //.FirstOrDefault();
 
                 if (opportunity != null)
                 {
+                    if (ResearchReinvented_Debug.debugPrintouts)
+                        Log.Message($"pawn {worker.LabelCap} finished surgery {usedRecipe.LabelCap} and there's an opportunity {opportunity.ShortDesc}");
+
                     var amount = totalWork * BaseResearchAmounts.DoneWorkMultiplier;
                     var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
                     var xp = totalWork * ResearchXPAmounts.DoneWorkMultiplier;

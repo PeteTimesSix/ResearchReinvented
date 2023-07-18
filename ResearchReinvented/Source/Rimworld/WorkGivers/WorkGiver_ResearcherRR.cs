@@ -28,7 +28,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 				if (_matchingOpportunitiesCachedFor != Find.ResearchManager.currentProj)
 				{
 					_matchingOpportunitesCache = ResearchOpportunityManager.Instance
-						.GetCurrentlyAvailableOpportunities(true, HandlingMode.Job_Theory, DriverClass).ToArray();
+						.GetFilteredOpportunities(null, HandlingMode.Job_Theory, DriverClass).ToArray();
 						//.GetCurrentlyAvailableOpportunities(true)
 						//.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Job_Theory) && o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass)).ToArray();
 					_matchingOpportunitiesCachedFor = Find.ResearchManager.currentProj;

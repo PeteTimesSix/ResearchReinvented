@@ -30,7 +30,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 				if (_matchingOpportunitiesCachedFor != Find.ResearchManager.currentProj)
 				{
                     _matchingOpportunitesCache = ResearchOpportunityManager.Instance
-                        .GetCurrentlyAvailableOpportunities(true, HandlingMode.Social, (op) => op.requirement is ROComp_RequiresFaction requiresFaction && requiresFaction.faction != Faction.OfPlayer).ToArray();
+                        .GetFilteredOpportunities(null, HandlingMode.Social, (op) => op.requirement is ROComp_RequiresFaction requiresFaction && requiresFaction.faction != Faction.OfPlayer).ToArray();
                         //.GetCurrentlyAvailableOpportunities(true)
 						//.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Social) && o.requirement is ROComp_RequiresFaction requiresFaction && requiresFaction.faction != Faction.OfPlayer).ToArray();
                     _matchingOpportunitiesCachedFor = Find.ResearchManager.currentProj;
@@ -44,10 +44,36 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			_matchingOpportunitesCache = Array.Empty<ResearchOpportunity>();
 		}
 
+        private static ThingDef[] _commsConsoles;
+        public static ThingDef[] CommsConsoles
+        {
+            get
+            {
+                if(_commsConsoles == null)
+                {
+                    List<ThingDef> consoles = new List<ThingDef>();
+                    foreach(var def in DefDatabase<ThingDef>.AllDefsListForReading)
+                    {
+                        if(def.IsCommsConsole)
+                            consoles.Add(def);
+                    }
+                    _commsConsoles = consoles.ToArray();
+                }
+                return _commsConsoles;
+            }
+        }
+
         public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
         {
-            //TODO!!!!
-            return pawn.Map?.listerThings.ThingsOfDef(ThingDefOf.CommsConsole) ?? Enumerable.Empty<Thing>();
+            if(pawn.Map == null || CommsConsoles.Length == 0)
+                return Enumerable.Empty<Thing>();
+
+            List<Thing> consoles = new List<Thing>();
+            foreach(var def in CommsConsoles)
+            {
+                consoles.AddRange(pawn.Map?.listerThings.ThingsOfDef(ThingDefOf.CommsConsole));
+            }
+            return consoles;
         }
 
         public override bool ShouldSkip(Pawn pawn, bool forced = false)

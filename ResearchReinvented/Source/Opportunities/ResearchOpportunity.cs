@@ -24,16 +24,17 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
         Descendant
     }
 
+    [Flags]
     public enum OpportunityAvailability 
     {
-        Available,
-        Disabled,
-        Finished,
-        ResearchTooLow,
-        ResearchTooHigh,
-        CategoryFinished,
-        ResearchPrerequisitesNotMet,
-        UnavailableReasonUnknown
+        Available = 1,
+        Disabled = 1 << 1,
+        Finished = 1 << 2,
+        ResearchTooLow = 1 << 3,
+        ResearchTooHigh = 1 << 4,
+        CategoryFinished = 1 << 5,
+        ResearchPrerequisitesNotMet = 1 << 6,
+        UnavailableReasonUnknown = 1 << 7
     }
 
     public static class ResearchOpportunityChecker 
@@ -107,7 +108,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             {
                 if (IsFinished)
                     return OpportunityAvailability.Finished;
-                var categoryAvailable = def.GetCategory(relation).GetCurrentAvailability(this);
+                var categoryAvailable = def.GetCategory(relation).GetCurrentAvailability(this.project);
                 return categoryAvailable;
                 /*if(categoryAvailable == OpportunityAvailability.Available)
                 {
@@ -234,14 +235,14 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             return project.IsFinished || this.IsFinished;
         }
 
-        public bool ResearchTickPerformed(float amount, Pawn researcher)
+        public bool ResearchTickPerformed(float amount, Pawn researcher, int tickModulo = 1)
         {
             if (Find.ResearchManager.currentProj == null) //current project either unset or finished this tick
                 return true;
 
-            researcher.skills.Learn(SkillDefOf.Intellectual, 0.1f);
+            researcher.skills.Learn(SkillDefOf.Intellectual, 0.1f * tickModulo);
 
-            amount *= 0.00825f;
+            amount *= 0.00825f * tickModulo;
             return ResearchPerformed(amount, researcher);
         }
 

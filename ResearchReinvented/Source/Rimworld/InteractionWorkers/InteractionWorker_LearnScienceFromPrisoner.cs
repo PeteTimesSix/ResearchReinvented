@@ -1,6 +1,7 @@
 ﻿using PeteTimesSix.ResearchReinvented.Data;
 using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Managers;
+using PeteTimesSix.ResearchReinvented.Opportunities;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -32,14 +33,16 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.InteractionWorkers
             letterDef = null;
             lookTargets = null;
 
-            var opportunity = ResearchOpportunityManager.Instance
-                .GetFirstCurrentlyAvailableOpportunity(false, HandlingMode.Social, recipient);
+            var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Social, recipient);
                 //.GetCurrentlyAvailableOpportunities()
                 //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Social) && o.requirement.MetBy(recipient))
                 //.FirstOrDefault();
 
             if (opportunity != null)
             {
+                if (ResearchReinvented_Debug.debugPrintouts)
+                    Log.Message($"pawn {initiator.LabelCap} learned science from prisoner {recipient.LabelCap} and there's an opportunity {opportunity.ShortDesc}");
+
                 var amount = BaseResearchAmounts.InteractionLearnFromPrisoner;
                 var modifier = initiator.GetStatValue(StatDefOf.NegotiationAbility) * Math.Max(initiator.GetStatValue(StatDefOf.ResearchSpeed), recipient.GetStatValue(StatDefOf.ResearchSpeed));
 

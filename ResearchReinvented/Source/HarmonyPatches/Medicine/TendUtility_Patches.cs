@@ -17,11 +17,6 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Medicine
     [HarmonyPatch(typeof(TendUtility), nameof(TendUtility.DoTend))]
     public static class TendUtility_Patches
     {
-        private static IEnumerable<ResearchOpportunity> MatchingOpportunities =>
-            ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities(false, HandlingMode.Special_Medicine);
-            //.GetCurrentlyAvailableOpportunities()
-            //.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Special_Medicine));
-
         [HarmonyPrefix]
         public static void TendUtility_DoTend_Prefix(Pawn doctor, Pawn patient, RimWorld.Medicine medicine)
         {
@@ -34,18 +29,17 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Medicine
 
         public static void DoForObserver(Pawn observer, ThingDef medicine, float offsetHint = 0f) 
         {
-            if (!observer.RaceProps.Humanlike || observer.Faction != Faction.OfPlayer || observer.skills == null || !observer.Awake() || observer.WorkTypeIsDisabled(WorkTypeDefOf.Research))
+            if (observer.RaceProps == null || !observer.RaceProps.Humanlike || observer.Faction != Faction.OfPlayer || observer.skills == null || !observer.Awake() || observer.WorkTypeIsDisabled(WorkTypeDefOf.Research))
                 return;
 
-            foreach (var opportunity in MatchingOpportunities)
+            var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Medicine, medicine);
+
+            if (opportunity != null)
             {
-                if (opportunity.requirement.MetBy(medicine))
-                {
-                    var amount = BaseResearchAmounts.OnTendObserver;
-                    var modifier = observer.GetStatValue(StatDefOf.ResearchSpeed, true);
-                    var xp = ResearchXPAmounts.OnTendObserver;
-                    opportunity.ResearchChunkPerformed(observer, HandlingMode.Special_Medicine, amount, modifier, xp, moteSubjectName: medicine.LabelCap);
-                }
+                var amount = BaseResearchAmounts.OnTendObserver;
+                var modifier = observer.GetStatValue(StatDefOf.ResearchSpeed, true);
+                var xp = ResearchXPAmounts.OnTendObserver;
+                opportunity.ResearchChunkPerformed(observer, HandlingMode.Special_Medicine, amount, modifier, xp, moteSubjectName: medicine.LabelCap);
             }
         }
     }

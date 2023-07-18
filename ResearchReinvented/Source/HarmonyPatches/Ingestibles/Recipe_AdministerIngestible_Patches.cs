@@ -17,32 +17,30 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Ingestibles
     public static class Recipe_AdministerIngestible_Patches
     {
 
-        private static IEnumerable<ResearchOpportunity> MatchingOpportunities =>
-            ResearchOpportunityManager.Instance.GetCurrentlyAvailableOpportunities(false, HandlingMode.Special_OnIngest_Observable);
-            //.GetCurrentlyAvailableOpportunities()
-            //.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Special_OnIngest_Observable));
-
         [HarmonyPrefix]
         public static void Recipe_AdministerIngestible_ApplyOnPawn_Prefix(Recipe_AdministerIngestible __instance, Pawn pawn, Pawn billDoer, List<Thing> ingredients)
         {
+            if (ingredients == null || ingredients.Count == 0)
+                return;
+
             var ingestible = ingredients[0];
             var ingester = pawn;
             var observer = billDoer;
-            if (!observer.RaceProps.Humanlike || observer.Faction != Faction.OfPlayer || observer.skills == null || observer.WorkTypeIsDisabled(WorkTypeDefOf.Research))
+
+            if (observer.RaceProps == null || !observer.RaceProps.Humanlike || observer.Faction != Faction.OfPlayer || observer.skills == null || observer.WorkTypeIsDisabled(WorkTypeDefOf.Research))
                 return;
 
-            if (ResearchReinvented_Debug.debugPrintouts)
-                Log.Message($"pawn {ingester.LabelCap} observed pawn {ingester.LabelCap} ingest {ingestible.LabelCap}, checking opportunities (count: {MatchingOpportunities.Count()})");
+            var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_OnIngest_Observable, ingestible);
 
-            foreach (var opportunity in MatchingOpportunities)
+            if(opportunity != null)
             {
-                if (opportunity.requirement.MetBy(ingestible))
-                {
-                    var amount = BaseResearchAmounts.AdministerIngestibleObserver;
-                    var modifier = ingester.GetStatValue(StatDefOf.ResearchSpeed, true);
-                    var xp = ResearchXPAmounts.AdministerIngestibleObserver;
-                    opportunity.ResearchChunkPerformed(observer, HandlingMode.Special_OnIngest_Observable, amount, modifier, xp, moteSubjectName: ingestible.LabelCapNoCount, moteOffsetHint: 0.5f/*avoid overlap with ingester's mote*/);
-                }
+                if (ResearchReinvented_Debug.debugPrintouts)
+                    Log.Message($"pawn {observer.LabelCap} observed pawn {ingester.LabelCap} ingest {ingestible.LabelCap} and there's an opportunity {opportunity.ShortDesc}");
+
+                var amount = BaseResearchAmounts.AdministerIngestibleObserver;
+                var modifier = ingester.GetStatValue(StatDefOf.ResearchSpeed, true);
+                var xp = ResearchXPAmounts.AdministerIngestibleObserver;
+                opportunity.ResearchChunkPerformed(observer, HandlingMode.Special_OnIngest_Observable, amount, modifier, xp, moteSubjectName: ingestible.LabelCapNoCount, moteOffsetHint: 0.5f/*avoid overlap with ingester's mote*/);
             }
         }
     }

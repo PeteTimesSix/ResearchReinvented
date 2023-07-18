@@ -11,23 +11,8 @@ using Verse;
 
 namespace PeteTimesSix.ResearchReinvented.Defs
 {
-    public class ResearchOpportunityRelationValues
-    {
-    }
-
-
     public class ResearchOpportunityCategoryDef : Def
     {
-        /*public bool enabled = true;
-
-        public float targetFractionMultiplier;
-        public float targetIterations;
-        public float extraFractionMultiplier;
-        public bool infiniteOverflow;
-        public float researchSpeedMultiplier;
-
-        public FloatRange availableAtOverallProgress;*/
-
         public bool maxAsRemaining = false;
 
         private CategorySettingsFinal _settingsCached;
@@ -78,16 +63,23 @@ namespace PeteTimesSix.ResearchReinvented.Defs
 
         public Color color;
 
-        public OpportunityAvailability GetCurrentAvailability(ResearchOpportunity asker){
-            if(asker?.project == null)
-            {
-                Log.Error($"research opportunity {asker} in category {this} has null research project");
-                return OpportunityAvailability.UnavailableReasonUnknown;
-            }
-            return GetCurrentAvailability(asker?.project);
-        }
+        private int _cacheBuiltOnTick = -1;
+        private ResearchProjectDef _cacheBuiltForProject = null;
+        private OpportunityAvailability _currentAvailabilityCached = OpportunityAvailability.UnavailableReasonUnknown;
+
 
         public OpportunityAvailability GetCurrentAvailability(ResearchProjectDef project)
+        {
+            if (_cacheBuiltOnTick != Find.TickManager.TicksAbs || _cacheBuiltForProject != project)
+            {
+                _currentAvailabilityCached = GetAvailability(project);
+                _cacheBuiltOnTick = Find.TickManager.TicksAbs;
+                _cacheBuiltForProject = project;
+            }
+            return _currentAvailabilityCached;
+        }
+
+        private OpportunityAvailability GetAvailability(ResearchProjectDef project) 
         {
             if (project == null)
                 return OpportunityAvailability.UnavailableReasonUnknown;
@@ -107,8 +99,7 @@ namespace PeteTimesSix.ResearchReinvented.Defs
 
         public float GetCurrentTotal() 
         {
-            var matchingOpportunities = ResearchOpportunityManager.Instance
-                .CurrentProjectOpportunities.Where(o => o.IsValid() && o.def.GetCategory(o.relation) == this);
+            var matchingOpportunities = ResearchOpportunityManager.Instance.GetFilteredOpportunities(null, null, this);
             var totalProgress = matchingOpportunities.Sum(o => o.Progress);
             return totalProgress;
         }

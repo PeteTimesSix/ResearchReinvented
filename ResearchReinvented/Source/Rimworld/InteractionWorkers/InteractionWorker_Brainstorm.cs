@@ -16,7 +16,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.InteractionWorkers
     {
         public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
         {
-            if (initiator.WorkTypeIsDisabled(WorkTypeDefOf.Research) || recipient.WorkTypeIsDisabled(WorkTypeDefOf.Research))
+            if (recipient.Faction == null || !recipient.Faction.IsPlayer ||initiator.WorkTypeIsDisabled(WorkTypeDefOf.Research) || recipient.WorkTypeIsDisabled(WorkTypeDefOf.Research))
                 return 0f;
 
             return 0.25f;
@@ -29,14 +29,16 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.InteractionWorkers
             letterDef = null;
             lookTargets = null;
 
-            var opportunity = ResearchOpportunityManager.Instance
-                .GetFirstCurrentlyAvailableOpportunity(false, HandlingMode.Social, recipient);
+            var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Social, recipient);
                 //.GetCurrentlyAvailableOpportunities()
                 //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Social) && o.requirement.MetBy(recipient))
                 //.FirstOrDefault();
 
             if (opportunity != null)
             {
+                if (ResearchReinvented_Debug.debugPrintouts)
+                    Log.Message($"pawn {initiator.LabelCap} brainstormed with {recipient.LabelCap} and there's an opportunity {opportunity.ShortDesc}");
+
                 var amount = BaseResearchAmounts.InteractionBrainstorm;
                 var modifier = Math.Max(initiator.GetStatValue(StatDefOf.ResearchSpeed), recipient.GetStatValue(StatDefOf.ResearchSpeed));
                 var xp = 0; //handled in the interaction def
