@@ -29,7 +29,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Medicine
 
         public static void DoForObserver(Pawn observer, ThingDef medicine, float offsetHint = 0f) 
         {
-            if (observer.RaceProps == null || !observer.RaceProps.Humanlike || observer.Faction != Faction.OfPlayer || observer.skills == null || !observer.Awake() || observer.WorkTypeIsDisabled(WorkTypeDefOf.Research))
+            if (observer == null || medicine == null || observer.RaceProps == null || !observer.RaceProps.Humanlike || observer.Faction != Faction.OfPlayer || observer.skills == null || !observer.Awake() || observer.WorkTypeIsDisabled(WorkTypeDefOf.Research))
                 return;
 
             var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Medicine, medicine);
