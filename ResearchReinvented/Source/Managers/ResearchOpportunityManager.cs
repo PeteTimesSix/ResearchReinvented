@@ -39,7 +39,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 bool currentProjectRegenned = CheckForRegeneration();
                 if(currentProjectRegenned || _currentProjectOpportunitiesCache == null) 
                 {
-                    _currentProjectOpportunitiesCache = _allGeneratedOpportunities.Where(o => o.project == _currentProject).ToList();
+                    _currentProjectOpportunitiesCache = AllGeneratedOpportunities.Where(o => o.IsValid() && o.project == _currentProject).ToList();
                 }
                 return _currentProjectOpportunitiesCache.AsReadOnly();
             }
@@ -196,6 +196,11 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             return GetOpportunityFilter(desiredAvailability, handledBy, (op) => op.JobDefs != null && op.JobDefs.Any(jd => jd.driverClass == driverClass));
         }
 
+        public ResearchOpportunity GetFirstFilteredOpportunity(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, ResearchOpportunityCategoryDef category)
+        {
+            return GetOpportunityFilter(desiredAvailability, handledBy, (op) => op.def.GetCategory(op.relation) == category);
+        }
+
         public ResearchOpportunity GetFirstFilteredOpportunity(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Def def)
         {
             return GetOpportunityFilter(desiredAvailability, handledBy, (op) => op.requirement.MetBy(def));
@@ -231,35 +236,40 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
         public IEnumerable<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy)
         {
-            return GetAvailableOpportunitiesFilter(desiredAvailability, handledBy, null);
+            return GetOpportunitiesFilter(desiredAvailability, handledBy, null);
         }
 
         public IEnumerable<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Type driverClass)
         {
-            return GetAvailableOpportunitiesFilter(desiredAvailability, handledBy, (op) => op.JobDefs != null && op.JobDefs.Any(jd => jd.driverClass == driverClass));
+            return GetOpportunitiesFilter(desiredAvailability, handledBy, (op) => op.JobDefs != null && op.JobDefs.Any(jd => jd.driverClass == driverClass));
+        }
+
+        public IEnumerable<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, ResearchOpportunityCategoryDef category)
+        {
+            return GetOpportunitiesFilter(desiredAvailability, handledBy, (op) => op.def.GetCategory(op.relation) == category);
         }
 
         public IEnumerable<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Def def)
         {
-            return GetAvailableOpportunitiesFilter(desiredAvailability, handledBy, (op) => op.requirement.MetBy(def));
+            return GetOpportunitiesFilter(desiredAvailability, handledBy, (op) => op.requirement.MetBy(def));
         }
 
         public IEnumerable<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Thing thing)
         {
-            return GetAvailableOpportunitiesFilter(desiredAvailability, handledBy, (op) => op.requirement.MetBy(thing));
+            return GetOpportunitiesFilter(desiredAvailability, handledBy, (op) => op.requirement.MetBy(thing));
         }
 
         public IEnumerable<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Faction faction)
         {
-            return GetAvailableOpportunitiesFilter(desiredAvailability, handledBy, (op) => op.requirement is ROComp_RequiresFaction requiresFaction && requiresFaction.MetByFaction(faction));
+            return GetOpportunitiesFilter(desiredAvailability, handledBy, (op) => op.requirement is ROComp_RequiresFaction requiresFaction && requiresFaction.MetByFaction(faction));
         }
 
         public IEnumerable<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Func<ResearchOpportunity, bool> validator)
         {
-            return GetAvailableOpportunitiesFilter(desiredAvailability, handledBy, validator);
+            return GetOpportunitiesFilter(desiredAvailability, handledBy, validator);
         }
 
-        private IEnumerable<ResearchOpportunity> GetAvailableOpportunitiesFilter(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Func<ResearchOpportunity, bool> validator)
+        private IEnumerable<ResearchOpportunity> GetOpportunitiesFilter(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Func<ResearchOpportunity, bool> validator)
         {
             List<ResearchOpportunity> opportunities = new List<ResearchOpportunity>();
             foreach (var op in CurrentProjectOpportunities)
@@ -394,10 +404,18 @@ namespace PeteTimesSix.ResearchReinvented.Managers
         public override void ExposeData()
         {
             base.ExposeData();
+            if(Scribe.mode == LoadSaveMode.Saving) 
+            {
+                _allGeneratedOpportunities = _allGeneratedOpportunities.Where(o => o.IsValid()).ToList();
+            }
             Scribe_Collections.Look(ref _allGeneratedOpportunities, "_allGeneratedOpportunities", LookMode.Deep);
             Scribe_Collections.Look(ref _projectsGenerated, "_allProjectsWithGeneratedOpportunities", LookMode.Def);
             Scribe_Defs.Look(ref _currentProject, "currentProject");
             Scribe_Collections.Look(ref _categoryStores, "_categoryStores", LookMode.Deep);
+            if(Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                _allGeneratedOpportunities = _allGeneratedOpportunities.Where(o => o.IsValid()).ToList();
+            }
         }
     }
 }
