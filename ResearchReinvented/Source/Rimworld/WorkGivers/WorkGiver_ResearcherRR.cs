@@ -64,7 +64,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override bool ShouldSkip(Pawn pawn, bool forced = false)
 		{
-			return Find.ResearchManager.currentProj == null;
+			return Find.ResearchManager.currentProj == null || OpportunityCache == null;
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
@@ -74,7 +74,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			{
 				return false;
 			}
-			var opportunity = MatchingOpportunities.FirstOrDefault();
+			var opportunity = OpportunityCache;
 			if (opportunity == null)
 			{
 				//Log.Warning("found no research opportunities when looking for a research job on a research bench => the basic research should always be available!");
