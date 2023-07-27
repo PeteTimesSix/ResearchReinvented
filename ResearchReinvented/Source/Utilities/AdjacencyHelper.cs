@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,13 @@ namespace PeteTimesSix.ResearchReinvented.Utilities
             if(thing.Map != pawn.Map)
                 return Enumerable.Empty<IntVec3>();
             var adjCells = cardinalOnly ? GenAdj.CellsAdjacentCardinal(thing) : GenAdj.CellsAdjacent8Way(thing);
-            var reachable = adjCells.Where(c => c.Standable(pawn.Map)).Where(c => pawn.CanReach(c, PathEndMode.OnCell, Danger.Deadly));
+            var reachable = adjCells.Where(c =>
+                    c.Standable(pawn.Map) &&
+                    pawn.CanReach(c, PathEndMode.OnCell, Danger.Deadly) &&
+                    !c.ContainsStaticFire(pawn.Map) &&
+                    !c.GetTerrain(pawn.Map).avoidWander &&
+                    !PawnUtility.KnownDangerAt(c, pawn.Map, pawn)
+                );
             return reachable;
         }
     }

@@ -50,7 +50,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 
             var pokeMode = TargetThing.def.hasInteractionCell ? PathEndMode.InteractionCell : PathEndMode.Touch;
 			this.FailOnDespawnedNullOrForbidden(TargetThingIndex);
-			this.FailOnBurningImmobile(TargetThingIndex);
+			if(TargetThing?.def != ThingDefOf.Fire)
+				this.FailOnBurningImmobile(TargetThingIndex);
 
 			Toil walkTo;
 
