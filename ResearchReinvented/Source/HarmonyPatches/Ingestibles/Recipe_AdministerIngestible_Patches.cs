@@ -3,6 +3,7 @@ using PeteTimesSix.ResearchReinvented.Data;
 using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Managers;
 using PeteTimesSix.ResearchReinvented.Opportunities;
+using PeteTimesSix.ResearchReinvented.Utilities;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Ingestibles
             var ingester = pawn;
             var observer = billDoer;
 
-            if (observer.RaceProps == null || !observer.RaceProps.Humanlike || observer.Faction != Faction.OfPlayer || observer.skills == null || observer.WorkTypeIsDisabled(WorkTypeDefOf.Research))
+            if (!observer.CanNowDoResearch())
                 return;
 
             var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_OnIngest_Observable, ingestible);

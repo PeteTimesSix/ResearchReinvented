@@ -2,6 +2,7 @@
 using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Managers;
 using PeteTimesSix.ResearchReinvented.Opportunities;
+using PeteTimesSix.ResearchReinvented.Utilities;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.InteractionWorkers
     {
         public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
         {
-            if (recipient.Faction == null || !recipient.Faction.IsPlayer ||initiator.WorkTypeIsDisabled(WorkTypeDefOf.Research) || recipient.WorkTypeIsDisabled(WorkTypeDefOf.Research))
+            if (!recipient.CanNowDoResearch(false) || !initiator.CanNowDoResearch(false) || (recipient.Faction != Faction.OfPlayer && initiator.Faction != Faction.OfPlayer))
                 return 0f;
 
             return 0.25f;

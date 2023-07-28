@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using PeteTimesSix.ResearchReinvented.Extensions;
+using PeteTimesSix.ResearchReinvented.Utilities;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
             if (__instance.recipe.IsAvailableOnlyForPrototyping()) 
             {
-                if (p.WorkTypeIsDisabled(WorkTypeDefOf.Research))
+                if (!p.CanEverDoResearch())
                 {
                     JobFailReason.Is(StringsCache.JobFail_IncapableOfResearch, null);
                     return false;

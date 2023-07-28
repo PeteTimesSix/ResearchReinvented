@@ -240,10 +240,18 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             if (Find.ResearchManager.currentProj == null) //current project either unset or finished this tick
                 return true;
 
-            researcher.skills.Learn(SkillDefOf.Intellectual, 0.1f * tickModulo);
+            if (!researcher.WorkTypeIsDisabled(WorkTypeDefOf.Research))
+            {
+                researcher.skills.Learn(SkillDefOf.Intellectual, 0.1f * tickModulo);
 
-            amount *= 0.00825f * tickModulo;
-            return ResearchPerformed(amount, researcher);
+                amount *= 0.00825f * tickModulo;
+                return ResearchPerformed(amount, researcher);
+            }
+            else
+            {
+                Log.Warning($"RR: Pawn {researcher} tried to do research tick despite being incapable of research");
+                return false;
+            }
         }
 
         public bool ResearchChunkPerformed(Pawn researcher, HandlingMode mode, float amount, float modifier, float xp, string moteSubjectName = null, float moteOffsetHint = 0f)

@@ -3,6 +3,7 @@ using PeteTimesSix.ResearchReinvented.Data;
 using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Managers;
 using PeteTimesSix.ResearchReinvented.Opportunities;
+using PeteTimesSix.ResearchReinvented.Utilities;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Medicine
 
         public static void DoForObserver(Pawn observer, ThingDef medicine, float offsetHint = 0f) 
         {
-            if (observer == null || medicine == null || observer.RaceProps == null || !observer.RaceProps.Humanlike || observer.Faction != Faction.OfPlayer || observer.skills == null || !observer.Awake() || observer.WorkTypeIsDisabled(WorkTypeDefOf.Research))
+            if (medicine == null || !observer.CanNowDoResearch())
                 return;
 
             var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Medicine, medicine);

@@ -58,12 +58,12 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
         public void MarkTerrainAsPrototype(IntVec3 position, Map map, TerrainDef terrain)
         {
-            GetMapPrototypeTerrainGrid(map).MarkTerrainAsPrototype(position, terrain);
+            GetMapPrototypeTerrainGrid(map)?.MarkTerrainAsPrototype(position, terrain);
         }
 
         public void UnmarkTerrainAsPrototype(IntVec3 position, Map map)
         {
-            GetMapPrototypeTerrainGrid(map).UnmarkTerrainAsPrototype(position);
+            GetMapPrototypeTerrainGrid(map)?.UnmarkTerrainAsPrototype(position);
         }
 
         public void DebugDrawOnMap()
@@ -144,7 +144,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                         }
                     }
                 }
-                foreach (var uft in map.listerThings.AllThings.Where(t => t.def.isUnfinishedThing || t.def.thingClass == typeof(UnfinishedThing)).Cast<UnfinishedThing>().ToList())
+                foreach (var uft in map.listerThings.AllThings.Where(t => t.def.isUnfinishedThing && t is UnfinishedThing).Cast<UnfinishedThing>().ToList())
                 {
                     if (defsToCancel.Contains(uft.Recipe))
                     {

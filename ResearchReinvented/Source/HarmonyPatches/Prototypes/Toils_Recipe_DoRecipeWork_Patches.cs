@@ -3,6 +3,7 @@ using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Managers;
 using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.Rimworld.MiscData;
+using PeteTimesSix.ResearchReinvented.Utilities;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,8 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
                 var bench = actor.CurJob.GetTarget(TargetIndex.A).Thing;
                 if (bench != null)
                 {
+                    if (!actor.CanEverDoResearch())
+                        return;
 
                     var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Tooling, bench);
 

@@ -11,6 +11,7 @@ using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Managers;
 using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.Data;
+using PeteTimesSix.ResearchReinvented.Utilities;
 
 namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Ingestibles
 {
@@ -23,7 +24,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Ingestibles
         {
             var ingestible = __instance;
 
-            if (!ingester.RaceProps.Humanlike || ingester.Faction != Faction.OfPlayer || ingester.skills == null || !ingester.Awake() || ingester.WorkTypeIsDisabled(WorkTypeDefOf.Research))
+            if (!ingester.CanNowDoResearch())
                 return;
             
             var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_OnIngest, ingestible);

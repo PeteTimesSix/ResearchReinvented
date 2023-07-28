@@ -183,6 +183,7 @@
     <Compile Include="Utilities\ExposableList.cs" />
     <Compile Include="Utilities\ListingExtensions.cs" />
     <Compile Include="Extensions\RacePropertiesExtensions.cs" />
+    <Compile Include="Utilities\PawnExtensions.cs" />
     <Compile Include="Utilities\ThingChecks.cs" />
     <Compile Include="Utilities\TranspilerUtils.cs" />
     <Compile Include="Utilities\UIComponents.cs" />

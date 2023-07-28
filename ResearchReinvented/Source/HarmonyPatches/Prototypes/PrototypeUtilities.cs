@@ -4,6 +4,7 @@ using PeteTimesSix.ResearchReinvented.Extensions;
 using PeteTimesSix.ResearchReinvented.Managers;
 using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.OpportunityComps;
+using PeteTimesSix.ResearchReinvented.Utilities;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -102,93 +103,100 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
         public static void DoPostFailToFinishThingResearch(Pawn worker, float totalWork, float doneWork, ThingDef productDef, RecipeDef usedRecipe)
         {
+            if (!worker.CanNowDoResearch())
+                return;
+
+            var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Prototype, (op) => op.requirement.MetBy(usedRecipe) || op.requirement.MetBy(productDef));
+                //.GetCurrentlyAvailableOpportunities()
+                //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && (o.requirement.MetBy(usedRecipe) || o.requirement.MetBy(productDef)))
+                //.FirstOrDefault();
+
+            if (opportunity != null)
             {
-                var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Prototype, (op) => op.requirement.MetBy(usedRecipe) || op.requirement.MetBy(productDef));
-                    //.GetCurrentlyAvailableOpportunities()
-                    //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && (o.requirement.MetBy(usedRecipe) || o.requirement.MetBy(productDef)))
-                    //.FirstOrDefault();
+                if (ResearchReinvented_Debug.debugPrintouts)
+                    Log.Message($"pawn {worker.LabelCap} finished (failure) thing {productDef.LabelCap} {(usedRecipe != null ? usedRecipe.LabelCap.ToString() : "")} and there's an opportunity {opportunity.ShortDesc}");
 
-                if (opportunity != null)
-                {
-                    if (ResearchReinvented_Debug.debugPrintouts)
-                        Log.Message($"pawn {worker.LabelCap} finished (failure) thing {productDef.LabelCap} {(usedRecipe != null ? usedRecipe.LabelCap.ToString() : "")} and there's an opportunity {opportunity.ShortDesc}");
-
-                    //Log.Message($"found matching opp. {opportunity.ShortDesc}");
-                    var amount = doneWork * BaseResearchAmounts.DoneWorkMultiplier;
-                    var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
-                    var xp = doneWork * ResearchXPAmounts.DoneWorkMultiplier;
-                    opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, xp, moteSubjectName: usedRecipe != null ? usedRecipe.LabelCap.ToString() : productDef.LabelCap.ToString());
-                }
+                //Log.Message($"found matching opp. {opportunity.ShortDesc}");
+                var amount = doneWork * BaseResearchAmounts.DoneWorkMultiplier;
+                var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
+                var xp = doneWork * ResearchXPAmounts.DoneWorkMultiplier;
+                opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, xp, moteSubjectName: usedRecipe != null ? usedRecipe.LabelCap.ToString() : productDef.LabelCap.ToString());
             }
         }
 
         public static void DoPostFailToFinishTerrainResearch(Pawn worker, float totalWork, float doneWork, TerrainDef terrainDef)
         {
+            if (!worker.CanNowDoResearch())
+                return;
+
+            var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Prototype, terrainDef);
+                //.GetCurrentlyAvailableOpportunities()
+                //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && o.requirement.MetBy(terrainDef))
+                //.FirstOrDefault();
+
+            if (opportunity != null)
             {
-                var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Prototype, terrainDef);
-                    //.GetCurrentlyAvailableOpportunities()
-                    //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && o.requirement.MetBy(terrainDef))
-                    //.FirstOrDefault();
+                if (ResearchReinvented_Debug.debugPrintouts)
+                    Log.Message($"pawn {worker.LabelCap} finished (failure) terrain {terrainDef.LabelCap} and there's an opportunity {opportunity.ShortDesc}");
 
-                if (opportunity != null)
-                {
-                    if (ResearchReinvented_Debug.debugPrintouts)
-                        Log.Message($"pawn {worker.LabelCap} finished (failure) terrain {terrainDef.LabelCap} and there's an opportunity {opportunity.ShortDesc}");
-
-                    var amount = doneWork * BaseResearchAmounts.DoneWorkMultiplier;
-                    var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
-                    var xp = doneWork * ResearchXPAmounts.DoneWorkMultiplier;
-                    opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, xp, moteSubjectName: terrainDef.LabelCap);
-                }
+                var amount = doneWork * BaseResearchAmounts.DoneWorkMultiplier;
+                var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
+                var xp = doneWork * ResearchXPAmounts.DoneWorkMultiplier;
+                opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, xp, moteSubjectName: terrainDef.LabelCap);
             }
         }
 
         public static void DoPostFinishThingResearch(Pawn worker, float totalWork, Thing product, RecipeDef usedRecipe)
         {
+            if (!worker.CanNowDoResearch())
+                return;
+
+            var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Prototype, (op) => op.requirement.MetBy(usedRecipe) || op.requirement.MetBy(product.def));
+                //.GetCurrentlyAvailableOpportunities()
+                //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && (o.requirement.MetBy(usedRecipe) || o.requirement.MetBy(product.def)))
+                //.FirstOrDefault();
+
+            if (opportunity != null)
             {
-                var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Prototype, (op) => op.requirement.MetBy(usedRecipe) || op.requirement.MetBy(product.def));
-                    //.GetCurrentlyAvailableOpportunities()
-                    //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && (o.requirement.MetBy(usedRecipe) || o.requirement.MetBy(product.def)))
-                    //.FirstOrDefault();
+                if (ResearchReinvented_Debug.debugPrintouts)
+                    Log.Message($"pawn {worker.LabelCap} finished thing {product.LabelCap} {(usedRecipe != null ? usedRecipe.LabelCap.ToString() : "")} and there's an opportunity {opportunity.ShortDesc}");
 
-                if (opportunity != null)
-                {
-                    if (ResearchReinvented_Debug.debugPrintouts)
-                        Log.Message($"pawn {worker.LabelCap} finished thing {product.LabelCap} {(usedRecipe != null ? usedRecipe.LabelCap.ToString() : "")} and there's an opportunity {opportunity.ShortDesc}");
-
-                    //Log.Message($"found matching opp. {opportunity.ShortDesc}");
-                    var amount = totalWork * BaseResearchAmounts.DoneWorkMultiplier;
-                    var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
-                    var xp = totalWork * ResearchXPAmounts.DoneWorkMultiplier;
-                    opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, xp, moteSubjectName: usedRecipe != null ? usedRecipe.LabelCap.ToString() : product.LabelCapNoCount); 
-                }
+                //Log.Message($"found matching opp. {opportunity.ShortDesc}");
+                var amount = totalWork * BaseResearchAmounts.DoneWorkMultiplier;
+                var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
+                var xp = totalWork * ResearchXPAmounts.DoneWorkMultiplier;
+                opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, xp, moteSubjectName: usedRecipe != null ? usedRecipe.LabelCap.ToString() : product.LabelCapNoCount); 
             }
         }
 
         public static void DoPostFinishTerrainResearch(Pawn worker, float totalWork, TerrainDef terrainDef)
         {
+            if (!worker.CanNowDoResearch())
+                return;
+
+            var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Prototype, terrainDef);
+                //.GetCurrentlyAvailableOpportunities()
+                //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && o.requirement.MetBy(terrainDef))
+                //.FirstOrDefault();
+
+            if (opportunity != null)
             {
-                var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Prototype, terrainDef);
-                    //.GetCurrentlyAvailableOpportunities()
-                    //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && o.requirement.MetBy(terrainDef))
-                    //.FirstOrDefault();
+                if (ResearchReinvented_Debug.debugPrintouts)
+                    Log.Message($"pawn {worker.LabelCap} finished terrain {terrainDef.LabelCap} and there's an opportunity {opportunity.ShortDesc}");
 
-                if (opportunity != null)
-                {
-                    if (ResearchReinvented_Debug.debugPrintouts)
-                        Log.Message($"pawn {worker.LabelCap} finished terrain {terrainDef.LabelCap} and there's an opportunity {opportunity.ShortDesc}");
-
-                    var amount = totalWork * BaseResearchAmounts.DoneWorkMultiplier;
-                    var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
-                    var xp = totalWork * ResearchXPAmounts.DoneWorkMultiplier;
-                    opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, xp, moteSubjectName: terrainDef.LabelCap);
-                }
+                var amount = totalWork * BaseResearchAmounts.DoneWorkMultiplier;
+                var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
+                var xp = totalWork * ResearchXPAmounts.DoneWorkMultiplier;
+                opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, xp, moteSubjectName: terrainDef.LabelCap);
             }
         }
 
         public static void DoPostFinishSurgeryResearch(Pawn target, Pawn worker, float totalWork, RecipeDef usedRecipe)
         {
-            if(usedRecipe != null)
+            if (!worker.CanNowDoResearch())
+                return;
+
+            if (usedRecipe != null)
             {
                 var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Prototype, usedRecipe);
                     //.GetCurrentlyAvailableOpportunities()

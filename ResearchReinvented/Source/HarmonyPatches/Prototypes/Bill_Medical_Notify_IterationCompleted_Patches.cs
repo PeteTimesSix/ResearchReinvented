@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using PeteTimesSix.ResearchReinvented.Extensions;
+using PeteTimesSix.ResearchReinvented.Utilities;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,9 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 		[HarmonyPostfix]
 		public static void Postfix(Bill_Medical __instance, Pawn billDoer)
 		{
+			if (!billDoer.CanNowDoResearch())
+				return;
+
 			var recipe = __instance.recipe;
             bool isPrototype = recipe != null && recipe.IsAvailableOnlyForPrototyping(true);
             if (isPrototype)

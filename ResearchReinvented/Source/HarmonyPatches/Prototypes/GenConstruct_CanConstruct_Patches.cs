@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using PeteTimesSix.ResearchReinvented.Extensions;
+using PeteTimesSix.ResearchReinvented.Utilities;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Verse;
 using Verse.AI;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 {
@@ -32,7 +34,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             if (!def.IsAvailableOnlyForPrototyping(true))
                 return __result;
 
-            if (p.WorkTypeIsDisabled(WorkTypeDefOf.Research))
+            if (!p.CanEverDoResearch())
             {
                 JobFailReason.Is(StringsCache.JobFail_IncapableOfResearch, null);
                 return false;
