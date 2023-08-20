@@ -44,7 +44,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.InteractionWorkers
                     Log.Message($"pawn {initiator.LabelCap} learned science from prisoner {recipient.LabelCap} and there's an opportunity {opportunity.ShortDesc}");
 
                 var amount = BaseResearchAmounts.InteractionLearnFromPrisoner;
-                var modifier = initiator.GetStatValue(StatDefOf.NegotiationAbility) * Math.Max(initiator.GetStatValue(StatDefOf.ResearchSpeed), recipient.GetStatValue(StatDefOf.ResearchSpeed));
+                var modifier = initiator.GetStatValue(StatDefOf.NegotiationAbility) * Math.Max(initiator.GetStatValue(StatDefOf.ResearchSpeed), StatDefOf.ResearchSpeed.Worker.IsDisabledFor(recipient) ? 0 : recipient.GetStatValue(StatDefOf.ResearchSpeed));
 
                 if(recipient.needs?.mood != null) 
                 {

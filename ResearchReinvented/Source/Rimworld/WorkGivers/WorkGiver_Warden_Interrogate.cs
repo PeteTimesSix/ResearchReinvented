@@ -40,6 +40,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
             _matchingOpportunitiesCachedFor = null;
             _matchingOpportunitesCache = Array.Empty<ResearchOpportunity>();
         }
+
         public override bool ShouldSkip(Pawn pawn, bool forced = false)
         {
             if (base.ShouldSkip(pawn, forced))

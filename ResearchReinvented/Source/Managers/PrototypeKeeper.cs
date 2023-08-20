@@ -1,5 +1,6 @@
 ﻿using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.OpportunityComps;
+using PeteTimesSix.ResearchReinvented.Utilities;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -22,9 +23,12 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
         public PrototypeKeeper(Game game) { }
 
-        public PrototypeTerrainGrid GetMapPrototypeTerrainGrid(Map map) 
+        public PrototypeTerrainGrid GetMapPrototypeTerrainGrid(Map map)
         {
-            if(_prototypeTerrainGrids.TryGetValue(map, out PrototypeTerrainGrid grid)) 
+            if (_prototypeTerrainGrids == null)
+                _prototypeTerrainGrids = new Dictionary<Map, PrototypeTerrainGrid>();
+
+            if (_prototypeTerrainGrids.TryGetValue(map, out PrototypeTerrainGrid grid)) 
             {
                 return grid;
             }
@@ -38,16 +42,27 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
         public bool IsPrototype(Thing thing)
         {
+            var unwrapped = thing.UnwrapIfWrapped();
+            if(unwrapped != thing)
+            {
+                if(Prototypes.Contains(unwrapped)) 
+                    return true;
+            }
             return Prototypes.Contains(thing);
         }
 
-        public void MarkAsPrototype(Thing thing) 
+        public void MarkAsPrototype(Thing thing)
         {
             Prototypes.Add(thing);
         }
 
         public void UnmarkAsPrototype(Thing thing)
         {
+            var unwrapped = thing.UnwrapIfWrapped();
+            if (unwrapped != thing)
+            {
+                Prototypes.Remove(unwrapped);
+            }
             Prototypes.Remove(thing);
         }
 
