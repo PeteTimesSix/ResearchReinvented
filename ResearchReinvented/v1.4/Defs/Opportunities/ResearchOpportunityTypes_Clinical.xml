@@ -6,7 +6,7 @@
 		<handledBy>Special_Medicine</handledBy>
 		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_NoJob</jobPickerClass>
 		<header_Direct>medicine efficacy trial</header_Direct>
-		<shortDesc_Direct>Determine efficacy of {0} as applied during surgeries and wound threatment.</shortDesc_Direct>
+		<shortDesc_Direct>Determine efficacy of {0} as applied during surgeries and wound treatment.</shortDesc_Direct>
 		<category_Direct>Biology</category_Direct>
 		<hintIcons Inherit="false">
 			<li>UI/hintIcons/clipboard</li>
