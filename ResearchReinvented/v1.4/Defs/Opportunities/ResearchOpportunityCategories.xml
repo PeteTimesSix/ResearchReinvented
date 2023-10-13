@@ -26,7 +26,7 @@
 		<label>clinical</label>
 		<priority>799</priority>
 		<color>(255,220,200)</color>
-		<description>Experimental threatments and medicine. Experimental threatments are riskier and require skilled surgeons that are also capable of research.</description>
+		<description>Experimental treatments and medicine. Experimental treatments are riskier and require skilled surgeons that are also capable of research.</description>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityCategoryDef ParentName="ResearchOpportunityCategoryBase">
