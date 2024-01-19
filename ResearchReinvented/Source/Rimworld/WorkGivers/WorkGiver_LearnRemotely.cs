@@ -71,7 +71,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
             List<Thing> consoles = new List<Thing>();
             foreach(var def in CommsConsoles)
             {
-                consoles.AddRange(pawn.Map?.listerThings.ThingsOfDef(ThingDefOf.CommsConsole));
+                consoles.AddRange(pawn.Map?.listerThings.ThingsOfDef(def));
             }
             return consoles;
         }
@@ -90,6 +90,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
                 return false;
 
             if (!pawn.CanReserve(thing, 1, -1, null, forced))
+                return false;
+
+            if (!(thing is Building_CommsConsole commsConsole))
+                return false;
+
+            if (!commsConsole.CanUseCommsNow)
                 return false;
 
             if (OpportunityCache == null)

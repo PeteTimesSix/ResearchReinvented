@@ -15,6 +15,7 @@ using Verse;
 namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 {
     [HarmonyPatch(typeof(Frame), nameof(Frame.CompleteConstruction))]
+    [HarmonyBefore(new string[]{ "OskarPotocki.VFECore" })]
     public static class Frame_CompleteConstruction_Patches
     {
 
