@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  
+   <JobDef>
+    <defName>RR_AnalyseInPlace</defName>
+    <driverClass>PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers.JobDriver_AnalyseInPlace</driverClass>
+    <reportString>examining {0}.</reportString>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+  
+   <JobDef>
+    <defName>RR_Analyse</defName>
+    <driverClass>PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers.JobDriver_Analyse</driverClass>
+    <reportString>examining {0} at {1}.</reportString>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+  
+  <JobDef>
+    <defName>RR_AnalyseTerrain</defName>
+    <driverClass>PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers.JobDriver_AnalyseTerrain</driverClass>
+    <reportString>analysing terrain.</reportString>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+  
+  <JobDef>
+    <defName>RR_Research</defName>
+    <driverClass>PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers.JobDriver_ResearchRR</driverClass>
+    <reportString>researching.</reportString>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+  
+  <JobDef>
+    <defName>RR_InterrogatePrisoner</defName>
+    <driverClass>PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers.JobDriver_InterrogatePrisoner</driverClass>
+    <reportString>interrogating {0}.</reportString>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+  
+  <JobDef>
+    <defName>RR_LearnRemotely</defName>
+    <driverClass>PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers.JobDriver_LearnRemotely</driverClass>
+    <reportString>learning at {0}.</reportString>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+
+</Defs>

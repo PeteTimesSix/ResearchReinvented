@@ -198,7 +198,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             Scribe_Values.Look(ref isAlternate, "isAlternate");
         }
 
-        private bool ResearchPerformed(float amount, Pawn researcher, string moteSubjectName = null, float moteOffsetHint = 0f)
+        private bool ResearchPerformed(float amount, Pawn researcher, float? moteAmount, string moteSubjectName = null, float moteOffsetHint = 0f)
         {
             amount *= Find.Storyteller.difficulty.researchSpeedFactor; 
             amount *= def.GetCategory(relation).Settings.researchSpeedMultiplier;
@@ -218,9 +218,14 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             {
                 researcher.records.AddTo(RecordDefOf.ResearchPointsResearched, amount);
 
-                if (ResearchReinventedMod.Settings.showProgressMotes && amount >= 1)
+                if (ResearchReinventedMod.Settings.showProgressMotes)
                 {
-                    DoResearchProgressMote(researcher, (int)amount, moteSubjectName, moteOffsetHint);
+                    if (moteAmount.HasValue)
+                    {
+                        if (currentProgress + moteAmount >= MaximumProgress)
+                            moteAmount = MaximumProgress - currentProgress;
+                        DoResearchProgressMote(researcher, moteAmount.Value, moteSubjectName, moteOffsetHint);
+                    }
                 }
             }
 
@@ -235,17 +240,17 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             return project.IsFinished || this.IsFinished;
         }
 
-        public bool ResearchTickPerformed(float amount, Pawn researcher, int tickModulo = 1)
+        public bool ResearchTickPerformed(float amount, Pawn researcher, int tickModulo = 1, int moteModulo = 600)
         {
-            if (Find.ResearchManager.currentProj == null) //current project either unset or finished this tick
-                return true;
-
             if (!researcher.WorkTypeIsDisabled(WorkTypeDefOf.Research))
             {
                 researcher.skills.Learn(SkillDefOf.Intellectual, 0.1f * tickModulo);
 
-                amount *= 0.00825f * tickModulo;
-                return ResearchPerformed(amount, researcher);
+                var tickAmount = amount * tickModulo;
+                int? moteAmount = null;
+                if (researcher.IsHashIntervalTick(moteModulo))
+                    moteAmount = (int)(amount * moteModulo);
+                return ResearchPerformed(tickAmount, researcher, moteAmount);
             }
             else
             {
@@ -257,8 +262,6 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
         public bool ResearchChunkPerformed(Pawn researcher, HandlingMode mode, float amount, float modifier, float xp, string moteSubjectName = null, float moteOffsetHint = 0f)
         {
             var startAmount = amount;
-            if (Find.ResearchManager.currentProj == null) //current project either unset or finished this tick
-                return true;
 
             if (!researcher.WorkTypeIsDisabled(WorkTypeDefOf.Research))
             {
@@ -270,7 +273,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
                 if (ResearchReinvented_Debug.debugPrintouts)
                     Log.Message($"performing research chunk for {ShortDesc}: modifier: {modifier} startAmount: {startAmount} amount {amount} ({amount * def.GetCategory(relation).Settings.researchSpeedMultiplier} after speedmult) (of {MaximumProgress})");
 
-                return ResearchPerformed(amount, researcher, moteSubjectName, moteOffsetHint);
+                return ResearchPerformed(amount, researcher, amount, moteSubjectName, moteOffsetHint);
             }
             else 
             {

@@ -181,11 +181,16 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
         private IEnumerable<ResearchOpportunity> MakeOpportunities(ResearchProjectDef project, OpportunityFactoryCollectionsSet collections)
         {
             yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.BasicResearch, ResearchRelation.Direct, new ROComp_RequiresNothing(), "Project");
+            yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.SchematicStudy, ResearchRelation.Direct, new ROComp_RequiresSchematicWithProject(project), "Schematic");
+            if (ModsConfig.RoyaltyActive && project.Techprint != null)
+            {
+                yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.AnalyseTechprint, ResearchRelation.Direct, new ROComp_RequiresThing(project.Techprint), "Techprint");
+            }
 
             {
                 {
                     var playerFaction = Faction.OfPlayer;
-                    var playerTechLevelModifier = OF_Factions.Modifiers.GetValueOrDefault((playerFaction.def.techLevel, project.techLevel), 0f);
+                    var playerTechLevelModifier = OF_Factions.Modifiers.TryGetValue((playerFaction.def.techLevel, project.techLevel), 0f);
                     if(playerTechLevelModifier > 0f)
                         yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.Brainstorming, ResearchRelation.Direct, new ROComp_RequiresFaction(playerFaction), "player faction", importance: playerTechLevelModifier);
                 }
@@ -194,7 +199,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
 
                 foreach (var faction in factions) 
                 {
-                    var techLevelModifier = OF_Factions.Modifiers.GetValueOrDefault((faction.def.techLevel, project.techLevel), 0f);
+                    var techLevelModifier = OF_Factions.Modifiers.TryGetValue((faction.def.techLevel, project.techLevel), 0f);
                     if(techLevelModifier > 0f)
                         yield return new ResearchOpportunity(project, ResearchOpportunityTypeDefOf.GainFactionKnowledge, ResearchRelation.Direct, new ROComp_RequiresFaction(faction), "faction", importance: techLevelModifier);
                 }

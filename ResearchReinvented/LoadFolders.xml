@@ -9,4 +9,10 @@
 		<li IfModActive="CETeam.CombatExtended">ModSpecific/v1.4/CombatExtended</li>
 		<li IfModActive="VanillaExpanded.VFEArchitect">ModSpecific/v1.4/VEArchitect</li>
 	</v1.4>
+	<v1.5>
+		<li>/</li>
+		<li>v1.5</li>
+		<li IfModActive="CETeam.CombatExtended">ModSpecific/v1.5/CombatExtended</li>
+		<li IfModActive="VanillaExpanded.VFEArchitect">ModSpecific/v1.5/VEArchitect</li>
+	</v1.5>
 </loadFolders>

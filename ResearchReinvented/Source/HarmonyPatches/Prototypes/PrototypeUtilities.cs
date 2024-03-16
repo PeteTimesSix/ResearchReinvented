@@ -34,11 +34,11 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         {
             get 
 			{
-				if (cacheBuiltForProject != Find.ResearchManager.currentProj)
+				if (cacheBuiltForProject != Find.ResearchManager.GetProject())
 				{
                     _prototypeOpportunitiesCache = ResearchOpportunityManager.Instance
                         .GetFilteredOpportunities(null, HandlingMode.Special_Prototype).ToArray();
-					cacheBuiltForProject = Find.ResearchManager.currentProj;
+					cacheBuiltForProject = Find.ResearchManager.GetProject();
 				}
 				return _prototypeOpportunitiesCache;
 			}
@@ -116,8 +116,10 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
                 if (ResearchReinvented_Debug.debugPrintouts)
                     Log.Message($"pawn {worker.LabelCap} finished (failure) thing {productDef.LabelCap} {(usedRecipe != null ? usedRecipe.LabelCap.ToString() : "")} and there's an opportunity {opportunity.ShortDesc}");
 
-                //Log.Message($"found matching opp. {opportunity.ShortDesc}");
-                var amount = doneWork * BaseResearchAmounts.DoneWorkMultiplier;
+                //make sure the number isnt completely insigificant
+                doneWork = Math.Max(doneWork, totalWork / 5);
+                doneWork = Math.Max(doneWork, 20 * 60);
+                float amount = (float)(doneWork * BaseResearchAmounts.DoneWorkMultiplier);
                 var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
                 var xp = doneWork * ResearchXPAmounts.DoneWorkMultiplier;
                 opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, xp, moteSubjectName: usedRecipe != null ? usedRecipe.LabelCap.ToString() : productDef.LabelCap.ToString());
@@ -138,8 +140,11 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             {
                 if (ResearchReinvented_Debug.debugPrintouts)
                     Log.Message($"pawn {worker.LabelCap} finished (failure) terrain {terrainDef.LabelCap} and there's an opportunity {opportunity.ShortDesc}");
-
-                var amount = doneWork * BaseResearchAmounts.DoneWorkMultiplier;
+                
+                //make sure the number isnt completely insigificant
+                doneWork = Math.Max(doneWork, totalWork / 5);
+                doneWork = Math.Max(doneWork, 20 * 60);
+                float amount = (float)(doneWork * BaseResearchAmounts.DoneWorkMultiplier);
                 var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
                 var xp = doneWork * ResearchXPAmounts.DoneWorkMultiplier;
                 opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, xp, moteSubjectName: terrainDef.LabelCap);
@@ -160,9 +165,10 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             {
                 if (ResearchReinvented_Debug.debugPrintouts)
                     Log.Message($"pawn {worker.LabelCap} finished thing {product.LabelCap} {(usedRecipe != null ? usedRecipe.LabelCap.ToString() : "")} and there's an opportunity {opportunity.ShortDesc}");
-
-                //Log.Message($"found matching opp. {opportunity.ShortDesc}");
-                var amount = totalWork * BaseResearchAmounts.DoneWorkMultiplier;
+                
+                //make sure the number isnt completely insigificant
+                totalWork = Math.Max(totalWork, 20 * 60);
+                float amount = (float)(totalWork * BaseResearchAmounts.DoneWorkMultiplier);
                 var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
                 var xp = totalWork * ResearchXPAmounts.DoneWorkMultiplier;
                 opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, xp, moteSubjectName: usedRecipe != null ? usedRecipe.LabelCap.ToString() : product.LabelCapNoCount); 
@@ -184,7 +190,9 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
                 if (ResearchReinvented_Debug.debugPrintouts)
                     Log.Message($"pawn {worker.LabelCap} finished terrain {terrainDef.LabelCap} and there's an opportunity {opportunity.ShortDesc}");
 
-                var amount = totalWork * BaseResearchAmounts.DoneWorkMultiplier;
+                //make sure the number isnt completely insigificant
+                totalWork = Math.Max(totalWork, 20 * 60);
+                float amount = (float)(totalWork * BaseResearchAmounts.DoneWorkMultiplier);
                 var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
                 var xp = totalWork * ResearchXPAmounts.DoneWorkMultiplier;
                 opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, xp, moteSubjectName: terrainDef.LabelCap);
@@ -208,7 +216,9 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
                     if (ResearchReinvented_Debug.debugPrintouts)
                         Log.Message($"pawn {worker.LabelCap} finished surgery {usedRecipe.LabelCap} and there's an opportunity {opportunity.ShortDesc}");
 
-                    var amount = totalWork * BaseResearchAmounts.DoneWorkMultiplier;
+                    //make sure the number isnt completely insigificant
+                    totalWork = Math.Max(totalWork, 20 * 60);
+                    float amount = (float)(totalWork * BaseResearchAmounts.DoneWorkMultiplier);
                     var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
                     var xp = totalWork * ResearchXPAmounts.DoneWorkMultiplier;
                     opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, xp, moteSubjectName: usedRecipe.LabelCap.ToString());

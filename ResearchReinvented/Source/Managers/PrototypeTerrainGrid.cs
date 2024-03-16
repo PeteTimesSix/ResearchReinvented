@@ -9,38 +9,35 @@ using Verse;
 
 namespace PeteTimesSix.ResearchReinvented.Managers
 {
-    public class PrototypeTerrainGrid : IExposable
+    public class PrototypeTerrainGrid : MapComponent
     {
-        private Map parent;
         private ByteGrid grid;
 
-        public PrototypeTerrainGrid() { }
-
-        public PrototypeTerrainGrid(Map map)
+        public PrototypeTerrainGrid(Map map): base(map)
         {
-            this.parent = map;
             this.grid = new ByteGrid(map);
         }
 
         public bool IsTerrainPrototype(IntVec3 position)
         {
-            return grid[parent.cellIndices.CellToIndex(position)] != 0;
+            return grid[map.cellIndices.CellToIndex(position)] != 0;
         }
 
         public void MarkTerrainAsPrototype(IntVec3 position, TerrainDef terrain)
         {
-            grid[parent.cellIndices.CellToIndex(position)] = 1;
+            grid[map.cellIndices.CellToIndex(position)] = 1;
         }
 
         public void UnmarkTerrainAsPrototype(IntVec3 position)
         {
-            grid[parent.cellIndices.CellToIndex(position)] = 0;
+            grid[map.cellIndices.CellToIndex(position)] = 0;
         }
 
 
-        public void ExposeData()
+        public override void ExposeData()
         {
-            Scribe_References.Look(ref parent, "parent");
+            base.ExposeData();
+            Scribe_References.Look(ref map, "parent");
             Scribe_Deep.Look(ref grid, "grid");
             /*MapExposeUtility.Ex(parent, 
                 (IntVec3 pos) => { return (grid[parent.cellIndices.CellToIndex(pos)] ? (ushort)1 : (ushort)0); }, 
@@ -50,7 +47,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
         public void DebugDrawOnMap()
         {
-            var mapSizeX = parent.Size.x;
+            var mapSizeX = map.Size.x;
             for (int i = 0; i < grid.CellsCount; i++)
             {
                 var cell = CellIndicesUtility.IndexToCell(i, mapSizeX);

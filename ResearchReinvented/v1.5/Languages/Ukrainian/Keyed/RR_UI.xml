@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<RR_PrototypePrefix>[Прототип]</RR_PrototypePrefix>
+	<RR_PrototypeLabel>Прототип</RR_PrototypeLabel>
+	
+	<RR_EquivalentResearchBench>Еквівалентний дослідницький верстат</RR_EquivalentResearchBench>
+	<RR_EquivalentResearchBench_desc>Цей набір містить портативні версії інструментів, доступних на цьому дослідницькому верстаті.</RR_EquivalentResearchBench_desc>
+	<RR_EquivalentResearchFacilities>Еквівалентні дослідницькі засоби</RR_EquivalentResearchFacilities>
+	<RR_EquivalentResearchFacilities_desc>Цей набір містить портативні версії цих дослідницьких засобів.</RR_EquivalentResearchFacilities_desc>
+	<RR_RemoteConnectionFacility>Можливість віддаленого підключення</RR_RemoteConnectionFacility>
+	<RR_RemoteConnectionFacility_desc>Встановлює зв’язок із дослідницькими верстатами (та їх мережевими об’єктами) через цей засіб.</RR_RemoteConnectionFacility_desc>
+	<RR_UplinkResearchSpeedFactor>Коефіцієнт швидкості дослідження (через аплінк)</RR_UplinkResearchSpeedFactor>
+	<RR_UplinkResearchSpeedFactor_desc>Множник швидкості дослідження забезпечений віддаленим підключенням до дослідницького закладу.</RR_UplinkResearchSpeedFactor_desc>
+</LanguageData>

@@ -14,6 +14,7 @@ namespace PeteTimesSix.ResearchReinvented.Data
 
         public bool enabled = true;
 
+        public float importanceStatic = 0f;
         public float importanceMultiplier = 1f;
         public float importanceMultiplierCounted = 1f;
         public bool infiniteOverflow = false;

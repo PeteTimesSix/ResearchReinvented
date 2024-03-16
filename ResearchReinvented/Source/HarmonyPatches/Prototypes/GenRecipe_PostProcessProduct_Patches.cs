@@ -27,7 +27,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
                 PrototypeUtilities.DoPrototypeHealthDecrease(product, recipeDef);
                 PrototypeUtilities.DoPrototypeBadComps(product, recipeDef);
                 PrototypeKeeper.Instance.MarkAsPrototype(product);
-                PrototypeUtilities.DoPostFinishThingResearch(worker, recipeDef.WorkAmountTotal(product.Stuff), product, recipeDef);
+                PrototypeUtilities.DoPostFinishThingResearch(worker, recipeDef.WorkAmountTotal(product), product, recipeDef);
             }
         }
 

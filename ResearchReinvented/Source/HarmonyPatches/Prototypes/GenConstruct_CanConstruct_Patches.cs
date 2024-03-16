@@ -9,11 +9,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Verse;
 using Verse.AI;
-using static UnityEngine.UI.GridLayoutGroup;
 
 namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 {
-    [HarmonyPatch(typeof(GenConstruct), nameof(GenConstruct.CanConstruct), new Type[] { typeof(Thing), typeof(Pawn), typeof(bool), typeof(bool) })]
+    /*[HarmonyPatch(typeof(GenConstruct), nameof(GenConstruct.CanConstruct), new Type[] { typeof(Thing), typeof(Pawn), typeof(bool), typeof(bool) })]
     public static class GenConstruct_CanConstruct_Patches
     {
         [HarmonyPostfix]
@@ -47,5 +46,5 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
             return __result;
         }
-    }
+    }*/
 }

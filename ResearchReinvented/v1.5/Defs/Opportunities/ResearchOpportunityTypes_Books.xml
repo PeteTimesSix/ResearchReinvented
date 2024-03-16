@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="ResearchOpportunityBase">
+		<defName>SchematicStudy</defName>
+		<handledBy>Special_Books</handledBy>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_NoJob</jobPickerClass>
+		<header_Direct>schematics study</header_Direct>
+		<shortDesc_Direct>Study of directly related schematics.</shortDesc_Direct>
+		<category_Direct>Books</category_Direct>
+		<hintIcons>
+			<li>UI/hintIcons/books</li>
+		</hintIcons>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="AnalysisOpportunity">
+		<defName>AnalyseTechprint</defName>
+		<header_Direct>techprint study</header_Direct>
+		<shortDesc_Direct>Study {0} in detail.</shortDesc_Direct>
+		<category_Direct>Books</category_Direct>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+</Defs>

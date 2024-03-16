@@ -21,7 +21,7 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
         {
             get
 			{
-				if (cacheBuiltForProject != Find.ResearchManager.currentProj)
+				if (cacheBuiltForProject != Find.ResearchManager.GetProject())
 				{
 					_prototypeOpportunitiesMappedCache.Clear();
                     foreach(var op in PrototypeUtilities.PrototypeOpportunities)
@@ -31,7 +31,7 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
                         else if((op.requirement is ROComp_RequiresTerrain requiresTerrain && requiresTerrain.terrainDef is BuildableDef buildableDef2))
                             _prototypeOpportunitiesMappedCache[buildableDef2] = op;
                     }
-					cacheBuiltForProject = Find.ResearchManager.currentProj;
+					cacheBuiltForProject = Find.ResearchManager.GetProject();
 				}
 				return _prototypeOpportunitiesMappedCache;
 			}
@@ -44,7 +44,7 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
                 var unfinishedPreregs = def.researchPrerequisites.Where((ResearchProjectDef r) => !r.IsFinished);
                 if (!unfinishedPreregs.Any())
                     return false;
-                if (unfinishedPreregs.Any((ResearchProjectDef r) => Find.ResearchManager.currentProj != r))
+                if (unfinishedPreregs.Any((ResearchProjectDef r) => Find.ResearchManager.GetProject() != r))
                     return false;
                 if (!PrototypeOpportunitiesMappedCache.ContainsKey(def))
                     return false;

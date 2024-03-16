@@ -18,7 +18,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
    [HarmonyPatch(typeof(Toils_Recipe), nameof(Toils_Recipe.DoRecipeWork))]
     public static class Toils_Recipe_DoRecipeWork_Patches
     {
-        public const int tickModulo = 60;
+        public const int tickModulo = 20;
 
         [HarmonyPostfix]
         public static void Toils_Recipe_DoRecipeWork_Postfix(Toil __result)
@@ -40,7 +40,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
                     if (opportunity != null)
                     {
-                        float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true);
+                        float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true) * 0.00825f;
                         num *= FieldResearchHelper.GetFieldResearchSpeedFactor(actor, opportunity.project);
                         opportunity.ResearchTickPerformed(num, actor, tickModulo);
                     }

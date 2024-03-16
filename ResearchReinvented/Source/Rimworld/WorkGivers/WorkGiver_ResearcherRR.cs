@@ -25,13 +25,13 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		{
 			get
 			{
-				if (_matchingOpportunitiesCachedFor != Find.ResearchManager.currentProj)
+				if (_matchingOpportunitiesCachedFor != Find.ResearchManager.GetProject())
 				{
 					_matchingOpportunitesCache = ResearchOpportunityManager.Instance
 						.GetFilteredOpportunities(null, HandlingMode.Job_Theory, DriverClass).ToArray();
 						//.GetCurrentlyAvailableOpportunities(true)
 						//.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Job_Theory) && o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass)).ToArray();
-					_matchingOpportunitiesCachedFor = Find.ResearchManager.currentProj;
+					_matchingOpportunitiesCachedFor = Find.ResearchManager.GetProject();
 				}
 				return _matchingOpportunitesCache;
 			}
@@ -46,7 +46,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		{
 			get
 			{
-				if (Find.ResearchManager.currentProj == null)
+				if (Find.ResearchManager.GetProject() == null)
 				{
 					return ThingRequest.ForGroup(ThingRequestGroup.Nothing);
 				}
@@ -64,12 +64,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override bool ShouldSkip(Pawn pawn, bool forced = false)
 		{
-			return Find.ResearchManager.currentProj == null || OpportunityCache == null;
+			return Find.ResearchManager.GetProject() == null || OpportunityCache == null;
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			ResearchProjectDef currentProj = Find.ResearchManager.currentProj;
+			ResearchProjectDef currentProj = Find.ResearchManager.GetProject();
 			if (currentProj == null)
 			{
 				return false;

@@ -3,9 +3,11 @@
 	<name>Research Reinvented</name>
 	<author>PeteTimesSix</author>  
 	<packageId>PeteTimesSix.ResearchReinvented</packageId>
+    <modIconPath IgnoreIfNoMatchingField="True">ResearchReinventedModIcon</modIconPath>
 	<supportedVersions>
 		<li>1.3</li>
 		<li>1.4</li>
+		<li>1.5</li>
 	</supportedVersions>
 	<url>https://github.com/PeteTimesSix/ResearchReinvented</url>
 	<modDependencies>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="TheoryOpportunity">
+		<defName>BasicResearch</defName>
+		<jobDef>RR_Research</jobDef>
+		<header_Direct>basic research</header_Direct>
+		<shortDesc_Direct>Theorise from fundamentals.</shortDesc_Direct>
+		<category_Direct>Theory</category_Direct>
+		<hintIcons>
+			<li>UI/hintIcons/magnifier</li>
+		</hintIcons>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+</Defs>

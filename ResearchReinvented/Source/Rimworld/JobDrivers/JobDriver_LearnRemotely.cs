@@ -47,7 +47,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
                 //.Where(o => !o.IsFinished)
                 //.FirstOrDefault();
 
-            ResearchProjectDef currentProject = Find.ResearchManager.currentProj;
+            ResearchProjectDef currentProject = Find.ResearchManager.GetProject();
 
             if (currentProject == null || opportunity == null)
             {
@@ -59,7 +59,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
                 yield break;
             }
 
-            this.FailOn(() => currentProject != Find.ResearchManager.currentProj);
+            this.FailOn(() => currentProject != Find.ResearchManager.GetProject());
             this.FailOn(() => opportunity.CurrentAvailability != OpportunityAvailability.Available);
 
             ExceptionToken token = new ExceptionToken();
@@ -87,7 +87,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
             research.tickAction = () =>
             {
                 Pawn actor = research.actor;
-                float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true);
+                float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true) * 0.00825f;
                 actor.GainComfortFromCellIfPossible(true);
                 bool finished = opportunity.ResearchTickPerformed(num, actor);
                 if (finished)

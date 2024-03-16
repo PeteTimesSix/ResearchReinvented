@@ -33,7 +33,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 		{
 			ResearchOpportunity opportunity = WorkGiver_AnalyseInPlace.OpportunityCache[TargetThing.def].FirstOrDefault();
 			//ResearchOpportunity opportunity = ResearchOpportunityManager.instance.GetOpportunityForJob(this.job);
-			ResearchProjectDef currentProject = Find.ResearchManager.currentProj;
+			ResearchProjectDef currentProject = Find.ResearchManager.GetProject();
 
 			if (currentProject == null || opportunity == null)
 			{
@@ -45,7 +45,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 				yield break;
 			}
 
-            this.FailOn(() => currentProject != Find.ResearchManager.currentProj);
+            this.FailOn(() => currentProject != Find.ResearchManager.GetProject());
             this.FailOn(() => opportunity.CurrentAvailability != OpportunityAvailability.Available);
 
             var pokeMode = TargetThing.def.hasInteractionCell ? PathEndMode.InteractionCell : PathEndMode.Touch;
@@ -73,7 +73,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 			research.tickAction = delegate ()
 			{
 				Pawn actor = research.actor;
-				float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true);
+				float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true) * 0.00825f;
 				num *= FieldResearchHelper.GetFieldResearchSpeedFactor(actor, opportunity.project);
 				actor.GainComfortFromCellIfPossible(true);
 				bool finished = opportunity.ResearchTickPerformed(num, actor);

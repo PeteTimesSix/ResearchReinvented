@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase">
+		<defName>RR_core_nutrientPaste</defName>
+		<opportunityType>AnalyseFood</opportunityType>
+		<originals>
+			<li>NutrientPasteDispenser</li>
+		</originals>
+		<alternates>
+			<li>MealNutrientPaste</li>
+		</alternates>
+	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase">
+		<defName>RR_core_nutrientPasteHydro</defName>
+		<opportunityType>AnalyseFuelFood</opportunityType>
+		<originals>
+			<li>HydroponicsBasin</li>
+		</originals>
+		<alternates>
+			<li>MealNutrientPaste</li>
+		</alternates>
+	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase">
+		<defName>RR_core_fermentingBarrel</defName>
+		<opportunityType>AnalyseFood</opportunityType>
+		<originals>
+			<li>FermentingBarrel</li>
+		</originals>
+		<alternates>
+			<li>Beer</li>
+		</alternates>
+	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase">
+		<defName>RR_core_autodoor</defName>
+		<opportunityType>Analyse</opportunityType>
+		<relationOverride>Ancestor</relationOverride>
+		<importanceMultiplier>2.5</importanceMultiplier>
+		<originals>
+			<li>Autodoor</li>
+		</originals>
+		<alternates>
+			<li>Door</li>
+		</alternates>
+	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
+</Defs>

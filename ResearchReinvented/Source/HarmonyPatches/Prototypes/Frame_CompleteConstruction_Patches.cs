@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
@@ -22,54 +23,66 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         [HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> FullTranspiler(IEnumerable<CodeInstruction> instructions)
         {
-            var moddedInstructions = TranspilerForQuality(instructions);
-            moddedInstructions = TranspilerSpawn(moddedInstructions);
-            moddedInstructions = TranspilerPostTerrainSet(moddedInstructions);
+            var thingLocal = FindThingLocal(instructions);
+            if(thingLocal == null)
+            {
+                Log.Warning("RR: Frame_CompleteConstruction_Patches - failed to apply patches (could not locate Thing local index)");
+                return instructions;
+            }
+
+            //return instructions;
+            var moddedInstructions = TranspilerForQuality(instructions, thingLocal);
+            moddedInstructions = TranspilerSpawn(moddedInstructions, thingLocal);
+            moddedInstructions = TranspilerPostTerrainSet(moddedInstructions, thingLocal);
             return moddedInstructions;
         }
 
-        public static IEnumerable<CodeInstruction> TranspilerForQuality(IEnumerable<CodeInstruction> instructions) 
+        private static object FindThingLocal(IEnumerable<CodeInstruction> instructions)
         {
-            var enumerator = instructions.GetEnumerator();
+            CodeMatcher thingLocalFinder = new CodeMatcher(instructions);
+            var thing_using_instructions = new CodeMatch[]
+            {
+                new CodeMatch(OpCodes.Ldloc_S),
+                new CodeMatch(OpCodes.Call, AccessTools.Method(typeof(ThingCompUtility), nameof(ThingCompUtility.TryGetComp), new Type[] { typeof(Thing) }).MakeGenericMethod(typeof(CompQuality))),
+            };
+            thingLocalFinder.MatchStartForward(thing_using_instructions);
+            if (thingLocalFinder.IsInvalid)
+            {
+                return null;
+            }
+            var thingLocal = thingLocalFinder.Instruction.operand;
+            return thingLocal;
+        }
 
-            var finally_instructions = new CodeInstruction[] {
-                new CodeInstruction(OpCodes.Ldarg_1),
-                new CodeInstruction(OpCodes.Ldsfld, AccessTools.Field(typeof(SkillDefOf), nameof(SkillDefOf.Construction))),
-                new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(QualityUtility), nameof(QualityUtility.GenerateQualityCreatedByPawn), new Type[] { typeof(Pawn), typeof(SkillDef) }))
+        public static IEnumerable<CodeInstruction> TranspilerForQuality(IEnumerable<CodeInstruction> instructions, object thingLocal) 
+        {
+            var finally_instructions = new CodeMatch[] {
+                new CodeMatch(OpCodes.Ldarg_1),
+                new CodeMatch(OpCodes.Ldsfld, AccessTools.Field(typeof(SkillDefOf), nameof(SkillDefOf.Construction))),
+                new CodeMatch(OpCodes.Call, AccessTools.Method(typeof(QualityUtility), nameof(QualityUtility.GenerateQualityCreatedByPawn), new Type[] { typeof(Pawn), typeof(SkillDef) }))
             };
 
             var add_prototype_decrease_instructions = new CodeInstruction[] {
                 //value is on stack
-                new CodeInstruction(OpCodes.Ldloc_S, (byte)4),
+                new CodeInstruction(OpCodes.Ldloc_S, (byte)5),
                 new CodeInstruction(OpCodes.Ldarg_1),
                 new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Frame_CompleteConstruction_Patches), nameof(Frame_CompleteConstruction_Patches.PostQuality))),
             };
 
+            var codeMatcher = new CodeMatcher(instructions);
 
-            var iteratedOver = TranspilerUtils.IterateTo(enumerator, finally_instructions, out CodeInstruction[] matchedInstructions, out bool found);
+            codeMatcher.MatchEndForward(finally_instructions);
+            if (codeMatcher.IsInvalid)
+                goto invalid;
+            codeMatcher.Advance(1);
+            codeMatcher.Insert(add_prototype_decrease_instructions);
+            //codeMatcher.End();
 
-            foreach (var instruction in iteratedOver)
-                yield return instruction;
+            return codeMatcher.InstructionEnumeration();
 
-            if (!found)
-            {
-                Log.Warning("RR: Frame_CompleteConstruction_Patches - TranspilerForQuality - failed to apply patch (instructions not found)");
-                goto finalize;
-            }
-            else
-            {
-                foreach (var extraInstruction in add_prototype_decrease_instructions)
-                    yield return extraInstruction;
-
-                goto finalize;
-            }
-
-        finalize:
-            //output remaining instructions
-            while (enumerator.MoveNext())
-            {
-                yield return enumerator.Current;
-            }
+        invalid:
+            Log.Warning("RR: Frame_CompleteConstruction_Patches - TranspilerForQuality - failed to apply patch (instructions not found)");
+            return instructions;
         }
 
         private static QualityCategory PostQuality(QualityCategory category, Thing product, Pawn worker)
@@ -77,71 +90,61 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             return PrototypeUtilities.DoPrototypeQualityDecreaseThing(category, worker, product, null);
         }
 
-        public static IEnumerable<CodeInstruction> TranspilerSpawn(IEnumerable<CodeInstruction> instructions)
+        public static IEnumerable<CodeInstruction> TranspilerSpawn(IEnumerable<CodeInstruction> instructions, object thingLocal)
         {
-            var enumerator = instructions.GetEnumerator();
-
-            byte localIndex = 4;
-
-            var spawn_instructions = new CodeInstruction[] {
-                new CodeInstruction(OpCodes.Ldloc_S, localIndex),
-                new CodeInstruction(OpCodes.Ldarg_0),
-                new CodeInstruction(OpCodes.Call, AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Position))),
-                new CodeInstruction(OpCodes.Ldloc_1),
-                new CodeInstruction(OpCodes.Ldarg_0),
-                new CodeInstruction(OpCodes.Call, AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Rotation))),
-                new CodeInstruction(OpCodes.Ldc_I4_1),
-                new CodeInstruction(OpCodes.Ldc_I4_0),
-                new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(GenSpawn), nameof(GenSpawn.Spawn), new Type[] { typeof(Thing), typeof(IntVec3), typeof(Map), typeof(Rot4), typeof(WipeMode), typeof(bool)})),
-                new CodeInstruction(OpCodes.Pop)
+            var spawn_instructions = new CodeMatch[] {
+                new CodeMatch(OpCodes.Ldloc_S, thingLocal),
+                new CodeMatch(OpCodes.Ldarg_0),
+                new CodeMatch(OpCodes.Call, AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Position))),
+                new CodeMatch(OpCodes.Ldloc_1),
+                new CodeMatch(OpCodes.Ldarg_0),
+                new CodeMatch(OpCodes.Call, AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Rotation))),
+                new CodeMatch(OpCodes.Ldc_I4_1),
+                new CodeMatch(OpCodes.Ldc_I4_0),
+                new CodeMatch(OpCodes.Ldc_I4_0),
+                new CodeMatch(OpCodes.Call, AccessTools.Method(typeof(GenSpawn), nameof(GenSpawn.Spawn), new Type[] { typeof(Thing), typeof(IntVec3), typeof(Map), typeof(Rot4), typeof(WipeMode), typeof(bool), typeof(bool)})),
+                new CodeMatch(OpCodes.Pop)
             };
 
             var add_prespawn_instructions = new CodeInstruction[] {
                 new CodeInstruction(OpCodes.Ldarg_0),
-                new CodeInstruction(OpCodes.Ldloc_S, localIndex),
+                new CodeInstruction(OpCodes.Ldloc_S, thingLocal),
                 new CodeInstruction(OpCodes.Ldarg_1),
                 new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Frame_CompleteConstruction_Patches), nameof(Frame_CompleteConstruction_Patches.PreSpawn))),
             };
 
             var add_postspawn_instructions = new CodeInstruction[] {
                 new CodeInstruction(OpCodes.Ldarg_0),
-                new CodeInstruction(OpCodes.Ldloc_S, localIndex),
+                new CodeInstruction(OpCodes.Ldloc_S, thingLocal),
                 new CodeInstruction(OpCodes.Ldarg_1),
                 new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Frame_CompleteConstruction_Patches), nameof(Frame_CompleteConstruction_Patches.PostSpawn))),
             };
 
-            var iteratedOver = TranspilerUtils.IterateTo(enumerator, spawn_instructions, out CodeInstruction[] matchedInstructions, out bool found);
+            var codeMatcher = new CodeMatcher(instructions);
 
-
-            if (!found)
+            int invalidStage;
+            codeMatcher.MatchStartForward(spawn_instructions);
+            if (codeMatcher.IsInvalid)
             {
-                Log.Warning("RR: Frame_CompleteConstruction_Patches - TranspilerSpawn - failed to apply patch (instructions not found)");
-                foreach (var instruction in iteratedOver)
-                    yield return instruction;
-
-                goto finalize;
+                invalidStage = 1;
+                goto invalid;
             }
-            else
+            codeMatcher.Insert(add_prespawn_instructions);
+            codeMatcher.MatchEndForward(spawn_instructions);
+            if (codeMatcher.IsInvalid)
             {
-                foreach (var instruction in iteratedOver.Take(iteratedOver.Count() - matchedInstructions.Count()))
-                    yield return instruction;
-
-                foreach (var extraInstruction in add_prespawn_instructions)
-                    yield return extraInstruction;
-
-                foreach (var instruction in matchedInstructions)
-                    yield return instruction;
-
-                foreach (var extraInstruction in add_postspawn_instructions)
-                    yield return extraInstruction;
+                invalidStage = 2;
+                goto invalid;
             }
+            codeMatcher.Advance(1);
+            codeMatcher.Insert(add_postspawn_instructions);
+            //codeMatcher.End();
 
-        finalize:
-            //output remaining instructions
-            while (enumerator.MoveNext())
-            {
-                yield return enumerator.Current;
-            }
+            return codeMatcher.InstructionEnumeration();
+
+        invalid:
+            Log.Warning($"RR: Frame_CompleteConstruction_Patches - TranspilerSpawn - failed to apply patch (instructions not found, stage {invalidStage})");
+            return instructions;
         }
 
         private static bool checkedIsPrototype = false;
@@ -168,20 +171,18 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             }
         }
 
-        public static IEnumerable<CodeInstruction> TranspilerPostTerrainSet(IEnumerable<CodeInstruction> instructions)
+        public static IEnumerable<CodeInstruction> TranspilerPostTerrainSet(IEnumerable<CodeInstruction> instructions, object thingLocal)
         {
-            var enumerator = instructions.GetEnumerator();
-
-            var set_terrain_instructions = new CodeInstruction[] {
-                new CodeInstruction(OpCodes.Ldloc_1),
-                new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(Map), nameof(Map.terrainGrid))),
-                new CodeInstruction(OpCodes.Ldarg_0),
-                new CodeInstruction(OpCodes.Call, AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Position))),
-                new CodeInstruction(OpCodes.Ldarg_0),
-                new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(Thing), nameof(Thing.def))),
-                new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(ThingDef), nameof(ThingDef.entityDefToBuild))),
-                new CodeInstruction(OpCodes.Castclass, typeof(TerrainDef)),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(TerrainGrid), nameof(TerrainGrid.SetTerrain), new Type[] { typeof(IntVec3), typeof(TerrainDef) }))
+            var set_terrain_instructions = new CodeMatch[] {
+                new CodeMatch(OpCodes.Ldloc_1),
+                new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(Map), nameof(Map.terrainGrid))),
+                new CodeMatch(OpCodes.Ldarg_0),
+                new CodeMatch(OpCodes.Call, AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Position))),
+                new CodeMatch(OpCodes.Ldarg_0),
+                new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(Thing), nameof(Thing.def))),
+                new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(ThingDef), nameof(ThingDef.entityDefToBuild))),
+                new CodeMatch(OpCodes.Castclass, typeof(TerrainDef)),
+                new CodeMatch(OpCodes.Callvirt, AccessTools.Method(typeof(TerrainGrid), nameof(TerrainGrid.SetTerrain), new Type[] { typeof(IntVec3), typeof(TerrainDef) }))
             };
 
             var add_terrain_instructions = new CodeInstruction[] {
@@ -195,28 +196,24 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
                 new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Frame_CompleteConstruction_Patches), nameof(Frame_CompleteConstruction_Patches.PostSetTerrain))),
             };
 
-            var iteratedOver = TranspilerUtils.IterateTo(enumerator, set_terrain_instructions, out CodeInstruction[] matchedInstructions, out bool found);
+            var codeMatcher = new CodeMatcher(instructions);
 
-            foreach (var instruction in iteratedOver)
+            codeMatcher.MatchEndForward(set_terrain_instructions); 
+            if (codeMatcher.IsInvalid)
+                goto invalid;
+            codeMatcher.Advance(1);
+            codeMatcher.Insert(add_terrain_instructions);
+            //codeMatcher.End();
+
+            foreach (var instruction in codeMatcher.Instructions())
                 yield return instruction;
 
-            if (!found)
-            {
-                Log.Warning("Frame_CompleteConstruction_Patches - TranspilerPostTerrainSet - failed to apply patch (instructions not found)");
-                goto finalize;
-            }
-            else
-            {
-                foreach (var extraInstruction in add_terrain_instructions)
-                    yield return extraInstruction;
-            }
+            yield break;
 
-        finalize:
-            //output remaining instructions
-            while (enumerator.MoveNext())
-            {
-                yield return enumerator.Current;
-            }
+        invalid:
+            Log.Warning("Frame_CompleteConstruction_Patches - TranspilerPostTerrainSet - failed to apply patch (instructions not found)");
+            foreach (var instruction in instructions)
+                yield return instruction;
         }
 
         private static void PostSetTerrain(Map map, Frame frame, TerrainDef terrainDef, Pawn worker)

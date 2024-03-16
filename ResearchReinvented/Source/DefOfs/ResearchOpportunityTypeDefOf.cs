@@ -14,6 +14,9 @@ namespace PeteTimesSix.ResearchReinvented.DefOfs
 
         public static ResearchOpportunityTypeDef BasicResearch;
 
+        public static ResearchOpportunityTypeDef SchematicStudy;
+        public static ResearchOpportunityTypeDef AnalyseTechprint;
+
         public static ResearchOpportunityTypeDef Brainstorming;
         public static ResearchOpportunityTypeDef GainFactionlessKnowledge;
         public static ResearchOpportunityTypeDef GainFactionKnowledge;

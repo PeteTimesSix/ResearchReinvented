@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<RR_no_project_selected>No active project</RR_no_project_selected>
+	<RR_enable_compact_mode>Compact</RR_enable_compact_mode>
+	<RR_disable_compact_mode>Details</RR_disable_compact_mode>
+	<RR_uncollapse_category>Expand</RR_uncollapse_category>
+	<RR_collapse_category>Collapse</RR_collapse_category>
+	<RR_uncollapse_all>Expand All</RR_uncollapse_all>
+	<RR_collapse_all>Collapse All</RR_collapse_all>
+	
+	<RR_OpportunityBlocked_Finished_short>Done</RR_OpportunityBlocked_Finished_short>
+	<RR_OpportunityBlocked_CategoryFinished_short>Done</RR_OpportunityBlocked_CategoryFinished_short>
+	<RR_OpportunityBlocked_ResearchTooLow_short>Locked </RR_OpportunityBlocked_ResearchTooLow_short>
+	<RR_OpportunityBlocked_ResearchTooHigh_short>Not useful</RR_OpportunityBlocked_ResearchTooHigh_short>
+	<RR_OpportunityBlocked_ReasonUnknown_short>Locked ???</RR_OpportunityBlocked_ReasonUnknown_short>
+	
+	<RR_OpportunityBlocked_Finished>Finished</RR_OpportunityBlocked_Finished>
+	<RR_OpportunityBlocked_CategoryFinished>Category finished\nNothing more to learn</RR_OpportunityBlocked_CategoryFinished>
+	<RR_OpportunityBlocked_ResearchTooLow>Locked\nMore overall progress needed</RR_OpportunityBlocked_ResearchTooLow>
+	<RR_OpportunityBlocked_ResearchTooHigh>Locked\nCannot learn more now</RR_OpportunityBlocked_ResearchTooHigh>
+	<RR_OpportunityBlocked_ReasonUnknown>Locked\nREASON UNKNOWN REPORT AS BUG</RR_OpportunityBlocked_ReasonUnknown>
+</LanguageData>

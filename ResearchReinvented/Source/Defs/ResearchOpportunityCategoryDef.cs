@@ -64,19 +64,21 @@ namespace PeteTimesSix.ResearchReinvented.Defs
         public Color color;
 
         private int _cacheBuiltOnTick = -1;
-        private ResearchProjectDef _cacheBuiltForProject = null;
-        private OpportunityAvailability _currentAvailabilityCached = OpportunityAvailability.UnavailableReasonUnknown;
+        private Dictionary<ResearchProjectDef, OpportunityAvailability> _currentAvailabilitiesCached = new Dictionary<ResearchProjectDef, OpportunityAvailability>();
 
 
         public OpportunityAvailability GetCurrentAvailability(ResearchProjectDef project)
         {
-            if (_cacheBuiltOnTick != Find.TickManager.TicksAbs || _cacheBuiltForProject != project)
+            if (_cacheBuiltOnTick != Find.TickManager.TicksAbs)
             {
-                _currentAvailabilityCached = GetAvailability(project);
+                _currentAvailabilitiesCached.Clear();
                 _cacheBuiltOnTick = Find.TickManager.TicksAbs;
-                _cacheBuiltForProject = project;
             }
-            return _currentAvailabilityCached;
+            if(!_currentAvailabilitiesCached.ContainsKey(project))
+            {
+                _currentAvailabilitiesCached[project] = GetAvailability(project);
+            }
+            return _currentAvailabilitiesCached[project];
         }
 
         private OpportunityAvailability GetAvailability(ResearchProjectDef project) 
@@ -92,14 +94,14 @@ namespace PeteTimesSix.ResearchReinvented.Defs
             var totalsStore = ResearchOpportunityManager.Instance.GetTotalsStore(project, this);
             if (totalsStore == null)
                 return OpportunityAvailability.UnavailableReasonUnknown;
-            if (!Settings.infiniteOverflow && GetCurrentTotal() >= totalsStore.researchPoints)
+            if (!Settings.infiniteOverflow && GetCurrentTotal(project) >= totalsStore.researchPoints)
                 return OpportunityAvailability.CategoryFinished;
             return OpportunityAvailability.Available;
         }
 
-        public float GetCurrentTotal() 
+        public float GetCurrentTotal(ResearchProjectDef project)
         {
-            var matchingOpportunities = ResearchOpportunityManager.Instance.GetFilteredOpportunities(null, null, this);
+            var matchingOpportunities = ResearchOpportunityManager.Instance.GetOpportunitiesFilterForProject(null, null, project, (op) => op.def.GetCategory(op.relation) == this);
             var totalProgress = matchingOpportunities.Sum(o => o.Progress);
             return totalProgress;
         }

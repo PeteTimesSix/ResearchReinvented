@@ -20,7 +20,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 			{
 				if (__instance.researchPrerequisites == null)
 				{
-					Log.ErrorOnce("designationCategoryDef " + __instance.defName + " is not visible, yet has no prerequisites, this is UNHANDLED", 6652244);
+					//Log.ErrorOnce("designationCategoryDef " + __instance.defName + " is not visible, yet has no prerequisites, this is UNHANDLED", 6652244);
 				}
 				else
 				{
@@ -28,7 +28,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 					{
 						if (!researchPrerequisiteProject.IsFinished)
 						{
-							if (researchPrerequisiteProject != Find.ResearchManager.currentProj)
+							if (researchPrerequisiteProject != Find.ResearchManager.GetProject())
 								return;
 							OpportunityAvailability prototypingAvailability = ResearchOpportunityCategoryDefOf.Prototyping.GetCurrentAvailability(researchPrerequisiteProject);
 							bool prototypeable = prototypingAvailability == OpportunityAvailability.Available || prototypingAvailability == OpportunityAvailability.Finished || prototypingAvailability == OpportunityAvailability.CategoryFinished;

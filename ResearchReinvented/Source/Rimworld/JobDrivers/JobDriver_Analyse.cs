@@ -13,7 +13,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Verse;
 using Verse.AI;
-using static UnityEngine.GridBrushBase;
 
 namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 {
@@ -44,7 +43,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 			var unminifiedThing = TargetThing.GetInnerIfMinified();
 			ResearchOpportunity opportunity = WorkGiver_Analyse.OpportunityCache[unminifiedThing.def].FirstOrDefault();
             //ResearchOpportunity opportunity = ResearchOpportunityManager.instance.GetOpportunityForJob(this.job);
-            ResearchProjectDef currentProject = Find.ResearchManager.currentProj;
+            ResearchProjectDef currentProject = Find.ResearchManager.GetProject();
 
             if (currentProject == null || opportunity == null)
             {
@@ -56,7 +55,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
                 yield break;
             }
 
-            this.FailOn(() => currentProject != Find.ResearchManager.currentProj);
+            this.FailOn(() => currentProject != Find.ResearchManager.GetProject());
             this.FailOn(() => opportunity.CurrentAvailability != OpportunityAvailability.Available);
             if(ResearchData.active && ResearchReinventedMod.Settings.researchDataCompatMode == ResearchData.ResearchDataCompatMode.AllBenchResearch)
             {
@@ -79,7 +78,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
             research.tickAction = () =>
             {
                 Pawn actor = research.actor;
-                float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true);
+                float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true) * 0.00825f;
                 num *= ResearchBench.GetStatValue(StatDefOf.ResearchSpeedFactor, true);
                 actor.GainComfortFromCellIfPossible(true);
                 if (ResearchData.active && ResearchReinventedMod.Settings.researchDataCompatMode == ResearchData.ResearchDataCompatMode.AllBenchResearch)

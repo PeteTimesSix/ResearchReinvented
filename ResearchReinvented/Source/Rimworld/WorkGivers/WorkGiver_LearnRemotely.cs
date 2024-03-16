@@ -27,13 +27,13 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		{
 			get
 			{
-				if (_matchingOpportunitiesCachedFor != Find.ResearchManager.currentProj)
+				if (_matchingOpportunitiesCachedFor != Find.ResearchManager.GetProject())
 				{
                     _matchingOpportunitesCache = ResearchOpportunityManager.Instance
                         .GetFilteredOpportunities(null, HandlingMode.Social, (op) => op.requirement is ROComp_RequiresFaction requiresFaction && requiresFaction.faction != Faction.OfPlayer).ToArray();
                         //.GetCurrentlyAvailableOpportunities(true)
 						//.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Social) && o.requirement is ROComp_RequiresFaction requiresFaction && requiresFaction.faction != Faction.OfPlayer).ToArray();
-                    _matchingOpportunitiesCachedFor = Find.ResearchManager.currentProj;
+                    _matchingOpportunitiesCachedFor = Find.ResearchManager.GetProject();
 				}
 				return _matchingOpportunitesCache;
 			}
@@ -78,7 +78,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
         public override bool ShouldSkip(Pawn pawn, bool forced = false)
         {
-            if (Find.ResearchManager.currentProj == null)
+            if (Find.ResearchManager.GetProject() == null)
                 return true;
 
             return !MatchingOpportunities.Any(o => !o.IsFinished);

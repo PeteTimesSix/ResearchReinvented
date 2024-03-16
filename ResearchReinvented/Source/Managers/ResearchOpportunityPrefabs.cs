@@ -74,7 +74,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 var matchingOpportunities = projectOpportunities.Where(o => o.def.GetCategory(o.relation) == category);
 
                 var totalsStore = new ResearchOpportunityCategoryTotalsStore() { project = project, category = category };
-                totalsStore.researchPoints = ((projectResearchPoints / totalMultiplier) * category.Settings.importanceMultiplier);
+                totalsStore.researchPoints = ((projectResearchPoints / totalMultiplier) * category.Settings.importanceMultiplier) + projectResearchPoints * category.Settings.importanceStatic;
 
                 if (totalsStore.researchPoints < MIN_RESEARCH_POINTS)
                     totalsStore.researchPoints = MIN_RESEARCH_POINTS;

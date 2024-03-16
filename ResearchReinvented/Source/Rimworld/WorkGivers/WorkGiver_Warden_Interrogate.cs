@@ -16,7 +16,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 {
     public class WorkGiver_Warden_Interrogate : WorkGiver_Warden
     {
-        public static Type DriverClass = typeof(JobDriver_InterrogatePrisoner);
+        public static Type DriverClass = typeof(PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers.JobDriver_InterrogatePrisoner);
 
         private static ResearchProjectDef _matchingOpportunitiesCachedFor;
         private static ResearchOpportunity[] _matchingOpportunitesCache = Array.Empty<ResearchOpportunity>();
@@ -24,13 +24,13 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
         {
             get
             {
-                if (_matchingOpportunitiesCachedFor != Find.ResearchManager.currentProj)
+                if (_matchingOpportunitiesCachedFor != Find.ResearchManager.GetProject())
                 {
                     _matchingOpportunitesCache = ResearchOpportunityManager.Instance
                         .GetFilteredOpportunities(null, HandlingMode.Social).ToArray();
                         //.GetCurrentlyAvailableOpportunities(true)
                         //.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Social)).ToArray();
-                    _matchingOpportunitiesCachedFor = Find.ResearchManager.currentProj;
+                    _matchingOpportunitiesCachedFor = Find.ResearchManager.GetProject();
                 }
                 return _matchingOpportunitesCache;
             }
@@ -46,7 +46,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
             if (base.ShouldSkip(pawn, forced))
                 return true;
 
-            if (Find.ResearchManager.currentProj == null)
+            if (Find.ResearchManager.GetProject() == null)
                 return true;
 
             return !MatchingOpportunities.Any(o => !o.IsFinished);
@@ -57,8 +57,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
             Pawn prisoner = (Pawn)thing; 
             if (!base.ShouldTakeCareOfPrisoner(pawn, prisoner, false))
                 return false;
-            PrisonerInteractionModeDef interactionMode = prisoner.guest.interactionMode;
-            if (interactionMode != PrisonerInteractionModeDefOf_Custom.RR_ScienceInterrogation)
+
+            if (!prisoner.guest.IsInteractionEnabled(PrisonerInteractionModeDefOf_Custom.RR_ScienceInterrogation))
                 return false;
 
             if (pawn.WorkTypeIsDisabled(WorkTypeDefOf.Research))
@@ -76,7 +76,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
                 JobFailReason.Is("PrisonerInteractedTooRecently".Translate(), null);
                 return false;
             }
-            if (!MatchingOpportunities.Any(o => !o.IsFinished && o.requirement.MetBy(prisoner)))
+            if (!MatchingOpportunities.Any(o => o.CurrentAvailability == OpportunityAvailability.Available && o.requirement.MetBy(prisoner)))
             {
                 JobFailReason.Is("RR_jobFail_PrisonerHasNothingToTeach".Translate(), null);
                 return false;
@@ -90,8 +90,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
             Pawn prisoner = (Pawn)thing;
             if (!base.ShouldTakeCareOfPrisoner(pawn, prisoner, false))
                 return null;
-            PrisonerInteractionModeDef interactionMode = prisoner.guest.interactionMode;
-            if (interactionMode != PrisonerInteractionModeDefOf_Custom.RR_ScienceInterrogation || !prisoner.guest.ScheduledForInteraction || !pawn.health.capacities.CapableOf(PawnCapacityDefOf.Talking) || (prisoner.Downed && !prisoner.InBed()) || !pawn.CanReserve(prisoner, 1, -1, null, false) || !prisoner.Awake())
+
+            if (!(prisoner.guest.IsInteractionEnabled(PrisonerInteractionModeDefOf_Custom.RR_ScienceInterrogation)) || !prisoner.guest.ScheduledForInteraction || !pawn.health.capacities.CapableOf(PawnCapacityDefOf.Talking) || (prisoner.Downed && !prisoner.InBed()) || !pawn.CanReserve(prisoner, 1, -1, null, false) || !prisoner.Awake())
             {
                 return null;
             }

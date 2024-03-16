@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationInsert">
+		<xpath>Defs/SurgeryOutcomeEffectDef[defName="SurgeryOutcomeBase"]/comps/li[@Class="SurgeryOutcomeComp_ClampToRange"]</xpath>
+		<order>Prepend</order>
+		<value>      
+			<li Class="PeteTimesSix.ResearchReinvented.Rimworld.SurgeryComps.SurgeryOutcomeComp_ExperimentalSurgeryModifier">
+				<modifier>0.65</modifier>
+			</li>
+		</value>
+	</Operation>
+	
+	<Operation Class="PatchOperationInsert">
+		<xpath>Defs/SurgeryOutcomeEffectDef[defName="SurgeryOutcomeBase"]/comps/li[@Class="SurgeryOutcomeComp_ClampToRange"]</xpath>
+		<order>Append</order>
+		<value>      
+			<li Class="PeteTimesSix.ResearchReinvented.Rimworld.SurgeryComps.SurgeryOutcomeComp_ExperimentalSurgeryClamp">
+				<range>0~0.85</range>
+			</li>
+		</value>
+	</Operation>
+</Patch>

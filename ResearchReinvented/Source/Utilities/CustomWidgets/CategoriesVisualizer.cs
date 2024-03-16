@@ -160,6 +160,15 @@ namespace PeteTimesSix.ResearchReinvented.Utilities.CustomWidgets
                         }
                     }
 
+                    if(category.Settings.importanceStatic > 0f)
+                    {
+                        var widthStatic = fractionsRect.width * category.Settings.importanceStatic;
+                        var offset = (fractionHeight * 0.5f) - 4f;
+                        Rect categoryStaticRect = new Rect(fractionsRect.x + (fractionsRect.width - widthStatic), categoryY + offset, widthStatic, 8f);
+                        //GUI.color = Color.Lerp(category.color, Color.black, .5f);
+                        Widgets.DrawBoxSolidWithOutline(categoryStaticRect, Color.Lerp(category.color, Color.black, .8f), Color.Lerp(category.color, Color.black, .5f));
+                    }
+
                     if (category.Settings.enabled)
                     {
                         var widthSpeed = researchSpeedRect.width * (category.Settings.researchSpeedMultiplier / maxResearchSpeedMultiplier);

@@ -63,7 +63,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
         private bool regenerateWhenPossible = false;
 
-        private Dictionary<ResearchOpportunityCategoryDef, OpportunityAvailability> _categoryAvailability = new Dictionary<ResearchOpportunityCategoryDef, OpportunityAvailability>();
+        private Dictionary<ResearchProjectDef, Dictionary<ResearchOpportunityCategoryDef, OpportunityAvailability>> _categoryAvailability = new Dictionary<ResearchProjectDef, Dictionary<ResearchOpportunityCategoryDef, OpportunityAvailability>>();
 
         public ResearchOpportunityManager(Game game)
         {
@@ -75,7 +75,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             if(regenerateWhenPossible)
             {
                 regenerateWhenPossible = false;
-                GenerateOpportunities(Find.ResearchManager.currentProj, true);
+                GenerateOpportunities(Find.ResearchManager.GetProject(), true);
             }
             CheckForRegeneration();
             //CancelMarkedPrototypes();
@@ -106,7 +106,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             if (_categoryAvailability == null)
             {
                 Log.Warning("RR: _categoryAvailability was missing!");
-                _categoryAvailability = new Dictionary<ResearchOpportunityCategoryDef, OpportunityAvailability>();
+                _categoryAvailability = new Dictionary<ResearchProjectDef, Dictionary<ResearchOpportunityCategoryDef, OpportunityAvailability>>();
                 forceRegen = true;
             }
             if (_categoryStores == null)
@@ -118,7 +118,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
             if (forceRegen)
             {
-                GenerateOpportunities(Find.ResearchManager.currentProj, true);
+                GenerateOpportunities(Find.ResearchManager.GetProject(), true);
             }
             else
             {
@@ -144,10 +144,10 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
         public bool CheckForRegeneration() 
         {
-            if(Find.ResearchManager.currentProj != _currentProject)
+            if(Find.ResearchManager.GetProject() != _currentProject)
             {
-                PrototypeKeeper.Instance.CancelPrototypes(_currentProject, Find.ResearchManager.currentProj);
-                GenerateOpportunities(Find.ResearchManager.currentProj, false);
+                PrototypeKeeper.Instance.CancelPrototypes(_currentProject, Find.ResearchManager.GetProject());
+                GenerateOpportunities(Find.ResearchManager.GetProject(), false);
                 return true;
             }
             return false;
@@ -155,14 +155,23 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
         public void CheckForPopups()
         {
+            var currentProject = Find.ResearchManager.GetProject();
+            if (currentProject == null)
+                return;
+            if (!_categoryAvailability.ContainsKey(currentProject))
+                _categoryAvailability[currentProject] = new Dictionary<ResearchOpportunityCategoryDef, OpportunityAvailability>();
+            var projectCategoryAvailability = _categoryAvailability[currentProject];
+
             foreach (var category in CurrentProjectOpportunityCategories)
             {
-                var current = category.GetCurrentAvailability(Find.ResearchManager.currentProj);
-                if (!_categoryAvailability.ContainsKey(category))
-                    _categoryAvailability[category] = current;
-                else if (_categoryAvailability[category] != current)
+                var current = category.GetCurrentAvailability(Find.ResearchManager.GetProject());
+                if (!projectCategoryAvailability.ContainsKey(category))
                 {
-                    _categoryAvailability[category] = current;
+                    projectCategoryAvailability[category] = current;
+                }
+                else if (projectCategoryAvailability[category] != current)
+                {
+                    projectCategoryAvailability[category] = current;
                     if(current == OpportunityAvailability.Available)
                     {
                         var toPopup = CurrentProjectOpportunities.Where(o => o.def.generatesPopups &&  o.def.GetCategory(o.relation) == category).ToList();
@@ -234,42 +243,42 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             return null;
         }
 
-        public IEnumerable<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy)
+        public List<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy)
         {
             return GetOpportunitiesFilter(desiredAvailability, handledBy, null);
         }
 
-        public IEnumerable<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Type driverClass)
+        public List<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Type driverClass)
         {
             return GetOpportunitiesFilter(desiredAvailability, handledBy, (op) => op.JobDefs != null && op.JobDefs.Any(jd => jd.driverClass == driverClass));
         }
 
-        public IEnumerable<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, ResearchOpportunityCategoryDef category)
+        public List<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, ResearchOpportunityCategoryDef category)
         {
             return GetOpportunitiesFilter(desiredAvailability, handledBy, (op) => op.def.GetCategory(op.relation) == category);
         }
 
-        public IEnumerable<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Def def)
+        public List<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Def def)
         {
             return GetOpportunitiesFilter(desiredAvailability, handledBy, (op) => op.requirement.MetBy(def));
         }
 
-        public IEnumerable<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Thing thing)
+        public List<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Thing thing)
         {
             return GetOpportunitiesFilter(desiredAvailability, handledBy, (op) => op.requirement.MetBy(thing));
         }
 
-        public IEnumerable<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Faction faction)
+        public List<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Faction faction)
         {
             return GetOpportunitiesFilter(desiredAvailability, handledBy, (op) => op.requirement is ROComp_RequiresFaction requiresFaction && requiresFaction.MetByFaction(faction));
         }
 
-        public IEnumerable<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Func<ResearchOpportunity, bool> validator)
+        public List<ResearchOpportunity> GetFilteredOpportunities(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Func<ResearchOpportunity, bool> validator)
         {
             return GetOpportunitiesFilter(desiredAvailability, handledBy, validator);
         }
 
-        private IEnumerable<ResearchOpportunity> GetOpportunitiesFilter(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Func<ResearchOpportunity, bool> validator)
+        private List<ResearchOpportunity> GetOpportunitiesFilter(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Func<ResearchOpportunity, bool> validator)
         {
             List<ResearchOpportunity> opportunities = new List<ResearchOpportunity>();
             foreach (var op in CurrentProjectOpportunities)
@@ -278,6 +287,42 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                     (!handledBy.HasValue || op.def.handledBy.HasFlag(handledBy.Value)) &&
                     (validator == null || validator(op)))
                 opportunities.Add(op);
+            }
+            return opportunities;
+        }
+
+        public List<ResearchOpportunity> GetOpportunitiesFilterForProject(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, ResearchProjectDef project, Func<ResearchOpportunity, bool> validator)
+        {
+            List<ResearchOpportunity> opportunities = new List<ResearchOpportunity>();
+            if (!_projectsGenerated.Contains(project))
+                GenerateOpportunities(project, false);
+
+            foreach (var op in AllGeneratedOpportunities)
+            {
+                if (project == op.project &&
+                    (((!desiredAvailability.HasValue) || (desiredAvailability.Value & op.CurrentAvailability) != 0) &&
+                    (!handledBy.HasValue || op.def.handledBy.HasFlag(handledBy.Value)) &&
+                    (validator == null || validator(op))))
+                    opportunities.Add(op);
+            }
+            return opportunities;
+        }
+
+        public List<ResearchOpportunity> GetOpportunitiesFilterForProjects(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, IEnumerable<ResearchProjectDef> projects, Func<ResearchOpportunity, bool> validator)
+        {
+            List<ResearchOpportunity> opportunities = new List<ResearchOpportunity>();
+            foreach(var project in projects)
+            {
+                if (!_projectsGenerated.Contains(project))
+                    GenerateOpportunities(project, false);
+            }
+            foreach (var op in AllGeneratedOpportunities)
+            {
+                if (projects.Contains(op.project) &&
+                    (((!desiredAvailability.HasValue) || (desiredAvailability.Value & op.CurrentAvailability) != 0) &&
+                    (!handledBy.HasValue || op.def.handledBy.HasFlag(handledBy.Value)) &&
+                    (validator == null || validator(op))))
+                    opportunities.Add(op);
             }
             return opportunities;
         }
@@ -395,9 +440,14 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             }
 
             _categoryAvailability.Clear();
-            foreach(var category in CurrentProjectOpportunityCategories)
+            if(!_categoryAvailability.ContainsKey(project))
             {
-                _categoryAvailability[category] = category.GetCurrentAvailability(project);
+                _categoryAvailability[project] = new Dictionary<ResearchOpportunityCategoryDef, OpportunityAvailability>();
+            }
+            var projectCategoryAvailability = _categoryAvailability[project];
+            foreach (var category in CurrentProjectOpportunityCategories)
+            {
+                projectCategoryAvailability[category] = category.GetCurrentAvailability(project);
             }
         }
 

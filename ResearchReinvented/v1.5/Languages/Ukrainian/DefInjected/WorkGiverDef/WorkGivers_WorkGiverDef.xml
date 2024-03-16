@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+<Analyse.label>проаналізувати</Analyse.label>
+<Analyse.gerund>аналізує</Analyse.gerund>
+<AnalyseInPlace.label>аналізувати на місці</AnalyseInPlace.label>
+<AnalyseInPlace.gerund>аналізує</AnalyseInPlace.gerund>
+<AnalyseTerrain.label>аналізувати місцевість</AnalyseTerrain.label>
+<AnalyseTerrain.gerund>аналізує</AnalyseTerrain.gerund>
+<ResearchRR.label>зробити дослідження</ResearchRR.label>
+<ResearchRR.gerund>досліджує на</ResearchRR.gerund>
+
+</LanguageData>

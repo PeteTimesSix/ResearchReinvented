@@ -254,6 +254,9 @@ namespace PeteTimesSix.ResearchReinvented
                         GUI.color = temp_categoryChanges.infiniteOverflow.HasValue ? Color.yellow : Color.white;
                         sectionListing.CheckboxLabeled("RR_setting_category_infiniteOverflow".Translate(), ref temp_categorySettings.infiniteOverflow, "RR_setting_category_infiniteOverflow_tooltip".Translate());
 
+                        GUI.color = temp_categoryChanges.importanceStatic.HasValue ? Color.yellow : Color.white;
+                        sectionListing.SliderLabeled("RR_setting_category_importanceStatic".Translate(), ref temp_categorySettings.importanceStatic, min: 0, max: 1, roundTo: 0.01f, displayMult: 100, valueSuffix: "%", tooltip: "RR_setting_category_importanceStatic_tooltip".Translate());
+
                         GUI.color = temp_categoryChanges.researchSpeedMultiplier.HasValue ? Color.yellow : Color.white;
                         sectionListing.SliderLabeled("RR_setting_category_researchSpeedMultiplier".Translate(), ref temp_categorySettings.researchSpeedMultiplier, min: 0.05f, max: 5, roundTo: 0.05f, displayMult: 100, valueSuffix: "%", tooltip: "RR_setting_category_researchSpeedMultiplier_tooltip".Translate());
 

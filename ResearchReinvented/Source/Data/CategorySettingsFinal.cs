@@ -12,6 +12,7 @@ namespace PeteTimesSix.ResearchReinvented.Data
         {
             enabled = changes.enabled.HasValue ? changes.enabled.Value : preset.enabled;
 
+            importanceStatic = changes.importanceStatic.HasValue ? changes.importanceStatic.Value : preset.importanceStatic;
             importanceMultiplier = changes.importanceMultiplier.HasValue ? changes.importanceMultiplier.Value : preset.importanceMultiplier;
             importanceMultiplierCounted = changes.importanceMultiplierCounted.HasValue ? changes.importanceMultiplierCounted.Value : preset.importanceMultiplierCounted;
             infiniteOverflow = changes.infiniteOverflow.HasValue ? changes.infiniteOverflow.Value : preset.infiniteOverflow;

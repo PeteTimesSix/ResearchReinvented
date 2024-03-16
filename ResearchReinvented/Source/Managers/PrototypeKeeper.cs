@@ -34,7 +34,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             }
             else 
             {
-                grid = new PrototypeTerrainGrid(map);
+                grid = map.GetComponent<PrototypeTerrainGrid>();
                 _prototypeTerrainGrids[map] = grid;
                 return grid;
             }
@@ -89,9 +89,6 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             }
         }
 
-        private List<Map> wlistMaps = new List<Map>();
-        private List<PrototypeTerrainGrid> wlistGrids = new List<PrototypeTerrainGrid>();
-
         public override void ExposeData()
         {
             if(Scribe.mode == LoadSaveMode.Saving)
@@ -103,10 +100,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                         this._prototypes.Remove(thing);
                 }
             }
-            base.ExposeData();
             Scribe_Collections.Look(ref _prototypes, "_prototypes", LookMode.Reference);
-
-            Scribe_Collections.Look(ref _prototypeTerrainGrids, "_prototypeTerrainGrids", LookMode.Reference, LookMode.Deep, ref wlistMaps, ref wlistGrids);
         }
 
         public void CancelPrototypes(ResearchProjectDef previousProject, ResearchProjectDef currentProject)

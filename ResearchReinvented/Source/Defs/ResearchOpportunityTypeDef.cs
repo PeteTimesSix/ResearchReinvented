@@ -22,6 +22,7 @@ namespace PeteTimesSix.ResearchReinvented.Defs
 		Special_Medicine = 1 << 5,
         Special_Prototype = 1 << 6,
         Special_Tooling = 1 << 7,
+        Special_Books = 1 << 8,
     }
 
     public class ResearchOpportunityTypeDef : Def

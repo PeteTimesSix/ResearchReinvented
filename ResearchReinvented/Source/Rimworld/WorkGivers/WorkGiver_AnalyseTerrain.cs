@@ -34,13 +34,13 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		{
 			get
 			{
-				if (_matchingOpportunitiesCachedFor != Find.ResearchManager.currentProj)
+				if (_matchingOpportunitiesCachedFor != Find.ResearchManager.GetProject())
 				{
 					_matchingOpportunitesCache = ResearchOpportunityManager.Instance
 						.GetFilteredOpportunities(null, HandlingMode.Job_Analysis, DriverClass).ToArray();
 						//.GetCurrentlyAvailableOpportunities(true)
 						//.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Job_Analysis) && o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass)).ToArray();
-					_matchingOpportunitiesCachedFor = Find.ResearchManager.currentProj;
+					_matchingOpportunitiesCachedFor = Find.ResearchManager.GetProject();
 				}
 				return _matchingOpportunitesCache;
 			}
@@ -54,7 +54,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)
         {
-            if (Find.ResearchManager.currentProj == null)
+            if (Find.ResearchManager.GetProject() == null)
                 return Enumerable.Empty<IntVec3>();
 
             return pawn.Map.areaManager.Home.ActiveCells;//.Where(c => (analysableTerrains.Contains(c.GetTerrain(pawn.Map))));
@@ -62,11 +62,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override bool ShouldSkip(Pawn pawn, bool forced = false)
 		{
-			ResearchProjectDef currentProj = Find.ResearchManager.currentProj;
+			ResearchProjectDef currentProj = Find.ResearchManager.GetProject();
 			if (currentProj == null)
-				return true;
-
-			if (currentProj.HasAnyPrerequisites() && !FieldResearchHelper.GetValidResearchKits(pawn, currentProj).Any())
 				return true;
 
 			return !MatchingOpportunities.Any();
@@ -74,7 +71,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override bool HasJobOnCell(Pawn pawn, IntVec3 cell, bool forced = false)
 		{
-			ResearchProjectDef currentProj = Find.ResearchManager.currentProj;
+			ResearchProjectDef currentProj = Find.ResearchManager.GetProject();
 			if (currentProj == null)
 				return false;
 
@@ -83,16 +80,27 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 				BuildCache();
 			}
 
-            if (PrototypeKeeper.Instance.IsTerrainPrototype(cell, pawn.Map))
+            var terrainAt = cell.GetTerrain(pawn.Map);
+			if (!OpportunityCache.ContainsKey(terrainAt))
+				return false;
+
+			var opportunity = OpportunityCache[terrainAt].FirstOrDefault();
+			if(opportunity == null)
+				return false;
+
+            if (PrototypeKeeper.Instance.IsTerrainPrototype(cell, pawn.Map) && opportunity.relation != ResearchRelation.Ancestor)
             {
                 JobFailReason.Is(StringsCache.JobFail_IsPrototype, null);
                 return false;
             }
 
-            var terrainAt = cell.GetTerrain(pawn.Map);
-			if (!OpportunityCache.ContainsKey(terrainAt))
-				return false;
-			return
+            if (currentProj.HasAnyPrerequisites() && !FieldResearchHelper.GetValidResearchKits(pawn, currentProj).Any())
+            {
+                JobFailReason.Is(StringsCache.JobFail_NeedResearchKit, null);
+                return false;
+            }
+
+            return
 				!cell.IsForbidden(pawn) &&
 				pawn.CanReserve(cell, 1, -1, null, forced) &&
 				new HistoryEvent(HistoryEventDefOf.Researching, pawn.Named(HistoryEventArgsNames.Doer)).Notify_PawnAboutToDo_Job();
@@ -148,7 +156,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		public static void BuildCache()
 		{
 			_opportunityCache.Clear();
-			if (Find.ResearchManager.currentProj == null)
+			if (Find.ResearchManager.GetProject() == null)
 				return;
 
 			foreach (var opportunity in MatchingOpportunities.Where(o => o.CurrentAvailability == OpportunityAvailability.Available && o.requirement is ROComp_RequiresTerrain))
@@ -156,7 +164,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 				var terrainDef = (opportunity.requirement as ROComp_RequiresTerrain)?.terrainDef;
 				if (terrainDef == null)
 				{
-					Log.ErrorOnce($"RR: current research project {Find.ResearchManager.currentProj} generated a WorkGiver_Analyze opportunity with null requirement!", Find.ResearchManager.currentProj.debugRandomId);
+					Log.ErrorOnce($"RR: current research project {Find.ResearchManager.GetProject()} generated a WorkGiver_Analyze opportunity with null requirement!", Find.ResearchManager.GetProject().debugRandomId);
 					continue;
 				}
 				if (!_opportunityCache.ContainsKey(terrainDef))

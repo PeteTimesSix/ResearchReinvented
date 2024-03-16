@@ -14,6 +14,7 @@ namespace PeteTimesSix.ResearchReinvented.Data
 
         public bool? enabled;
 
+        public float? importanceStatic;
         public float? importanceMultiplier;
         public float? importanceMultiplierCounted;
         public bool? infiniteOverflow;
@@ -28,6 +29,7 @@ namespace PeteTimesSix.ResearchReinvented.Data
 
             Scribe_Values.Look(ref enabled, "enabled", null);
 
+            Scribe_Values.Look(ref importanceStatic, "importanceStatic", null);
             Scribe_Values.Look(ref importanceMultiplier, "importanceMultiplier", null);
             Scribe_Values.Look(ref importanceMultiplierCounted, "importanceMultiplierCounted", null);
             Scribe_Values.Look(ref infiniteOverflow, "infiniteOverflow", null);
@@ -44,6 +46,8 @@ namespace PeteTimesSix.ResearchReinvented.Data
             if (enabled.HasValue || finals.enabled != defaults.enabled)
                 enabled = finals.enabled;
 
+            if (importanceStatic.HasValue || finals.importanceStatic != defaults.importanceStatic)
+                importanceStatic = finals.importanceStatic;
             if (importanceMultiplier.HasValue || finals.importanceMultiplier != defaults.importanceMultiplier)
                 importanceMultiplier = finals.importanceMultiplier;
             if (importanceMultiplierCounted.HasValue || finals.importanceMultiplierCounted != defaults.importanceMultiplierCounted)

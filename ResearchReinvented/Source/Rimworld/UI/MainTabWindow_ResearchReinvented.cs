@@ -94,7 +94,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             titlebarCentralRect.x += CLOSEBUTTON_BOUNDING_BOX_SIZE;
 
             Text.Anchor = TextAnchor.MiddleCenter;
-            Widgets.Label(titlebarCentralRect, Find.ResearchManager.currentProj != null ? Find.ResearchManager.currentProj.LabelCap.ToString() : RR_no_project_selected);
+            Widgets.Label(titlebarCentralRect, Find.ResearchManager.GetProject() != null ? Find.ResearchManager.GetProject().LabelCap.ToString() : RR_no_project_selected);
 
             Text.Anchor = TextAnchor.MiddleLeft;
             if (Widgets.ButtonText(titlebarRect.LeftPartPixels(COLLAPSE_BUTTON_WIDTH + MARGIN_INTERNAL), collapsedCategories.Any() ? RR_uncollapse_all : RR_collapse_all))
@@ -126,7 +126,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 				{
                     ResearchOpportunityManager.Instance.ResetAllProgress();
                     CacheClearer.ClearCaches();
-                    ResearchOpportunityManager.Instance.GenerateOpportunities(Find.ResearchManager.currentProj, true);
+                    ResearchOpportunityManager.Instance.GenerateOpportunities(Find.ResearchManager.GetProject(), true);
 				}
 			}
 
@@ -201,12 +201,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             if (!category.Settings.infiniteOverflow)
             {
                 //{Progress} "X"
-                Widgets_Extra.LabelFitHeightAware(headerRect, $"{Math.Round(category.GetCurrentTotal(), 0)} / {Math.Round(totalsStore.researchPoints, 0)}");
+                Widgets_Extra.LabelFitHeightAware(headerRect, $"{Math.Round(category.GetCurrentTotal(project), 0)} / {Math.Round(totalsStore.researchPoints, 0)}");
             }
             else
             {
                 //{Progress} "X / Y"
-                Widgets_Extra.LabelFitHeightAware(headerRect, $"{Math.Round(category.GetCurrentTotal(), 0)}");
+                Widgets_Extra.LabelFitHeightAware(headerRect, $"{Math.Round(category.GetCurrentTotal(project), 0)}");
             }
 
             Text.Anchor = TextAnchor.MiddleLeft;
@@ -527,6 +527,10 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
                 Widgets.DefIcon(iconBox, requiresTerrainComp.terrainDef);
                 if (Widgets.ButtonInvisible(iconBox))
                     Find.WindowStack.Add(new Dialog_InfoCard(requiresTerrainComp.terrainDef));
+            }
+            else if(opportunity.requirement is ROComp_RequiresSchematicWithProject requiresSchematic)
+            {
+                Widgets.DefIcon(iconBox, ThingDefOf.Schematic);
             }
             else
             {

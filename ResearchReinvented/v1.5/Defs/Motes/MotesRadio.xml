@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  
+  <ThingDef ParentName="InteractionMoteBase">
+    <defName>RR_LessonOverRadio</defName>
+    <graphicData>
+      <texPath>Things/Mote/Speech</texPath>
+      <drawSize>1.25</drawSize>
+    </graphicData>
+  </ThingDef>
+</Defs>

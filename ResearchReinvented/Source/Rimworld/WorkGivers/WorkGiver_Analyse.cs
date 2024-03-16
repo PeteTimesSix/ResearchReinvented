@@ -31,13 +31,13 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		{
 			get
 			{
-				if (_matchingOpportunitiesCachedFor != Find.ResearchManager.currentProj)
+				if (_matchingOpportunitiesCachedFor != Find.ResearchManager.GetProject())
 				{
 					_matchingOpportunitesCache = ResearchOpportunityManager.Instance
 						.GetFilteredOpportunities(null, HandlingMode.Job_Analysis, DriverClass).ToArray();
 						//.GetCurrentlyAvailableOpportunities(true)
                         //.Where(o => o.IsValid() && o.def.handledBy.HasFlag(HandlingMode.Job_Analysis) & o.JobDefs != null && o.JobDefs.Any(job => job.driverClass == DriverClass)).ToArray();
-                    _matchingOpportunitiesCachedFor = Find.ResearchManager.currentProj;
+                    _matchingOpportunitiesCachedFor = Find.ResearchManager.GetProject();
 				}
 				return _matchingOpportunitesCache;
 			}
@@ -50,7 +50,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
         {
-            if (Find.ResearchManager.currentProj == null)
+            if (Find.ResearchManager.GetProject() == null)
                 return Enumerable.Empty<Thing>();
 
             return ThingsForMap(pawn.MapHeld);
@@ -58,7 +58,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override bool ShouldSkip(Pawn pawn, bool forced = false)
 		{
-			if (Find.ResearchManager.currentProj == null)
+			if (Find.ResearchManager.GetProject() == null)
 				return true;
 
 			return !MatchingOpportunities.Any(o => !o.IsFinished);
@@ -72,7 +72,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
             if (!pawn.CanReserve(t, 1, -1, null, forced))
                 return false;
 
-			if (PrototypeKeeper.Instance.IsPrototype(t))
+			var opportunity = OpportunityCache[t.def].FirstOrDefault();
+			if (PrototypeKeeper.Instance.IsPrototype(t) &&  opportunity.relation != ResearchRelation.Ancestor)
             {
                 JobFailReason.Is(StringsCache.JobFail_IsPrototype, null);
                 return false;
@@ -185,7 +186,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			_opportunityCache.Clear();
 			_things.Clear();
 
-			if (Find.ResearchManager.currentProj == null)
+			if (Find.ResearchManager.GetProject() == null)
 				return;
 
 			foreach (var opportunity in MatchingOpportunities.Where(o => o.CurrentAvailability == OpportunityAvailability.Available && o.requirement is ROComp_RequiresThing))
@@ -193,7 +194,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 				var thingDef = (opportunity.requirement as ROComp_RequiresThing)?.thingDef;
 				if (thingDef == null)
 				{
-					Log.ErrorOnce($"RR: current research project {Find.ResearchManager.currentProj} generated a WorkGiver_Analyze opportunity with null requirement!", Find.ResearchManager.currentProj.debugRandomId);
+					Log.ErrorOnce($"RR: current research project {Find.ResearchManager.GetProject()} generated a WorkGiver_Analyze opportunity with null requirement!", Find.ResearchManager.GetProject().debugRandomId);
 					continue;
 				}
 				if (!_opportunityCache.ContainsKey(thingDef))
@@ -220,7 +221,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
                     }
                 }
                 {
-                    ResearchProjectDef currentProj = Find.ResearchManager.currentProj;
+                    ResearchProjectDef currentProj = Find.ResearchManager.GetProject();
                     var list = new List<Building_ResearchBench>();
                     foreach (var benchThing in map.listerThings.ThingsInGroup(ThingRequestGroup.ResearchBench))
                     {

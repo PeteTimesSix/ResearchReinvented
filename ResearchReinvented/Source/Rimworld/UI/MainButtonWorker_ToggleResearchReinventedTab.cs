@@ -14,7 +14,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 		{
 			get
 			{
-				ResearchProjectDef currentProj = Find.ResearchManager.currentProj;
+				ResearchProjectDef currentProj = Find.ResearchManager.GetProject();
 				if (currentProj == null)
 				{
 					return 0f;

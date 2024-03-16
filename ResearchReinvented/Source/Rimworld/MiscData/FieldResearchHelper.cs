@@ -17,7 +17,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.MiscData
         {
             if(pawn?.apparel?.WornApparel == null)
                 return Enumerable.Empty<ThingWithComps>();
-            return pawn.apparel.WornApparel.Where(a => a.TryGetComp<Comp_ResearchKit>() != null).Where(a => a.GetComp<Comp_ResearchKit>().MeetsProjectRequirements(project));
+            var kits = pawn.apparel.WornApparel.Where(a => a.TryGetComp<Comp_ResearchKit>() != null).Where(a => a.GetComp<Comp_ResearchKit>().MeetsProjectRequirements(project));
+            //Log.Message($"pawn {pawn.Name} has kits: {string.Join(", ", kits.ToList().Select(k => k.LabelShortCap))}");
+            return kits;
         }
 
         public static float GetFieldResearchSpeedFactor(Pawn pawn, ResearchProjectDef project = null)

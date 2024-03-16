@@ -22,7 +22,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 
         protected override string ReportStringProcessed(string str)
         {
-            if (this.Talkee.guest.interactionMode == PrisonerInteractionModeDefOf_Custom.RR_ScienceInterrogation)
+            if (this.Talkee.guest.IsInteractionEnabled(PrisonerInteractionModeDefOf_Custom.RR_ScienceInterrogation))
             {
                 return "RR_jobReport_ScienceInterrogation".Translate(this.Talkee);
             }
@@ -36,18 +36,18 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
             this.FailOnNotAwake(TargetIndex.A);
             this.FailOn(() => !this.Talkee.IsPrisonerOfColony || !this.Talkee.guest.PrisonerIsSecure);
 
-            yield return Toils_Interpersonal.GotoPrisoner(this.pawn, this.Talkee, this.Talkee.guest.interactionMode);
+            yield return Toils_Interpersonal.GotoPrisoner(this.pawn, this.Talkee, PrisonerInteractionModeDefOf_Custom.RR_ScienceInterrogation);
             yield return Toils_Interpersonal.WaitToBeAbleToInteract(this.pawn);
             for (int i = 0; i < REPETITIONS; i++)
             {
-                yield return Toils_Interpersonal.GotoPrisoner(this.pawn, this.Talkee, this.Talkee.guest.interactionMode);
+                yield return Toils_Interpersonal.GotoPrisoner(this.pawn, this.Talkee, PrisonerInteractionModeDefOf_Custom.RR_ScienceInterrogation);
                 yield return Toils_Interpersonal.GotoInteractablePosition(TargetIndex.A);
                 yield return ScienceInterrogationRequest(this.pawn, this.Talkee);
-                yield return Toils_Interpersonal.GotoPrisoner(this.pawn, this.Talkee, this.Talkee.guest.interactionMode);
+                yield return Toils_Interpersonal.GotoPrisoner(this.pawn, this.Talkee, PrisonerInteractionModeDefOf_Custom.RR_ScienceInterrogation);
                 yield return Toils_Interpersonal.GotoInteractablePosition(TargetIndex.A);
                 yield return ScienceInterrogationReply(this.pawn, this.Talkee);
             }
-            yield return Toils_Interpersonal.GotoPrisoner(this.pawn, this.Talkee, this.Talkee.guest.interactionMode);
+            yield return Toils_Interpersonal.GotoPrisoner(this.pawn, this.Talkee, PrisonerInteractionModeDefOf_Custom.RR_ScienceInterrogation);
             yield return Toils_Interpersonal.GotoInteractablePosition(TargetIndex.A).FailOn(() => !this.Talkee.guest.ScheduledForInteraction);
             yield return Toils_Interpersonal.SetLastInteractTime(TargetIndex.A);
             yield return ScienceInterrogationFinalize(this.pawn, this.Talkee);
