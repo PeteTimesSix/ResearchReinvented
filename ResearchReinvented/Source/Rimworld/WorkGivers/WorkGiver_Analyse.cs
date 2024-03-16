@@ -72,7 +72,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
             if (!pawn.CanReserve(t, 1, -1, null, forced))
                 return false;
 
-			var opportunity = OpportunityCache[t.def].FirstOrDefault();
+            var thingDef = MinifyUtility.GetInnerIfMinified(t).def;
+
+			var opportunity = OpportunityCache[thingDef].FirstOrDefault();
 			if (PrototypeKeeper.Instance.IsPrototype(t) &&  opportunity.relation != ResearchRelation.Ancestor)
             {
                 JobFailReason.Is(StringsCache.JobFail_IsPrototype, null);

@@ -1,4 +1,5 @@
-﻿using PeteTimesSix.ResearchReinvented.Data;
+﻿using HarmonyLib;
+using PeteTimesSix.ResearchReinvented.Data;
 using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Extensions;
 using PeteTimesSix.ResearchReinvented.Managers;
@@ -12,23 +13,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Verse;
+using static HarmonyLib.AccessTools;
 
 namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 {
     public static class PrototypeUtilities
     {
         public static float EXPERIMENTAL_SURGERY_SUCCESS_MODIFIER = 0.65f;
-        public static float EXPERIMENTAL_SURGERY_MAX_SUCCESS_CHANCE = 0.85f;
+        public static float EXPERIMENTAL_SURGERY_MAX_SUCCESS_CHANCE = 0.9f;
 
-        private static float PROTOTYPE_QUALITY_MULTIPLIER = 0.3f;
-        private static float PROTOTYPE_HEALTH_MULTIPLIER = 0.3f;
+        private static float PROTOTYPE_QUALITY_MULTIPLIER_MIN = 0.3f;
+        private static float PROTOTYPE_QUALITY_MULTIPLIER_MAX = 0.8f;
 
-        public static float PROTOTYPE_WORK_MULTIPLIER = 3.0f;
-        public static float PROTOTYPE_FUEL_DISPOSABLE_MULTIPLIER = 0.75f;
-        public static float PROTOTYPE_FUEL_REFUELABLE_MULTIPLIER = 0.95f;
+        private static float PROTOTYPE_HEALTH_MULTIPLIER_MIN = 0.4f;
+        private static float PROTOTYPE_HEALTH_MULTIPLIER_MAX = 0.9f;
+
+        public static float PROTOTYPE_WORK_MULTIPLIER = 2.0f;
+
+        private static float PROTOTYPE_FUEL_DISPOSABLE_MULTIPLIER_MIN = 0.4f;
+        private static float PROTOTYPE_FUEL_DISPOSABLE_MULTIPLIER_MAX = 0.8f;
+
+        private static float PROTOTYPE_FUEL_REFUELABLE_MULTIPLIER_MIN = 0.1f;
+        private static float PROTOTYPE_FUEL_REFUELABLE_MULTIPLIER_MAX = 0.5f;
 
         private static ResearchProjectDef cacheBuiltForProject = null;
         private static ResearchOpportunity[] _prototypeOpportunitiesCache = Array.Empty<ResearchOpportunity>();
+
+        private static FieldRef<CompApparelVerbOwner_Charged, int> CompApparelVerbOwner_Charged_remainingCharges;
+
+        static PrototypeUtilities()
+        {
+            CompApparelVerbOwner_Charged_remainingCharges = AccessTools.FieldRefAccess<int>(typeof(CompApparelVerbOwner_Charged), "remainingCharges");
+        }
 
         public static IEnumerable<ResearchOpportunity> PrototypeOpportunities
         {
@@ -53,7 +69,10 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
         public static void DoPrototypeHealthDecrease(Thing product, RecipeDef usedRecipe)
         {
-            product.HitPoints = (int)Math.Max(1, (product.HitPoints * PROTOTYPE_HEALTH_MULTIPLIER));
+            var mult = Rand.Range(PROTOTYPE_HEALTH_MULTIPLIER_MIN, PROTOTYPE_HEALTH_MULTIPLIER_MAX);
+            if (ResearchReinvented_Debug.debugPrintouts)
+                Log.Message($"Prototype health multiplier: {mult}");
+            product.HitPoints = (int)Math.Max(1, (product.HitPoints * mult));
         }
 
         public static void DoPrototypeBadComps(Thing product, RecipeDef usedRecipe)
@@ -64,15 +83,58 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
                 {
                     breakDownComp.DoBreakdown();
                 }
+            }
+            {
+                var reloadComp1 = product.TryGetComp<CompApparelVerbOwner_Charged>();
+                if(reloadComp1 != null)
+                {
+                    if (reloadComp1.Props.destroyOnEmpty)
+                    {
+                        var mult = Rand.Range(PROTOTYPE_FUEL_DISPOSABLE_MULTIPLIER_MIN, PROTOTYPE_FUEL_DISPOSABLE_MULTIPLIER_MAX);
+                        if (ResearchReinvented_Debug.debugPrintouts)
+                            Log.Message($"Prototype disposable verbOwner fuel multiplier: {mult}");
+                        CompApparelVerbOwner_Charged_remainingCharges(reloadComp1) = Math.Max(1, (int)Math.Round(CompApparelVerbOwner_Charged_remainingCharges(reloadComp1) * mult));
+                    }
+                    else
+                    {
+                        var mult = Rand.Range(PROTOTYPE_FUEL_REFUELABLE_MULTIPLIER_MIN, PROTOTYPE_FUEL_REFUELABLE_MULTIPLIER_MAX);
+                        if (ResearchReinvented_Debug.debugPrintouts)
+                            Log.Message($"Prototype refuelable verbOwner fuel multiplier: {mult}");
+                        CompApparelVerbOwner_Charged_remainingCharges(reloadComp1) = Math.Max(1, (int)Math.Round(CompApparelVerbOwner_Charged_remainingCharges(reloadComp1) * mult));
+                    }
+                }
+            }
+            {
+                var reloadComp2 = product.TryGetComp<CompEquippableAbilityReloadable>();
+                if(reloadComp2 != null)
+                {
+                    var mult = Rand.Range(PROTOTYPE_FUEL_REFUELABLE_MULTIPLIER_MIN, PROTOTYPE_FUEL_REFUELABLE_MULTIPLIER_MAX);
+                    if (ResearchReinvented_Debug.debugPrintouts)
+                        Log.Message($"Prototype refuelable apparel fuel multiplier: {mult}");
+                    reloadComp2.RemainingCharges = Math.Max(1, (int)Math.Round(reloadComp2.RemainingCharges * mult));
+                }
+            }
+            {
                 var refuelComp = product.TryGetComp<CompRefuelable>();
                 if (refuelComp != null)
                 {
-                    if (!(refuelComp.props as CompProperties_Refuelable).destroyOnNoFuel)
-                        refuelComp.ConsumeFuel(refuelComp.Fuel * PROTOTYPE_FUEL_DISPOSABLE_MULTIPLIER);
+                    if (refuelComp.Props.destroyOnNoFuel)
+                    {
+                        var mult = Rand.Range(PROTOTYPE_FUEL_DISPOSABLE_MULTIPLIER_MIN, PROTOTYPE_FUEL_DISPOSABLE_MULTIPLIER_MAX);
+                        if (ResearchReinvented_Debug.debugPrintouts)
+                            Log.Message($"Prototype disposable fuel multiplier: {mult}");
+                        refuelComp.ConsumeFuel(refuelComp.Fuel * (1f - mult));
+                    }
                     else
-                        refuelComp.ConsumeFuel(refuelComp.Fuel * PROTOTYPE_FUEL_REFUELABLE_MULTIPLIER);
+                    {
+                        var mult = Rand.Range(PROTOTYPE_FUEL_REFUELABLE_MULTIPLIER_MIN, PROTOTYPE_FUEL_REFUELABLE_MULTIPLIER_MAX);
+                        if (ResearchReinvented_Debug.debugPrintouts)
+                            Log.Message($"Prototype refuelable fuel multiplier: {mult}");
+                        refuelComp.ConsumeFuel(refuelComp.Fuel * (1f - mult));
+                    }
                 }
             }
+                
         }
 
         public static QualityCategory DoPrototypeQualityDecreaseThing(QualityCategory category, Pawn worker, Thing product, RecipeDef usedRecipe)
@@ -81,7 +143,10 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             if (isPrototype)
             {
                 byte asByte = (byte)category;
-                var adjusted = (QualityCategory)Math.Max((byte)0, (byte)Math.Round((float)asByte * PROTOTYPE_QUALITY_MULTIPLIER));
+                var mult = Rand.Range(PROTOTYPE_QUALITY_MULTIPLIER_MIN, PROTOTYPE_QUALITY_MULTIPLIER_MAX);
+                if (ResearchReinvented_Debug.debugPrintouts)
+                    Log.Message($"Prototype quality multiplier: {mult}");
+                var adjusted = (QualityCategory)Math.Max((byte)0, (byte)Math.Round((float)asByte * mult));
                 //Log.Message($"adjusted quality for product {product} (worker {worker}): {category} to {adjusted}");
                 return adjusted;
             }
@@ -94,7 +159,10 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             if (isPrototype)
             {
                 byte asByte = (byte)category;
-                var adjusted = (QualityCategory)Math.Max((byte)0, (byte)Math.Round((float)asByte * PROTOTYPE_QUALITY_MULTIPLIER));
+                var mult = Rand.Range(PROTOTYPE_QUALITY_MULTIPLIER_MIN, PROTOTYPE_QUALITY_MULTIPLIER_MAX);
+                if (ResearchReinvented_Debug.debugPrintouts)
+                    Log.Message($"Prototype quality multiplier: {mult}");
+                var adjusted = (QualityCategory)Math.Max((byte)0, (byte)Math.Round((float)asByte * mult));
                 //Log.Message($"adjusted quality for product {product} (recipe: {recipe} worker {worker}): {category} to {adjusted}");
                 return adjusted;
             }

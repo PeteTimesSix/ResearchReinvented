@@ -72,7 +72,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         {
             if(PrototypeKeeper.Instance.IsPrototype(frame))
             {
-                float statValueModified = Math.Max(0f, statValue *= 0.5f);
+                float statValueModified = statValue * 0.75f;
                 return statValueModified;
             }
             return statValue;
