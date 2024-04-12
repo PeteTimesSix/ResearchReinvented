@@ -54,12 +54,12 @@ namespace PeteTimesSix.ResearchReinvented
 
         static ResearchReinvented_PostInit()
         {
+            ResearchReinventedMod.Settings = ResearchReinventedMod.ModSingleton.GetSettings<ResearchReinvented_Settings>();
+
             OptionalPatches.PatchDelayed(ResearchReinventedMod.Harmony);
 
             AddRarityModExtensions();
             AssociateKitsWithResearchProjects();
-
-            ResearchReinventedMod.Settings = ResearchReinventedMod.ModSingleton.GetSettings<ResearchReinvented_Settings>();
         }
 
         private static void AssociateKitsWithResearchProjects()

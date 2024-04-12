@@ -24,6 +24,7 @@ namespace PeteTimesSix.ResearchReinvented.ModCompat
         }
 
         public static bool active = false;
+        public static bool success = true;
 
         static ResearchData()
         {
@@ -34,11 +35,19 @@ namespace PeteTimesSix.ResearchReinvented.ModCompat
 
         public static void PatchDelayed(Harmony harmony)
         {
-            //these patches generate refuel jobs
-            var workGiverHasJobOnThingPrefix = new HarmonyMethod(AccessTools.TypeByName("ResearchData.WorkGiver_Researcher_HasJobOnThing_Patch").GetMethod("Prefix"));
-            harmony.Patch(AccessTools.Method(typeof(WorkGiver_ResearcherRR), nameof(WorkGiver_ResearcherRR.HasJobOnThing)), prefix: workGiverHasJobOnThingPrefix);
-            var workGiverJobOnThingPrefix = new HarmonyMethod(AccessTools.TypeByName("ResearchData.WorkGiver_Researcher_JobOnThing_Patch").GetMethod("Prefix"));
-            harmony.Patch(AccessTools.Method(typeof(WorkGiver_ResearcherRR), nameof(WorkGiver_ResearcherRR.JobOnThing)), prefix: workGiverJobOnThingPrefix);
+            try
+            {
+                //these patches generate refuel jobs
+                var workGiverHasJobOnThingPrefix = new HarmonyMethod(AccessTools.TypeByName("ResearchData.WorkGiver_Researcher_HasJobOnThing_Patch").GetMethod("Prefix"));
+                harmony.Patch(AccessTools.Method(typeof(WorkGiver_ResearcherRR), nameof(WorkGiver_ResearcherRR.HasJobOnThing)), prefix: workGiverHasJobOnThingPrefix);
+                var workGiverJobOnThingPrefix = new HarmonyMethod(AccessTools.TypeByName("ResearchData.WorkGiver_Researcher_JobOnThing_Patch").GetMethod("Prefix"));
+                harmony.Patch(AccessTools.Method(typeof(WorkGiver_ResearcherRR), nameof(WorkGiver_ResearcherRR.JobOnThing)), prefix: workGiverJobOnThingPrefix);
+            }
+            catch (Exception e)
+            {
+                Log.Warning("RR: Failed to apply Research Data compatibility patch (critical: fuel consuption on research): " + e.Message);
+                success = false;
+            }
         }
 
         public static void ConsumeTickFuel(this CompRefuelable comp) 

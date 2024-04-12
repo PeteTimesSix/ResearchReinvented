@@ -57,16 +57,15 @@
 	
 	<!--- Mod compat -->
 	
-	<RR_setting_modCompat_detected_combatExtended>Combat Extended detected.</RR_setting_modCompat_detected_combatExtended>
-	<RR_setting_modCompat_notDetected_combatExtended>Combat Extended not detected.</RR_setting_modCompat_notDetected_combatExtended>
+	<RR_setting_modCompat_active>{0} patch active.</RR_setting_modCompat_active>
+	<RR_setting_modCompat_fail>{0} patch failed.</RR_setting_modCompat_fail>
+	<RR_setting_modCompat_notDetected>{0} not detected.</RR_setting_modCompat_notDetected>
 	
-	<RR_setting_modCompat_detected_dubsMintMenus>Dubs Mint Menus detected.</RR_setting_modCompat_detected_dubsMintMenus>
-	<RR_setting_modCompat_notDetected_dubsMintMenus>Dubs Mint Menus not detected.</RR_setting_modCompat_notDetected_dubsMintMenus>
+	<RR_setting_modCompat_combatExtended>Combat Extended</RR_setting_modCompat_combatExtended>
+	<RR_setting_modCompat_dubsMintMenus>Dubs Mint Menus</RR_setting_modCompat_dubsMintMenus>
+	<RR_setting_modCompat_humanoidAlienRaces>Humanoid Alien Races detected.</RR_setting_modCompat_humanoidAlienRaces>
+	<RR_setting_modCompat_researchData>Research Data detected.</RR_setting_modCompat_researchData>
 	
-	<RR_setting_modCompat_detected_humanoidAlienRaces>Humanoid Alien Races detected.</RR_setting_modCompat_detected_humanoidAlienRaces>
-	<RR_setting_modCompat_notDetected_humanoidAlienRaces>Humanoid Alien Races not detected.</RR_setting_modCompat_notDetected_humanoidAlienRaces>
-	
-	<RR_setting_modCompat_detected_researchData>Research Data detected.</RR_setting_modCompat_detected_researchData>
 	<RR_setting_modCompat_researchData_mode>Compatability mode</RR_setting_modCompat_researchData_mode>
 	<RR_modCompat_researchData_mode_TheoryOnly>Theory only</RR_modCompat_researchData_mode_TheoryOnly>
 	<RR_modCompat_researchData_mode_TheoryOnly_tooltip>Research Data "fuel" will only be needed and consumed by theory research.</RR_modCompat_researchData_mode_TheoryOnly_tooltip>

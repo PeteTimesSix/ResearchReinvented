@@ -45,6 +45,7 @@ namespace PeteTimesSix.ResearchReinvented
         public ResearchData.ResearchDataCompatMode researchDataCompatMode = ResearchData.ResearchDataCompatMode.AllBenchResearch;
 
         private static Color LightGreen = new Color(0.7f, 1f, 0.7f);
+        private static Color LightYellow = new Color(1.0f, 0.85f, 0.7f);
 
         public override void ExposeData()
         {
@@ -329,49 +330,55 @@ namespace PeteTimesSix.ResearchReinvented
             listingStandard.Indent(maxWidth / 4f);
             listingStandard.ColumnWidth = maxWidth / 2f;
 
-            //active
             if(CombatExtended.active)
             {
-                GUI.color = LightGreen;
-                listingStandard.Label("RR_setting_modCompat_detected_combatExtended".Translate());
+                GUI.color = CombatExtended.success ? LightGreen : LightYellow;
+                string message = CombatExtended.success ? "RR_setting_modCompat_active" : "RR_setting_modCompat_fail";
+                listingStandard.Label(message.Translate("RR_setting_modCompat_combatExtended".Translate()));
             }
             if (DubsMintMenus.active)
             {
-                GUI.color = LightGreen;
-                listingStandard.Label("RR_setting_modCompat_detected_dubsMintMenus".Translate());
+                GUI.color = DubsMintMenus.success ? LightGreen : LightYellow;
+                string message = DubsMintMenus.success ? "RR_setting_modCompat_active" : "RR_setting_modCompat_fail";
+                listingStandard.Label(message.Translate("RR_setting_modCompat_dubsMintMenus".Translate()));
             }
             if (HumanoidAlienRaces.active)
             {
-                GUI.color = LightGreen;
-                listingStandard.Label("RR_setting_modCompat_detected_humanoidAlienRaces".Translate());
+                GUI.color = HumanoidAlienRaces.success ? LightGreen : LightYellow;
+                string message = HumanoidAlienRaces.success ? "RR_setting_modCompat_active" : "RR_setting_modCompat_fail";
+                listingStandard.Label(message.Translate("RR_setting_modCompat_humanoidAlienRaces".Translate()));
             }
             if (ResearchData.active)
             {
-                GUI.color = LightGreen;
-                listingStandard.Label("RR_setting_modCompat_detected_researchData".Translate());
-                listingStandard.EnumSelector("RR_setting_modCompat_researchData_mode".Translate(), ref researchDataCompatMode, "RR_modCompat_researchData_mode_");
+                GUI.color = ResearchData.success ? LightGreen : LightYellow;
+                string message = ResearchData.success ? "RR_setting_modCompat_active" : "RR_setting_modCompat_fail";
+                listingStandard.Label(message.Translate("RR_setting_modCompat_researchData".Translate()));
+                if(ResearchData.success)
+                {
+                    listingStandard.EnumSelector("RR_setting_modCompat_researchData_mode".Translate(), ref researchDataCompatMode, "RR_modCompat_researchData_mode_");
+                }
             }
 
             //inactive
             if (!CombatExtended.active)
             {
                 GUI.color = Color.gray;
-                listingStandard.Label("RR_setting_modCompat_notDetected_combatExtended".Translate());
+                listingStandard.Label("RR_setting_modCompat_notDetected".Translate("RR_setting_modCompat_combatExtended".Translate()));
             }
             if (!DubsMintMenus.active)
             {
                 GUI.color = Color.gray;
-                listingStandard.Label("RR_setting_modCompat_notDetected_dubsMintMenus".Translate());
+                listingStandard.Label("RR_setting_modCompat_notDetected".Translate("RR_setting_modCompat_dubsMintMenus".Translate()));
             }
             if (!HumanoidAlienRaces.active)
             {
                 GUI.color = Color.gray;
-                listingStandard.Label("RR_setting_modCompat_notDetected_humanoidAlienRaces".Translate());
+                listingStandard.Label("RR_setting_modCompat_notDetected".Translate("RR_setting_modCompat_humanoidAlienRaces".Translate()));
             }
             if (!ResearchData.active)
             {
                 GUI.color = Color.gray;
-                listingStandard.Label("RR_setting_modCompat_notDetected_researchData".Translate());
+                listingStandard.Label("RR_setting_modCompat_notDetected".Translate("RR_setting_modCompat_researchData".Translate()));
             }
 
             listingStandard.End();
