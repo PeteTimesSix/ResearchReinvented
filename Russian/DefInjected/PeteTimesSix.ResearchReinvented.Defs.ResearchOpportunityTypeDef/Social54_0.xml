@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!--                            Brainstorm new ideas and approaches during social exchanges between members of {0}. -->
+  <Brainstorming.shortDesc_Direct>Мозговой штурм новых идей и подходов во время социальных обменов между представителями {0}.</Brainstorming.shortDesc_Direct>
+  
+  <!--                                learn faction knowledge -->
+  <GainFactionKnowledge.header_Direct>получить знания фракции</GainFactionKnowledge.header_Direct>
+  <!--                                   Learn applicable knowledge from members of {0}, either by cooperative exchange of ideas, or extracting information from prisoners. -->
+  <GainFactionKnowledge.shortDesc_Direct>Получить полезные знания от представителей {0}, либо путем совместного обмена идеями, либо извлекая информацию из заключенных.</GainFactionKnowledge.shortDesc_Direct>
+  
+  <!--                                    learn outsider knowledge -->
+  <GainFactionlessKnowledge.header_Direct>получить знания чужаков</GainFactionlessKnowledge.header_Direct>
+  <!--                                       Learn applicable knowledge from outsiders that are not members of any faction. -->
+  <GainFactionlessKnowledge.shortDesc_Direct>Получите применимые знания от чужаков, которые не являются представителями какой-либо фракции.</GainFactionlessKnowledge.shortDesc_Direct>
+</LanguageData>

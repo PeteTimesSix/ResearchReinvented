@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!--                           knowledge extraction -->
+  <RR_ScienceInterrogation.label>извлечение знаний</RR_ScienceInterrogation.label>
+  <!--                                 Extract useful knowledge relating to current research project. -->
+  <RR_ScienceInterrogation.description>Извлечь полезные знания, относящиеся к текущему исследовательскому проекту.</RR_ScienceInterrogation.description>
+</LanguageData>

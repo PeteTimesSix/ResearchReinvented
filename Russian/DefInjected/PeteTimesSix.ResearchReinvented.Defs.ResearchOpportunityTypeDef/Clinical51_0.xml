@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!--                           medicine efficacy trial -->
+  <AnalyseMedicine.header_Direct>испытание эффективности лекарств</AnalyseMedicine.header_Direct>
+  <!--                              Determine efficacy of {0} as applied during surgeries and wound treatment. -->
+  <AnalyseMedicine.shortDesc_Direct>Установите эффективность {0} при проведении операций и лечении ран.</AnalyseMedicine.shortDesc_Direct>
+  
+  <!--                 Special_OnIngest, Special_OnIngest_Observable -->
+  <TrialDrug.handledBy>Special_OnIngest, Special_OnIngest_Observable</TrialDrug.handledBy>
+  <!--                     drug trial -->
+  <TrialDrug.header_Direct>испытание препарата</TrialDrug.header_Direct>
+  <!--                        Observe the effects of {0} by administering it to living subjects or self-trials. -->
+  <TrialDrug.shortDesc_Direct>Наблюдайте за действием {0}, вводя его живым испытуемым или проверяя на себе.</TrialDrug.shortDesc_Direct>
+  
+  <!--                            experimental surgery -->
+  <PrototypeSurgery.header_Direct>экспериментальная хирургия</PrototypeSurgery.header_Direct>
+  <!--                               Attempt an experimental surgical procedure: {0}. -->
+  <PrototypeSurgery.shortDesc_Direct>Попробуйте провести экспериментальную хирургическую операцию: {0}.</PrototypeSurgery.shortDesc_Direct>
+</LanguageData>

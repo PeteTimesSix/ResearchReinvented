@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<RR_RequestLectureAlly>Запросить лекцию по {0} (Бесплатно)</RR_RequestLectureAlly>
+	<RR_RequestLectureNeutral>Запросить лекцию по {1} (Требуется репутации: {0})</RR_RequestLectureNeutral>
+	<RR_RequestLecture_FailNotResearcher>{0} не может принять участие в лекции.</RR_RequestLecture_FailNotResearcher>
+	<RR_RequestLecture_FailTooRecent>С момента последней леции прошло слишком мало времени.</RR_RequestLecture_FailTooRecent>
+	<RR_RequestLecture_Reply>{0} согласился уделить немного своего времени, чтобы рассказать о {1}.</RR_RequestLecture_Reply>
+</LanguageData>

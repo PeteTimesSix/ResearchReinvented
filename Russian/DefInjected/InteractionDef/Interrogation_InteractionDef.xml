@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!--                                  extract knowledge -->
+  <RR_ScienceInterrogation_Demand.label>извлечение знаний</RR_ScienceInterrogation_Demand.label>
+  <!-- 
+		<li>r_logentry->[INITIATOR_nameDef] spoke to [RECIPIENT_nameDef] about [subject].</li>
+		<li>r_logentry->[INITIATOR_nameDef] described [subject] to [RECIPIENT_nameDef].</li>
+		<li>r_logentry->[INITIATOR_nameDef] [encouraged] [RECIPIENT_nameDef] to [talkabout] [knowledge_requested].</li>
+		<li>encouraged->encouraged</li>
+		<li>encouraged->offered a chance for</li>
+		<li>encouraged->demanded</li>
+		<li>encouraged->suggested</li>
+		<li>talkabout->talk about</li>
+		<li>talkabout->discuss</li>
+		<li>talkabout->have a discussion about</li>
+		<li>talkabout->think about</li>
+		<li>subject->science</li>
+		<li>subject->previous experiments</li>
+		<li>subject->the scientific method</li>
+		<li>knowledge_requested->scientific data</li>
+		<li>knowledge_requested->experimentation</li>
+		<li>knowledge_requested->data points</li>
+		<li>knowledge_requested->[RECIPIENT_possessive] experience</li>
+		<li>knowledge_requested->[RECIPIENT_possessive] knowledge</li>
+   -->
+  <RR_ScienceInterrogation_Demand.logRulesInitiator.rulesStrings>
+		<li>r_logentry->[INITIATOR_nameDef] {INITIATOR_nameDef ? поговорил : поговорила} с [RECIPIENT_nameDef] о [subject].</li>
+		<li>r_logentry->[INITIATOR_nameDef] {INITIATOR_nameDef ? объяснил : объяснила} суть о [subject] [RECIPIENT_nameDef].</li>
+		<li>r_logentry->[INITIATOR_nameDef] [encouraged] [RECIPIENT_nameDef] [talkabout] [knowledge_requested].</li>
+		<li>encouraged->{INITIATOR_nameDef ? призвал : призвала}</li>
+		<li>encouraged->{INITIATOR_nameDef ? предоставил шанс : предоставила шанс}</li>
+		<li>encouraged->{INITIATOR_nameDef ? потребовал : потребовала}</li>
+		<li>encouraged->{INITIATOR_nameDef ? предложил : предложила}</li>
+		<li>talkabout->поговорить</li>
+		<li>talkabout->обсудить</li>
+		<li>talkabout->беседовать</li>
+		<li>talkabout->подумать</li>
+		<li>subject->науке</li>
+		<li>subject->предыдущих экспериментах</li>
+		<li>subject->научном методе</li>
+		<li>knowledge_requested->про научную информацию</li>
+		<li>knowledge_requested->о проведении экспериментов</li>
+		<li>knowledge_requested->про точки данных</li>
+		<li>knowledge_requested->о [RECIPIENT_possessive] опыте</li>
+		<li>knowledge_requested->о [RECIPIENT_possessive] знаниях</li>
+  </RR_ScienceInterrogation_Demand.logRulesInitiator.rulesStrings>
+  
+  <!--                                             share knowledge -->
+  <RR_ScienceInterrogation_Reply_Cooperative.label>обмен знаниями</RR_ScienceInterrogation_Reply_Cooperative.label>
+  <!-- 
+		<li>r_logentry->[RECIPIENT_nameDef] [willingly] [revealed] [knowledge] to [INITIATOR_nameDef].</li>
+		<li>willingly->willingly</li>
+		<li>willingly->voluntarily</li>
+		<li>willingly->readily</li>
+		<li>willingly->freely</li>
+		<li>revealed->revealed</li>
+		<li>revealed->surrendered</li>
+		<li>revealed->gave up</li>
+		<li>revealed->conceded</li>
+		<li>knowledge->[RECIPIENT_possessive] knowledge</li>
+		<li>knowledge->[RECIPIENT_possessive] experience</li>
+		<li>knowledge->information</li>
+		<li>knowledge->scientific data</li>
+		<li>knowledge->data points</li>
+   -->
+  <RR_ScienceInterrogation_Reply_Cooperative.logRulesInitiator.rulesStrings>
+		<li>r_logentry->[RECIPIENT_nameDef] [willingly] [revealed] [knowledge] [INITIATOR_nameDef].</li>
+		<li>willingly->охотно</li>
+		<li>willingly->добровольно</li>
+		<li>willingly->с готовностью</li>
+		<li>willingly->свободно</li>
+		<li>revealed->{RECIPIENT_nameDef ? раскрыл : раскрыла}</li>
+		<li>revealed->{RECIPIENT_nameDef ? сдал : сдала}</li>
+		<li>revealed->{RECIPIENT_nameDef ? отдал : отдала}</li>
+		<li>revealed->{RECIPIENT_nameDef ? уступил : уступила}</li>
+		<li>knowledge->свои знания</li>
+		<li>knowledge->свой опыт</li>
+		<li>knowledge->сведения</li>
+		<li>knowledge->научные знания</li>
+		<li>knowledge->точки данных</li>
+  </RR_ScienceInterrogation_Reply_Cooperative.logRulesInitiator.rulesStrings>
+  
+  <!--                                           share knowledge -->
+  <RR_ScienceInterrogation_Reply_Reluctant.label>обмен знаниями</RR_ScienceInterrogation_Reply_Reluctant.label>
+  <!-- 
+		<li>r_logentry->[RECIPIENT_nameDef] [reluctantly] [revealed] [knowledge] to [INITIATOR_nameDef].</li>
+		<li>reluctantly->reluctantly</li>
+		<li>reluctantly->unwillingly</li>
+		<li>revealed->revealed</li>
+		<li>revealed->surrendered</li>
+		<li>revealed->gave up</li>
+		<li>revealed->conceded</li>
+		<li>knowledge->[RECIPIENT_possessive] knowledge</li>
+		<li>knowledge->[RECIPIENT_possessive] experience</li>
+		<li>knowledge->information</li>
+		<li>knowledge->scientific data</li>
+		<li>knowledge->data points</li>
+   -->
+  <RR_ScienceInterrogation_Reply_Reluctant.logRulesInitiator.rulesStrings>
+		<li>r_logentry->[RECIPIENT_nameDef] [reluctantly] [revealed] [knowledge] [INITIATOR_nameDef].</li>
+		<li>reluctantly->неохотно</li>
+		<li>reluctantly->невольно</li>
+		<li>revealed->{RECIPIENT_nameDef ? раскрыл : раскрыла}</li>
+		<li>revealed->{RECIPIENT_nameDef ? сдал : сдала}</li>
+		<li>revealed->{RECIPIENT_nameDef ? отдал : отдала}</li>
+		<li>revealed->{RECIPIENT_nameDef ? уступил : уступила}</li>
+		<li>knowledge->свои знания</li>
+		<li>knowledge->свой опыт</li>
+		<li>knowledge->сведения</li>
+		<li>knowledge->научные знания</li>
+		<li>knowledge->точки данных</li>
+  </RR_ScienceInterrogation_Reply_Reluctant.logRulesInitiator.rulesStrings>
+  
+  <!--                                           share knowledge -->
+  <RR_ScienceInterrogation_Reply_Resistant.label>обмен знаниями</RR_ScienceInterrogation_Reply_Resistant.label>
+  <!-- 
+		<li>r_logentry->[RECIPIENT_nameDef] refused to [reveal] [anything] to [INITIATOR_nameDef].</li>
+		<li>r_logentry->[RECIPIENT_nameDef] [revealed] [false_pair] [knowledge] to [INITIATOR_nameDef].</li>
+		<li>reveal->surrender</li>
+		<li>reveal->give up</li>
+		<li>reveal->concede</li>
+		<li>reveal->reveal</li>
+		<li>revealed->revealed</li>
+		<li>revealed->surrendered</li>
+		<li>revealed->gave up</li>
+		<li>revealed->conceded</li>
+		<li>anything->[RECIPIENT_possessive] knowledge</li>
+		<li>anything->anything</li>
+		<li>anything->any information</li>
+		<li>false_pair->[false]</li>
+		<li>false_pair->[false_adjective] [false]</li>
+		<li>false_adjective->blatantly</li>
+		<li>false_adjective->clearly</li>
+		<li>false_adjective->completely</li>
+		<li>false->false</li>
+		<li>false->incorrect</li>
+		<li>false->false</li>
+		<li>false->unreliable</li>
+		<li>false->unverifiable</li>
+		<li>false->unactionable</li>
+		<li>knowledge->information</li>
+		<li>knowledge->scientific data</li>
+		<li>knowledge->data points</li>
+   -->
+  <RR_ScienceInterrogation_Reply_Resistant.logRulesInitiator.rulesStrings>
+		<li>r_logentry->[RECIPIENT_nameDef] {RECIPIENT_nameDef ? отказался : отказалась} [reveal] [anything] [INITIATOR_nameDef].</li>
+		<li>r_logentry->[RECIPIENT_nameDef] [revealed] [false_pair] [knowledge] [INITIATOR_nameDef].</li>
+		<li>reveal->раскрыть</li>
+		<li>reveal->сдать</li>
+		<li>reveal->отдать</li>
+		<li>reveal->уступить</li>
+		<li>revealed->{RECIPIENT_nameDef ? раскрыл : раскрыла}</li>
+		<li>revealed->{RECIPIENT_nameDef ? сдал : сдала}</li>
+		<li>revealed->{RECIPIENT_nameDef ? отдал : отдала}</li>
+		<li>revealed->{RECIPIENT_nameDef ? уступил : уступила}</li>
+		<li>anything->свои знания</li>
+		<li>anything->что-либо</li>
+		<li>anything->какую-либо информацию</li>
+		<li>false_pair->[false]</li>
+		<li>false_pair->[false_adjective] [false]</li>
+		<li>false_adjective->вопиюще</li>
+		<li>false_adjective->откровенно</li>
+		<li>false_adjective->совершенно</li>
+		<li>false->ложную</li>
+		<li>false->неккоректную</li>
+		<li>false->фальшивую</li>
+		<li>false->ненадежную</li>
+		<li>false->непроверенную</li>
+		<li>false->бесполезную</li>
+		<li>knowledge->информацию</li>
+		<li>knowledge->информацию о научных знаниях</li>
+		<li>knowledge->информацию о точках данных</li>
+  </RR_ScienceInterrogation_Reply_Resistant.logRulesInitiator.rulesStrings>
+  
+  <!--                                   note knowledge -->
+  <RR_ScienceInterrogationFinalize.label>получение знаний</RR_ScienceInterrogationFinalize.label>
+  <!-- 
+		<li>r_logentry->[INITIATOR_nameDef] [noted] [knowledge] [given] by [RECIPIENT_nameDef] [about] [subject].</li>
+		<li>noted->noted down</li>
+		<li>noted->wrote down</li>
+		<li>noted->logged</li>
+		<li>noted->memorized</li>
+		<li>noted->gained</li>
+		<li>given->given</li>
+		<li>given->shared</li>
+		<li>given->provided</li>
+		<li>given->doled out</li>
+		<li>given->handed over</li>
+		<li>given->dispensed</li>
+		<li>about->about</li>
+		<li>about->regarding</li>
+		<li>about->on the subject of</li>
+		<li>subject->science</li>
+		<li>subject->previous experiments</li>
+		<li>subject->prototypes</li>
+		<li>subject->research</li>
+		<li>knowledge->knowledge</li>
+		<li>knowledge->information</li>
+		<li>knowledge->scientific data</li>
+		<li>knowledge->data points</li>
+   -->
+  <RR_ScienceInterrogationFinalize.logRulesInitiator.rulesStrings>
+		<li>r_logentry->[INITIATOR_nameDef] [noted] [knowledge], [given] от [RECIPIENT_nameDef] [about] [subject].</li>
+		<li>noted->отметил</li>
+		<li>noted->записал</li>
+		<li>noted->зафиксировал</li>
+		<li>noted->запомнил</li>
+		<li>noted->обрел</li>
+		<li>given->полученные</li>
+		<li>given->переданные</li>
+		<li>given->предоставленные</li>
+		<li>given->выданные</li>
+		<li>about->насчёт</li>
+		<li>about->относительно</li>
+		<li>about->на тему</li>
+		<li>subject->науки</li>
+		<li>subject->предыдущих экспериментов</li>
+		<li>subject->прототипах</li>
+		<li>subject->исследований</li>
+		<li>knowledge->знания</li>
+		<li>knowledge->сведения</li>
+		<li>knowledge->научные знания</li>
+		<li>knowledge->точки данных</li>
+  </RR_ScienceInterrogationFinalize.logRulesInitiator.rulesStrings>
+</LanguageData>

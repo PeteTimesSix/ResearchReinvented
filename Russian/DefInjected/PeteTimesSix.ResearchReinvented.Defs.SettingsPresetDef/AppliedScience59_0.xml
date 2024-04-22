@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!--v1.5\Defs\Settings\SettingsPreset_AppliedScience.xml-->
+  <!--                                    applied science -->
+  <SettingsPreset_RR_AppliedScience.label>прикладная наука</SettingsPreset_RR_AppliedScience.label>
+  <!--                                          Theoretical research is disabled. Progress requires experimentation. -->
+  <SettingsPreset_RR_AppliedScience.description>Теоретические исследования не работают. Прогресс требует экспериментов.</SettingsPreset_RR_AppliedScience.description>
+</LanguageData>

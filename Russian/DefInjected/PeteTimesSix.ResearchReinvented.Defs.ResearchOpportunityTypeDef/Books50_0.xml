@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!--                          schematics study -->
+  <SchematicStudy.header_Direct>изучение схем</SchematicStudy.header_Direct>
+  <!--                             Study of directly related schematics. -->
+  <SchematicStudy.shortDesc_Direct>Изучение непосредственно связанных схем.</SchematicStudy.shortDesc_Direct>
+  
+  <!--                            techprint study -->
+  <AnalyseTechprint.header_Direct>изучение технологических чертежей</AnalyseTechprint.header_Direct>
+  <!--                               Study {0} in detail. -->
+  <AnalyseTechprint.shortDesc_Direct>Изучить {0} в подробностях.</AnalyseTechprint.shortDesc_Direct>
+</LanguageData>

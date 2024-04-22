@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<RR_no_project_selected>Нет действующего проекта</RR_no_project_selected>
+	<RR_enable_compact_mode>Плитки</RR_enable_compact_mode>
+	<RR_disable_compact_mode>Таблица</RR_disable_compact_mode>
+	<RR_uncollapse_category>Развернуть</RR_uncollapse_category>
+	<RR_collapse_category>Свернуть</RR_collapse_category>
+	<RR_uncollapse_all>Развернуть все</RR_uncollapse_all>
+	<RR_collapse_all>Свернуть все</RR_collapse_all>
+	
+	<RR_OpportunityBlocked_Finished_short>Готово</RR_OpportunityBlocked_Finished_short>
+	<RR_OpportunityBlocked_CategoryFinished_short>Готово</RR_OpportunityBlocked_CategoryFinished_short>
+	<RR_OpportunityBlocked_ResearchTooLow_short>Заблокировано </RR_OpportunityBlocked_ResearchTooLow_short>
+	<RR_OpportunityBlocked_ResearchTooHigh_short>Бесполезно</RR_OpportunityBlocked_ResearchTooHigh_short>
+	<RR_OpportunityBlocked_ReasonUnknown_short>Заблокировано ???</RR_OpportunityBlocked_ReasonUnknown_short>
+	
+	<RR_OpportunityBlocked_Finished>Завершено</RR_OpportunityBlocked_Finished>
+	<RR_OpportunityBlocked_CategoryFinished>Эта категория исследований завершена\nБольше изучить не получится</RR_OpportunityBlocked_CategoryFinished>
+	<RR_OpportunityBlocked_ResearchTooLow>Заблокировано\nПрогресс исследования слишком мал</RR_OpportunityBlocked_ResearchTooLow>
+	<RR_OpportunityBlocked_ResearchTooHigh>Заблокировано\nНельзя изучить больше, чем исследовано сейчас</RR_OpportunityBlocked_ResearchTooHigh>
+	<RR_OpportunityBlocked_ReasonUnknown>Заблокировано\nПРИЧИНА НЕИЗВЕСТНА, РЕПОРТИТЕ КАК БАГ</RR_OpportunityBlocked_ReasonUnknown>
+</LanguageData>
