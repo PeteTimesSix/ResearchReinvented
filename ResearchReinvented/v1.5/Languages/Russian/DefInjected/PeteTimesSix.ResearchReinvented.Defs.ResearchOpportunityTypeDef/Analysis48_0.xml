@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!--                   reverse engineer -->
+  <Analyse.header_Direct>обратная разработка</Analyse.header_Direct>
+  <!--                     gather manufacturing experience -->
+  <Analyse.header_Ancestor>изучить практику производства</Analyse.header_Ancestor>
+  <!--                      Nondestructively reverse engineer {0}. -->
+  <Analyse.shortDesc_Direct>Обратное проектирование {lookup: {0}; Case; 1}.</Analyse.shortDesc_Direct>
+  <!--                        Inspect production methodology used in creation of {0}. -->
+  <Analyse.shortDesc_Ancestor>Изучить методологию производства, использованную при создании {lookup: {0}; Case; 1}.</Analyse.shortDesc_Ancestor>
+  
+  <!--                          Observe a {0} in motion. -->
+  <AnalysePawn.shortDesc_Direct>Наблюдать за {lookup: {0}; Case; 4} в действии.</AnalysePawn.shortDesc_Direct>
+  <!--                            Observe a {0} in motion. -->
+  <AnalysePawn.shortDesc_Ancestor>Наблюдать за {lookup: {0}; Case; 4} в действии.</AnalysePawn.shortDesc_Ancestor>
+  
+  <!--                                  Observe a {0} in motion. -->
+  <AnalysePawnNonFlesh.shortDesc_Direct>Наблюдать за {lookup: {0}; Case; 4} в действии.</AnalysePawnNonFlesh.shortDesc_Direct>
+  <!--                                    Observe a {0} in motion. -->
+  <AnalysePawnNonFlesh.shortDesc_Ancestor>Наблюдать за {lookup: {0}; Case; 4} в действии.</AnalysePawnNonFlesh.shortDesc_Ancestor>
+  
+  <!--                             Dissect a {0}. -->
+  <AnalyseDissect.shortDesc_Direct>Вскрыть {lookup: {0}; Case; 1}.</AnalyseDissect.shortDesc_Direct>
+  <!--                               Dissect a {0}. -->
+  <AnalyseDissect.shortDesc_Ancestor>Вскрыть {lookup: {0}; Case; 1}.</AnalyseDissect.shortDesc_Ancestor>
+  
+  <!--                                  examine internals -->
+  <AnalyseDissectNonFlesh.header_Direct>изучить внутренности</AnalyseDissectNonFlesh.header_Direct>
+  <!--                                    examine internals -->
+  <AnalyseDissectNonFlesh.header_Ancestor>изучить внутренности</AnalyseDissectNonFlesh.header_Ancestor>
+  <!--                                     Examine the internal workings of a {0}. -->
+  <AnalyseDissectNonFlesh.shortDesc_Direct>Изучить внутреннее устройство {lookup: {0}; Case; 1}.</AnalyseDissectNonFlesh.shortDesc_Direct>
+  <!--                                       Examine the internal workings of a {0}. -->
+  <AnalyseDissectNonFlesh.shortDesc_Ancestor>Изучить внутреннее устройство {lookup: {0}; Case; 1}.</AnalyseDissectNonFlesh.shortDesc_Ancestor>
+  
+  <!--                        observe plant growth (at location) -->
+  <AnalysePlant.header_Direct>наблюдать за ростом растений (На территории)</AnalysePlant.header_Direct>
+  <!--                           Observe {0} growth in a suitable habitat. -->
+  <AnalysePlant.shortDesc_Direct>Наблюдать за ростом {lookup: {0}; Case; 1} в подходящих условиях.</AnalysePlant.shortDesc_Direct>
+  
+  <!--                                 examine harvest products -->
+  <AnalyseHarvestProduct.header_Direct>изучить урожай</AnalyseHarvestProduct.header_Direct>
+  <!--                                    Examine harvest production of {0}. -->
+  <AnalyseHarvestProduct.shortDesc_Direct>Изучить процесс сбора {lookup: {0}; Case; 1}.</AnalyseHarvestProduct.shortDesc_Direct>
+  
+  <!--                              material analysis -->
+  <AnalyseIngredients.header_Direct>анализ материалов</AnalyseIngredients.header_Direct>
+  <!--                                 Determine material properties of {0} that are particularily applicable to current research. -->
+  <AnalyseIngredients.shortDesc_Direct>Определить материальные свойства {lookup: {0}; Case; 1}, которые наиболее применимы к текущему исследованию.</AnalyseIngredients.shortDesc_Direct>
+  
+  <!--                       chemical compound analysis -->
+  <AnalyseDrug.header_Direct>анализ химических соединений</AnalyseDrug.header_Direct>
+  <!--                          Analyse chemical properties of {0} that are particularily applicable to current research. -->
+  <AnalyseDrug.shortDesc_Direct>Проанализировать химические свойства {lookup: {0}; Case; 1}, которые наиболее применимы к текущему исследованию.</AnalyseDrug.shortDesc_Direct>
+  
+  <!--                                  ingredient analysis -->
+  <AnalyseIngredientsFood.header_Direct>анализ компонентов</AnalyseIngredientsFood.header_Direct>
+  <!--                                     Analyse nutritional and gastronomical properties of {0} that are particularily applicable to current research. -->
+  <AnalyseIngredientsFood.shortDesc_Direct>Проанализировать питательные и вкусовые качества {lookup: {0}; Case; 1}, которые наиболее применимы к текущему исследованию.</AnalyseIngredientsFood.shortDesc_Direct>
+  
+  <!--                                     ingredient analysis -->
+  <AnalyseIngredientsRawFood.header_Direct>анализ компонентов</AnalyseIngredientsRawFood.header_Direct>
+  <!--                                        Analyse nutritional and gastronomical properties of {0} that are particularily applicable to current research. -->
+  <AnalyseIngredientsRawFood.shortDesc_Direct>Проанализировать питательные и вкусовые качества {lookup: {0}; Case; 1}, которые наиболее применимы к текущему исследованию.</AnalyseIngredientsRawFood.shortDesc_Direct>
+  
+  <!--                           active ingredient analysis -->
+  <AnalyseFuelDrug.header_Direct>анализ активных компонентов</AnalyseFuelDrug.header_Direct>
+  <!--                              Determine active components of {0} that are particularily applicable to current research. -->
+  <AnalyseFuelDrug.shortDesc_Direct>Определить активные компоненты {lookup: {0}; Case; 1}, которые наиболее применимы к текущему исследованию.</AnalyseFuelDrug.shortDesc_Direct>
+  
+  <!--                                fuel efficiency analysis -->
+  <AnalyseFuelFlammable.header_Direct>анализ топливной эффективности</AnalyseFuelFlammable.header_Direct>
+  <!--                                   Analyse energy density of {0}. -->
+  <AnalyseFuelFlammable.shortDesc_Direct>Проанализировать энергетическую насыщенность {lookup: {0}; Case; 1}.</AnalyseFuelFlammable.shortDesc_Direct>
+  
+  <!--                       resupply material analysis -->
+  <AnalyseFuel.header_Direct>анализ пополнения запасов</AnalyseFuel.header_Direct>
+  <!--                          Determine an efficient method of resupply of {0}. -->
+  <AnalyseFuel.shortDesc_Direct>Определите эффективный метод пополнения запасов {lookup: {0}; Case; 1}.</AnalyseFuel.shortDesc_Direct>
+</LanguageData>
