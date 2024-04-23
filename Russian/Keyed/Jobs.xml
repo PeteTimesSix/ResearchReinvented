@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<LanguageData>
-	<RR_jobFail_incapableOfResearch>Не способен исследовать</RR_jobFail_incapableOfResearch>
-	<RR_jobFail_needResearchKit>Нужен исследовательский набор, чтобы провести анализ</RR_jobFail_needResearchKit>
-	<RR_jobFail_needResearchBench>Невозможно найти или добраться до исследовательского стола, чтобы провести анализ</RR_jobFail_needResearchBench>
-	<RR_jobFail_isPrototype>Это прототип</RR_jobFail_isPrototype>
-	<RR_jobReport_ScienceInterrogation>Допросить заключённого {0}.</RR_jobReport_ScienceInterrogation>
-	<RR_jobFail_PrisonerHasNothingToTeach>Заключённый не знает ничего полезного</RR_jobFail_PrisonerHasNothingToTeach>
-</LanguageData>

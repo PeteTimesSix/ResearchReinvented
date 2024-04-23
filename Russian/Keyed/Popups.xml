@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<LanguageData>
-	<RR_opportunityTypeReady>{0} сейчас готов: {1}</RR_opportunityTypeReady>
-	<RR_opportunityTypeReady_Many>{0} сейчас готов: {1} и {2} других</RR_opportunityTypeReady_Many>
-</LanguageData>

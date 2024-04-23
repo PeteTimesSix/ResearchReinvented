@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LanguageData>
-  <!--                           blank slate -->
-  <SettingsPreset_RR_Clear.label>чистый лист</SettingsPreset_RR_Clear.label>
-  <!--                                 A settings preset with no defaults set. -->
-  <SettingsPreset_RR_Clear.description>A settings preset with no defaults set.</SettingsPreset_RR_Clear.description>
-</LanguageData>

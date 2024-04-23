@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LanguageData>
-  <!--                             default -->
-  <SettingsPreset_RR_Default.label>по умолчанию</SettingsPreset_RR_Default.label>
-  <!--                                   Default settings preset. Research will be faster if your colony is well-organized and has an adequate supply of research subjects, and slower if not. -->
-  <SettingsPreset_RR_Default.description>Устанавливает настройки по умолчанию. Исследования будут проходить быстрее, если ваша колония хорошо организована и имеет достаточное количество объектов исследования, и медленнее, если это нет.</SettingsPreset_RR_Default.description>
-</LanguageData>
