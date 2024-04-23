@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!--                                     technique exploration -->
+  <AnalyseProductionFacility.header_Direct>освоение техники</AnalyseProductionFacility.header_Direct>
+  <!--                                        Practice with differing tools and methodologies while working at {0}. -->
+  <AnalyseProductionFacility.shortDesc_Direct>Практика использования различных инструментов и технологий, используя {lookup: {0}; Case; 3}.</AnalyseProductionFacility.shortDesc_Direct>
+</LanguageData>

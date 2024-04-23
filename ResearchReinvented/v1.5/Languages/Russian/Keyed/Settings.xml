@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<RR_setting_tab_GLOBAL_CONFIG>Глобальные настройки</RR_setting_tab_GLOBAL_CONFIG>
+	<RR_setting_tab_CATEGORY_PRESETS>Пресеты категорий</RR_setting_tab_CATEGORY_PRESETS>
+	<RR_setting_tab_CATEGORY_CONFIG>Настройка категорий</RR_setting_tab_CATEGORY_CONFIG>
+	<RR_setting_tab_MOD_INTEGRATIONS>Интеграция модов</RR_setting_tab_MOD_INTEGRATIONS>
+	
+	<RR_setting_tab_GLOBAL_CONFIG_tooltip>Настройка основных параметров Research Reinvented.</RR_setting_tab_GLOBAL_CONFIG_tooltip>
+	<RR_setting_tab_CATEGORY_PRESETS_tooltip>Выберите пресет распределения очков исследования между категориями возможностей.</RR_setting_tab_CATEGORY_PRESETS_tooltip>
+	<RR_setting_tab_CATEGORY_CONFIG_tooltip>Настройте отдельные категории возможностей для исследования.</RR_setting_tab_CATEGORY_CONFIG_tooltip>
+	<RR_setting_tab_MOD_INTEGRATIONS_tooltip>Отображение и настройка опциональных интеграций с другими модами.</RR_setting_tab_MOD_INTEGRATIONS_tooltip>
+	
+	<RR_setting_showProgressMotes>Отображать прогресс</RR_setting_showProgressMotes>
+	<RR_setting_defaultCompactMode_showProgressMotes_tooltip>Когда эта функция включена, над персонажами, добившимися значительного прогресса в исследованиях, на короткое время появляются моты (исчезающие сообщения).</RR_setting_defaultCompactMode_showProgressMotes_tooltip>
+	
+	<RR_setting_defaultCompactMode>Окно исследования по умолчанию находится в компактном режиме</RR_setting_defaultCompactMode>
+	<RR_setting_defaultCompactMode_tooltip>Если эта функция включена, окно списка возможностей для исследований по умолчанию находится в компактном режиме.</RR_setting_defaultCompactMode_tooltip>
+	
+	
+	<RR_setting_kitlessResearch>Проведение полевых исследований без исследовательского набора</RR_setting_kitlessResearch>
+	<RR_setting_kitlessResearch_tooltip>Если эта функция включена, полевые исследования можно проводить без исследовательского набора, для которых требуется только простой исследовательский стол.</RR_setting_kitlessResearch_tooltip>
+	
+	<RR_setting_kitlessNeolithicResearch>Проведение полевых исследований без исследовательского набора для неолитических технологий</RR_setting_kitlessNeolithicResearch>
+	<RR_setting_kitlessNeolithicResearch_tooltip>Если эта функция включена, полевые исследования можно проводить без исследовательского набора, которые находятся на неолитическом уровне.</RR_setting_kitlessNeolithicResearch_tooltip>
+	
+	<RR_setting_category_selector>Выбор категории</RR_setting_category_selector>
+	
+	<RR_setting_category_enabled>Категория активна</RR_setting_category_enabled>
+	<RR_setting_category_enabled_tooltip>Переключите этот пункт, чтобы отключить эту категорию возможностей для исследования.</RR_setting_category_enabled_tooltip>
+	
+	<RR_setting_category_availableAtOverallProgress>Доступно для общего прогресса</RR_setting_category_availableAtOverallProgress>
+	<RR_setting_category_availableAtOverallProgress_tooltip>Контролирует, на каком этапе исследования доступна эта категория.</RR_setting_category_availableAtOverallProgress_tooltip>
+	
+	<RR_setting_category_importanceStatic>Фиксированная важность</RR_setting_category_importanceStatic>
+	<RR_setting_category_importanceStatic_tooltip>Важность данной категории, основанная непосредственно на самом проекте, используемая при расчёте количества очков исследования, распределяемых на эту категорию.</RR_setting_category_importanceStatic_tooltip>
+	
+	<RR_setting_category_importanceMultiplier>Важность</RR_setting_category_importanceMultiplier>
+	<RR_setting_category_importanceMultiplier_tooltip>Важность данной категории относительно других, используемая при расчёте количества очков исследования, распределяемых на эту категорию.</RR_setting_category_importanceMultiplier_tooltip>
+	
+	<RR_setting_category_importanceMultiplierCounted>Учёт важности</RR_setting_category_importanceMultiplierCounted>
+	<RR_setting_category_importanceMultiplierCounted_tooltip>Важность данной категории относительно других, используемая при расчёте количества очков исследования, которые будут распределены между другими категориями. Значение должно быть меньше или равно значению в пункте «Важность».</RR_setting_category_importanceMultiplierCounted_tooltip>
+	
+	<RR_setting_category_targetIterations>Количество итераций</RR_setting_category_targetIterations>
+	<RR_setting_category_targetIterations_tooltip>ММаксимальное количество возможностей, необходимых для полного выполнения данной категории.</RR_setting_category_targetIterations_tooltip>
+	
+	<RR_setting_category_infiniteOverflow>Бесконечный поток</RR_setting_category_infiniteOverflow>
+	<RR_setting_category_infiniteOverflow_tooltip>Разрешить исследованиям этой категории продолжаться, пока есть возможности такого типа.</RR_setting_category_infiniteOverflow_tooltip>
+	
+	<RR_setting_category_researchSpeedMultiplier>Множитель скорости исследования</RR_setting_category_researchSpeedMultiplier>
+	<RR_setting_category_researchSpeedMultiplier_tooltip>Возможности этой категории будут иметь скорость исследования, умноженную на установленный процент.</RR_setting_category_researchSpeedMultiplier_tooltip>
+	
+	<RR_setting_category_fractionAxis>Общий множитель скорости исследования</RR_setting_category_fractionAxis>
+	<RR_setting_category_researchSpeedAxis>Скорость исследования</RR_setting_category_researchSpeedAxis>
+	
+	<RR_setting_category_resetToDefault>Сброс к предустановленным значениям по умолчанию</RR_setting_category_resetToDefault>
+	
+	
+	<!--- Mod compat -->
+	
+	<RR_setting_modCompat_active>{0} патч активен.</RR_setting_modCompat_active>
+	<RR_setting_modCompat_fail>{0} патч не сработал.</RR_setting_modCompat_fail>
+	<RR_setting_modCompat_notDetected>{0} не обнаружен.</RR_setting_modCompat_notDetected>
+	
+	<RR_setting_modCompat_detected_combatExtended>Используется «Combat Extended».</RR_setting_modCompat_detected_combatExtended>
+	<RR_setting_modCompat_notDetected_combatExtended>«Combat Extended» не используется.</RR_setting_modCompat_notDetected_combatExtended>
+	
+	<RR_setting_modCompat_detected_dubsMintMenus>Используется «Dubs Mint Menus».</RR_setting_modCompat_detected_dubsMintMenus>
+	<RR_setting_modCompat_notDetected_dubsMintMenus>«Dubs Mint Menus» не используется.</RR_setting_modCompat_notDetected_dubsMintMenus>
+	
+	<RR_setting_modCompat_detected_humanoidAlienRaces>Используется «Humanoid Alien Races».</RR_setting_modCompat_detected_humanoidAlienRaces>
+	<RR_setting_modCompat_notDetected_humanoidAlienRaces>«Humanoid Alien Races» не используется.</RR_setting_modCompat_notDetected_humanoidAlienRaces>
+	
+	<RR_setting_modCompat_detected_researchData>Используется «Research Data».</RR_setting_modCompat_detected_researchData>
+	<RR_setting_modCompat_notDetected_researchData>«Research Data» не используется.</RR_setting_modCompat_notDetected_researchData>
+	
+	<RR_setting_modCompat_researchData_mode>Режим совместимости</RR_setting_modCompat_researchData_mode>
+	<RR_modCompat_researchData_mode_TheoryOnly>Только теоретика</RR_modCompat_researchData_mode_TheoryOnly>
+	<RR_modCompat_researchData_mode_TheoryOnly_tooltip>«Топливо» из мода «Research Data» будет расходоваться только при теоретических исследованиях.</RR_modCompat_researchData_mode_TheoryOnly_tooltip>
+	<RR_modCompat_researchData_mode_AllBenchResearch>Все исследования</RR_modCompat_researchData_mode_AllBenchResearch>
+	<RR_modCompat_researchData_mode_AllBenchResearch_tooltip>«Топливо» из мода «Research Data» будет расходоваться любым исследованием, проводимым на исследовательском стенде..</RR_modCompat_researchData_mode_AllBenchResearch_tooltip>
+	
+	
+	<!--- Obsolete -->
+	<RR_setting_debugPrintouts>Включить режим отладки</RR_setting_debugPrintouts>
+	<RR_setting_debugPrintouts_tooltip>Если включить эту функцию, будут активны различные функции для разработчика.</RR_setting_debugPrintouts_tooltip>
+	
+	<RR_setting_category_targetFractionMultiplier>Конкретный множитель долей</RR_setting_category_targetFractionMultiplier>
+	<RR_setting_category_targetFractionMultiplier_tooltip>Сгенерированные возможности пытаются распределить стоимость исследования в соответствии с относительными размерами долей категорий, в зависимости от этого значения.</RR_setting_category_targetFractionMultiplier_tooltip>
+	
+	<RR_setting_category_extraFractionMultiplier>Дополнительный множитель частей</RR_setting_category_extraFractionMultiplier>
+	<RR_setting_category_extraFractionMultiplier_tooltip>Дополнительные исследования, предусмотренные для этой категории, которые не включены в первоначально присвоенную ей часть.</RR_setting_category_extraFractionMultiplier_tooltip>
+	
+</LanguageData>
