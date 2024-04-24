@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PeteTimesSix.ResearchReinvented.Utilities
+namespace PeteTimesSix.ResearchReinvented.Managers
 {
-    public static class CacheClearer
+    public static class OpportunityCachesHandler
     {
         public static void ClearCaches() 
         {

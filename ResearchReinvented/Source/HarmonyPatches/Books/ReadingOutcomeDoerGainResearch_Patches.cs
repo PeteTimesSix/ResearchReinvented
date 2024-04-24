@@ -48,7 +48,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Books
 
             foreach (var (project, speed) in values)
             {
-                var opportunity = ResearchOpportunityManager.Instance.GetOpportunitiesFilterForProjects(OpportunityAvailability.Available, HandlingMode.Special_Books, values.Keys, (op) => op.requirement.MetBy(project)).FirstOrDefault();
+                var opportunity = ResearchOpportunityManager.Instance.GetFilteredOpportunitiesOfProjects(values.Keys, OpportunityAvailability.Available, HandlingMode.Special_Books, (op) => op.requirement.MetBy(project)).FirstOrDefault();
                 if(opportunity != null)
                 {
                     if (ResearchReinvented_Debug.debugPrintouts)
@@ -59,6 +59,36 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Books
                 }
             }
             __result = false;
+            return false;
+        }
+    }
+
+
+    [HarmonyPatch(typeof(ReadingOutcomeDoerGainResearch), nameof(ReadingOutcomeDoerGainResearch.OnReadingTick))]
+    public static class ReadingOutcomeDoerGainResearch_OnReadingTick_Patches
+    {
+        [HarmonyPrefix]
+        public static bool ReadingOutcomeDoerGainResearch_OnReadingTick_Prefix(ReadingOutcomeDoerGainResearch __instance, Pawn reader, float factor)
+        {
+            if (__instance is ReadingOutcomeDoerGainAnomalyResearch)
+            {
+                return true;
+            }
+
+            var values = ReadingOutcomeDoerGainResearch_Proxies.Values(__instance);
+
+            foreach (var (project, speed) in values)
+            {
+                if (!ReadingOutcomeDoerGainResearch_Proxies.IsProjectVisible(__instance, project) || project.IsFinished)
+                    continue;
+
+                var opportunity = ResearchOpportunityManager.Instance.GetFilteredOpportunitiesOfProjects(values.Keys, OpportunityAvailability.Available, HandlingMode.Special_Books, (op) => op.requirement.MetBy(project)).FirstOrDefault();
+                if (opportunity != null)
+                {
+                    opportunity.ResearchTickPerformed(speed * factor, reader);
+                }
+            }
+
             return false;
         }
     }
@@ -95,7 +125,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Books
                 }
                 else
                 {
-                    var opportunity = ResearchOpportunityManager.Instance.GetOpportunitiesFilterForProjects(OpportunityAvailability.Available, HandlingMode.Special_Books, values.Keys, (op) => op.requirement.MetBy(project)).FirstOrDefault();
+                    var opportunity = ResearchOpportunityManager.Instance.GetFilteredOpportunitiesOfProjects(values.Keys, OpportunityAvailability.Available, HandlingMode.Special_Books, (op) => op.requirement.MetBy(project)).FirstOrDefault();
                     if (opportunity == null)
                     {
                         text = string.Format($" - {project.LabelCap}: {"PerHour".Translate(amount.ToStringDecimalIfSmall())} ({"RR_CategoryFinishedBook".Translate()})");
@@ -119,36 +149,6 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Books
                 stringBuilder.AppendLine(text);
             }
             __result = stringBuilder.ToString();
-            return false;
-        }
-    }
-
-
-    [HarmonyPatch(typeof(ReadingOutcomeDoerGainResearch), nameof(ReadingOutcomeDoerGainResearch.OnReadingTick))]
-    public static class ReadingOutcomeDoerGainResearch_OnReadingTick_Patches
-    {
-        [HarmonyPrefix]
-        public static bool ReadingOutcomeDoerGainResearch_OnReadingTick_Prefix(ReadingOutcomeDoerGainResearch __instance, Pawn reader, float factor) 
-        {
-            if(__instance is ReadingOutcomeDoerGainAnomalyResearch)
-            {
-                return true;
-            }
-
-            var values = ReadingOutcomeDoerGainResearch_Proxies.Values(__instance);
-
-            foreach(var (project, speed) in values)
-            {
-                if (!ReadingOutcomeDoerGainResearch_Proxies.IsProjectVisible(__instance, project) || project.IsFinished)
-                    continue;
-
-                var opportunity = ResearchOpportunityManager.Instance.GetOpportunitiesFilterForProjects(OpportunityAvailability.Available, HandlingMode.Special_Books, values.Keys, (op) => op.requirement.MetBy(project)).FirstOrDefault();
-                if (opportunity != null)
-                {
-                    opportunity.ResearchTickPerformed(speed * factor, reader);
-                }
-            }
-
             return false;
         }
     }

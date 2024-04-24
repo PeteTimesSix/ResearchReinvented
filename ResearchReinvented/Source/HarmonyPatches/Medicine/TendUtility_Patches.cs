@@ -32,7 +32,11 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Medicine
             if (medicine == null || !observer.CanNowDoResearch())
                 return;
 
-            var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Medicine, medicine);
+            var currentProject = Find.ResearchManager.GetProject();
+            if (currentProject == null)
+                return;
+
+            var opportunity = ResearchOpportunityManager.Instance.GetFilteredOpportunitiesOfProject(currentProject, OpportunityAvailability.Available, HandlingMode.Special_Medicine, medicine).FirstOrDefault();
 
             if (opportunity != null)
             {

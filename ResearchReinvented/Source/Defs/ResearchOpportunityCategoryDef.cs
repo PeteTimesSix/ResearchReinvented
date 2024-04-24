@@ -101,7 +101,7 @@ namespace PeteTimesSix.ResearchReinvented.Defs
 
         public float GetCurrentTotal(ResearchProjectDef project)
         {
-            var matchingOpportunities = ResearchOpportunityManager.Instance.GetOpportunitiesFilterForProject(null, null, project, (op) => op.def.GetCategory(op.relation) == this);
+            var matchingOpportunities = ResearchOpportunityManager.Instance.GetFilteredOpportunitiesOfProject(project, null, null, (op) => op.def.GetCategory(op.relation) == this);
             var totalProgress = matchingOpportunities.Sum(o => o.Progress);
             return totalProgress;
         }

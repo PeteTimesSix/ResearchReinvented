@@ -36,7 +36,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
                     if (!actor.CanEverDoResearch())
                         return;
 
-                    var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Tooling, bench);
+                    var opportunity = ResearchOpportunityManager.Instance.GetFilteredOpportunitiesOfProject(Find.ResearchManager.GetProject(), OpportunityAvailability.Available, HandlingMode.Special_Tooling, bench).FirstOrDefault();
 
                     if (opportunity != null)
                     {

@@ -12,11 +12,11 @@ using Verse.AI;
 
 namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 {
-    /*[HarmonyPatch(typeof(GenConstruct), nameof(GenConstruct.CanConstruct), new Type[] { typeof(Thing), typeof(Pawn), typeof(bool), typeof(bool) })]
+    [HarmonyPatch(typeof(GenConstruct), nameof(GenConstruct.CanConstruct), new Type[] { typeof(Thing), typeof(Pawn), typeof(bool), typeof(bool), typeof(JobDef) })]
     public static class GenConstruct_CanConstruct_Patches
     {
         [HarmonyPostfix]
-        public static bool CanConstruct(bool __result, Thing t, Pawn p, bool checkSkills, bool forced) 
+        public static bool CanConstruct(bool __result, Thing t, Pawn p, bool checkSkills, bool forced, JobDef jobForReservation) 
         {
             if (__result == false)
                 return __result;
@@ -46,5 +46,5 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
             return __result;
         }
-    }*/
+    }
 }

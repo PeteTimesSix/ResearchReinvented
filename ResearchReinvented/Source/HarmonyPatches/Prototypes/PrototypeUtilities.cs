@@ -36,8 +36,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         private static float PROTOTYPE_FUEL_REFUELABLE_MULTIPLIER_MIN = 0.1f;
         private static float PROTOTYPE_FUEL_REFUELABLE_MULTIPLIER_MAX = 0.5f;
 
-        private static ResearchProjectDef cacheBuiltForProject = null;
-        private static ResearchOpportunity[] _prototypeOpportunitiesCache = Array.Empty<ResearchOpportunity>();
+        private static ResearchOpportunity[] _prototypeOpportunitiesCache = null;
 
         private static FieldRef<CompApparelVerbOwner_Charged, int> CompApparelVerbOwner_Charged_remainingCharges;
 
@@ -48,22 +47,23 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
         public static IEnumerable<ResearchOpportunity> PrototypeOpportunities
         {
-            get 
-			{
-				if (cacheBuiltForProject != Find.ResearchManager.GetProject())
-				{
+            get
+            {
+                if (_prototypeOpportunitiesCache == null)
+                {
                     _prototypeOpportunitiesCache = ResearchOpportunityManager.Instance
-                        .GetFilteredOpportunities(null, HandlingMode.Special_Prototype).ToArray();
-					cacheBuiltForProject = Find.ResearchManager.GetProject();
-				}
-				return _prototypeOpportunitiesCache;
+                        .GetFilteredOpportunitiesOfAll(null, HandlingMode.Special_Prototype).ToArray();
+                }
+                return _prototypeOpportunitiesCache;
 			}
 		}
 
         public static void ClearPrototypeOpportunityCache()
         {
-            cacheBuiltForProject = null;
-            _prototypeOpportunitiesCache = Array.Empty<ResearchOpportunity>();
+            _prototypeOpportunitiesCache = null;
+            RecipeDefExtensions.ClearPrototypeOpportunityCache();
+            BuildableDefExtensions.ClearPrototypeOpportunityCache();
+            ThingDefExtensions.ClearPrototypeOpportunityCache();
         }
 
 
@@ -174,7 +174,8 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             if (!worker.CanNowDoResearch())
                 return;
 
-            var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Prototype, (op) => op.requirement.MetBy(usedRecipe) || op.requirement.MetBy(productDef));
+            var opportunity = PrototypeOpportunities.Where(op => op.requirement.MetBy(usedRecipe) || op.requirement.MetBy(productDef)).FirstOrDefault();
+            //var opportunity = ResearchOpportunityManager.Instance.GetFilteredOpportunitiesOfAll(OpportunityAvailability.Available, HandlingMode.Special_Prototype, (op) => op.requirement.MetBy(usedRecipe) || op.requirement.MetBy(productDef));
                 //.GetCurrentlyAvailableOpportunities()
                 //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && (o.requirement.MetBy(usedRecipe) || o.requirement.MetBy(productDef)))
                 //.FirstOrDefault();
@@ -199,7 +200,8 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             if (!worker.CanNowDoResearch())
                 return;
 
-            var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Prototype, terrainDef);
+            var opportunity = PrototypeOpportunities.Where(op => op.requirement.MetBy(terrainDef)).FirstOrDefault();
+            //var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Prototype, terrainDef);
                 //.GetCurrentlyAvailableOpportunities()
                 //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && o.requirement.MetBy(terrainDef))
                 //.FirstOrDefault();
@@ -224,7 +226,8 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             if (!worker.CanNowDoResearch())
                 return;
 
-            var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Prototype, (op) => op.requirement.MetBy(usedRecipe) || op.requirement.MetBy(product.def));
+            var opportunity = PrototypeOpportunities.Where(op => op.requirement.MetBy(usedRecipe) || op.requirement.MetBy(product.def)).FirstOrDefault();
+            //var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Prototype, (op) => op.requirement.MetBy(usedRecipe) || op.requirement.MetBy(product.def));
                 //.GetCurrentlyAvailableOpportunities()
                 //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && (o.requirement.MetBy(usedRecipe) || o.requirement.MetBy(product.def)))
                 //.FirstOrDefault();
@@ -247,8 +250,9 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         {
             if (!worker.CanNowDoResearch())
                 return;
-
-            var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Prototype, terrainDef);
+            
+            var opportunity = PrototypeOpportunities.Where(op => op.requirement.MetBy(terrainDef)).FirstOrDefault();
+            //var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Prototype, terrainDef);
                 //.GetCurrentlyAvailableOpportunities()
                 //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && o.requirement.MetBy(terrainDef))
                 //.FirstOrDefault();
@@ -274,7 +278,8 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
             if (usedRecipe != null)
             {
-                var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Prototype, usedRecipe);
+                var opportunity = PrototypeOpportunities.Where(op => op.requirement.MetBy(usedRecipe)).FirstOrDefault();
+                //var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_Prototype, usedRecipe);
                     //.GetCurrentlyAvailableOpportunities()
                     //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Prototype) && (usedRecipe != null && o.requirement.MetBy(usedRecipe)))
                     //.FirstOrDefault();

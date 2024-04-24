@@ -41,20 +41,24 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
                 yield break;
             }
 
-            var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Social, faction);
+            var currentProject = Find.ResearchManager.GetProject();
+
+            if (currentProject == null)
+            {
+                Log.WarningOnce("RR: Generated JobDriver_LearnRemotely job with no active project!", 453654 + pawn.thingIDNumber);
+                yield return Toils_General.Wait(1);
+                yield break;
+            }
+
+            var opportunity = ResearchOpportunityManager.Instance.GetFilteredOpportunitiesOfProject(currentProject, OpportunityAvailability.Available, HandlingMode.Social, faction).FirstOrDefault();
                 //.GetCurrentlyAvailableOpportunities()
                 //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Social) && o.requirement is ROComp_RequiresFaction requiresFaction && requiresFaction.MetByFaction(faction))
                 //.Where(o => !o.IsFinished)
                 //.FirstOrDefault();
 
-            ResearchProjectDef currentProject = Find.ResearchManager.GetProject();
-
-            if (currentProject == null || opportunity == null)
+            if (opportunity == null)
             {
-                if (currentProject == null)
-                    Log.WarningOnce("RR: Generated JobDriver_LearnRemotely job with no active project!", 453654 + pawn.thingIDNumber);
-                else
-                    Log.WarningOnce($"RR: Generated JobDriver_LearnRemotely job {this.job} but could not find the matching opportunity!", 456654 + pawn.thingIDNumber);
+                Log.WarningOnce($"RR: Generated JobDriver_LearnRemotely job {this.job} but could not find the matching opportunity!", 456654 + pawn.thingIDNumber);
                 yield return Toils_General.Wait(1);
                 yield break;
             }

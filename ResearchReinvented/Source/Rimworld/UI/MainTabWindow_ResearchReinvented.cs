@@ -79,8 +79,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
             var fullRect = inRect;
             //Rect fullRect = new Rect(0f, TITLEBAR_HEIGHT, this.size.x, this.size.y - TITLEBAR_HEIGHT).Rounded();
-            IReadOnlyCollection<ResearchOpportunity> opportunities = ResearchOpportunityManager.Instance.CurrentProjectOpportunities;
-            IReadOnlyCollection<ResearchOpportunityCategoryDef> opportunityCategories = ResearchOpportunityManager.Instance.CurrentProjectOpportunityCategories;
+            var opportunities = ResearchOpportunityManager.Instance.GetOpportunitiesOfProject(Find.ResearchManager.GetProject());
+            var opportunityCategories = DefDatabase<ResearchOpportunityCategoryDef>.AllDefs;
 
             var titlebarRect = fullRect.TopPartPixels(TITLEBAR_HEIGHT);
             var footerRect = fullRect.BottomPartPixels(FOOTER_HEIGHT);
@@ -110,7 +110,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             }
 
             Widgets.DrawLineHorizontal(titlebarRect.x, titlebarRect.y + titlebarRect.height, titlebarRect.width);
-            DrawOpportunitiesList(contentRect, ResearchOpportunityManager.Instance.CurrentProject, opportunityCategories, opportunities);
+            DrawOpportunitiesList(contentRect, Find.ResearchManager.GetProject(), opportunityCategories, opportunities);
 
             if (DebugSettings.ShowDevGizmos) 
             {
@@ -125,7 +125,6 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 				if (GUI.Button(but2rect, "DEBUG:Regen"))
 				{
                     ResearchOpportunityManager.Instance.ResetAllProgress();
-                    CacheClearer.ClearCaches();
                     ResearchOpportunityManager.Instance.GenerateOpportunities(Find.ResearchManager.GetProject(), true);
 				}
 			}
@@ -134,7 +133,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             Text.Anchor = cachedAnchor;
         }
 
-        private void DrawOpportunitiesList(Rect listRect, ResearchProjectDef project, IReadOnlyCollection<ResearchOpportunityCategoryDef> opportunityCategories, IReadOnlyCollection<ResearchOpportunity> opportunities)
+        private void DrawOpportunitiesList(Rect listRect, ResearchProjectDef project, IEnumerable<ResearchOpportunityCategoryDef> opportunityCategories, IEnumerable<ResearchOpportunity> opportunities)
         {
             Rect internalRect = new Rect(listRect.x, listRect.y, listRect.width, listRect.height).Rounded();
 

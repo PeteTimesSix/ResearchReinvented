@@ -31,7 +31,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Ingestibles
             if (!observer.CanNowDoResearch())
                 return;
 
-            var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_OnIngest_Observable, ingestible);
+            var opportunity = ResearchOpportunityManager.Instance.GetFilteredOpportunitiesOfAll(OpportunityAvailability.Available, HandlingMode.Special_OnIngest_Observable, ingestible).FirstOrDefault();
 
             if(opportunity != null)
             {

@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>9.0</LangVersion>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
@@ -185,7 +188,7 @@
     <Compile Include="StatWorkers\StatWorker_RemoteResearchSpeedFactor.cs" />
     <Compile Include="StringsCache.cs" />
     <Compile Include="Utilities\AdjacencyHelper.cs" />
-    <Compile Include="Utilities\CacheClearer.cs" />
+    <Compile Include="Managers\OpportunityCachesHandler.cs" />
     <Compile Include="Utilities\CircularBuffer.cs" />
     <Compile Include="Utilities\CustomMinifyUtility.cs" />
     <Compile Include="Utilities\CustomWidgets\CategoriesVisualizer.cs" />

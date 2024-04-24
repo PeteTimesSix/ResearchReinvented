@@ -15,26 +15,29 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 {
     public static class ThingDefExtensions
     {
-        public static ResearchProjectDef cacheBuiltForProject = null;
-        public static Dictionary<ThingDef, ResearchOpportunity> _prototypeOpportunitiesMappedCache = new Dictionary<ThingDef, ResearchOpportunity>();
+        public static Dictionary<ThingDef, ResearchOpportunity> _prototypeOpportunitiesMappedCache = null;
 
 
         public static Dictionary<ThingDef, ResearchOpportunity> PrototypeOpportunitiesMappedCache
         {
             get
             {
-                if (cacheBuiltForProject != Find.ResearchManager.GetProject())
+                if (_prototypeOpportunitiesMappedCache == null)
                 {
-                    _prototypeOpportunitiesMappedCache.Clear();
+                    _prototypeOpportunitiesMappedCache = new();
                     foreach (var op in PrototypeUtilities.PrototypeOpportunities)
                     {
                         if (op.requirement is ROComp_RequiresThing requiresThing)
                             _prototypeOpportunitiesMappedCache[requiresThing.thingDef] = op;
                     }
-                    cacheBuiltForProject = Find.ResearchManager.GetProject();
                 }
                 return _prototypeOpportunitiesMappedCache;
             }
+        }
+
+        public static void ClearPrototypeOpportunityCache()
+        {
+            _prototypeOpportunitiesMappedCache = null;
         }
 
         public static bool IsTrulyRawFood(this ThingDef x)

@@ -26,8 +26,12 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Ingestibles
 
             if (!ingester.CanNowDoResearch())
                 return;
-            
-            var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available, HandlingMode.Special_OnIngest, ingestible);
+
+            var currentProject = Find.ResearchManager.GetProject();
+            if (currentProject == null)
+                return;
+
+            var opportunity = ResearchOpportunityManager.Instance.GetFilteredOpportunitiesOfProject(currentProject, OpportunityAvailability.Available, HandlingMode.Special_OnIngest, ingestible).FirstOrDefault();
             if (opportunity != null)
             {
                 if (ResearchReinvented_Debug.debugPrintouts)
