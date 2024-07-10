@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!--          theory -->
+  <Theory.label>теоретика</Theory.label>
+  <!--                Theoretical or abstract research. -->
+  <Theory.description>Теоретические или абстрактные исследования.</Theory.description>
+  
+  <!--         corpus familiarization -->
+  <Books.label>изучение текстов</Books.label>
+  <!--               Study of preexisting recorded knowledge, such as schematics or techprints. -->
+  <Books.description>Изучение ранее записанных знаний, таких как схемы или чертежи.</Books.description>
+  
+  <!--               prototyping -->
+  <Prototyping.label>прототипирование</Prototyping.label>
+  <!--                     Construction of prototypes. Prototypes take much longer to produce and are typically of lower quality due to their experimental nature. The researcher will require both research skill as well as the product's applicable work skill. -->
+  <Prototyping.description>Создание прототипов. Создание прототипов занимает гораздо больше времени и обычно имеет более низкое качество из-за их экспериментального характера. Исследователю потребуются как исследовательские, так и производственные навыки.</Prototyping.description>
+  
+  <!--            clinical -->
+  <Clinical.label>клинические испытания</Clinical.label>
+  <!--                  Experimental treatments and medicine. Experimental treatments are riskier and require skilled surgeons that are also capable of research. -->
+  <Clinical.description>Экспериментальная медицина и методы лечения. Экспериментальные методы лечения более рискованны и требуют квалифицированных хирургов, которые также способны проводить исследования.</Clinical.description>
+  
+  <!--           tooling -->
+  <Tooling.label>оснащение</Tooling.label>
+  <!--                 Analysis of tools used in the production of the researched products. -->
+  <Tooling.description>Анализ инструментов, используемых в производстве исследуемых изделий.</Tooling.description>
+  
+  <!--                      reverse engineering -->
+  <ReverseEngineering.label>обратная разработка</ReverseEngineering.label>
+  <!--                            Reverse engineering of existing sample products. -->
+  <ReverseEngineering.description>Обратное проектирование существующих образцов изделий.</ReverseEngineering.description>
+  
+  <!--                      production experience -->
+  <ForwardEngineering.label>производственный опыт</ForwardEngineering.label>
+  <!--                            Gathering experience from products with an already known production process. -->
+  <ForwardEngineering.description>Получение знаний путём изучения уже известного производственного процесса.</ForwardEngineering.description>
+  
+  <!--             logistics -->
+  <Logistics.label>логистика</Logistics.label>
+  <!--                   Determining effective means of resupply. -->
+  <Logistics.description>Определение эффективных способов пополнения запасов.</Logistics.description>
+  
+  <!--           geology -->
+  <Geology.label>геология</Geology.label>
+  <!--                 Analysis of geological samples. -->
+  <Geology.description>Анализ геологических проб.</Geology.description>
+  
+  <!--           biology -->
+  <Biology.label>биология</Biology.label>
+  <!--                 Analysis of biological samples, such as plant cuttings or seeds. -->
+  <Biology.description>Анализ биологических образцов, таких как срезы растений или семена.</Biology.description>
+  
+  <!--             chemistry -->
+  <Chemistry.label>химия</Chemistry.label>
+  <!--                   Analysis of chemical samples, such as pharmaceuticals or other drugs. -->
+  <Chemistry.description>Анализ химических образцов, например, фармацевтических препаратов или других веществ.</Chemistry.description>
+  
+  <!--              gastronomy -->
+  <Gastronomy.label>гастрономия</Gastronomy.label>
+  <!--                    Analysis of edible ingredients or meals. -->
+  <Gastronomy.description>Анализ съедобных ингредиентов или блюд.</Gastronomy.description>
+  
+  <!--            material studies -->
+  <Material.label>исследования материалов</Material.label>
+  <!--                  Studies of viability of possible raw materials used in construction or production. -->
+  <Material.description>Исследования целесообразности возможного сырья, используемого в строительстве или производстве.</Material.description>
+  
+  <!--          information exchange -->
+  <Social.label>обмен информацией</Social.label>
+  <!--                Knowledge gained from social interactions between your faction members and members of other factions. -->
+  <Social.description>Знания, полученные в ходе общения с членами других фракций.</Social.description>
+</LanguageData>
