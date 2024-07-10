@@ -79,7 +79,15 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             }
             CheckForRegeneration();
             //CancelMarkedPrototypes();
-            CheckForPopups();
+        }
+
+        public override void GameComponentUpdate()
+        {
+            base.GameComponentUpdate();
+            if (!Find.TickManager.Paused)
+            {
+                CheckForPopups();
+            }
         }
 
         public override void FinalizeInit()
@@ -153,8 +161,14 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             return false;
         }
 
+        private long popupCheckTick = -1;
         public void CheckForPopups()
         {
+            //for very low tickrate situations
+            if (popupCheckTick == Find.TickManager.TicksGame)
+                return;
+            popupCheckTick = Find.TickManager.TicksGame;
+
             var currentProject = Find.ResearchManager.GetProject();
             if (currentProject == null)
                 return;
