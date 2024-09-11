@@ -21,10 +21,10 @@ namespace PeteTimesSix.ResearchReinvented.ModCompat
         public static void PatchDelayed(Harmony harmony)
         {
             //Log.Warning("Doing delayed optional patches...");
-            if (CombatExtended.active)
+            /*if (CombatExtended.active)
             {
                 CombatExtended.PatchDelayed(harmony);
-            }
+            }*/
             if (DubsMintMenus.active)
             {
                 DubsMintMenus.PatchDelayed(harmony);

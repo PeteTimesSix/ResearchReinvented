@@ -330,12 +330,12 @@ namespace PeteTimesSix.ResearchReinvented
             listingStandard.Indent(maxWidth / 4f);
             listingStandard.ColumnWidth = maxWidth / 2f;
 
-            if(CombatExtended.active)
+            /*if(CombatExtended.active)
             {
                 GUI.color = CombatExtended.success ? LightGreen : LightYellow;
                 string message = CombatExtended.success ? "RR_setting_modCompat_active" : "RR_setting_modCompat_fail";
                 listingStandard.Label(message.Translate("RR_setting_modCompat_combatExtended".Translate()));
-            }
+            }*/
             if (DubsMintMenus.active)
             {
                 GUI.color = DubsMintMenus.success ? LightGreen : LightYellow;
@@ -360,11 +360,11 @@ namespace PeteTimesSix.ResearchReinvented
             }
 
             //inactive
-            if (!CombatExtended.active)
+            /*if (!CombatExtended.active)
             {
                 GUI.color = Color.gray;
                 listingStandard.Label("RR_setting_modCompat_notDetected".Translate("RR_setting_modCompat_combatExtended".Translate()));
-            }
+            }*/
             if (!DubsMintMenus.active)
             {
                 GUI.color = Color.gray;

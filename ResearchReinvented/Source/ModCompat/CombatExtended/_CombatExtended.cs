@@ -8,7 +8,7 @@ using Verse;
 
 namespace PeteTimesSix.ResearchReinvented.ModCompat
 {
-    [StaticConstructorOnStartup]
+    //[StaticConstructorOnStartup]
     public static class CombatExtended
     {
         public static bool active = false;
@@ -16,12 +16,13 @@ namespace PeteTimesSix.ResearchReinvented.ModCompat
 
         static CombatExtended()
         {
-            active = ModLister.GetActiveModWithIdentifier("CETeam.CombatExtended") != null;
+            //active = ModLister.GetActiveModWithIdentifier("CETeam.CombatExtended") != null;
         }
 
         public static void PatchDelayed(Harmony harmony)
         {
-            Type type = AccessTools.TypeByName("CombatExtended.HarmonyCE.Harmony_PawnRenderer").GetNestedType("Harmony_PawnRenderer_DrawBodyApparel");
+            //this type no longer exists
+            /*Type type = AccessTools.TypeByName("CombatExtended.HarmonyCE.Harmony_PawnRenderer").GetNestedType("Harmony_PawnRenderer_DrawBodyApparel");
 
             try
             {
@@ -31,7 +32,7 @@ namespace PeteTimesSix.ResearchReinvented.ModCompat
             {
                 Log.Warning("RR: Failed to apply Combat Extended compatibility patch (noncritical: kit drawing): " + e.Message);
                 success = false;
-            }
+            }*/
         }
     }
 }
