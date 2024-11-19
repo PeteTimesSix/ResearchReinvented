@@ -105,6 +105,9 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
         public void CancelPrototypes(ResearchProjectDef previousProject, ResearchProjectDef currentProject)
         {
+            if (ResearchReinventedMod.Settings.disablePrototypeBillCancellation)
+                return;
+
             var protoOps = ResearchOpportunityManager.Instance.AllGeneratedOpportunities.Where(o => o.project != currentProject && o.def.handledBy.HasFlag(HandlingMode.Special_Prototype));
 
             var defsToCancel = new HashSet<Def>();

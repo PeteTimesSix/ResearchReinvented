@@ -35,6 +35,8 @@ namespace PeteTimesSix.ResearchReinvented
         public bool kitlessResearch = false;
         public bool kitlessNeolithicResearch = true;
 
+        public bool disablePrototypeBillCancellation = false;
+
 
         public List<CategorySettingsChanges> categorySettingChanges = new List<CategorySettingsChanges>();
         public List<CategorySettingsFinal> categorySettings = new List<CategorySettingsFinal>();
@@ -58,6 +60,8 @@ namespace PeteTimesSix.ResearchReinvented
 
             Scribe_Values.Look(ref kitlessResearch, "kitlessResearch", false);
             Scribe_Values.Look(ref kitlessNeolithicResearch, "kitlessNeolithicResearch", true);
+
+            Scribe_Values.Look(ref disablePrototypeBillCancellation, "disablePrototypeBillCancellation", false);
 
             Scribe_Collections.Look(ref categorySettingChanges, "categorySettingChanges", LookMode.Deep);
 
@@ -116,7 +120,9 @@ namespace PeteTimesSix.ResearchReinvented
             listingStandard.CheckboxLabeled("RR_setting_showProgressMotes".Translate(), ref showProgressMotes, "RR_setting_defaultCompactMode_showProgressMotes_tooltip".Translate());
 
             listingStandard.CheckboxLabeled("RR_setting_kitlessResearch".Translate(), ref kitlessResearch, "RR_setting_kitlessResearch_tooltip".Translate());
-            listingStandard.CheckboxLabeled("RR_setting_kitlessNeolithicResearch".Translate(), ref kitlessNeolithicResearch, "RR_setting_kitlessNeolithicResearch".Translate());
+            listingStandard.CheckboxLabeled("RR_setting_kitlessNeolithicResearch".Translate(), ref kitlessNeolithicResearch, "RR_setting_kitlessNeolithicResearch_tooltip".Translate());
+
+            listingStandard.CheckboxLabeled("RR_setting_disablePrototypeBillCancellation".Translate(), ref disablePrototypeBillCancellation, "RR_setting_disablePrototypeBillCancellation_tooltip".Translate());
 
             float remainingHeight = inRect.height - listingStandard.CurHeight;
             listingStandard.Gap(remainingHeight - Text.LineHeight * 1.5f);

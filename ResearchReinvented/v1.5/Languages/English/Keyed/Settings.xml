@@ -23,6 +23,10 @@
 	<RR_setting_kitlessNeolithicResearch>Allow field research without kit for neolithic technologies</RR_setting_kitlessNeolithicResearch>
 	<RR_setting_kitlessNeolithicResearch_tooltip>When enabled, field research can be performed without any research kit for research projects that are of neolithic tech level.</RR_setting_kitlessNeolithicResearch_tooltip>
 	
+	
+	<RR_setting_disablePrototypeBillCancellation>Disable prototype bill cancellation</RR_setting_disablePrototypeBillCancellation>
+	<RR_setting_disablePrototypeBillCancellation_tooltip>Some people experience issues where switching or finishing research results in cancelled construction or bills. Toggle this setting on to disable the function responsible - note that you will be able to exploit prototype bills/constructions by switching research!</RR_setting_disablePrototypeBillCancellation_tooltip>
+	
 	<RR_setting_category_selector>Select category</RR_setting_category_selector>
 	
 	<RR_setting_category_enabled>Category enabled</RR_setting_category_enabled>
