@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="AnalysisOpportunity">
+		<defName>Analyse</defName>
+		<header_Direct>reverse engineer</header_Direct>
+		<header_Ancestor>gather manufacturing experience</header_Ancestor>
+		<shortDesc_Direct>Nondestructively reverse engineer {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat\n\nAffected by (in the field):\nResearch kit research speed stat\nResearcher research speed stat</shortDesc_Direct>
+		<shortDesc_Ancestor>Inspect production methodology used in creation of {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat\n\nAffected by (in the field):\nResearch kit research speed stat\nResearcher research speed stat</shortDesc_Ancestor>
+		<category_Direct>ReverseEngineering</category_Direct>
+		<category_Ancestor>ForwardEngineering</category_Ancestor>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="AnalysisOpportunity">
+		<defName>AnalysePawn</defName>
+		<header_Direct>observe</header_Direct>
+		<header_Ancestor>observe</header_Ancestor>
+		<shortDesc_Direct>Observe a {0} in motion.\n\nAffected by (in the field):\nResearch kit research speed stat\nResearcher research speed stat</shortDesc_Direct>
+		<shortDesc_Ancestor>Observe a {0} in motion.\n\nAffected by (in the field):\nResearch kit research speed stat\nResearcher research speed stat</shortDesc_Ancestor>
+		<category_Direct>Biology</category_Direct>
+		<category_Ancestor>Biology</category_Ancestor>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="AnalysisOpportunity">
+		<defName>AnalysePawnNonFlesh</defName>
+		<header_Direct>observe</header_Direct>
+		<header_Ancestor>observe</header_Ancestor>
+		<shortDesc_Direct>Observe a {0} in motion.\n\nAffected by (in the field):\nResearch kit research speed stat\nResearcher research speed stat</shortDesc_Direct>
+		<shortDesc_Ancestor>Observe a {0} in motion.\n\nAffected by (in the field):\nResearch kit research speed stat\nResearcher research speed stat</shortDesc_Ancestor>
+		<category_Direct>ReverseEngineering</category_Direct>
+		<category_Ancestor>ForwardEngineering</category_Ancestor>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="AnalysisOpportunity">
+		<defName>AnalyseDissect</defName>
+		<header_Direct>dissect</header_Direct>
+		<header_Ancestor>dissect</header_Ancestor>
+		<shortDesc_Direct>Dissect a {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat</shortDesc_Direct>
+		<shortDesc_Ancestor>Dissect a {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat</shortDesc_Ancestor>
+		<category_Direct>Biology</category_Direct>
+		<category_Ancestor>Biology</category_Ancestor>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="AnalysisOpportunity">
+		<defName>AnalyseDissectNonFlesh</defName>
+		<header_Direct>examine internals</header_Direct>
+		<header_Ancestor>examine internals</header_Ancestor>
+		<shortDesc_Direct>Examine the internal workings of a {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat</shortDesc_Direct>
+		<shortDesc_Ancestor>Examine the internal workings of a {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat</shortDesc_Ancestor>
+		<category_Direct>ReverseEngineering</category_Direct>
+		<category_Ancestor>ForwardEngineering</category_Ancestor>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="AnalysisOpportunity">
+		<defName>AnalysePlant</defName>
+		<header_Direct>observe plant growth (at location)</header_Direct>
+		<shortDesc_Direct>Observe {0} growth in a suitable habitat.\n\nAffected by (in the field):\nResearch kit research speed stat\nResearcher research speed stat</shortDesc_Direct>
+		<category_Direct>Biology</category_Direct>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="AnalysisOpportunity">
+		<defName>AnalyseHarvestProduct</defName>
+		<header_Direct>examine harvest products</header_Direct>
+		<shortDesc_Direct>Examine harvest production of {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat</shortDesc_Direct>
+		<category_Direct>Biology</category_Direct>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="AnalysisOpportunity">
+		<defName>AnalyseIngredients</defName>
+		<header_Direct>material analysis</header_Direct>
+		<shortDesc_Direct>Determine material properties of {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat</shortDesc_Direct>
+		<category_Direct>Material</category_Direct>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="AnalysisOpportunity">
+		<defName>AnalyseDrug</defName>
+		<header_Direct>chemical compound analysis</header_Direct>
+		<shortDesc_Direct>Analyse chemical properties of {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat</shortDesc_Direct>
+		<category_Direct>Chemistry</category_Direct>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="AnalysisOpportunity">
+		<defName>AnalyseIngredientsFood</defName>
+		<header_Direct>ingredient analysis</header_Direct>
+		<shortDesc_Direct>Analyze nutritional and gastronomical properties of {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat</shortDesc_Direct>
+		<category_Direct>Gastronomy</category_Direct>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="AnalysisOpportunity">
+		<defName>AnalyseIngredientsRawFood</defName>
+		<header_Direct>ingredient analysis</header_Direct>
+		<shortDesc_Direct>Analyze nutritional and gastronomical properties of {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat</shortDesc_Direct>
+		<category_Direct>Gastronomy</category_Direct>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="AnalysisOpportunity">
+		<defName>AnalyseFuelDrug</defName>
+		<header_Direct>active ingredient analysis</header_Direct>
+		<shortDesc_Direct>Determine active components of {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat</shortDesc_Direct>
+		<category_Direct>Chemistry</category_Direct>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+		<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="AnalysisOpportunity">
+		<defName>AnalyseFuelFlammable</defName>
+		<header_Direct>fuel efficiency analysis</header_Direct>
+		<shortDesc_Direct>Measure energy density of {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat</shortDesc_Direct>
+		<category_Direct>Logistics</category_Direct>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="AnalysisOpportunity">
+		<defName>AnalyseFuel</defName>
+		<header_Direct>resupply material analysis</header_Direct>
+		<shortDesc_Direct>Determine an efficient method of resupply of {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat</shortDesc_Direct>
+		<category_Direct>Logistics</category_Direct>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+</Defs>

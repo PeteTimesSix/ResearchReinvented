@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <PeteTimesSix.ResearchReinvented.Defs.SettingsPresetDef>
+    <defName>SettingsPreset_RR_Clear</defName>
+    <label>blank slate</label>
+    <description>A settings preset with no defaults set.</description>
+	<priority>1</priority>
+	<categorySettingPresets>
+		<li>
+			<category>Theory</category>
+			
+			<importanceMultiplier>0.0</importanceMultiplier>
+			<importanceMultiplierCounted>0.0</importanceMultiplierCounted>
+			<infiniteOverflow>true</infiniteOverflow>
+			<targetIterations>1.0</targetIterations>
+		</li>
+		<li>
+			<category>Books</category>
+			
+			<importanceStatic>1.0</importanceStatic>
+			<importanceMultiplier>0.0</importanceMultiplier>
+			<importanceMultiplierCounted>0.0</importanceMultiplierCounted>
+			<targetIterations>2.0</targetIterations>
+			<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>Social</category>
+		</li>
+		<li>
+			<category>Prototyping</category>
+		</li>
+		<li>
+			<category>Clinical</category>
+		</li>
+		<li>
+			<category>Tooling</category>
+		</li>
+		<li>
+			<category>ReverseEngineering</category>
+		</li>
+		<li>
+			<category>ForwardEngineering</category>
+		</li>
+		<li>
+			<category>Logistics</category>
+		</li>
+		<li>
+			<category>Geology</category>
+		</li>
+		<li>
+			<category>Biology</category>
+		</li>
+		<li>
+			<category>Chemistry</category>
+		</li>
+		<li>
+			<category>Gastronomy</category>
+		</li>
+		<li>
+			<category>Material</category>
+		</li>
+	</categorySettingPresets>
+  </PeteTimesSix.ResearchReinvented.Defs.SettingsPresetDef>
+</Defs>

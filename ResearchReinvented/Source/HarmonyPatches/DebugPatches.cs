@@ -16,7 +16,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches
     public static class DoorsDebugDrawer_DrawDebug_Patch
     {
         [HarmonyPostfix]
-        public static void AddictionalDebugDrawingInjection()
+        public static void AdditionalDebugDrawingInjection()
         {
             PrototypeKeeper.Instance.DebugDrawOnMap();
         }

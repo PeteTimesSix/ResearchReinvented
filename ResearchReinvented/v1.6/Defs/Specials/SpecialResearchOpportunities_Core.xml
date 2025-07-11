@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  
+	
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase">
+		<defName>RR_fermentingBarrel</defName>
+		<opportunityType>AnalyseFood</opportunityType>
+		<project>Brewing</project>
+		<things>
+			<li>Beer</li>
+		</things>
+	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase">
+		<defName>RR_nutrientPaste</defName>
+		<opportunityType>AnalyseFood</opportunityType>
+		<project>NutrientPaste</project>
+		<things>
+			<li>MealNutrientPaste</li>
+		</things>
+	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase">
+		<defName>RR_autodoor</defName>
+		<relationOverride>Ancestor</relationOverride>
+		<importanceMultiplier>2.0</importanceMultiplier>
+		<project>Autodoors</project>
+		<things>
+			<li>Door</li>
+		</things>
+	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase">
+		<defName>RR_heater</defName>
+		<project>Electricity</project>
+		<things>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientHeatVent</li>
+		</things>
+	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase">
+		<defName>RR_smokepop_1</defName>
+		<project>SmokepopBelt</project>
+		<things>
+			<li MayRequire="ludeon.rimworld.royalty">SmokeSpewer</li>
+		</things>
+		<rare>true</rare>
+	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase">
+		<defName>RR_smokepop_2</defName>
+		<project>SmokepopBelt</project>
+		<things>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientSmokeVent</li>
+		</things>
+	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase">
+		<defName>RR_EMP</defName>
+		<project>MicroelectronicsBasics</project>
+		<things>
+			<li MayRequire="ludeon.rimworld.royalty">EMIDynamo</li>
+		</things>
+		<rare>true</rare>
+	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase">
+		<defName>RR_rocketswarm</defName>
+		<project>RocketswarmLauncher</project>
+		<things>
+			<li>Gun_TripleRocket</li>
+		</things>
+		<rare>true</rare>
+	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase">
+		<defName>RR_shields</defName>
+		<project>ShieldBelt</project>
+		<things>
+			<li MayRequire="ludeon.rimworld.royalty">ShieldGeneratorBullets</li>
+			<li MayRequire="ludeon.rimworld.royalty">ShieldGeneratorMortar</li>
+		</things>
+	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase">
+		<defName>RR_shipbasics</defName>
+		<project>ShipBasics</project>
+		<things>
+			<li>ShipChunk</li>
+			<li>AncientRustedDropship</li>
+			<li MayRequire="ludeon.rimworld.odyssey">ShipChunk_Mech</li>
+		</things>
+		<importanceMultiplier>0.5</importanceMultiplier>
+	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase">
+		<defName>RR_shipComputerCore_1</defName>
+		<project>ShipComputerCore</project>
+		<things>
+			<li>PsychicDronerShipPart</li>
+			<li MayRequire="ludeon.rimworld.royalty">Gloomlight</li>
+		</things>
+		<importanceMultiplier>0.5</importanceMultiplier>
+	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase">
+		<defName>RR_shipComputerCore_2</defName>
+		<project>ShipComputerCore</project>
+		<things>
+			<li MayRequire="ludeon.rimworld.royalty">PsychicDroner</li>
+		</things>
+		<rare>true</rare>
+	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
+</Defs>

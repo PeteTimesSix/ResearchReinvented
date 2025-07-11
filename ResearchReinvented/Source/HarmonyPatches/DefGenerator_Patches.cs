@@ -26,6 +26,10 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches
             {
                 DefGenerator.AddImpliedDef(alternateDef);
             }
+            foreach (var alternateDef in AlternateResearchSubjectDefGenerator.UniqueAlternateDefs())
+            {
+                DefGenerator.AddImpliedDef(alternateDef);
+            }
         }
     }
 
@@ -35,7 +39,22 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches
         [HarmonyPostfix]
         public static void Postfix()
         {
-
+            foreach (var bulkRecipeDef in AlternateResearchSubjectDefGenerator.BulkRecipes())
+            {
+                DefGenerator.AddImpliedDef(bulkRecipeDef);
+            }
+            foreach (var plantDef in AlternateResearchSubjectDefGenerator.WildPlantsAlternateDefs())
+            {
+                DefGenerator.AddImpliedDef(plantDef);
+            }
+            foreach (var carpetDef in AlternateResearchSubjectDefGenerator.Carpets())
+            {
+                DefGenerator.AddImpliedDef(carpetDef);
+            }
+            foreach (var recipeMakerDef in AlternateResearchSubjectDefGenerator.RecipeMakers())
+            {
+                DefGenerator.AddImpliedDef(recipeMakerDef);
+            }
         }
     }
 }

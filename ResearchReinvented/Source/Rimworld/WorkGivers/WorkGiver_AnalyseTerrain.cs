@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Verse;
 using Verse.AI;
+using Verse.Noise;
 
 namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 {
@@ -69,6 +70,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			return !MatchingOpportunities.Any();
 		}
 
+		private enum TerrainLayer { TERRAIN, FOUNDATION }
+
 		public override bool HasJobOnCell(Pawn pawn, IntVec3 cell, bool forced = false)
 		{
 			ResearchProjectDef currentProj = Find.ResearchManager.GetProject();
@@ -78,26 +81,44 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			if (cacheBuiltOnTick != Find.TickManager.TicksAbs)
 			{
 				BuildCache();
-			}
+            }
 
-            var terrainAt = cell.GetTerrain(pawn.Map);
-			if (!OpportunityCache.ContainsKey(terrainAt))
-				return false;
+			var usingFoundation = false;
+            var terrainAt = pawn.Map.terrainGrid.TopTerrainAt(pawn.Map.cellIndices.CellToIndex(cell));
+			//Log.Message("Terrain at " + cell.ToString() + terrainAt?.defName ?? "null");
+
+            if (terrainAt == null || !OpportunityCache.ContainsKey(terrainAt))
+			{
+				usingFoundation = true;
+                terrainAt = pawn.Map.terrainGrid.FoundationAt(pawn.Map.cellIndices.CellToIndex(cell));
+                //Log.Message("Foundation at " + cell.ToString() + terrainAt?.defName ?? "null");
+                if (terrainAt == null || !OpportunityCache.ContainsKey(terrainAt))
+					return false;
+            }
 
 			var opportunity = OpportunityCache[terrainAt].FirstOrDefault();
 			if(opportunity == null)
 				return false;
 
-            if (PrototypeKeeper.Instance.IsTerrainPrototype(cell, pawn.Map) && opportunity.relation != ResearchRelation.Ancestor)
-            {
-                JobFailReason.Is(StringsCache.JobFail_IsPrototype, null);
-                return false;
-            }
-
             if (currentProj.HasAnyPrerequisites() && !FieldResearchHelper.GetValidResearchKits(pawn, currentProj).Any())
             {
                 JobFailReason.Is(StringsCache.JobFail_NeedResearchKit, null);
                 return false;
+            }
+
+			if (opportunity.relation != ResearchRelation.Ancestor)
+            {
+                var isPrototype = false;
+                if (!usingFoundation)
+					isPrototype = PrototypeKeeper.Instance.IsTerrainPrototype(cell, pawn.Map);
+                else
+                    isPrototype = PrototypeKeeper.Instance.IsFoundationTerrainPrototype(cell, pawn.Map);
+
+				if (isPrototype)
+                {
+                    JobFailReason.Is(StringsCache.JobFail_IsPrototype, null);
+                    return false;
+                }
             }
 
             return
@@ -107,9 +128,17 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		}
 
 		public override Job JobOnCell(Pawn pawn, IntVec3 cell, bool forced = false)
-		{
-			var terrainAt = cell.GetTerrain(pawn.Map);
-			var opportunity = OpportunityCache[terrainAt].First();
+        {
+            var usingFoundation = false;
+            var terrainAt = pawn.Map.terrainGrid.TopTerrainAt(pawn.Map.cellIndices.CellToIndex(cell));
+
+            if (!OpportunityCache.ContainsKey(terrainAt))
+            {
+                usingFoundation = true;
+                terrainAt = pawn.Map.terrainGrid.FoundationAt(pawn.Map.cellIndices.CellToIndex(cell));
+            }
+
+            var opportunity = OpportunityCache[terrainAt].First();
 
 			var jobDef = opportunity.JobDefs.First(j => j.driverClass == DriverClass);
 			Job job = JobMaker.MakeJob(jobDef, cell, expiryInterval: 1500, checkOverrideOnExpiry: true);
@@ -161,16 +190,19 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 			foreach (var opportunity in MatchingOpportunities.Where(o => o.CurrentAvailability == OpportunityAvailability.Available && o.requirement is ROComp_RequiresTerrain))
 			{
-				var terrainDef = (opportunity.requirement as ROComp_RequiresTerrain)?.terrainDef;
-				if (terrainDef == null)
+				var terrainDefs = (opportunity.requirement as ROComp_RequiresTerrain)?.AllTerrains;
+				if (terrainDefs == null || terrainDefs.Length == 0)
 				{
-					Log.ErrorOnce($"RR: current research project {Find.ResearchManager.GetProject()} generated a WorkGiver_Analyze opportunity with null requirement!", Find.ResearchManager.GetProject().debugRandomId);
+					Log.ErrorOnce($"RR: current research project {Find.ResearchManager.GetProject()} generated a WorkGiver_Analyze opportunity with null or empty requirement!", Find.ResearchManager.GetProject().debugRandomId);
 					continue;
 				}
-				if (!_opportunityCache.ContainsKey(terrainDef))
-					_opportunityCache[terrainDef] = new HashSet<ResearchOpportunity>();
+				foreach(var terrainDef in terrainDefs)
+                {
+                    if (!_opportunityCache.ContainsKey(terrainDef))
+                        _opportunityCache[terrainDef] = new HashSet<ResearchOpportunity>();
 
-				_opportunityCache[terrainDef].Add(opportunity);
+                    _opportunityCache[terrainDef].Add(opportunity);
+                }
 			}
 			cacheBuiltOnTick = Find.TickManager.TicksAbs;
 			//Log.Message("built terrain opportunity cache on tick " + cacheBuiltOnTick);

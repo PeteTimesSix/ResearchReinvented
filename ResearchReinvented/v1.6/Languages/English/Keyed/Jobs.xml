@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<RR_jobFail_incapableOfResearch>Incapable of research</RR_jobFail_incapableOfResearch>
+	<RR_jobFail_needResearchKit>Need a research kit capable of analysis</RR_jobFail_needResearchKit>
+	<RR_jobFail_needResearchBench>Cannot find or reach a research bench capable of analysis</RR_jobFail_needResearchBench>
+	<RR_jobFail_isPrototype>This is a prototype</RR_jobFail_isPrototype>
+	<RR_jobReport_ScienceInterrogation>Interrogating prisoner {0}.</RR_jobReport_ScienceInterrogation>
+	<RR_jobFail_PrisonerHasNothingToTeach>Prisoner has nothing to teach</RR_jobFail_PrisonerHasNothingToTeach>
+</LanguageData>

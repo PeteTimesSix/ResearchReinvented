@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase" MayRequire="ludeon.rimworld.biotech">
+		<defName>RR_tox</defName>
+		<project>ToxGas</project>
+		<things>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientToxVent</li>
+		</things>
+	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase" MayRequire="ludeon.rimworld.biotech">
+		<defName>RR_geneProcessor</defName>
+		<project>GeneProcessor</project>
+		<things>
+			<li MayRequire="ludeon.rimworld.odyssey">MechanoidProcessor</li>
+		</things>
+	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase" MayRequire="ludeon.rimworld.biotech">
+		<defName>RR_basicMechtech</defName>
+		<project>BasicMechtech</project>
+		<things>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientForklift</li>
+		</things>
+	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase" MayRequire="ludeon.rimworld.biotech">
+		<defName>RR_standardMechtech</defName>
+		<project>StandardMechtech</project>
+		<things>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientTunnelerClaw</li>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientTunnelerHusk</li>
+		</things>
+	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase" MayRequire="ludeon.rimworld.biotech">
+		<defName>RR_mechrelay</defName>
+		<project>HighMechtech</project>
+		<things>
+			<li>Gloomlight</li>
+			<li MayRequire="ludeon.rimworld.odyssey">MechRelay</li>
+		</things>
+	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
+</Defs>

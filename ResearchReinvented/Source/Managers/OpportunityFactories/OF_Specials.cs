@@ -33,26 +33,26 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             var setDirect = new HashSet<SpecialResearchOpportunityDef>();
             var setDescendant = new HashSet<SpecialResearchOpportunityDef>();
 
-            var projectMatches = DefDatabase<SpecialResearchOpportunityDef>.AllDefsListForReading.Where(s => s.originalProject == project);
+            var projectMatches = DefDatabase<SpecialResearchOpportunityDef>.AllDefsListForReading.Where(s => s.project == project);
             setAncestor.AddRange(projectMatches.Where(m => m.IsForRelation(ResearchRelation.Ancestor)));
             setDirect.AddRange(projectMatches.Where(m => m.IsForRelation(ResearchRelation.Direct)));
             setDescendant.AddRange(projectMatches.Where(m => m.IsForRelation(ResearchRelation.Descendant)));
 
-            DoAlternates(allCollections, setAncestor, ResearchRelation.Ancestor);
-            DoAlternates(allCollections, setDirect, ResearchRelation.Direct);
-            DoAlternates(allCollections, setDescendant, ResearchRelation.Descendant);
+            //DoAlternates(allCollections, setAncestor, ResearchRelation.Ancestor);
+            //DoAlternates(allCollections, setDirect, ResearchRelation.Direct);
+            //DoAlternates(allCollections, setDescendant, ResearchRelation.Descendant);
 
             allCollections.GetSet(ResearchRelation.Ancestor).specials.AddRange(setAncestor);
             allCollections.GetSet(ResearchRelation.Direct).specials.AddRange(setDirect);
             allCollections.GetSet(ResearchRelation.Descendant).specials.AddRange(setDescendant);
         }
 
-        private static void DoAlternates(OpportunityFactoryCollectionsSet allCollections, HashSet<SpecialResearchOpportunityDef> set, ResearchRelation relation)
+        /*private static void DoAlternates(OpportunityFactoryCollectionsSet allCollections, HashSet<SpecialResearchOpportunityDef> set, ResearchRelation relation)
         {
             foreach (var thingDef in allCollections.GetSet(relation).forDirectAnalysis)
             {
                 set.AddRange(DefDatabase<SpecialResearchOpportunityDef>.AllDefsListForReading.Where(s => s.originals != null && s.IsForRelation(relation) && s.originals.Contains(thingDef)));
             }
-        }
+        }*/
     }
 }

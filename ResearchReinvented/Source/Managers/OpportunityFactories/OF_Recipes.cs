@@ -3,6 +3,7 @@ using PeteTimesSix.ResearchReinvented.Extensions;
 using PeteTimesSix.ResearchReinvented.Opportunities;
 using PeteTimesSix.ResearchReinvented.OpportunityComps;
 using PeteTimesSix.ResearchReinvented.Rimworld;
+using PeteTimesSix.ResearchReinvented.Rimworld.DefModExtensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             HashSet<ThingDef> products = new HashSet<ThingDef>();
             HashSet<Def> prototypeables = new HashSet<Def>();
 
-            foreach (var recipe in GatherDirectRecipes(project).Where(r => r.PassesIdeoCheck()))
+            foreach (var recipe in GatherDirectRecipes(project).Where(r => !(r.modExtensions?.Any(me => me is Blacklisted) ?? false) && r.PassesIdeoCheck()))
             {
                 users.AddRange(recipe.AllRecipeUsers);
                 if (recipe.products != null)
@@ -80,9 +81,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
 
             if (project.UnlockedDefs != null)
             {
-                recipes.AddRange(
-                    project.UnlockedDefs.Where(u => u is RecipeDef).Cast<RecipeDef>()
-                    );
+                recipes.AddRange( project.UnlockedDefs.Where(u => u is RecipeDef).Cast<RecipeDef>() );
             }
 
             return recipes;

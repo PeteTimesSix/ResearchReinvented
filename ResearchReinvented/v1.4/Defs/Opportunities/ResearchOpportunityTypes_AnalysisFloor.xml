@@ -14,14 +14,14 @@
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="FloorAnalysisOpportunity">
 		<defName>AnalyseSoil</defName>
 		<header_Direct>soil analysis</header_Direct>
-		<shortDesc_Direct>Analyse soil contents of {0}.</shortDesc_Direct>
+		<shortDesc_Direct>Analyze soil contents of {0}.</shortDesc_Direct>
 		<category_Direct>Geology</category_Direct>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="FloorAnalysisOpportunity">
 		<defName>AnalyseTerrain</defName>
 		<header_Direct>terrain analysis</header_Direct>
-		<shortDesc_Direct>Analyse {0}.</shortDesc_Direct>
+		<shortDesc_Direct>Analyze {0}.</shortDesc_Direct>
 		<category_Direct>Geology</category_Direct>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 </Defs>

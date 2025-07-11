@@ -27,6 +27,8 @@ namespace PeteTimesSix.ResearchReinvented
         public const float HEADER_HEIGHT = 35f;
         public const float HEADER_GAP_HEIGHT = 10f;
 
+        public int changeTicker = 0;
+
         public SettingsPresetDef activePreset;
 
         public bool defaultCompactMode = false;
@@ -35,7 +37,7 @@ namespace PeteTimesSix.ResearchReinvented
         public bool kitlessResearch = false;
         public bool kitlessNeolithicResearch = true;
 
-        public bool disablePrototypeBillCancellation = false;
+        public bool disablePrototypeBillCancellation = true;
 
 
         public List<CategorySettingsChanges> categorySettingChanges = new List<CategorySettingsChanges>();
@@ -53,6 +55,8 @@ namespace PeteTimesSix.ResearchReinvented
         {
             base.ExposeData();
 
+            Scribe_Values.Look(ref changeTicker, "changeTicker", 0);
+
             Scribe_Defs.Look(ref activePreset, "activePreset");
 
             Scribe_Values.Look(ref defaultCompactMode, "defaultCompactMode", false);
@@ -61,7 +65,7 @@ namespace PeteTimesSix.ResearchReinvented
             Scribe_Values.Look(ref kitlessResearch, "kitlessResearch", false);
             Scribe_Values.Look(ref kitlessNeolithicResearch, "kitlessNeolithicResearch", true);
 
-            Scribe_Values.Look(ref disablePrototypeBillCancellation, "disablePrototypeBillCancellation", false);
+            Scribe_Values.Look(ref disablePrototypeBillCancellation, "disablePrototypeBillCancellation", true);
 
             Scribe_Collections.Look(ref categorySettingChanges, "categorySettingChanges", LookMode.Deep);
 
@@ -135,6 +139,15 @@ namespace PeteTimesSix.ResearchReinvented
             Listing_Standard listingStandard = new Listing_Standard();
             listingStandard.Begin(inRect);
 
+
+            //var warningRect = listingStandard.GetRect(30f);
+
+            Text.Anchor = TextAnchor.MiddleCenter;
+            GUI.color = Color.yellow;
+            listingStandard.Label("RR_setting_changeWarning".Translate());
+            Text.Anchor = TextAnchor.UpperLeft;
+            GUI.color = Color.white;
+
             float remainingHeight = inRect.height - listingStandard.CurHeight;
             var sectionListing = listingStandard.BeginHiddenSection(out float maxHeightAccumulator);
             {
@@ -193,7 +206,8 @@ namespace PeteTimesSix.ResearchReinvented
                     GUI.color = Color.white;    
                 }
 
-                sectionListing.End();
+                //sectionListing.End();
+                listingStandard.EndHiddenSection(sectionListing, visualizerRect.height);
             }
 
             listingStandard.End();
@@ -203,6 +217,14 @@ namespace PeteTimesSix.ResearchReinvented
         {
             Listing_Standard listingStandard = new Listing_Standard();
             listingStandard.Begin(inRect);
+
+            //var warningRect = listingStandard.GetRect(30f);
+
+            Text.Anchor = TextAnchor.MiddleCenter;
+            GUI.color = Color.yellow;
+            listingStandard.Label("RR_setting_changeWarning".Translate());
+            Text.Anchor = TextAnchor.UpperLeft;
+            GUI.color = Color.white;
 
             float remainingHeight = inRect.height - listingStandard.CurHeight;
             var sectionListing = listingStandard.BeginHiddenSection(out float maxHeightAccumulator);
@@ -249,20 +271,35 @@ namespace PeteTimesSix.ResearchReinvented
                         GUI.color = temp_categoryChanges.availableAtOverallProgress.HasValue ? Color.yellow : Color.white;
                         sectionListing.FloatRangeLabeled("RR_setting_category_availableAtOverallProgress".Translate(), ref temp_categorySettings.availableAtOverallProgress, min: 0, max: 1, roundTo: 0.01f, displayMult: 100, valueSuffix: "%", tooltip: "RR_setting_category_availableAtOverallProgress_tooltip".Translate());
 
+                        GUI.color = temp_categoryChanges.importanceStatic.HasValue ? Color.yellow : Color.white;
+                        sectionListing.SliderLabeled("RR_setting_category_importanceStatic".Translate(), ref temp_categorySettings.importanceStatic, min: 0, max: 1, roundTo: 0.01f, displayMult: 100, valueSuffix: "%", tooltip: "RR_setting_category_importanceStatic_tooltip".Translate());
+
+                        var importanceMultiplierPreChange = temp_categorySettings.importanceMultiplier;
                         GUI.color = temp_categoryChanges.importanceMultiplier.HasValue ? Color.yellow : Color.white;
                         sectionListing.SliderLabeled("RR_setting_category_importanceMultiplier".Translate(), ref temp_categorySettings.importanceMultiplier, min: 0, max: 5, roundTo: 0.05f, displayMult: 100, valueSuffix: "%", tooltip: "RR_setting_category_importanceMultiplier_tooltip".Translate());
+                        if (temp_categorySettings.importanceMultiplier != importanceMultiplierPreChange){
+                            //maintain ratio between importanceMultipler and importanceMultiplierCounted
+                            if (temp_categorySettings.importanceMultiplier == 0.0)
+                                temp_categorySettings.importanceMultiplierCounted = 0.0f;
+                            else if (importanceMultiplierPreChange == 0.0 || importanceMultiplierPreChange == temp_categorySettings.importanceMultiplierCounted)
+                                temp_categorySettings.importanceMultiplierCounted = temp_categorySettings.importanceMultiplier;
+                            else
+                            {
+                                var fraction = temp_categorySettings.importanceMultiplier / importanceMultiplierPreChange;
+                                Log.Message("fraction: " + fraction);
+                                temp_categorySettings.importanceMultiplierCounted *= fraction;
+                            }
+
+                        }
 
                         GUI.color = temp_categoryChanges.importanceMultiplierCounted.HasValue ? Color.yellow : Color.white;
-                        sectionListing.SliderLabeled("RR_setting_category_importanceMultiplierCounted".Translate(), ref temp_categorySettings.importanceMultiplierCounted, min: 0, max: temp_categorySettings.importanceMultiplier, roundTo: 0.05f, displayMult: 100, valueSuffix: "%", tooltip: "RR_setting_category_importanceMultiplierCounted_tooltip".Translate());
+                        sectionListing.SliderLabeled("RR_setting_category_importanceMultiplierCounted".Translate(), ref temp_categorySettings.importanceMultiplierCounted, min: 0, max: temp_categorySettings.importanceMultiplier, roundTo: 0.01f, displayMult: 100, valueSuffix: "%", tooltip: "RR_setting_category_importanceMultiplierCounted_tooltip".Translate());
 
                         GUI.color = temp_categoryChanges.targetIterations.HasValue ? Color.yellow : Color.white;
                         sectionListing.SliderLabeled("RR_setting_category_targetIterations".Translate(), ref temp_categorySettings.targetIterations, min: 1, max: 30, roundTo: 0.25f, decimalPlaces: 2, tooltip: "RR_setting_category_targetIterations_tooltip".Translate());
 
                         GUI.color = temp_categoryChanges.infiniteOverflow.HasValue ? Color.yellow : Color.white;
                         sectionListing.CheckboxLabeled("RR_setting_category_infiniteOverflow".Translate(), ref temp_categorySettings.infiniteOverflow, "RR_setting_category_infiniteOverflow_tooltip".Translate());
-
-                        GUI.color = temp_categoryChanges.importanceStatic.HasValue ? Color.yellow : Color.white;
-                        sectionListing.SliderLabeled("RR_setting_category_importanceStatic".Translate(), ref temp_categorySettings.importanceStatic, min: 0, max: 1, roundTo: 0.01f, displayMult: 100, valueSuffix: "%", tooltip: "RR_setting_category_importanceStatic_tooltip".Translate());
 
                         GUI.color = temp_categoryChanges.researchSpeedMultiplier.HasValue ? Color.yellow : Color.white;
                         sectionListing.SliderLabeled("RR_setting_category_researchSpeedMultiplier".Translate(), ref temp_categorySettings.researchSpeedMultiplier, min: 0.05f, max: 5, roundTo: 0.05f, displayMult: 100, valueSuffix: "%", tooltip: "RR_setting_category_researchSpeedMultiplier_tooltip".Translate());
@@ -284,7 +321,8 @@ namespace PeteTimesSix.ResearchReinvented
                     sectionListing.Label(temp_categorySettings.category.description);
                 }
 
-                listingStandard.EndHiddenSection(sectionListing, maxHeightAccumulator);
+                //sectionListing.End();
+                listingStandard.EndHiddenSection(sectionListing, visualizerRect.height);
             }
 
             listingStandard.End();

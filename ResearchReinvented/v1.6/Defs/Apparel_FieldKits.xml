@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  
+  <ThingDef Name="RR_FieldResearchKitBase" Abstract="True" ParentName="ApparelBase">  
+    <thingCategories>
+      <li>ApparelUtility</li>
+    </thingCategories>  
+	<tradeTags>
+      <li>Artifact</li>
+    </tradeTags>
+    <tickerType>Never</tickerType>
+  </ThingDef>
+  
+  <ThingDef ParentName="RR_FieldResearchKitBase">
+    <defName>RR_FieldResearchKitSimple</defName>
+    <label>simple field research kit</label>
+    <description>This basic field research kit contains the tools necessary to perform research in the field, where a researcher does not have access to a full-sized research bench.</description>
+    <techLevel>Neolithic</techLevel>
+	<equippedStatOffsets>
+      <FieldResearchSpeedMultiplier>0.25</FieldResearchSpeedMultiplier>
+      <HackingSpeed>0.1</HackingSpeed>
+    </equippedStatOffsets>
+	<comps>
+      <li Class="PeteTimesSix.ResearchReinvented.Rimworld.Comps.CompProperties.CompProperties_ResearchKit">
+			<fieldworkEffect>SimpleResearchKitEffect</fieldworkEffect>
+			<substitutedResearchBench>SimpleResearchBench</substitutedResearchBench>
+	  </li>
+    </comps>
+    <recipeMaker>
+      <unfinishedThingDef>UnfinishedPack</unfinishedThingDef>
+      <recipeUsers>
+        <li>CraftingSpot</li>
+        <li>HandTailoringBench</li>
+        <li>ElectricTailoringBench</li>
+      </recipeUsers>
+      <useIngredientsForColor>false</useIngredientsForColor>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <effectWorking>Smith</effectWorking>
+      <soundWorking>Recipe_Smith</soundWorking>
+    </recipeMaker>    
+	<stuffCategories>
+      <li>Fabric</li>
+      <li>Leathery</li>
+    </stuffCategories>
+    <costStuffCount>10</costStuffCount>
+    <costList>
+      <Steel>5</Steel>
+    </costList>
+    <graphicData>
+      <texPath>Things/Items/SimpleResearchKit</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.85</drawSize>
+    </graphicData>
+    <statBases>
+      <WorkToMake>1500</WorkToMake>
+      <Mass>2</Mass>
+      <Flammability>0.6</Flammability>
+      <EquipDelay>2</EquipDelay>
+    </statBases>
+    <apparel>
+      <wornGraphicPath>Things/Items/SimpleResearchKit/SimpleResearchKit</wornGraphicPath>
+      <wornGraphicData>
+        <renderUtilityAsPack>true</renderUtilityAsPack>
+        <north>
+          <male>  <offset>(-0.3, -0.25)</offset> </male>
+          <female><offset>(-0.3,-0.25)</offset> </female>
+          <thin>  <offset>(-0.2,-0.25)</offset> </thin>
+          <hulk>  <offset>(-0.3,-0.3)</offset> </hulk>
+          <fat>   <offset>(-0.5,-0.25)</offset> </fat>
+        </north>
+        <south>
+          <male>  <offset>(0.25, -0.25)</offset> </male>
+          <female><offset>(0.25,-0.25)</offset> </female>
+          <thin>  <offset>(0.15,-0.25)</offset> </thin>
+          <hulk>  <offset>(0.25,-0.3)</offset> </hulk>
+          <fat>   <offset>(0.45,-0.25)</offset> </fat>
+        </south>
+        <west>
+          <offset>(0.05,-0.3)</offset>
+        </west>
+
+        <male>  <scale>(0.5,0.5)</scale> </male>
+        <female><scale>(0.5,0.5)</scale> </female>
+        <thin>  <scale>(0.5,0.5)</scale> </thin>
+        <hulk>  <scale>(0.5,0.5)</scale> </hulk>
+        <fat>   <scale>(0.5,0.5)</scale> </fat>
+      </wornGraphicData>
+      <countsAsClothingForNudity>false</countsAsClothingForNudity>
+      <careIfWornByCorpse>false</careIfWornByCorpse>
+      <careIfDamaged>false</careIfDamaged>
+      <wearPerDay>0</wearPerDay>
+      <bodyPartGroups>
+        <li>Waist</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Satchel</li>
+      </layers>
+      <tags>
+        <li>ResearchKit</li>
+      </tags>
+    </apparel>
+  </ThingDef>
+  
+  <ThingDef ParentName="RR_FieldResearchKitBase">
+    <defName>RR_FieldResearchKitHiTech</defName>
+    <label>field research kit</label>
+    <description>This advanced field research kit contains the tools necessary to perform research in the field, where a researcher does not have access to a full-sized research bench. The advanced tools in this kit allow researching technologies that would ordinarily require a hi-tech research bench.</description>
+    <techLevel>Industrial</techLevel>
+	<equippedStatOffsets>
+      <FieldResearchSpeedMultiplier>0.5</FieldResearchSpeedMultiplier>
+      <HackingSpeed>0.25</HackingSpeed>
+    </equippedStatOffsets>
+	<comps>
+      <li Class="PeteTimesSix.ResearchReinvented.Rimworld.Comps.CompProperties.CompProperties_ResearchKit">
+		<fieldworkEffect>HiTechResearchKitEffect</fieldworkEffect>
+		<substitutedResearchBench>HiTechResearchBench</substitutedResearchBench>
+	  </li>
+    </comps>
+    <recipeMaker>
+      <unfinishedThingDef>UnfinishedPack</unfinishedThingDef>
+      <recipeUsers>
+        <li>FueledSmithy</li>
+        <li>ElectricSmithy</li>
+        <li>TableMachining</li>
+      </recipeUsers>
+      <useIngredientsForColor>false</useIngredientsForColor>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <effectWorking>Smith</effectWorking>
+      <soundWorking>Recipe_Smith</soundWorking>
+      <skillRequirements>
+        <Crafting>3</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <costList>
+      <Steel>20</Steel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <graphicData>
+      <texPath>Things/Items/HiTechResearchKit</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.85</drawSize>
+    </graphicData>
+    <statBases>
+      <WorkToMake>2000</WorkToMake>
+      <Mass>3</Mass>
+      <Flammability>0.4</Flammability>
+      <EquipDelay>2</EquipDelay>
+    </statBases>
+    <apparel>
+      <wornGraphicPath>Things/Items/HiTechResearchKit/HiTechResearchKit</wornGraphicPath>
+      <wornGraphicData>
+        <renderUtilityAsPack>true</renderUtilityAsPack>
+        <north>
+          <male>  <offset>(-0.3, -0.25)</offset> </male>
+          <female><offset>(-0.3,-0.25)</offset> </female>
+          <thin>  <offset>(-0.2,-0.25)</offset> </thin>
+          <hulk>  <offset>(-0.3,-0.3)</offset> </hulk>
+          <fat>   <offset>(-0.5,-0.25)</offset> </fat>
+        </north>
+        <south>
+          <male>  <offset>(0.25, -0.25)</offset> </male>
+          <female><offset>(0.25,-0.25)</offset> </female>
+          <thin>  <offset>(0.15,-0.25)</offset> </thin>
+          <hulk>  <offset>(0.25,-0.3)</offset> </hulk>
+          <fat>   <offset>(0.45,-0.25)</offset> </fat>
+        </south>
+        <west>
+          <offset>(0.05,-0.3)</offset>
+        </west>
+
+        <male>  <scale>(0.5,0.5)</scale> </male>
+        <female><scale>(0.5,0.5)</scale> </female>
+        <thin>  <scale>(0.5,0.5)</scale> </thin>
+        <hulk>  <scale>(0.5,0.5)</scale> </hulk>
+        <fat>   <scale>(0.5,0.5)</scale> </fat>
+      </wornGraphicData>
+      <countsAsClothingForNudity>false</countsAsClothingForNudity>
+      <careIfWornByCorpse>false</careIfWornByCorpse>
+      <careIfDamaged>false</careIfDamaged>
+      <wearPerDay>0</wearPerDay>
+      <bodyPartGroups>
+        <li>Waist</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Satchel</li>
+      </layers>
+      <tags>
+        <li>ResearchKit</li>
+      </tags>
+    </apparel>
+  </ThingDef>
+  
+  <ThingDef ParentName="RR_FieldResearchKitBase">
+    <defName>RR_FieldResearchKitMultiAnalyzer</defName>
+    <label>field research analyzer-kit</label>
+    <description>This advanced field research kit contains the tools necessary to perform research in the field, where a researcher does not have access to a full-sized research bench. The advanced tools in this kit allow researching technologies that would ordinarily require a hi-tech research bench. An expansion module contains a portable microanalyzer.</description>
+    <techLevel>Industrial</techLevel>
+	<equippedStatOffsets>
+      <FieldResearchSpeedMultiplier>0.5</FieldResearchSpeedMultiplier>
+      <HackingSpeed>0.4</HackingSpeed>
+    </equippedStatOffsets>
+	<comps>
+      <li Class="PeteTimesSix.ResearchReinvented.Rimworld.Comps.CompProperties.CompProperties_ResearchKit">
+			<fieldworkEffect>MultiAnalyzerResearchKitEffect</fieldworkEffect>
+			<substitutedResearchBench>HiTechResearchBench</substitutedResearchBench>
+			<substitutedFacilities>
+				<li>MultiAnalyzer</li>
+			</substitutedFacilities>
+	  </li>
+    </comps>
+    <recipeMaker>
+      <unfinishedThingDef>UnfinishedPack</unfinishedThingDef>
+      <recipeUsers>
+        <li>TableMachining</li>
+      </recipeUsers>
+      <useIngredientsForColor>false</useIngredientsForColor>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <effectWorking>Smith</effectWorking>
+      <soundWorking>Recipe_Smith</soundWorking>
+      <skillRequirements>
+        <Crafting>5</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <costList>
+      <Steel>10</Steel>
+      <Plasteel>10</Plasteel>
+      <Gold>1</Gold>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <graphicData>
+      <texPath>Things/Items/MultiAnalyzerResearchKit</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.85</drawSize>
+    </graphicData>
+    <statBases>
+      <WorkToMake>3000</WorkToMake>
+      <Mass>3</Mass>
+      <Flammability>0.4</Flammability>
+      <EquipDelay>2</EquipDelay>
+    </statBases>
+    <apparel>
+      <wornGraphicPath>Things/Items/MultiAnalyzerResearchKit/MultiAnalyzerResearchKit</wornGraphicPath>
+      <wornGraphicData>
+        <renderUtilityAsPack>true</renderUtilityAsPack>
+        <north>
+          <male>  <offset>(-0.3, -0.25)</offset> </male>
+          <female><offset>(-0.3,-0.25)</offset> </female>
+          <thin>  <offset>(-0.2,-0.25)</offset> </thin>
+          <hulk>  <offset>(-0.3,-0.3)</offset> </hulk>
+          <fat>   <offset>(-0.5,-0.25)</offset> </fat>
+        </north>
+        <south>
+          <male>  <offset>(0.25, -0.25)</offset> </male>
+          <female><offset>(0.25,-0.25)</offset> </female>
+          <thin>  <offset>(0.15,-0.25)</offset> </thin>
+          <hulk>  <offset>(0.25,-0.3)</offset> </hulk>
+          <fat>   <offset>(0.45,-0.25)</offset> </fat>
+        </south>
+        <west>
+          <offset>(0.05,-0.3)</offset>
+        </west>
+
+        <male>  <scale>(0.5,0.5)</scale> </male>
+        <female><scale>(0.5,0.5)</scale> </female>
+        <thin>  <scale>(0.5,0.5)</scale> </thin>
+        <hulk>  <scale>(0.5,0.5)</scale> </hulk>
+        <fat>   <scale>(0.5,0.5)</scale> </fat>
+      </wornGraphicData>
+      <countsAsClothingForNudity>false</countsAsClothingForNudity>
+      <careIfWornByCorpse>false</careIfWornByCorpse>
+      <careIfDamaged>false</careIfDamaged>
+      <wearPerDay>0</wearPerDay>
+      <bodyPartGroups>
+        <li>Waist</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Satchel</li>
+      </layers>
+      <tags>
+        <li>ResearchKit</li>
+      </tags>
+    </apparel>
+  </ThingDef>
+  
+  <ThingDef ParentName="RR_FieldResearchKitBase">
+    <defName>RR_FieldResearchKitRemote</defName>
+    <label>remote field research kit</label>
+    <description>This advanced field research kit contains the tools necessary to perform research in the field, where a researcher does not have access to a full-sized research bench. The advanced tools in this kit allow researching technologies that would ordinarily require a hi-tech research bench. An expansion module contains an uplink system that allows remote usage of local research benches by connecting to their microanalyzer.</description>
+    <techLevel>Spacer</techLevel>
+	<equippedStatOffsets>
+      <FieldResearchSpeedMultiplier>0.5</FieldResearchSpeedMultiplier>
+      <HackingSpeed>0.4</HackingSpeed>
+    </equippedStatOffsets>
+	<comps>
+      <li Class="PeteTimesSix.ResearchReinvented.Rimworld.Comps.CompProperties.CompProperties_ResearchKit">
+			<fieldworkEffect>MultiAnalyzerResearchKitEffect</fieldworkEffect>
+			<substitutedResearchBench>HiTechResearchBench</substitutedResearchBench>
+			<remotesThrough>MultiAnalyzer</remotesThrough>
+	  </li>
+    </comps>
+    <recipeMaker>
+      <unfinishedThingDef>UnfinishedPack</unfinishedThingDef>
+      <recipeUsers>
+        <li>TableMachining</li>
+      </recipeUsers>
+      <useIngredientsForColor>false</useIngredientsForColor>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <effectWorking>Smith</effectWorking>
+      <soundWorking>Recipe_Smith</soundWorking>
+      <skillRequirements>
+        <Crafting>5</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <costList>
+      <Steel>10</Steel>
+      <Plasteel>10</Plasteel>
+      <ComponentIndustrial>2</ComponentIndustrial>
+      <ComponentSpacer>1</ComponentSpacer>
+    </costList>    
+	<graphicData>
+      <texPath>Things/Items/RemoteResearchKit</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.85</drawSize>
+    </graphicData>
+    <statBases>
+      <WorkToMake>3000</WorkToMake>
+      <Mass>3</Mass>
+      <Flammability>0.4</Flammability>
+      <EquipDelay>2</EquipDelay>
+    </statBases>
+    <apparel>
+      <wornGraphicPath>Things/Items/RemoteResearchKit/RemoteResearchKit</wornGraphicPath>      
+	  <wornGraphicData>
+        <renderUtilityAsPack>true</renderUtilityAsPack>
+        <north>
+          <male>  <offset>(-0.3, -0.25)</offset> </male>
+          <female><offset>(-0.3,-0.25)</offset> </female>
+          <thin>  <offset>(-0.2,-0.25)</offset> </thin>
+          <hulk>  <offset>(-0.3,-0.3)</offset> </hulk>
+          <fat>   <offset>(-0.5,-0.25)</offset> </fat>
+        </north>
+        <south>
+          <male>  <offset>(0.25, -0.25)</offset> </male>
+          <female><offset>(0.25,-0.25)</offset> </female>
+          <thin>  <offset>(0.15,-0.25)</offset> </thin>
+          <hulk>  <offset>(0.25,-0.3)</offset> </hulk>
+          <fat>   <offset>(0.45,-0.25)</offset> </fat>
+        </south>
+        <west>
+          <offset>(0.05,-0.3)</offset>
+        </west>
+
+        <male>  <scale>(0.5,0.5)</scale> </male>
+        <female><scale>(0.5,0.5)</scale> </female>
+        <thin>  <scale>(0.5,0.5)</scale> </thin>
+        <hulk>  <scale>(0.5,0.5)</scale> </hulk>
+        <fat>   <scale>(0.5,0.5)</scale> </fat>
+      </wornGraphicData>
+      <countsAsClothingForNudity>false</countsAsClothingForNudity>
+      <careIfWornByCorpse>false</careIfWornByCorpse>
+      <careIfDamaged>false</careIfDamaged>
+      <wearPerDay>0</wearPerDay>
+      <bodyPartGroups>
+        <li>Waist</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Satchel</li>
+      </layers>
+      <tags>
+        <li>ResearchKit</li>
+      </tags>
+    </apparel>
+  </ThingDef>
+  
+</Defs>

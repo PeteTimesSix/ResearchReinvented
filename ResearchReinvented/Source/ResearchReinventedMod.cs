@@ -1,22 +1,24 @@
-﻿using System;
+﻿using HarmonyLib;
+using PeteTimesSix.ResearchReinvented.DefOfs;
+using PeteTimesSix.ResearchReinvented.Defs;
+using PeteTimesSix.ResearchReinvented.HarmonyPatches;
+using PeteTimesSix.ResearchReinvented.Managers;
+using PeteTimesSix.ResearchReinvented.ModCompat;
+using PeteTimesSix.ResearchReinvented.Rimworld;
+using PeteTimesSix.ResearchReinvented.Rimworld.Comps;
+using PeteTimesSix.ResearchReinvented.Rimworld.Comps.CompProperties;
+using PeteTimesSix.ResearchReinvented.Rimworld.DefModExtensions;
+using PeteTimesSix.ResearchReinvented.Rimworld.UI.Dialogs;
+using PeteTimesSix.ResearchReinvented.Utilities;
+using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Verse;
 using UnityEngine;
-using HarmonyLib;
-using System.Reflection;
-using RimWorld;
-using PeteTimesSix.ResearchReinvented.Rimworld;
-using PeteTimesSix.ResearchReinvented.Managers;
-using PeteTimesSix.ResearchReinvented.HarmonyPatches;
-using PeteTimesSix.ResearchReinvented.DefOfs;
-using PeteTimesSix.ResearchReinvented.Rimworld.Comps.CompProperties;
-using PeteTimesSix.ResearchReinvented.Defs;
-using PeteTimesSix.ResearchReinvented.Rimworld.DefModExtensions;
-using PeteTimesSix.ResearchReinvented.Rimworld.Comps;
-using PeteTimesSix.ResearchReinvented.ModCompat;
+using Verse;
 
 namespace PeteTimesSix.ResearchReinvented
 {
@@ -46,6 +48,27 @@ namespace PeteTimesSix.ResearchReinvented
         {
             Settings.DoSettingsWindowContents(inRect);
         }
+
+        public override void WriteSettings()
+        {
+            base.WriteSettings();
+            Settings.changeTicker++;
+            if (Current.ProgramState == ProgramState.Playing) 
+            {
+                FixupDialog();
+            }
+        }
+
+        public void FixupDialog()
+        {
+            var fixupDialog = new Dialog_FixupSettingsChange("RR_setting_fixupConfirm".Translate(), () => {
+                ResearchOpportunityManager.Instance.ResetAllProgress();
+                CacheClearer.ClearCaches();
+                ResearchOpportunityManager.Instance.DelayedRegeneration();
+                ResearchOpportunityManager.Instance.changeTicker = Settings.changeTicker;
+            });
+            Find.WindowStack.Add(fixupDialog);
+        }
 	}
 
     [StaticConstructorOnStartup]
@@ -60,6 +83,7 @@ namespace PeteTimesSix.ResearchReinvented
 
             AddRarityModExtensions();
             AssociateKitsWithResearchProjects();
+            AlternatesKeeper.PrepareAlternates();
         }
 
         private static void AssociateKitsWithResearchProjects()
@@ -123,27 +147,6 @@ namespace PeteTimesSix.ResearchReinvented
                         MarkAsRare(thing);
                 }
             }
-            foreach (var alternates in DefDatabase<AlternateResearchSubjectsDef>.AllDefsListForReading.Where(a => a.markAsRare))
-            {
-                if (alternates.alternates != null)
-                {
-                    foreach (var thing in alternates.alternates)
-                        MarkAsRare(thing);
-                }
-            }
-            /*foreach (var special in DefDatabase<SpecialResearchOpportunityDef>.AllDefsListForReading.Where(a => a.markAsRare))
-            {
-                if (special.alternates != null)
-                {
-                    foreach (var thing in special.alternates)
-                        MarkAsRare(thing);
-                }
-                if (special.alternateTerrains != null)
-                {
-                    foreach (var terrain in special.alternateTerrains)
-                        MarkAsRare(terrain);
-                }
-            }*/
         }
 
         private static void MarkAsRare(Def def)

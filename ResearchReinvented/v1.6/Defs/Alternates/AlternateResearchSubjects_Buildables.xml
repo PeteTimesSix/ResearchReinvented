@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-1177033369_FermentingBarrel</defName>
+		<originals>
+			<li>FermentingBarrel</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientChembarrel</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-1961159422_Bed</defName>
+		<originals>
+			<li>Bed</li>
+		</originals>
+		<alternatesSimilar>
+			<li>AncientBed</li>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientSingleBed</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-852447437_TorchLamp</defName>
+		<originals>
+			<li>TorchLamp</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.biotech">SanguphageMeetingTorch</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_363995346_Darktorch</defName>
+		<originals>
+			<li MayRequire="ludeon.rimworld.ideology">Darktorch</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.ideology">DarktorchFungus</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_709539360_StandingLamp</defName>
+		<originals>
+			<li>StandingLamp</li>
+		</originals>
+		<alternatesEquivalent>
+			<li>WallLamp</li>
+		</alternatesEquivalent>
+		<alternatesSimilar>
+			<li>AncientLamp</li>
+			<li>WallLamp</li>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientEmergencyLight_Red</li>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientEmergencyLight_Blue</li>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientEmergencyLight_Green</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_921793602_FloodLight</defName>
+		<originals>
+			<li>FloodLight</li>
+		</originals>
+		<alternatesSimilar>
+			<li>AncientLamppost</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_821521091_Shelf</defName>
+		<originals>
+			<li>Shelf</li>
+		</originals>
+		<alternatesEquivalent>
+			<li>ShelfSmall</li>
+		</alternatesEquivalent>
+		<alternatesSimilar>
+			<li>ShelfSmall</li>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientShelf</li>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientIndustrialShelf</li>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientSmallShelf</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_1805851994_Bookcase</defName>
+		<originals>
+			<li>Bookcase</li>
+		</originals>
+		<alternatesEquivalent>
+			<li>BookcaseSmall</li>
+		</alternatesEquivalent>
+		<alternatesSimilar>
+			<li>BookcaseSmall</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-589340616_TubeTelevision</defName>
+		<originals>
+			<li>TubeTelevision</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientTV</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-2094377240_ShipLandingBeacon</defName>
+		<originals>
+			<li MayRequire="ludeon.rimworld.royalty">ShipLandingBeacon</li>
+		</originals>
+		<alternatesSimilar>
+			<li>AncientShipBeacon</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-1654852601_CommsConsole</defName>
+		<originals>
+			<li>CommsConsole</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.ideology">AncientCommsConsole</li>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientAntenna</li>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientDestroyedConsole</li>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientDestroyedConsoleLarge</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_1403847482_TransportPod</defName>
+		<originals>
+			<li>TransportPod</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.odyssey">MalfunctioningTransportPod</li>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientTransportPod</li>
+			<li MayRequire="ludeon.rimworld.odyssey">MechanoidDropPod</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-2061987687_CryptosleepCasket</defName>
+		<originals>
+			<li>CryptosleepCasket</li>
+		</originals>
+		<alternatesSimilar>
+			<li>AncientCryptosleepPod</li>
+			<li>AncientCryptosleepCasket</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-1586717165_PowerConduit</defName>
+		<originals>
+			<li>PowerConduit</li>
+		</originals>
+		<alternatesEquivalent>
+			<li>HiddenConduit</li>
+			<li>WaterproofConduit</li>
+		</alternatesEquivalent>
+		<alternatesSimilar>
+			<li>HiddenConduit</li>
+			<li>WaterproofConduit</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-2013419231_ChemfuelPoweredGenerator</defName>
+		<originals>
+			<li>ChemfuelPoweredGenerator</li>
+		</originals>
+		<alternatesSimilar>
+			<li>AncientGenerator</li>
+			<li>WoodFiredGenerator</li>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientMilitaryGeneratorSmall</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-2013419231_WoodFiredGenerator</defName>
+		<originals>
+			<li>WoodFiredGenerator</li>
+		</originals>
+		<alternatesSimilar>
+			<li>AncientGenerator</li>
+			<li>ChemfuelPoweredGenerator</li>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientMilitaryGeneratorSmall</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_1118561841_WindTurbine</defName>
+		<originals>
+			<li>WindTurbine</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientWindTurbineBody</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-1482594136_HandTailoringBench</defName>
+		<originals>
+			<li>HandTailoringBench</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientTableTailorHand</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_484974346_ElectricTailoringBench</defName>
+		<originals>
+			<li>ElectricTailoringBench</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientTableTailorElectric</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_867427914_FueledSmithy</defName>
+		<originals>
+			<li>FueledSmithy</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientTableSmithingFueled</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-1397455320_ElectricSmithy</defName>
+		<originals>
+			<li>ElectricSmithy</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientTableSmithingElectric</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-418729942_ElectricStove</defName>
+		<originals>
+			<li>ElectricStove</li>
+		</originals>
+		<alternatesSimilar>
+			<li>AncientMicrowave</li>
+			<li>AncientStove</li>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientRustedMicrowave</li>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientTableStoveElectric</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-696976378_FueledStove</defName>
+		<originals>
+			<li>FueledStove</li>
+		</originals>
+		<alternatesSimilar>
+			<li>AncientOven</li>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientTableStoveFueled</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_1810085672_Brewery</defName>
+		<originals>
+			<li>Brewery</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientTableBrewery</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-757360485_DrugLab</defName>
+		<originals>
+			<li>DrugLab</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientTableDrugLab</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_1925994368_DeepDrill</defName>
+		<originals>
+			<li>DeepDrill</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientDrillPlatform</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-85320597_Barricade</defName>
+		<originals>
+			<li>Barricade</li>
+		</originals>
+		<alternatesSimilar>
+			<li>AncientConcreteBarrier</li>
+			<li>AncientTankTrap</li>
+			<li>AncientRazorWire</li>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientBarrierLong</li>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientMilitaryBarrier</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_1984452232_Turret_MiniTurret</defName>
+		<originals>
+			<li>Turret_MiniTurret</li>
+		</originals>
+		<alternatesSimilar>
+			<li>AncientSecurityTurret</li>
+			<li>Turret_AutoMiniTurret</li>
+			<li MayRequire="ludeon.rimworld.odyssey">Turret_AncientArmoredTurret</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-171064774_Turret_Autocannon</defName>
+		<originals>
+			<li>Turret_Autocannon</li>
+		</originals>
+		<alternatesSimilar>
+			<li>Turret_AutoChargeBlaster</li>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientAutocannonTurret</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-321587587_Turret_Sniper</defName>
+		<originals>
+			<li>Turret_Sniper</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientUraniumSlugTurret</li>
+			<li MayRequire="ludeon.rimworld.odyssey">GaussCannon</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-1366570511_Turret_Mortar</defName>
+		<originals>
+			<li>Turret_Mortar</li>
+		</originals>
+		<alternatesSimilar>
+			<li>Turret_AutoMortar</li>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientMortar</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_1122867257_Cooler</defName>
+		<originals>
+			<li>Cooler</li>
+		</originals>
+		<alternatesSimilar>
+			<li>AncientAirConditioner</li>
+			<li>AncientRefrigerator</li>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientColdStorage</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-1318982129_Brazier</defName>
+		<originals>
+			<li MayRequire="ludeon.rimworld.royalty">Brazier</li>
+		</originals>
+		<alternatesEquivalent>
+			<li MayRequire="ludeon.rimworld.royalty,Ludeon.RimWorld.Ideology">DarklightBrazier</li>
+		</alternatesEquivalent>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.royalty,Ludeon.RimWorld.Ideology">DarklightBrazier</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_1490183181_GrowthVat</defName>
+		<originals>
+			<li MayRequire="ludeon.rimworld.biotech">GrowthVat</li>
+		</originals>
+		<alternatesSimilar>
+			<li>AncientStorageCylinder</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-130168633_MechBooster</defName>
+		<originals>
+			<li MayRequire="ludeon.rimworld.biotech">MechBooster</li>
+		</originals>
+		<alternatesSimilar>
+			<li>Gloomlight</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_1085292166_MechGestator</defName>
+		<originals>
+			<li MayRequire="ludeon.rimworld.biotech">MechGestator</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.royalty">MechCapsule</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-1592460521_LargeMechGestator</defName>
+		<originals>
+			<li MayRequire="ludeon.rimworld.biotech">LargeMechGestator</li>
+		</originals>
+		<alternatesSimilar>
+			<li>AncientMechGestatorTank</li>
+			<li MayRequire="ludeon.rimworld.royalty">MechAssembler</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_939668608_SecurityDoor</defName>
+		<originals>
+			<li MayRequire="ludeon.rimworld.anomaly">SecurityDoor</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientBlastDoor</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_25577373_ChemfuelTank</defName>
+		<originals>
+			<li MayRequire="ludeon.rimworld.odyssey">ChemfuelTank</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientChemfuelCanister</li>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientChembarrel</li>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientChembarrelPallet</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-1993189758_LargeChemfuelTank</defName>
+		<originals>
+			<li MayRequire="ludeon.rimworld.odyssey">LargeChemfuelTank</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientChemtruck</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-1396782254_SmallThruster</defName>
+		<originals>
+			<li MayRequire="ludeon.rimworld.odyssey">SmallThruster</li>
+		</originals>
+		<alternatesSimilar>
+			<li>AncientJetEngine</li>
+			<li>AncientDropshipEngine</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-52877565_GravcorePowerCell</defName>
+		<originals>
+			<li MayRequire="ludeon.rimworld.odyssey">GravcorePowerCell</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.royalty">UnstablePowerCell</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_1355790370_PassengerShuttle</defName>
+		<originals>
+			<li MayRequire="ludeon.rimworld.odyssey">PassengerShuttle</li>
+		</originals>
+		<alternatesSimilar>
+			<li>Shuttle</li>
+			<li>ShuttleCrashed</li>
+			<li MayRequire="ludeon.rimworld.biotech">ShuttleCrashed_Exitable</li>
+			<li MayRequire="ludeon.rimworld.biotech">ShuttleCrashed_Exitable_Mechanitor</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_916817366_Building_OutfitStand</defName>
+		<originals>
+			<li MayRequire="ludeon.rimworld.odyssey">Building_OutfitStand</li>
+		</originals>
+		<alternatesEquivalent>
+			<li MayRequire="ludeon.rimworld.biotech,ludeon.rimworld.odyssey">Building_KidOutfitStand</li>
+		</alternatesEquivalent>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.biotech,ludeon.rimworld.odyssey">Building_KidOutfitStand</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+</Defs>

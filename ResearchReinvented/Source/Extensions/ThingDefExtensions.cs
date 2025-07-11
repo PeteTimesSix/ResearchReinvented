@@ -29,7 +29,12 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
                     foreach (var op in PrototypeUtilities.PrototypeOpportunities)
                     {
                         if (op.requirement is ROComp_RequiresThing requiresThing)
-                            _prototypeOpportunitiesMappedCache[requiresThing.thingDef] = op;
+                        {
+                            foreach(var altThing in requiresThing.AllThings)
+                            {
+                                _prototypeOpportunitiesMappedCache[altThing] = op;
+                            }
+                        }
                     }
                     cacheBuiltForProject = Find.ResearchManager.GetProject();
                 }

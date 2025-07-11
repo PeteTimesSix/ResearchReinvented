@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <PeteTimesSix.ResearchReinvented.Defs.SettingsPresetDef>
+    <defName>SettingsPreset_RR_VisualScience</defName>
+    <label>holywood science</label>
+    <description>Research whatever is available at the same speed, with no restrictions on required amounts or variable research speed. Focused on aesthetics over complex mechanics.</description>
+	<priority>8</priority>
+	<categorySettingPresets>
+		<li>
+			<category>Theory</category>
+			
+			<importanceMultiplier>0.0</importanceMultiplier>
+			<importanceMultiplierCounted>0.0</importanceMultiplierCounted>
+			<infiniteOverflow>true</infiniteOverflow>
+			<targetIterations>1.0</targetIterations>
+			<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>Books</category>
+			
+			<importanceStatic>1.0</importanceStatic>
+			<importanceMultiplier>0.0</importanceMultiplier>
+			<importanceMultiplierCounted>0.0</importanceMultiplierCounted>
+			<infiniteOverflow>true</infiniteOverflow>
+			<targetIterations>1.0</targetIterations>
+			<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>Social</category>
+			
+			<importanceStatic>1.0</importanceStatic>
+			<importanceMultiplier>0.0</importanceMultiplier>
+			<importanceMultiplierCounted>0.0</importanceMultiplierCounted>
+			<infiniteOverflow>true</infiniteOverflow>
+			<targetIterations>1.0</targetIterations>
+			<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>Prototyping</category>
+			
+			<importanceStatic>1.0</importanceStatic>
+			<importanceMultiplier>0.0</importanceMultiplier>
+			<importanceMultiplierCounted>0.0</importanceMultiplierCounted>
+			<infiniteOverflow>true</infiniteOverflow>
+			<targetIterations>1.0</targetIterations>
+			<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>Clinical</category>
+			
+			<importanceStatic>1.0</importanceStatic>
+			<importanceMultiplier>0.0</importanceMultiplier>
+			<importanceMultiplierCounted>0.0</importanceMultiplierCounted>
+			<infiniteOverflow>true</infiniteOverflow>
+			<targetIterations>1.0</targetIterations>
+			<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>Tooling</category>
+			
+			<importanceStatic>1.0</importanceStatic>
+			<importanceMultiplier>0.0</importanceMultiplier>
+			<importanceMultiplierCounted>0.0</importanceMultiplierCounted>
+			<infiniteOverflow>true</infiniteOverflow>
+			<targetIterations>1.0</targetIterations>
+			<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>ReverseEngineering</category>
+			
+			<importanceStatic>1.0</importanceStatic>
+			<importanceMultiplier>0.0</importanceMultiplier>
+			<importanceMultiplierCounted>0.0</importanceMultiplierCounted>
+			<infiniteOverflow>true</infiniteOverflow>
+			<targetIterations>1.0</targetIterations>
+			<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>ForwardEngineering</category>
+			
+			<importanceStatic>1.0</importanceStatic>
+			<importanceMultiplier>0.0</importanceMultiplier>
+			<importanceMultiplierCounted>0.0</importanceMultiplierCounted>
+			<infiniteOverflow>true</infiniteOverflow>
+			<targetIterations>1.0</targetIterations>
+			<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>Logistics</category>
+			
+			<importanceStatic>1.0</importanceStatic>
+			<importanceMultiplier>0.0</importanceMultiplier>
+			<importanceMultiplierCounted>0.0</importanceMultiplierCounted>
+			<infiniteOverflow>true</infiniteOverflow>
+			<targetIterations>1.0</targetIterations>
+			<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>Geology</category>
+			
+			<importanceStatic>1.0</importanceStatic>
+			<importanceMultiplier>0.0</importanceMultiplier>
+			<importanceMultiplierCounted>0.0</importanceMultiplierCounted>
+			<infiniteOverflow>true</infiniteOverflow>
+			<targetIterations>1.0</targetIterations>
+			<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>Biology</category>
+			
+			<importanceStatic>1.0</importanceStatic>
+			<importanceMultiplier>0.0</importanceMultiplier>
+			<importanceMultiplierCounted>0.0</importanceMultiplierCounted>
+			<infiniteOverflow>true</infiniteOverflow>
+			<targetIterations>1.0</targetIterations>
+			<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>Chemistry</category>
+			
+			<importanceStatic>1.0</importanceStatic>
+			<importanceMultiplier>0.0</importanceMultiplier>
+			<importanceMultiplierCounted>0.0</importanceMultiplierCounted>
+			<infiniteOverflow>true</infiniteOverflow>
+			<targetIterations>1.0</targetIterations>
+			<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>Gastronomy</category>
+			
+			<importanceStatic>1.0</importanceStatic>
+			<importanceMultiplier>0.0</importanceMultiplier>
+			<importanceMultiplierCounted>0.0</importanceMultiplierCounted>
+			<infiniteOverflow>true</infiniteOverflow>
+			<targetIterations>1.0</targetIterations>
+			<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>Material</category>
+			
+			<importanceStatic>1.0</importanceStatic>
+			<importanceMultiplier>0.0</importanceMultiplier>
+			<importanceMultiplierCounted>0.0</importanceMultiplierCounted>
+			<infiniteOverflow>true</infiniteOverflow>
+			<targetIterations>1.0</targetIterations>
+			<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
+		</li>
+	</categorySettingPresets>
+  </PeteTimesSix.ResearchReinvented.Defs.SettingsPresetDef>
+</Defs>

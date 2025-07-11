@@ -22,6 +22,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers
     {
         public static ResearchOpportunityManager Instance => Current.Game.GetComponent<ResearchOpportunityManager>();
 
+        public int changeTicker = -1;
+        public bool clearedThisTick = false;
 
         private List<ResearchOpportunity> _allGeneratedOpportunities = new List<ResearchOpportunity>();
 
@@ -72,7 +74,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers
         public override void GameComponentTick()
         {
             base.GameComponentTick();
-            if(regenerateWhenPossible)
+            clearedThisTick = false;
+            if (regenerateWhenPossible)
             {
                 regenerateWhenPossible = false;
                 GenerateOpportunities(Find.ResearchManager.GetProject(), true);
@@ -214,10 +217,10 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             return GetOpportunityFilter(desiredAvailability, handledBy, null);
         }
 
-        public ResearchOpportunity GetFirstFilteredOpportunity(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Type driverClass)
+        /*public ResearchOpportunity GetFirstFilteredOpportunity(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, Type driverClass)
         {
             return GetOpportunityFilter(desiredAvailability, handledBy, (op) => op.JobDefs != null && op.JobDefs.Any(jd => jd.driverClass == driverClass));
-        }
+        }*/
 
         public ResearchOpportunity GetFirstFilteredOpportunity(OpportunityAvailability? desiredAvailability, HandlingMode? handledBy, ResearchOpportunityCategoryDef category)
         {
@@ -392,6 +395,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             _currentOpportunityCategoriesCache?.Clear();
             _categoryStores?.Clear();
             _projectsGenerated?.Clear();
+            clearedThisTick = true;
         }
 
 
@@ -472,6 +476,8 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             {
                 _allGeneratedOpportunities = _allGeneratedOpportunities.Where(o => o.IsValid()).ToList();
             }
+            Scribe_Values.Look(ref changeTicker, "changeTicker", -1);
+
             Scribe_Collections.Look(ref _allGeneratedOpportunities, "_allGeneratedOpportunities", LookMode.Deep);
             Scribe_Collections.Look(ref _projectsGenerated, "_allProjectsWithGeneratedOpportunities", LookMode.Def);
             Scribe_Defs.Look(ref _currentProject, "currentProject");

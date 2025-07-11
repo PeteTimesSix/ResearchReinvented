@@ -16,7 +16,7 @@ using Verse;
 namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 {
     [HarmonyPatch(typeof(Frame), nameof(Frame.CompleteConstruction))]
-    [HarmonyBefore(new string[]{ "OskarPotocki.VFECore" })]
+    [HarmonyBefore(new string[]{ "OskarPotocki.VEF" })]
     public static class Frame_CompleteConstruction_Patches
     {
 
@@ -33,6 +33,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             //return instructions;
             var moddedInstructions = TranspilerForQuality(instructions, thingLocal);
             moddedInstructions = TranspilerSpawn(moddedInstructions, thingLocal);
+            moddedInstructions = TranspilerPostFoundationSet(moddedInstructions, thingLocal);
             moddedInstructions = TranspilerPostTerrainSet(moddedInstructions, thingLocal);
             return moddedInstructions;
         }
@@ -59,7 +60,8 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             var finally_instructions = new CodeMatch[] {
                 new CodeMatch(OpCodes.Ldarg_1),
                 new CodeMatch(OpCodes.Ldsfld, AccessTools.Field(typeof(SkillDefOf), nameof(SkillDefOf.Construction))),
-                new CodeMatch(OpCodes.Call, AccessTools.Method(typeof(QualityUtility), nameof(QualityUtility.GenerateQualityCreatedByPawn), new Type[] { typeof(Pawn), typeof(SkillDef) }))
+                new CodeMatch(OpCodes.Ldc_I4_1),
+                new CodeMatch(OpCodes.Call, AccessTools.Method(typeof(QualityUtility), nameof(QualityUtility.GenerateQualityCreatedByPawn), new Type[] { typeof(Pawn), typeof(SkillDef), typeof(bool) }))
             };
 
             var add_prototype_decrease_instructions = new CodeInstruction[] {
@@ -174,14 +176,6 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         public static IEnumerable<CodeInstruction> TranspilerPostTerrainSet(IEnumerable<CodeInstruction> instructions, object thingLocal)
         {
             var set_terrain_instructions = new CodeMatch[] {
-                new CodeMatch(OpCodes.Ldloc_1),
-                new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(Map), nameof(Map.terrainGrid))),
-                new CodeMatch(OpCodes.Ldarg_0),
-                new CodeMatch(OpCodes.Call, AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Position))),
-                new CodeMatch(OpCodes.Ldarg_0),
-                new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(Thing), nameof(Thing.def))),
-                new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(ThingDef), nameof(ThingDef.entityDefToBuild))),
-                new CodeMatch(OpCodes.Castclass, typeof(TerrainDef)),
                 new CodeMatch(OpCodes.Callvirt, AccessTools.Method(typeof(TerrainGrid), nameof(TerrainGrid.SetTerrain), new Type[] { typeof(IntVec3), typeof(TerrainDef) }))
             };
 
@@ -216,8 +210,48 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
                 yield return instruction;
         }
 
+        public static IEnumerable<CodeInstruction> TranspilerPostFoundationSet(IEnumerable<CodeInstruction> instructions, object thingLocal)
+        {
+            var set_terrain_instructions = new CodeMatch[] {
+                new CodeMatch(OpCodes.Callvirt, AccessTools.Method(typeof(TerrainGrid), nameof(TerrainGrid.SetFoundation), new Type[] { typeof(IntVec3), typeof(TerrainDef) }))
+            };
+
+            var add_terrain_instructions = new CodeInstruction[] {
+                new CodeInstruction(OpCodes.Ldloc_1),
+                new CodeInstruction(OpCodes.Ldarg_0),
+                new CodeInstruction(OpCodes.Ldarg_0),
+                new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(Frame), nameof(Frame.def))),
+                new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(ThingDef), nameof(ThingDef.entityDefToBuild))),
+                new CodeInstruction(OpCodes.Castclass, typeof(TerrainDef)),
+                new CodeInstruction(OpCodes.Ldarg_1),
+                new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Frame_CompleteConstruction_Patches), nameof(Frame_CompleteConstruction_Patches.PostSetFoundation))),
+            };
+
+            var codeMatcher = new CodeMatcher(instructions);
+
+            codeMatcher.MatchEndForward(set_terrain_instructions);
+            if (codeMatcher.IsInvalid)
+                goto invalid;
+            codeMatcher.Advance(1);
+            codeMatcher.Insert(add_terrain_instructions);
+            //codeMatcher.End();
+
+            foreach (var instruction in codeMatcher.Instructions())
+                yield return instruction;
+
+            yield break;
+
+        invalid:
+            Log.Warning("Frame_CompleteConstruction_Patches - TranspilerPostFoundationSet - failed to apply patch (instructions not found)");
+            foreach (var instruction in instructions)
+                yield return instruction;
+        }
+
         private static void PostSetTerrain(Map map, Frame frame, TerrainDef terrainDef, Pawn worker)
         {
+            if (terrainDef.temporary)
+                return;
+
             bool isPrototype = terrainDef.IsAvailableOnlyForPrototyping(true) || PrototypeKeeper.Instance.IsPrototype(frame);
             if (isPrototype)
             {
@@ -228,6 +262,24 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             else
             {
                 PrototypeKeeper.Instance.UnmarkTerrainAsPrototype(frame.Position, map);
+            }
+        }
+
+        private static void PostSetFoundation(Map map, Frame frame, TerrainDef terrainDef, Pawn worker)
+        {
+            if (terrainDef.temporary)
+                return;
+
+            bool isPrototype = terrainDef.IsAvailableOnlyForPrototyping(true) || PrototypeKeeper.Instance.IsPrototype(frame);
+            if (isPrototype)
+            {
+                PrototypeKeeper.Instance.MarkFoundationTerrainAsPrototype(frame.Position, map, terrainDef);
+                PrototypeUtilities.DoPostFinishTerrainResearch(worker, frame.WorkToBuild, terrainDef);
+                PrototypeKeeper.Instance.UnmarkAsPrototype(frame);
+            }
+            else
+            {
+                PrototypeKeeper.Instance.UnmarkFoundationTerrainAsPrototype(frame.Position, map);
             }
         }
     }

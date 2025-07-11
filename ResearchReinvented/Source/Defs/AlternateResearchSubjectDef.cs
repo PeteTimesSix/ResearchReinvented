@@ -10,9 +10,13 @@ namespace PeteTimesSix.ResearchReinvented.Defs
     public class AlternateResearchSubjectsDef : Def
     {
         public List<ThingDef> originals;
-        public List<ThingDef> alternates;
-        public bool onlyEquivalentForAnalysis = true;
-        public bool onlyEquivalentForDirectRelation = true;
-        public bool markAsRare = false;
+        public List<TerrainDef> originalTerrains;
+        public List<RecipeDef> originalRecipes;
+        public List<ThingDef> alternatesEquivalent;
+        public List<TerrainDef> alternateEquivalentTerrains;
+        public List<RecipeDef> alternateEquivalentRecipes;
+        public List<ThingDef> alternatesSimilar;
+        public List<TerrainDef> alternateSimilarTerrains;
+        public List<RecipeDef> alternateSimilarRecipes;
     }
 }

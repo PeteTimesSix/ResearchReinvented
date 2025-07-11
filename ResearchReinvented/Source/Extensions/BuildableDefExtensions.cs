@@ -26,10 +26,16 @@ namespace PeteTimesSix.ResearchReinvented.Extensions
 					_prototypeOpportunitiesMappedCache.Clear();
                     foreach(var op in PrototypeUtilities.PrototypeOpportunities)
                     {
-                        if ((op.requirement is ROComp_RequiresThing requiresThing && requiresThing.thingDef is BuildableDef buildableDef1))
-                            _prototypeOpportunitiesMappedCache[buildableDef1] = op;
-                        else if((op.requirement is ROComp_RequiresTerrain requiresTerrain && requiresTerrain.terrainDef is BuildableDef buildableDef2))
-                            _prototypeOpportunitiesMappedCache[buildableDef2] = op;
+                        if(op.requirement is ROComp_RequiresThing requiresThing)
+                        {
+                            foreach(var thing in requiresThing.AllThings)
+                                _prototypeOpportunitiesMappedCache[thing] = op;
+                        }
+                        else if (op.requirement is ROComp_RequiresTerrain requiresTerrain)
+                        {
+                            foreach (var terrain in requiresTerrain.AllTerrains)
+                                _prototypeOpportunitiesMappedCache[terrain] = op;
+                        }
                     }
 					cacheBuiltForProject = Find.ResearchManager.GetProject();
 				}

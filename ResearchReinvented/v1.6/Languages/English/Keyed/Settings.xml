@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<RR_setting_tab_GLOBAL_CONFIG>Global config</RR_setting_tab_GLOBAL_CONFIG>
+	<RR_setting_tab_CATEGORY_PRESETS>Category presets</RR_setting_tab_CATEGORY_PRESETS>
+	<RR_setting_tab_CATEGORY_CONFIG>Category config</RR_setting_tab_CATEGORY_CONFIG>
+	<RR_setting_tab_MOD_INTEGRATIONS>Mod integrations</RR_setting_tab_MOD_INTEGRATIONS>
+	
+	<RR_setting_tab_GLOBAL_CONFIG_tooltip>Configure global Research Reinvented settings.</RR_setting_tab_GLOBAL_CONFIG_tooltip>
+	<RR_setting_tab_CATEGORY_PRESETS_tooltip>Select a preset of research point distribution between opportunity categories.</RR_setting_tab_CATEGORY_PRESETS_tooltip>
+	<RR_setting_tab_CATEGORY_CONFIG_tooltip>Configure individual research opportunity categories.</RR_setting_tab_CATEGORY_CONFIG_tooltip>
+	<RR_setting_tab_MOD_INTEGRATIONS_tooltip>Display and configure optional integrations with other mods.</RR_setting_tab_MOD_INTEGRATIONS_tooltip>
+
+	<RR_setting_fixupButton>Changes in settings. Regenerate?</RR_setting_fixupButton>
+	<RR_setting_fixupConfirm>Clear all currently generated opportunities? This will NOT reset research progress!</RR_setting_fixupConfirm>
+	<RR_setting_changeWarning>Changes made here will not correctly apply to research projects already started (including progress gained from reading schematics).\nIf you are currently in game you will be prompted for applying a fix after closing this window, otherwise a fix button will be available in the in-game menu after loading a save with older settings.\n(The fix is not applied automatically in case you want to avoid accidentally double-dipping).</RR_setting_changeWarning>
+
+	<RR_setting_showProgressMotes>Show progress motes</RR_setting_showProgressMotes>
+	<RR_setting_defaultCompactMode_showProgressMotes_tooltip>When enabled, motes (floating messages) will briefly appear above pawns that have made significant research progress.</RR_setting_defaultCompactMode_showProgressMotes_tooltip>
+	
+	<RR_setting_defaultCompactMode>Research window defaults to compact mode</RR_setting_defaultCompactMode>
+	<RR_setting_defaultCompactMode_tooltip>When enabled, the research opportunities list window will default to compact mode.</RR_setting_defaultCompactMode_tooltip>
+	
+	
+	<RR_setting_kitlessResearch>Allow field research without research kit</RR_setting_kitlessResearch>
+	<RR_setting_kitlessResearch_tooltip>When enabled, field research can be performed without any research kit for research projects that only require a simple research table/kit.</RR_setting_kitlessResearch_tooltip>
+	
+	<RR_setting_kitlessNeolithicResearch>Allow field research without kit for neolithic technologies</RR_setting_kitlessNeolithicResearch>
+	<RR_setting_kitlessNeolithicResearch_tooltip>When enabled, field research can be performed without any research kit for research projects that are of neolithic tech level.</RR_setting_kitlessNeolithicResearch_tooltip>
+	
+	
+	<RR_setting_disablePrototypeBillCancellation>Disable prototype bill cancellation</RR_setting_disablePrototypeBillCancellation>
+	<RR_setting_disablePrototypeBillCancellation_tooltip>Some people experience issues where switching or finishing research results in cancelled construction or bills. Toggle this setting on to disable the function responsible - note that you will be able to exploit prototype bills/constructions by switching research!</RR_setting_disablePrototypeBillCancellation_tooltip>
+	
+	<RR_setting_category_selector>Select category</RR_setting_category_selector>
+	
+	<RR_setting_category_enabled>Category enabled</RR_setting_category_enabled>
+	<RR_setting_category_enabled_tooltip>Toggle this to disable this category of research opportunities entirely.</RR_setting_category_enabled_tooltip>
+	
+	<RR_setting_category_availableAtOverallProgress>Available at overall progress</RR_setting_category_availableAtOverallProgress>
+	<RR_setting_category_availableAtOverallProgress_tooltip>Controls during which phase of research is this category available.</RR_setting_category_availableAtOverallProgress_tooltip>
+	
+	<RR_setting_category_importanceStatic>Static project cost fraction</RR_setting_category_importanceStatic>
+	<RR_setting_category_importanceStatic_tooltip>How many research points this category will give, based only on the cost of the project itself.\nThese points are in addition to any given from the distributed points system.\n\nA value of 100% means projects can be completed entirely by doing only this category.</RR_setting_category_importanceStatic_tooltip>
+	
+	<RR_setting_category_importanceMultiplier>Distributed project cost weight</RR_setting_category_importanceMultiplier>
+	<RR_setting_category_importanceMultiplier_tooltip>When distributing the project research points, this value determines how many points it will give relative to other categories.\n\nHigher value means more points.</RR_setting_category_importanceMultiplier_tooltip>
+	
+	<RR_setting_category_importanceMultiplierCounted>Weight counted for other categories</RR_setting_category_importanceMultiplierCounted>
+	<RR_setting_category_importanceMultiplierCounted_tooltip>Used when calculating the research points distributed to other categories.\nMust be smaller or equal to the actual importance multiplier.\n\nLower value here means fewer points from this category are required to complete the project, and setting it to 0% makes it entirely optional.</RR_setting_category_importanceMultiplierCounted_tooltip>
+	
+	<RR_setting_category_targetIterations>Required completions</RR_setting_category_targetIterations>
+	<RR_setting_category_targetIterations_tooltip>The maximum individual opportunities required to fully complete this category.\nAutomatically reduced for projects with fewer generated opportunities.</RR_setting_category_targetIterations_tooltip>
+	
+	<RR_setting_category_infiniteOverflow>Infinite overflow</RR_setting_category_infiniteOverflow>
+	<RR_setting_category_infiniteOverflow_tooltip>Allow research in this category to continue as long as there are more opportunities of this type available, even after the points maximum is reached.</RR_setting_category_infiniteOverflow_tooltip>
+	
+	<RR_setting_category_researchSpeedMultiplier>Research speed multiplier</RR_setting_category_researchSpeedMultiplier>
+	<RR_setting_category_researchSpeedMultiplier_tooltip>Opportunities of this category will have their research speed multiplied by the set percentage.\n\nFor most categories, this is a multiplier applied to the pawn's normal research speed stat.</RR_setting_category_researchSpeedMultiplier_tooltip>
+	
+	<RR_setting_category_fractionAxis>Distributed weight multiplier</RR_setting_category_fractionAxis>
+	<RR_setting_category_researchSpeedAxis>Research speed</RR_setting_category_researchSpeedAxis>
+	
+	<RR_setting_category_resetToDefault>Reset to preset default</RR_setting_category_resetToDefault>
+	
+	
+	<!--- Mod compat -->
+	
+	<RR_setting_modCompat_active>{0} patch active.</RR_setting_modCompat_active>
+	<RR_setting_modCompat_fail>{0} patch failed.</RR_setting_modCompat_fail>
+	<RR_setting_modCompat_notDetected>{0} not detected.</RR_setting_modCompat_notDetected>
+	
+	<RR_setting_modCompat_combatExtended>Combat Extended</RR_setting_modCompat_combatExtended>
+	<RR_setting_modCompat_dubsMintMenus>Dubs Mint Menus</RR_setting_modCompat_dubsMintMenus>
+	<RR_setting_modCompat_humanoidAlienRaces>Humanoid Alien Races detected.</RR_setting_modCompat_humanoidAlienRaces>
+	<RR_setting_modCompat_researchData>Research Data detected.</RR_setting_modCompat_researchData>
+	
+	<RR_setting_modCompat_researchData_mode>Compatibility mode</RR_setting_modCompat_researchData_mode>
+	<RR_modCompat_researchData_mode_TheoryOnly>Theory only</RR_modCompat_researchData_mode_TheoryOnly>
+	<RR_modCompat_researchData_mode_TheoryOnly_tooltip>Research Data "fuel" will only be needed and consumed by theory research.</RR_modCompat_researchData_mode_TheoryOnly_tooltip>
+	<RR_modCompat_researchData_mode_AllBenchResearch>All research</RR_modCompat_researchData_mode_AllBenchResearch>
+	<RR_modCompat_researchData_mode_AllBenchResearch_tooltip>Research Data "fuel" will be needed and consumed by any research done at a research bench.</RR_modCompat_researchData_mode_AllBenchResearch_tooltip>
+	<RR_setting_modCompat_notDetected_researchData>Research Data not detected.</RR_setting_modCompat_notDetected_researchData>
+	
+	
+	<!--- Obsolete -->
+	<RR_setting_debugPrintouts>Enable debug mode</RR_setting_debugPrintouts>
+	<RR_setting_debugPrintouts_tooltip>When enabled, various developer printouts and visuals will be active.</RR_setting_debugPrintouts_tooltip>
+	
+	<RR_setting_category_targetFractionMultiplier>Target fraction multiplier</RR_setting_category_targetFractionMultiplier>
+	<RR_setting_category_targetFractionMultiplier_tooltip>The generated opportunities try to split the research cost of the project according to the relative fraction sizes of categories, depending on this value.</RR_setting_category_targetFractionMultiplier_tooltip>
+	
+	<RR_setting_category_extraFractionMultiplier>Extra fraction multiplier</RR_setting_category_extraFractionMultiplier>
+	<RR_setting_category_extraFractionMultiplier_tooltip>Additional research allowed for this category that is not included in the initial fraction assigned to it.</RR_setting_category_extraFractionMultiplier_tooltip>
+	
+</LanguageData>

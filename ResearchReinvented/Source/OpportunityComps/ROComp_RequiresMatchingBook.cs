@@ -23,6 +23,7 @@ namespace PeteTimesSix.ResearchReinvented.OpportunityComps
         public override bool TargetIsNull => projectDef is null;
 
         public override bool IsRare => false;
+        public override bool IsFreebie => false;
         public override bool MetBy(Def def) => projectDef == def;
         public override bool MetBy(Thing thing) => throw new InvalidOperationException("This should never be called!");
         public override bool IsValid => projectDef != null;

@@ -10,6 +10,7 @@ using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using Verse;
@@ -187,6 +188,19 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
                 //make sure the number isnt completely insigificant
                 doneWork = Math.Max(doneWork, totalWork / 5);
                 doneWork = Math.Max(doneWork, 20 * 60);
+                var workMultiplier = 1.0f;
+                if (worker.skills != null)
+                {
+                    if (usedRecipe != null)
+                    {
+                        if (usedRecipe.workSpeedStat != null)
+                            workMultiplier = worker.GetStatValue(usedRecipe.workSpeedStat);
+                    }
+                    else
+                    {
+                        workMultiplier = worker.GetStatValue(StatDefOf.ConstructionSpeed);
+                    }
+                }
                 float amount = (float)(doneWork * BaseResearchAmounts.DoneWorkMultiplier);
                 var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
                 var xp = doneWork * ResearchXPAmounts.DoneWorkMultiplier;
@@ -212,8 +226,13 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
                 //make sure the number isnt completely insigificant
                 doneWork = Math.Max(doneWork, totalWork / 5);
                 doneWork = Math.Max(doneWork, 20 * 60);
+                var workMultiplier = 1.0f;
+                if (worker.skills != null)
+                {
+                    workMultiplier = worker.GetStatValue(StatDefOf.ConstructionSpeed);
+                }
                 float amount = (float)(doneWork * BaseResearchAmounts.DoneWorkMultiplier);
-                var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
+                var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true) * workMultiplier;
                 var xp = doneWork * ResearchXPAmounts.DoneWorkMultiplier;
                 opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, xp, moteSubjectName: terrainDef.LabelCap);
             }
@@ -236,8 +255,21 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
                 
                 //make sure the number isnt completely insigificant
                 totalWork = Math.Max(totalWork, 20 * 60);
+                var workMultiplier = 1.0f;
+                if (worker.skills != null)
+                {
+                    if (usedRecipe != null)
+                    {
+                        if (usedRecipe.workSpeedStat != null)
+                            workMultiplier = worker.GetStatValue(usedRecipe.workSpeedStat);
+                    }
+                    else
+                    {
+                        workMultiplier = worker.GetStatValue(StatDefOf.ConstructionSpeed);
+                    }
+                } 
                 float amount = (float)(totalWork * BaseResearchAmounts.DoneWorkMultiplier);
-                var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
+                var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true) * workMultiplier;
                 var xp = totalWork * ResearchXPAmounts.DoneWorkMultiplier;
                 opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, xp, moteSubjectName: usedRecipe != null ? usedRecipe.LabelCap.ToString() : product.LabelCapNoCount); 
             }
@@ -260,8 +292,13 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
                 //make sure the number isnt completely insigificant
                 totalWork = Math.Max(totalWork, 20 * 60);
+                var workMultiplier = 1.0f;
+                if (worker.skills != null)
+                {
+                    workMultiplier = worker.GetStatValue(StatDefOf.ConstructionSpeed);
+                }
                 float amount = (float)(totalWork * BaseResearchAmounts.DoneWorkMultiplier);
-                var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true);
+                var modifier = worker.GetStatValue(StatDefOf.ResearchSpeed, true) * workMultiplier;
                 var xp = totalWork * ResearchXPAmounts.DoneWorkMultiplier;
                 opportunity.ResearchChunkPerformed(worker, HandlingMode.Special_Prototype, amount, modifier, xp, moteSubjectName: terrainDef.LabelCap);
             }

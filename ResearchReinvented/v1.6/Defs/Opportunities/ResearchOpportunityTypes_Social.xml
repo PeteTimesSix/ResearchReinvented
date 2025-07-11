@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="TheoryOpportunity">
+		<defName>Brainstorming</defName>	
+		<handledBy>Social</handledBy>
+		<header_Direct>brainstorming</header_Direct>
+		<shortDesc_Direct>Brainstorm new ideas and approaches during social exchanges between members of {0}.\n\nAffected by (after conversation):\nParticipant research speed stat</shortDesc_Direct>
+		<category_Direct>Social</category_Direct>	
+		<hintIcons>
+			<li>UI/hintIcons/speak</li>
+		</hintIcons>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="TheoryOpportunity">
+		<defName>GainFactionKnowledge</defName>	
+		<handledBy>Social</handledBy>
+		<header_Direct>learn faction knowledge</header_Direct>
+		<shortDesc_Direct>Learn applicable knowledge from members of {0}, either by cooperative exchange of ideas, or extracting information from prisoners.\n\nAffected by (after conversation/interrogation):\nWarden/speaker research speed stat\nWarden/speaker social skill\nPrisoner/counterpart research speed stat\nPrisoner/counterpart social skill\nPrisoner/counterpart mood</shortDesc_Direct>
+		<category_Direct>Social</category_Direct>	
+		<hintIcons>
+			<li>UI/hintIcons/speak</li>
+		</hintIcons>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+	
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="TheoryOpportunity">
+		<defName>GainFactionlessKnowledge</defName>	
+		<handledBy>Social</handledBy>
+		<header_Direct>learn outsider knowledge</header_Direct>
+		<shortDesc_Direct>Learn applicable knowledge from outsiders that are not members of any faction.\n\nAffected by (after conversation/interrogation):\nWarden/speaker research speed stat\nWarden/speaker social skill\nPrisoner/counterpart research speed stat\nPrisoner/counterpart social skill\nPrisoner/counterpart mood</shortDesc_Direct>
+		<category_Direct>Social</category_Direct>	
+		<hintIcons>
+			<li>UI/hintIcons/speak</li>
+		</hintIcons>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+</Defs>

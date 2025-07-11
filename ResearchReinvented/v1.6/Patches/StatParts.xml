@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationConditional">
+		<xpath>Defs/StatDef[defName="HackingSpeed"]/parts</xpath>
+		<nomatch Class="PatchOperationAdd">
+		  <xpath>Defs/StatDef[defName="HackingSpeed"]</xpath>
+		  <value>
+			<parts></parts>
+		  </value>
+		</nomatch>
+    </Operation>
+	<Operation Class="PatchOperationConditional">
+		  <xpath>Defs/StatDef[defName="HackingSpeed"]/parts/li</xpath>
+          <nomatch Class="PatchOperationAdd">
+		    <xpath>Defs/StatDef[defName="HackingSpeed"]/parts</xpath>
+            <value>
+                <li Class="StatPart_Quality">
+                    <factorAwful>0.2</factorAwful>
+                    <factorPoor>0.65</factorPoor>
+                    <factorNormal>1.0</factorNormal>
+                    <factorGood>1.3</factorGood>
+                    <factorExcellent>1.70</factorExcellent>
+                    <factorMasterwork>2.20</factorMasterwork>
+                    <factorLegendary>3.0</factorLegendary>
+                </li>
+            </value>
+		  </nomatch>
+	</Operation>
+</Patch>

@@ -11,34 +11,52 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 {
     public class PrototypeTerrainGrid : MapComponent
     {
-        private ByteGrid grid;
+        private ByteGrid terrainGrid;
+        private ByteGrid foundationGrid;
 
         public PrototypeTerrainGrid(Map map): base(map)
         {
-            this.grid = new ByteGrid(map);
+            this.terrainGrid = new ByteGrid(map);
+            this.foundationGrid = new ByteGrid(map);
         }
 
         public bool IsTerrainPrototype(IntVec3 position)
         {
-            return grid[map.cellIndices.CellToIndex(position)] != 0;
+            return terrainGrid[map.cellIndices.CellToIndex(position)] != 0;
         }
 
         public void MarkTerrainAsPrototype(IntVec3 position, TerrainDef terrain)
         {
-            grid[map.cellIndices.CellToIndex(position)] = 1;
+            terrainGrid[map.cellIndices.CellToIndex(position)] = 1;
         }
 
         public void UnmarkTerrainAsPrototype(IntVec3 position)
         {
-            grid[map.cellIndices.CellToIndex(position)] = 0;
+            terrainGrid[map.cellIndices.CellToIndex(position)] = 0;
+        }
+
+        public bool IsFoundationTerrainPrototype(IntVec3 position)
+        {
+            return foundationGrid[map.cellIndices.CellToIndex(position)] != 0;
+        }
+
+        public void MarkFoundationTerrainAsPrototype(IntVec3 position, TerrainDef terrain)
+        {
+            foundationGrid[map.cellIndices.CellToIndex(position)] = 1;
+        }
+
+        public void UnmarkFoundationTerrainAsPrototype(IntVec3 position)
+        {
+            foundationGrid[map.cellIndices.CellToIndex(position)] = 0;
         }
 
 
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_References.Look(ref map, "parent");
-            Scribe_Deep.Look(ref grid, "grid");
+            //Scribe_References.Look(ref map, "parent");
+            Scribe_Deep.Look(ref terrainGrid, "terrainGrid");
+            Scribe_Deep.Look(ref foundationGrid, "foundationGrid");
             /*MapExposeUtility.Ex(parent, 
                 (IntVec3 pos) => { return (grid[parent.cellIndices.CellToIndex(pos)] ? (ushort)1 : (ushort)0); }, 
                 (IntVec3 pos, ushort val) => { protoGrid[parent.cellIndices.CellToIndex(pos)] = (val != 0 ? true : false); }, 
@@ -48,10 +66,21 @@ namespace PeteTimesSix.ResearchReinvented.Managers
         public void DebugDrawOnMap()
         {
             var mapSizeX = map.Size.x;
-            for (int i = 0; i < grid.CellsCount; i++)
+            for (int i = 0; i < terrainGrid.CellsCount; i++)
             {
                 var cell = CellIndicesUtility.IndexToCell(i, mapSizeX);
-                CellRenderer.RenderCell(cell, SolidColorMaterials.SimpleSolidColorMaterial(IsTerrainPrototype(cell) ? Color.green : Color.red, false));
+                bool isTerrainProto = IsTerrainPrototype(cell);
+                bool isFoundationProto = IsFoundationTerrainPrototype(cell);
+                Color color = Color.black;
+                if (isTerrainProto && isFoundationProto)
+                    color = Color.red;
+                else if (isTerrainProto)
+                    color = Color.green;
+                else if (isFoundationProto)
+                    color = Color.blue;
+
+                if (color != Color.black)
+                    CellRenderer.RenderCell(cell, SolidColorMaterials.SimpleSolidColorMaterial(color, false));
             }
         }
     }

@@ -193,16 +193,20 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 			foreach (var opportunity in MatchingOpportunities.Where(o => o.CurrentAvailability == OpportunityAvailability.Available && o.requirement is ROComp_RequiresThing))
 			{
-				var thingDef = (opportunity.requirement as ROComp_RequiresThing)?.thingDef;
-				if (thingDef == null)
+				var requiresThingComp = (opportunity.requirement as ROComp_RequiresThing);
+				var thingDefs = requiresThingComp?.AllThings;
+				if (thingDefs == null || thingDefs.Length == 0)
 				{
-					Log.ErrorOnce($"RR: current research project {Find.ResearchManager.GetProject()} generated a WorkGiver_Analyze opportunity with null requirement!", Find.ResearchManager.GetProject().debugRandomId);
+					Log.ErrorOnce($"RR: current research project {Find.ResearchManager.GetProject()} generated a WorkGiver_Analyze opportunity with null or empty requirement!", Find.ResearchManager.GetProject().debugRandomId);
 					continue;
 				}
-				if (!_opportunityCache.ContainsKey(thingDef))
-					_opportunityCache[thingDef] = new HashSet<ResearchOpportunity>();
+				foreach (var thingDef in thingDefs)
+                {
+                    if (!_opportunityCache.ContainsKey(thingDef))
+                        _opportunityCache[thingDef] = new HashSet<ResearchOpportunity>();
+                    _opportunityCache[thingDef].Add(opportunity);
+                }
 
-				_opportunityCache[thingDef].Add(opportunity);
 			}
 
 			foreach (var map in Find.Maps) 

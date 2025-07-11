@@ -71,7 +71,9 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
             foreach (var category in categories)
             {
-                var matchingOpportunities = projectOpportunities.Where(o => o.def.GetCategory(o.relation) == category);
+                var allMatchingOpportunities = projectOpportunities.Where(o => o.def.GetCategory(o.relation) == category);
+                var countedMatchingOpportunities = allMatchingOpportunities.Where(o => !(o.IsRare) && !(o.IsFreebie));
+                //var matchingOpportunities = projectOpportunities.Where(o => o.def.GetCategory(o.relation) == category);
 
                 var totalsStore = new ResearchOpportunityCategoryTotalsStore() { project = project, category = category };
                 totalsStore.researchPoints = ((projectResearchPoints / totalMultiplier) * category.Settings.importanceMultiplier) + projectResearchPoints * category.Settings.importanceStatic;
@@ -81,11 +83,11 @@ namespace PeteTimesSix.ResearchReinvented.Managers
 
                 totalStores.Add(totalsStore);
 
-                if (!matchingOpportunities.Any())
+                if (!allMatchingOpportunities.Any())
                     continue;
 
-                var categoryImportanceTotal = matchingOpportunities.Sum(o => o.importance);
-                var matchingOpportunityTypes = matchingOpportunities.Select(o => (def: o.def, rel: o.relation)).ToHashSet();
+                var categoryImportanceTotal = countedMatchingOpportunities.Sum(o => o.importance);
+                var matchingOpportunityTypes = allMatchingOpportunities.Select(o => (def: o.def, rel: o.relation)).ToHashSet();
 
                 var minimumOpportunityResearchPoints = totalsStore.researchPoints / category.Settings.targetIterations;
 
@@ -93,9 +95,10 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                 {
                     float typeResearchPoints = totalsStore.researchPoints / matchingOpportunityTypes.Count();
 
-                    var matchingOpportunitiesOfType = matchingOpportunities.Where(o => o.def == type.def && o.relation == type.rel);
-                    var matchCount = matchingOpportunitiesOfType.Count();       //attempt to make rares as valuable for research as all other options combined
-                    float typeImportanceTotal = matchingOpportunitiesOfType.Sum(o => o.IsAlternate ? 0 : (o.requirement.IsRare ? matchCount : o.importance));
+                    var allMatchingOpportunitiesOfType = allMatchingOpportunities.Where(o => o.def == type.def && o.relation == type.rel);
+                    var countedMatchingOpportunitiesOfType = countedMatchingOpportunities.Where(o => o.def == type.def && o.relation == type.rel);
+                    var matchCount = countedMatchingOpportunitiesOfType.Count();       //attempt to make rares as valuable for research as all other options combined
+                    float typeImportanceTotal = countedMatchingOpportunitiesOfType.Sum(o => o.requirement.IsRare ? matchCount : o.importance);
                     if (typeImportanceTotal < 1) //just in case, dont want to divide by zero
                         typeImportanceTotal = 1;
 
@@ -106,12 +109,12 @@ namespace PeteTimesSix.ResearchReinvented.Managers
                     if (ResearchReinvented_Debug.debugPrintouts)
                         Log.Message($"project {project} ({projectResearchPoints}) category {category.label} ({categoryImportanceTotal}) min: {minimumOpportunityResearchPoints} type.def {type.def.defName} type.rel {type.rel} (points: {typeResearchPoints} base imp.: {baseImportance} count:{matchCount}) points per: {(typeResearchPoints * baseImportance)}");
 
-                    foreach (var opportunity in matchingOpportunitiesOfType)
+                    foreach (var opportunity in allMatchingOpportunitiesOfType)
                     {
                         float opportunityResearchPoints;
                         //if (category.Settings.infiniteOverflow)
                         //    opportunityResearchPoints = projectResearchPoints;
-                        if (opportunity.requirement.IsRare || opportunity.IsRare)
+                        if (opportunity.IsRare)
                             opportunityResearchPoints = Math.Max(typeResearchPoints, minimumOpportunityResearchPoints);
                         else
                             opportunityResearchPoints = Math.Max(((typeResearchPoints * baseImportance) * opportunity.importance), (minimumOpportunityResearchPoints * opportunity.importance));

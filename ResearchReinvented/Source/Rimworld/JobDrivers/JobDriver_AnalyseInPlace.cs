@@ -70,13 +70,13 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 			research.defaultDuration = 60 * 10;
 			research.FailOnCannotTouch(TargetThingIndex, pokeMode);
 			research.activeSkill = (() => SkillDefOf.Intellectual);
-			research.tickAction = delegate ()
+			research.tickIntervalAction = (int delta) =>
 			{
 				Pawn actor = research.actor;
 				float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true) * 0.00825f;
 				num *= FieldResearchHelper.GetFieldResearchSpeedFactor(actor, opportunity.project);
-				actor.GainComfortFromCellIfPossible(true);
-				bool finished = opportunity.ResearchTickPerformed(num, actor);
+				actor.GainComfortFromCellIfPossible(1, true);
+				bool finished = opportunity.ResearchTickPerformed(num, actor, delta);
 				if (finished)
 					this.ReadyForNextToil();
 			};

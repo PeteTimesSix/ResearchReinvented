@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <LangVersion>11.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,41 +26,16 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>embedded</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\v1.5\Assemblies\</OutputPath>
+    <OutputPath>..\v1.6\Assemblies\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>5</WarningLevel>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="UnityEngine">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\UnityEngine.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.IMGUIModule">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.TextRenderingModule">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\BaseResearchAmounts.cs" />
@@ -100,8 +76,12 @@
     <Compile Include="HarmonyPatches\Prototypes\Frame_FailConstruction_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\Toils_Recipe_DoRecipeWork_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\Toils_Recipe_MakeUnfinishedThingIfNeeded_Patches.cs" />
+    <Compile Include="HarmonyPatches\RecipeDefGenerator_Patches.cs" />
     <Compile Include="HarmonyPatches\Social\FactionDialogMaker_FactionDialogFor_Patches.cs" />
+    <Compile Include="HarmonyPatches\TerrainDefGenerator_Carpet_Patches.cs" />
+    <Compile Include="Managers\AlternatesKeeper.cs" />
     <Compile Include="Managers\FactionLectureManager.cs" />
+    <Compile Include="Managers\OpportunityFactories\OF_AnalysisRequirements.cs" />
     <Compile Include="ModCompat\CombatExtended\_CombatExtended.cs" />
     <Compile Include="ModCompat\CombatExtended\Harmony_PawnRenderer_DrawBodyApparel_Patches.cs" />
     <Compile Include="ModCompat\DubsMintMenus\DMM_Patch_BillStack_DoListing_Patches.cs" />
@@ -151,6 +131,7 @@
     <Compile Include="Rimworld\Comps\CompProperties\CompProperties_ResearchKit.cs" />
     <Compile Include="Rimworld\Comps\Comp_ResearchKit.cs" />
     <Compile Include="Rimworld\DefModExtensions\Blacklisted.cs" />
+    <Compile Include="Rimworld\DefModExtensions\FreebieMarker.cs" />
     <Compile Include="Rimworld\DefModExtensions\RarityMarker.cs" />
     <Compile Include="Rimworld\InteractionWorkers\InteractionWorker_Brainstorm.cs" />
     <Compile Include="Rimworld\InteractionWorkers\InteractionWorker_LearnScienceFromPrisoner.cs" />
@@ -170,11 +151,14 @@
     <Compile Include="Rimworld\Toils\Toils_ClearArea.cs" />
     <Compile Include="Rimworld\Toils\Toils_Goto_Custom.cs" />
     <Compile Include="Rimworld\Toils\Toils_Haul_Custom.cs" />
+    <Compile Include="Rimworld\UI\Dialogs\Dialog_AlternateMapper.cs" />
+    <Compile Include="Rimworld\UI\Dialogs\Dialog_FixupSettingsChange.cs" />
     <Compile Include="Rimworld\UI\MainButtonWorker_ToggleResearchReinventedTab.cs" />
     <Compile Include="Rimworld\ResearchManagerAccess.cs" />
     <Compile Include="OpportunityComps\ResearchOpportunityComp.cs" />
     <Compile Include="Rimworld\MiscData\IngredientCountExposable.cs" />
     <Compile Include="Rimworld\UI\MainTabWindow_ResearchReinvented.cs" />
+    <Compile Include="Rimworld\UI\ResearchWidgets.cs" />
     <Compile Include="Rimworld\UI\Widgets_Extra.cs" />
     <Compile Include="Rimworld\WorkGivers\WorkGiver_Analyse.cs" />
     <Compile Include="Rimworld\WorkGivers\WorkGiver_AnalyseTerrain.cs" />
@@ -218,12 +202,14 @@
   <ItemGroup>
     <Folder Include="Misc-Tests\" />
     <Folder Include="Rimworld\StatWorkers\" />
-    <Folder Include="Rimworld\UI\Dialogs\" />
     <Folder Include="Rimworld\UI\ITabs\" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Krafs.Rimworld.Ref">
+      <Version>1.6.4503-beta</Version>
+    </PackageReference>
     <PackageReference Include="Lib.Harmony">
-      <Version>2.2.2</Version>
+      <Version>2.3.6</Version>
       <ExcludeAssets>runtime</ExcludeAssets>
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -232,7 +218,7 @@
   <PropertyGroup>
     <PostBuildEvent>PATH
 
-"$(ProjectDir)Install.bat" $(ConfigurationName) "$(ProjectDir)" "$(ProjectName)" "About Assemblies Defs Languages Textures v1.3 v1.4 v1.5 ModSpecific" "LoadFolders.xml"
+"$(ProjectDir)Install.bat" $(ConfigurationName) "$(ProjectDir)" "$(ProjectName)" "About Assemblies Defs Languages Textures v1.3 v1.4 v1.5 v1.6 ModSpecific" "LoadFolders.xml"
 
 </PostBuildEvent>
   </PropertyGroup>

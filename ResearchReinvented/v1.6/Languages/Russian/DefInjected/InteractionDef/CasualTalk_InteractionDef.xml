@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!--                  talk about science -->
+  <RR_ScienceTalk.label>разговор о науке</RR_ScienceTalk.label>
+  <!-- 
+		<li>r_logentry->[RECIPIENT_nameDef] [talkabout] [knowledge] related to [subject] with [INITIATOR_nameDef].</li>
+		<li>talkabout->shared</li>
+		<li>talkabout->talked about</li>
+		<li>talkabout->discussed</li>
+		<li>talkabout->had a discussion about</li>
+		<li>subject->current research</li>
+		<li>subject->current project</li>
+		<li>knowledge->knowledge</li>
+		<li>knowledge->science</li>
+		<li>knowledge->previous experiments</li>
+		<li>knowledge->[RECIPIENT_possessive] knowledge</li>
+   -->
+  <RR_ScienceTalk.logRulesInitiator.rulesStrings>
+		<li>r_logentry->[RECIPIENT_nameDef] [talkabout] [knowledge], относящихся к [subject] с [INITIATOR_nameDef].</li>
+		<li>talkabout->делится</li>
+		<li>talkabout->рассказывает</li>
+		<li>talkabout->обсуждает</li>
+		<li>talkabout->беседует</li>
+		<li>subject->текущему исследованию</li>
+		<li>subject->текущему проекту</li>
+		<li>knowledge->про знания</li>
+		<li>knowledge->про научных открытия</li>
+		<li>knowledge->о предыдущих экспериментах</li>
+		<li>knowledge->о своих знаниях</li>
+  </RR_ScienceTalk.logRulesInitiator.rulesStrings>
+</LanguageData>

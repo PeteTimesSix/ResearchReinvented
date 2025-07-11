@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_RR_fieldkits</defName>
+		<originals>
+			<li>RR_FieldResearchKitMultiAnalyzer</li>
+		</originals>
+		<alternatesEquivalent>
+			<li>RR_FieldResearchKitRemote</li>
+		</alternatesEquivalent>
+		<alternatesSimilar>
+			<li>RR_FieldResearchKitRemote</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+    <PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_1896692994_MealNutrientPaste</defName>
+		<originals>
+			<li>MealNutrientPaste</li>
+		</originals>
+		<alternatesSimilar>
+			<li>InsectJelly</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_442807780_BionicEye</defName>
+		<originals>
+			<li>BionicEye</li>
+		</originals>
+		<alternatesSimilar>
+			<li>ArchotechEye</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-121842229_BionicArm</defName>
+		<originals>
+			<li>BionicArm</li>
+		</originals>
+		<alternatesSimilar>
+			<li>ArchotechArm</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-1708129169_BionicLeg</defName>
+		<originals>
+			<li>BionicLeg</li>
+		</originals>
+		<alternatesSimilar>
+			<li>ArchotechLeg</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_195729750_Apparel_Broadwrap</defName>
+		<originals>
+			<li MayRequire="ludeon.rimworld.ideology">Apparel_Broadwrap</li>
+		</originals>
+		<alternatesEquivalent>
+			<li MayRequire="ludeon.rimworld.ideology">Apparel_Headwrap</li>
+		</alternatesEquivalent>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.ideology">Apparel_Headwrap</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-714439671_Apparel_Tuque</defName>
+		<originals>
+			<li>Apparel_Tuque</li>
+		</originals>
+		<alternatesEquivalent>
+			<li>Apparel_BowlerHat</li>
+			<li>Apparel_CowboyHat</li>
+			<li MayRequire="ludeon.rimworld.ideology">Apparel_Flophat</li>
+			<li MayRequire="ludeon.rimworld.ideology">Apparel_Shadecone</li>
+			<li MayRequire="ludeon.rimworld.ideology">Apparel_AuthorityCap</li>
+		</alternatesEquivalent>
+		<alternatesSimilar>
+			<li>Apparel_BowlerHat</li>
+			<li>Apparel_CowboyHat</li>
+			<li MayRequire="ludeon.rimworld.ideology">Apparel_Flophat</li>
+			<li MayRequire="ludeon.rimworld.ideology">Apparel_Shadecone</li>
+			<li MayRequire="ludeon.rimworld.ideology">Apparel_AuthorityCap</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-121765833_Apparel_HatTop</defName>
+		<originals>
+			<li MayRequire="ludeon.rimworld.royalty">Apparel_HatTop</li>
+		</originals>
+		<alternatesEquivalent>
+			<li MayRequire="ludeon.rimworld.royalty">Apparel_HatLadies</li>
+		</alternatesEquivalent>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.royalty">Apparel_HatLadies</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_1229261408_Apparel_TribalA</defName>
+		<originals>
+			<li>Apparel_TribalA</li>
+		</originals>
+		<alternatesEquivalent>
+			<li MayRequire="ludeon.rimworld.biotech">Apparel_KidTribal</li>
+		</alternatesEquivalent>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.biotech">Apparel_KidTribal</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-190342653_Apparel_Parka</defName>
+		<originals>
+			<li>Apparel_Parka</li>
+		</originals>
+		<alternatesEquivalent>
+			<li MayRequire="ludeon.rimworld.biotech">Apparel_KidParka</li>
+		</alternatesEquivalent>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.biotech">Apparel_KidParka</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-1267577607_Apparel_Pants</defName>
+		<originals>
+			<li>Apparel_Pants</li>
+		</originals>
+		<alternatesEquivalent>
+			<li MayRequire="ludeon.rimworld.biotech">Apparel_KidPants</li>
+		</alternatesEquivalent>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.biotech">Apparel_KidPants</li>
+			<li>Apparel_FlakPants</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_1323589132_Apparel_BasicShirt</defName>
+		<originals>
+			<li>Apparel_BasicShirt</li>
+		</originals>
+		<alternatesEquivalent>
+			<li MayRequire="ludeon.rimworld.biotech">Apparel_KidShirt</li>
+		</alternatesEquivalent>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.biotech">Apparel_KidShirt</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+		<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-1219390185_Apparel_SimpleHelmet</defName>
+		<originals>
+			<li>Apparel_SimpleHelmet</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.biotech">Apparel_KidHelmet</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-889688740_Apparel_Vacsuit</defName>
+		<originals>
+			<li MayRequire="ludeon.rimworld.odyssey">Apparel_Vacsuit</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.biotech,ludeon.rimworld.odyssey">Apparel_VacsuitChildren</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_654501132_Apparel_ShirtRuffle</defName>
+		<originals>
+			<li MayRequire="ludeon.rimworld.royalty">Apparel_ShirtRuffle</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.royalty">Apparel_PsyfocusShirt</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+    	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_1919500574_Apparel_VestRoyal</defName>
+		<originals>
+			<li MayRequire="ludeon.rimworld.royalty">Apparel_VestRoyal</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.royalty">Apparel_PsyfocusVest</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-103828754_Apparel_RobeRoyal</defName>
+		<originals>
+			<li MayRequire="ludeon.rimworld.royalty">Apparel_RobeRoyal</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.royalty">Apparel_PsyfocusRobe</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_1853448213_Apparel_ArmorRecon</defName>
+		<originals>
+			<li>Apparel_ArmorRecon</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.royalty">Apparel_ArmorLocust</li>
+			<li MayRequire="ludeon.rimworld.royalty">Apparel_ArmorReconPrestige</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-1118201724_Apparel_ArmorHelmetRecon</defName>
+		<originals>
+			<li>Apparel_ArmorHelmetRecon</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.royalty">Apparel_ArmorHelmetReconPrestige</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-144250356_Apparel_PowerArmor</defName>
+		<originals>
+			<li>Apparel_PowerArmor</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.royalty">Apparel_ArmorMarineGrenadier</li>
+			<li MayRequire="ludeon.rimworld.royalty">Apparel_ArmorMarinePrestige</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-692963167_Apparel_PowerArmorHelmet</defName>
+		<originals>
+			<li>Apparel_PowerArmorHelmet</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.royalty">Apparel_ArmorMarineHelmetPrestige</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_996312001_Apparel_ArmorCataphract</defName>
+		<originals>
+			<li MayRequire="ludeon.rimworld.royalty">Apparel_ArmorCataphract</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.royalty">Apparel_ArmorCataphractPhoenix</li>
+			<li MayRequire="ludeon.rimworld.royalty">Apparel_ArmorCataphractPrestige</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-1843244798_Apparel_ArmorHelmetCataphract</defName>
+		<originals>
+			<li MayRequire="ludeon.rimworld.royalty">Apparel_ArmorHelmetCataphract</li>
+		</originals>
+		<alternatesSimilar>
+			<li MayRequire="ludeon.rimworld.royalty">Apparel_ArmorHelmetCataphractPrestige</li>
+		</alternatesSimilar>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+</Defs>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<RR_PrototypePrefix>[Прототип]</RR_PrototypePrefix>
+	<RR_PrototypeLabel>Прототип</RR_PrototypeLabel>
+	
+	<RR_ExperimentalSurgeryPrefix>[Экспериментально]</RR_ExperimentalSurgeryPrefix>
+	<RR_ExperimentalSurgeryLabel>Экспериментально</RR_ExperimentalSurgeryLabel>
+	
+	<RR_EquivalentResearchBench>Аналог исследовательского стола</RR_EquivalentResearchBench>
+	<RR_EquivalentResearchBench_desc>Этот набор содержит портативные версии инструментов, доступных на этом исследовательком столе.</RR_EquivalentResearchBench_desc>
+	<RR_EquivalentResearchFacilities>Аналог исследовательским постройкам</RR_EquivalentResearchFacilities>
+	<RR_EquivalentResearchFacilities_desc>Данный набор представляет собой портативные версии исследовательских построек.</RR_EquivalentResearchFacilities_desc>
+	<RR_RemoteConnectionFacility>Возможность удалённого подключения</RR_RemoteConnectionFacility>
+	<RR_RemoteConnectionFacility_desc>Устанавливает связь с исследовательскими столами (По сети) через этот модуль</RR_RemoteConnectionFacility_desc>
+	<RR_UplinkResearchSpeedFactor>Коэффициент скорости исследования (По сети)</RR_UplinkResearchSpeedFactor>
+	<RR_UplinkResearchSpeedFactor_desc>Множитель скорости исследования, обеспечиваемый удалённым подключением к исследовательскому оборудованию.</RR_UplinkResearchSpeedFactor_desc>
+	
+	<RR_CategoryFinishedBook>Категория исследований завершена</RR_CategoryFinishedBook>
+</LanguageData>

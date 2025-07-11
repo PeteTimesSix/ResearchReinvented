@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  	
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_1949419264_Carpet_MindbendA</defName>
+		<originalTerrains>
+			<li MayRequire="ludeon.rimworld.ideology">Carpet_MindbendA</li>
+		</originalTerrains>
+		<alternateEquivalentTerrains>
+			<li MayRequire="ludeon.rimworld.ideology">Carpet_MindbendB</li>
+			<li MayRequire="ludeon.rimworld.ideology">Carpet_MindbendC</li>
+			<li MayRequire="ludeon.rimworld.ideology">Carpet_MindbendD</li>
+			<li MayRequire="ludeon.rimworld.ideology">Carpet_MindbendE</li>
+		</alternateEquivalentTerrains>
+		<alternateSimilarTerrains>
+			<li MayRequire="ludeon.rimworld.ideology">Carpet_MindbendB</li>
+			<li MayRequire="ludeon.rimworld.ideology">Carpet_MindbendC</li>
+			<li MayRequire="ludeon.rimworld.ideology">Carpet_MindbendD</li>
+			<li MayRequire="ludeon.rimworld.ideology">Carpet_MindbendE</li>
+		</alternateSimilarTerrains>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_1564210717_Tile_MorbidSandstone</defName>
+		<originalTerrains>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_MorbidSandstone</li>
+		</originalTerrains>
+		<alternateEquivalentTerrains>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_MorbidGranite</li>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_MorbidLimestone</li>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_MorbidSlate</li>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_MorbidMarble</li>
+			<li MayRequire="ludeon.rimworld.ideology,ludeon.rimworld.odyssey">Tile_MorbidVacstone</li>
+		</alternateEquivalentTerrains>
+		<alternateSimilarTerrains>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_MorbidGranite</li>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_MorbidLimestone</li>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_MorbidSlate</li>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_MorbidMarble</li>
+			<li MayRequire="ludeon.rimworld.ideology,ludeon.rimworld.odyssey">Tile_MorbidVacstone</li>
+		</alternateSimilarTerrains>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-683660520_Tile_SpikecoreSandstone</defName>
+		<originalTerrains>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_SpikecoreSandstone</li>
+		</originalTerrains>
+		<alternateEquivalentTerrains>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_SpikecoreGranite</li>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_SpikecoreLimestone</li>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_SpikecoreSlate</li>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_SpikecoreMarble</li>
+			<li MayRequire="ludeon.rimworld.ideology,ludeon.rimworld.odyssey">Tile_SpikecoreVacstone</li>
+		</alternateEquivalentTerrains>
+		<alternateSimilarTerrains>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_SpikecoreGranite</li>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_SpikecoreLimestone</li>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_SpikecoreSlate</li>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_SpikecoreMarble</li>
+			<li MayRequire="ludeon.rimworld.ideology,ludeon.rimworld.odyssey">Tile_SpikecoreVacstone</li>
+		</alternateSimilarTerrains>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-1814863382_Tile_TotemicSandstone</defName>
+		<originalTerrains>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_TotemicSandstone</li>
+		</originalTerrains>
+		<alternateEquivalentTerrains>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_TotemicGranite</li>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_TotemicLimestone</li>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_TotemicSlate</li>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_TotemicMarble</li>
+			<li MayRequire="ludeon.rimworld.ideology,ludeon.rimworld.odyssey">Tile_TotemicVacstone</li>
+		</alternateEquivalentTerrains>
+		<alternateSimilarTerrains>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_TotemicGranite</li>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_TotemicLimestone</li>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_TotemicSlate</li>
+			<li MayRequire="ludeon.rimworld.ideology">Tile_TotemicMarble</li>
+			<li MayRequire="ludeon.rimworld.ideology,ludeon.rimworld.odyssey">Tile_TotemicVacstone</li>
+		</alternateSimilarTerrains>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-1367693890_MetalTile</defName>
+		<originalTerrains>
+			<li>MetalTile</li>
+		</originalTerrains>
+		<alternateSimilarTerrains>
+			<li>AncientTile</li>
+		</alternateSimilarTerrains>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_1548648989_Concrete</defName>
+		<originalTerrains>
+			<li>Concrete</li>
+		</originalTerrains>
+		<alternateSimilarTerrains>
+			<li>AncientConcrete</li>
+		</alternateSimilarTerrains>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_457845733_WoodPlankFloor</defName>
+		<originalTerrains>
+			<li>WoodPlankFloor</li>
+		</originalTerrains>
+		<alternateSimilarTerrains>
+			<li>AncientWoodPlankFloor</li>
+		</alternateSimilarTerrains>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+</Defs>

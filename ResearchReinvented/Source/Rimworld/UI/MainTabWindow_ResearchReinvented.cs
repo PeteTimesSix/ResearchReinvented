@@ -95,6 +95,14 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
             Text.Anchor = TextAnchor.MiddleCenter;
             Widgets.Label(titlebarCentralRect, Find.ResearchManager.GetProject() != null ? Find.ResearchManager.GetProject().LabelCap.ToString() : RR_no_project_selected);
+            if (ResearchOpportunityManager.Instance.clearedThisTick)
+            {
+                titlebarCentralRect.y += titlebarCentralRect.height;
+                Widgets.Label(titlebarCentralRect, "RR_cleared_this_tick".Translate());
+                Text.Font = cachedStyle;
+                Text.Anchor = cachedAnchor;
+                return;
+            }
 
             Text.Anchor = TextAnchor.MiddleLeft;
             if (Widgets.ButtonText(titlebarRect.LeftPartPixels(COLLAPSE_BUTTON_WIDTH + MARGIN_INTERNAL), collapsedCategories.Any() ? RR_uncollapse_all : RR_collapse_all))
@@ -129,6 +137,18 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
                     ResearchOpportunityManager.Instance.GenerateOpportunities(Find.ResearchManager.GetProject(), true);
 				}
 			}
+            else
+            {
+                if(ResearchOpportunityManager.Instance.changeTicker != ResearchReinventedMod.Settings.changeTicker)
+                {
+                    GUI.color = Color.red;
+                    if (Widgets.ButtonText(footerRect, "RR_setting_fixupButton".Translate()))
+                    {
+                        ResearchReinventedMod.ModSingleton.FixupDialog();
+                    }
+                    GUI.color = Color.white;
+                }
+            }
 
             Text.Font = cachedStyle;
             Text.Anchor = cachedAnchor;
@@ -283,14 +303,6 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
                 if (ResearchReinvented_Debug.debugPrintouts)
                 {
-                    Text.Anchor = TextAnchor.MiddleCenter;
-                    GUI.color = Color.green;
-                    if (opportunity.IsAlternate)
-                    {
-                        GUI.DrawTexture(textBoxInternal, TexUI.GrayTextBG);
-                        Widgets_Extra.LabelFitHeightAware(textBoxInternal, $"ALT");
-                    }
-                    GUI.color = Color.white;
                 }
 
                 Text.Anchor = TextAnchor.LowerCenter;
@@ -369,20 +381,19 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
                 {
                     Text.Anchor = TextAnchor.MiddleCenter;
                     GUI.color = Color.green;
-                    if (opportunity.IsAlternate)
-                    {
-                        GUI.DrawTexture(textBoxInternal.TopHalf().RightHalf(), TexUI.GrayTextBG);
-                        Widgets_Extra.LabelFitHeightAware(textBoxInternal.TopHalf().RightHalf(), $"ALT");
-                    }
                     GUI.DrawTexture(textBoxInternal.TopHalf().LeftHalf(), TexUI.GrayTextBG);
                     Widgets_Extra.LabelFitHeightAware(textBoxInternal.TopHalf().LeftHalf(), $"{opportunity.relation}");
                     GUI.DrawTexture(textBoxInternal.BottomHalf(), TexUI.GrayTextBG);
-                    Widgets_Extra.LabelFitHeightAware(textBoxInternal.BottomHalf(), $"{opportunity.debug_source} (imp.: {opportunity.importance})");
+                    Widgets_Extra.LabelFitHeightAware(textBoxInternal.BottomHalf(), $"{opportunity.debug_source} (imp.: {opportunity.importance}) (alts: {opportunity.requirement.AlternateCount})");
                     GUI.color = Color.white;
 
                     if (GUI.Button(textBoxInternal.TopHalf().RightHalf(), "Finish")) 
                     {
                         opportunity.FinishImmediately();
+                    }
+                    if (GUI.Button(textBoxInternal.BottomHalf().RightHalf(), "List alts"))
+                    {
+                        opportunity.requirement.ListAlts();
                     }
                 }
 
@@ -412,7 +423,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             if(opportunity.requirement is ROComp_RequiresFactionlessPawn)
             {
                 GUI.color = Color.white;
-                Widgets.DrawTextureFitted(iconBox, Textures.genericIcon, 1f);
+                Widgets.DrawTextureFitted(iconBox, Textures.genericIcon, 1f, 1f);
             }
             else if (opportunity.requirement is ROComp_RequiresFaction requiresPawnOfFaction) 
             {
@@ -420,11 +431,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
                 GUI.color = requiresPawnOfFaction.faction.Color;
                 if(faction.def.FactionIcon != null && faction.def.FactionIcon != BaseContent.BadTex)
                 {
-                    Widgets.DrawTextureFitted(iconBox, requiresPawnOfFaction.faction.def.FactionIcon, 1f);
+                    Widgets.DrawTextureFitted(iconBox, requiresPawnOfFaction.faction.def.FactionIcon, 1f, 1f);
                 }
                 else
                 {
-                    Widgets.DrawTextureFitted(iconBox, Textures.genericIcon, 1f);
+                    Widgets.DrawTextureFitted(iconBox, Textures.genericIcon, 1f, 1f);
                 }
                 GUI.color = Color.white;
 
@@ -433,74 +444,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             }
             else if (opportunity.requirement is ROComp_RequiresRecipe requiresRecipeComp)
 			{
-                var recipeDef = requiresRecipeComp.recipeDef;
-                if(recipeDef.UIIconThing != null)
-				{
-					Widgets.ThingIcon(iconBox, recipeDef.UIIconThing);
-				}
-                else
-                {
-                    bool hadThingIcon = false;
-                    {
-                        ThingDef fixedIngredient = null;
-                        if (recipeDef.ingredients.Count == 1 && recipeDef.ingredients[0].IsFixedIngredient)
-                        {
-                            fixedIngredient = recipeDef.ingredients[0].FixedIngredient;
-                        }
-                        else
-                        {
-                            var fixedIngredients = recipeDef.ingredients.Where(i => i.IsFixedIngredient).ToList();
-                            if(fixedIngredients.Count == 1)
-                            {
-                                fixedIngredient = fixedIngredients[0].FixedIngredient;
-                            }
-                        }
-                        if (fixedIngredient != null && fixedIngredient.uiIcon != null && fixedIngredient.uiIcon != BaseContent.BadTex)
-                        {
-                            hadThingIcon = true;
-                            Widgets.DefIcon(iconBox, fixedIngredient); //has own icon. Use DefIcon when possible to preserve colors
-                        }
-                    }
-                    if(!hadThingIcon)
-                    {
-                        if (recipeDef.IsSurgery)
-                        {
-                            Widgets.DrawTextureFitted(iconBox, Textures.medicalInvasiveIcon, 1f);
-                        }
-                        else
-                        {
-                            Widgets.DrawTextureFitted(iconBox, Textures.medicalNoninvasiveIcon, 1f);
-                        }
-                    }
-				}
-
-                if (Widgets.ButtonInvisible(iconBox))
-                    Find.WindowStack.Add(new Dialog_InfoCard(recipeDef));
+                var recipeDef = requiresRecipeComp.ShownCycledRecipe;
+                ResearchWidgets.RecipeDefIcon(iconBox, requiresRecipeComp.ShownCycledRecipe);
 			}
 			else if (opportunity.requirement is ROComp_RequiresThing requiresThingComp)
             {
-                var thingDef = requiresThingComp.thingDef;
-                if (thingDef.uiIcon != null && thingDef.uiIcon != BaseContent.BadTex)
-                {
-                    Widgets.DefIcon(iconBox, thingDef); //has own icon. Use DefIcon when possible to preserve colors
-                }
-                else
-                {
-                    if(thingDef.IsCorpse && thingDef.ingestible?.sourceDef?.uiIcon != null && thingDef.ingestible?.sourceDef?.uiIcon != BaseContent.BadTex)
-                    {
-                        Widgets.DefIcon(iconBox, thingDef.ingestible.sourceDef); //is a corpse and the pawn has an icon
-                    }
-                    else if(thingDef.race != null || thingDef.IsCorpse)
-                        Widgets.DrawTextureFitted(iconBox, Textures.genericPawnIcon, 1f); //is a corspe or a pawn with no icon
-                    else
-                        Widgets.DrawTextureFitted(iconBox, Textures.genericIcon, 1f); //isnt pawn-like and has no icon??
-                }
-                if(thingDef.IsCorpse)
-                {
-                    Widgets.DrawTextureFitted(iconBox, Textures.corpseIconOverlay, 1f);
-                }
-                if (Widgets.ButtonInvisible(iconBox))
-                    Find.WindowStack.Add(new Dialog_InfoCard(thingDef));
+                ResearchWidgets.ThingDefIcon(iconBox, requiresThingComp.ShownCycledThing);
             }
             // unused for now
             //else if (opportunity.requirement is ROComp_RequiresIngredients requiresIngredientsComp)
@@ -524,17 +473,15 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
             //}
             else if (opportunity.requirement is ROComp_RequiresTerrain requiresTerrainComp)
             {
-                Widgets.DefIcon(iconBox, requiresTerrainComp.terrainDef);
-                if (Widgets.ButtonInvisible(iconBox))
-                    Find.WindowStack.Add(new Dialog_InfoCard(requiresTerrainComp.terrainDef));
+                ResearchWidgets.TerrainDefIcon(iconBox, requiresTerrainComp.ShownCycledTerrain);
             }
             else if(opportunity.requirement is ROComp_RequiresSchematicWithProject requiresSchematic)
             {
-                Widgets.DefIcon(iconBox, ThingDefOf.Schematic);
+                ResearchWidgets.ThingDefIcon(iconBox, ThingDefOf.Schematic, false);
             }
             else
             {
-                Widgets.DrawTextureFitted(iconBox, Textures.scienceIconDark, 1f);
+                Widgets.DrawTextureFitted(iconBox, Textures.scienceIconDark, 1f, 1f);
             }
         }
 
@@ -554,7 +501,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
                 Widgets.DrawBoxSolid(iconRect, borderColor);
                 iconRect = iconRect.ContractedBy(MARGIN);
                 Widgets.DrawBoxSolid(iconRect, bgColor);
-                Widgets.DrawTextureFitted(iconRect, icon, 1f);
+                Widgets.DrawTextureFitted(iconRect, icon, 1f, 1f);
                 //TooltipHandler.TipRegion(iconRect, () => hintTooltipText, 554410123);
 
                 offset += width;

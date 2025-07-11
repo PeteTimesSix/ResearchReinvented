@@ -54,21 +54,21 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 			this.FailOn(() => !ResearchBench.CanUseNow());
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.InteractionCell);
 			Toil research = new Toil();
-			research.tickAction = delegate ()
+			research.tickIntervalAction = (int delta) =>
 			{
 				Pawn actor = research.actor;
 				float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true) * 0.00825f;
 				num *= ResearchBench.GetStatValue(StatDefOf.ResearchSpeedFactor, true);
-				actor.GainComfortFromCellIfPossible(true);
+				actor.GainComfortFromCellIfPossible(1, true);
                 if (ResearchData.active)
                 {
                     var fuelComp = ResearchBench.GetComp<CompRefuelable>();
                     if (fuelComp != null && fuelComp.Props.consumeFuelOnlyWhenUsed)
                     {
-                        fuelComp.ConsumeTickFuel();
+                        fuelComp.ConsumeTickIntervalFuel(delta);
                     }
                 }
-                bool finished = opportunity.ResearchTickPerformed(num, actor);
+                bool finished = opportunity.ResearchTickPerformed(num, actor, delta);
 				if (finished)
 					this.ReadyForNextToil();
 			};

@@ -1,4 +1,5 @@
 ﻿using PeteTimesSix.ResearchReinvented.Opportunities;
+using PeteTimesSix.ResearchReinvented.OpportunityComps;
 using PeteTimesSix.ResearchReinvented.Rimworld.MiscData;
 using System;
 using System.Collections.Generic;
@@ -11,18 +12,19 @@ namespace PeteTimesSix.ResearchReinvented.Defs
 {
     public class SpecialResearchOpportunityDef : Def
     {
+        public ResearchProjectDef project;
         public ResearchOpportunityTypeDef opportunityType;
-        public ResearchProjectDef originalProject;
         public ResearchRelation? relationOverride = null;
+        public AlternatesMode altsMode = AlternatesMode.NONE;
         public bool forDirect = true;
         public bool forAncestor = false;
         public bool forDescendant = false;
-        public List<ThingDef> originals;
-        public List<ThingDef> alternates;
-        public List<TerrainDef> alternateTerrains;
+        public List<ThingDef> things;
+        public List<TerrainDef> terrains;
+        public List<RecipeDef> recipes;
         public float importanceMultiplier = 1f;
-        public bool rareForThis = false;
-        public bool markAsAlternate = false;
+        public bool rare = false;
+        public bool freebie = true;
 
         public bool IsForRelation(ResearchRelation relation)
         {

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <PeteTimesSix.ResearchReinvented.Defs.SettingsPresetDef>
+    <defName>SettingsPreset_RR_Fastest</defName>
+    <label>the information superhighway</label>
+    <description>Fastest research settings preset.</description>
+	<priority>450</priority>
+	<categorySettingPresets>
+		<li>
+			<category>Theory</category>
+			
+			<importanceMultiplier>0.0</importanceMultiplier>
+			<importanceMultiplierCounted>0.0</importanceMultiplierCounted>
+			<infiniteOverflow>true</infiniteOverflow>
+			<targetIterations>1.0</targetIterations>
+			<researchSpeedMultiplier>0.8</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>Books</category>
+			
+			<importanceStatic>1.0</importanceStatic>
+			<importanceMultiplier>0.0</importanceMultiplier>
+			<importanceMultiplierCounted>0.0</importanceMultiplierCounted>
+			<targetIterations>2.0</targetIterations>
+			<researchSpeedMultiplier>2.0</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>Social</category>
+			
+			<importanceMultiplier>1.5</importanceMultiplier>
+			<importanceMultiplierCounted>0.5</importanceMultiplierCounted>
+			<targetIterations>3.0</targetIterations>
+			<researchSpeedMultiplier>3.5</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>Prototyping</category>
+			
+			<importanceMultiplier>1.5</importanceMultiplier>
+			<importanceMultiplierCounted>1.0</importanceMultiplierCounted>
+			<targetIterations>2.0</targetIterations>
+			<researchSpeedMultiplier>4.0</researchSpeedMultiplier>
+			<availableAtOverallProgress>0.3~1.0</availableAtOverallProgress>
+		</li>
+		<li>
+			<category>Clinical</category>
+			
+			<importanceMultiplier>1.5</importanceMultiplier>
+			<importanceMultiplierCounted>1.0</importanceMultiplierCounted>
+			<targetIterations>3.0</targetIterations>
+			<researchSpeedMultiplier>3.5</researchSpeedMultiplier>
+			<availableAtOverallProgress>0.3~1.0</availableAtOverallProgress>
+		</li>
+		<li>
+			<category>Tooling</category>
+			
+			<importanceMultiplier>1.25</importanceMultiplier>
+			<importanceMultiplierCounted>1.0</importanceMultiplierCounted>
+			<targetIterations>2.0</targetIterations>
+			<researchSpeedMultiplier>3.5</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>ReverseEngineering</category>
+			
+			<importanceMultiplier>1.25</importanceMultiplier>
+			<importanceMultiplierCounted>0.5</importanceMultiplierCounted>
+			<targetIterations>4.0</targetIterations>
+			<researchSpeedMultiplier>3.0</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>ForwardEngineering</category>
+			
+			<importanceMultiplier>1.25</importanceMultiplier>
+			<importanceMultiplierCounted>1.0</importanceMultiplierCounted>
+			<targetIterations>10.0</targetIterations>
+			<researchSpeedMultiplier>2.5</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>Logistics</category>
+			
+			<importanceMultiplier>1.25</importanceMultiplier>
+			<importanceMultiplierCounted>1.0</importanceMultiplierCounted>
+			<targetIterations>2</targetIterations>
+			<researchSpeedMultiplier>3.5</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>Geology</category>
+			
+			<importanceMultiplier>1.25</importanceMultiplier>
+			<importanceMultiplierCounted>1.0</importanceMultiplierCounted>
+			<targetIterations>4.0</targetIterations>
+			<researchSpeedMultiplier>3.0</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>Biology</category>
+			
+			<importanceMultiplier>1.25</importanceMultiplier>
+			<importanceMultiplierCounted>1.0</importanceMultiplierCounted>
+			<targetIterations>4.0</targetIterations>
+			<researchSpeedMultiplier>3.0</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>Chemistry</category>
+			
+			<importanceMultiplier>1.25</importanceMultiplier>
+			<importanceMultiplierCounted>1.0</importanceMultiplierCounted>
+			<targetIterations>4.0</targetIterations>
+			<researchSpeedMultiplier>3.0</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>Gastronomy</category>
+			
+			<importanceMultiplier>1.25</importanceMultiplier>
+			<importanceMultiplierCounted>1.0</importanceMultiplierCounted>
+			<targetIterations>4.0</targetIterations>
+			<researchSpeedMultiplier>3.0</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>Material</category>
+			
+			<importanceMultiplier>1.25</importanceMultiplier>
+			<importanceMultiplierCounted>1.0</importanceMultiplierCounted>
+			<targetIterations>5.0</targetIterations>
+			<researchSpeedMultiplier>2.5</researchSpeedMultiplier>
+		</li>
+	</categorySettingPresets>
+  </PeteTimesSix.ResearchReinvented.Defs.SettingsPresetDef>
+</Defs>

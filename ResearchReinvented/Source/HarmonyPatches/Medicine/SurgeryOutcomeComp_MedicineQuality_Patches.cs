@@ -19,10 +19,16 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Medicine
         [HarmonyPrefix]
         public static void Recipe_Surgery_CheckSurgeryFail_Prefix(RecipeDef recipe, Pawn surgeon, Pawn patient, List<Thing> ingredients, BodyPartRecord part, Bill bill)
         {
-            if (bill is Bill_Medical medicalBill && medicalBill.consumedInitialMedicineDef != null)
+            if (bill is Bill_Medical medicalBill && medicalBill.consumedMedicine != null)
             {
-                TendUtility_Patches.DoForObserver(surgeon, medicalBill.consumedInitialMedicineDef, 0.5f/*avoid overlap with patient's mote*/);
-                TendUtility_Patches.DoForObserver(patient, medicalBill.consumedInitialMedicineDef);
+                foreach ((ThingDef medicine, int count) in medicalBill.consumedMedicine)
+                {
+                    if(count > 0)
+                    {
+                        TendUtility_Patches.DoForObserver(surgeon, medicine, 0.5f/*avoid overlap with patient's mote*/);
+                        TendUtility_Patches.DoForObserver(patient, medicine);
+                    }
+                }
             }
             else
             {

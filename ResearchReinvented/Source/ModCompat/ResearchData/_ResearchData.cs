@@ -50,9 +50,9 @@ namespace PeteTimesSix.ResearchReinvented.ModCompat
             }
         }
 
-        public static void ConsumeTickFuel(this CompRefuelable comp) 
+        public static void ConsumeTickIntervalFuel(this CompRefuelable comp, int delta) 
         {
-            comp.ConsumeFuel(getter_ConsumptionRatePerTick(comp));
+            comp.ConsumeFuel(getter_ConsumptionRatePerTick(comp) * delta);
         }
     }
 }

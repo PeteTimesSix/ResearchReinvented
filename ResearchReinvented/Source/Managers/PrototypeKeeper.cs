@@ -70,15 +70,27 @@ namespace PeteTimesSix.ResearchReinvented.Managers
         {
             return GetMapPrototypeTerrainGrid(map)?.IsTerrainPrototype(position) ?? false;
         }
+        public bool IsFoundationTerrainPrototype(IntVec3 position, Map map)
+        {
+            return GetMapPrototypeTerrainGrid(map)?.IsFoundationTerrainPrototype(position) ?? false;
+        }
 
         public void MarkTerrainAsPrototype(IntVec3 position, Map map, TerrainDef terrain)
         {
             GetMapPrototypeTerrainGrid(map)?.MarkTerrainAsPrototype(position, terrain);
         }
-
         public void UnmarkTerrainAsPrototype(IntVec3 position, Map map)
         {
             GetMapPrototypeTerrainGrid(map)?.UnmarkTerrainAsPrototype(position);
+        }
+
+        public void MarkFoundationTerrainAsPrototype(IntVec3 position, Map map, TerrainDef terrain)
+        {
+            GetMapPrototypeTerrainGrid(map)?.MarkFoundationTerrainAsPrototype(position, terrain);
+        }
+        public void UnmarkFoundationTerrainAsPrototype(IntVec3 position, Map map)
+        {
+            GetMapPrototypeTerrainGrid(map)?.UnmarkFoundationTerrainAsPrototype(position);
         }
 
         public void DebugDrawOnMap()
@@ -115,18 +127,24 @@ namespace PeteTimesSix.ResearchReinvented.Managers
             {
                 if (protoOp.requirement is ROComp_RequiresThing regThing)
                 {
-                    var thingDef = regThing.thingDef;
-                    defsToCancel.Add(thingDef);
+                    foreach(var altThing in regThing.AllThings)
+                    {
+                        defsToCancel.Add(altThing);
+                    }
                 }
                 else if (protoOp.requirement is ROComp_RequiresTerrain regTerrain)
                 {
-                    var terrainDef = regTerrain.terrainDef;
-                    defsToCancel.Add(terrainDef);
+                    foreach (var altTerrain in regTerrain.AllTerrains)
+                    {
+                        defsToCancel.Add(altTerrain);
+                    }
                 }
                 else if (protoOp.requirement is ROComp_RequiresRecipe regRecipe)
                 {
-                    var recipeDef = regRecipe.recipeDef;
-                    defsToCancel.Add(recipeDef);
+                    foreach (var altRecipe in regRecipe.AllRecipes)
+                    {
+                        defsToCancel.Add(altRecipe);
+                    }
                 }
             }
             if (defsToCancel.Contains(null))

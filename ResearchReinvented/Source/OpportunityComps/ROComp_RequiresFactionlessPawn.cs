@@ -17,6 +17,7 @@ namespace PeteTimesSix.ResearchReinvented.OpportunityComps
         public override bool TargetIsNull => true;
 
         public override bool IsRare => false;
+        public override bool IsFreebie => false;
         public override bool MetBy(Def def) => false;
         public override bool MetBy(Thing thing) => thing is Pawn pawn && (pawn.Faction == null || pawn.Faction.temporary);
         public override bool IsValid => true;

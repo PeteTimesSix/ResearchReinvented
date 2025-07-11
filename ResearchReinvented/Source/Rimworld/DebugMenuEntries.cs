@@ -2,6 +2,7 @@
 using LudeonTK;
 using PeteTimesSix.ResearchReinvented.Defs;
 using PeteTimesSix.ResearchReinvented.Managers;
+using PeteTimesSix.ResearchReinvented.Rimworld.UI.Dialogs;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -62,17 +63,18 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld
                 }
             }
 
-            var pawns = PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_OfPlayerFaction;
-            foreach (Pawn pawn in pawns) //for LIFE support
-            {
-                pawn.health.capacities.Notify_CapacityLevelsDirty();
-            }
-
             researchManager.ReapplyAllMods();
         }
 
-        [DebugOutput(category = CATEGORY, name = "Special opportunities")]
-        public static void ResearchProjects()
+
+        [DebugAction(category = CATEGORY, actionType = DebugActionType.Action)]
+        static void OpenAlternatesMapper()
+        {
+            Find.WindowStack.Add(new Dialog_AlternateMapper());
+        }
+
+        [DebugOutput(category = CATEGORY, name = "List special opportunities")]
+        public static void SpecialOpportunitiesListing()
         {
             IEnumerable<SpecialResearchOpportunityDef> allDefs = DefDatabase<SpecialResearchOpportunityDef>.AllDefs;
             var entries = new List<TableDataGetter<SpecialResearchOpportunityDef>>
@@ -80,14 +82,43 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld
                 new TableDataGetter<SpecialResearchOpportunityDef>("defName", (SpecialResearchOpportunityDef d) => d.defName),
                 new TableDataGetter<SpecialResearchOpportunityDef>("label", (SpecialResearchOpportunityDef d) => d.label),
                 new TableDataGetter<SpecialResearchOpportunityDef>("type", (SpecialResearchOpportunityDef d) => d.opportunityType?.defName ?? "NULL"),
-                new TableDataGetter<SpecialResearchOpportunityDef>("project", (SpecialResearchOpportunityDef d) => d.originalProject?.defName ?? "NULL"),
-                new TableDataGetter<SpecialResearchOpportunityDef>("rare", (SpecialResearchOpportunityDef d) => d.rareForThis),
-                new TableDataGetter<SpecialResearchOpportunityDef>("alternate", (SpecialResearchOpportunityDef d) => d.markAsAlternate),
-                new TableDataGetter<SpecialResearchOpportunityDef>("originals", (SpecialResearchOpportunityDef d) => d.originals == null ? "NULL" : string.Join(",", d.originals.Select(a => a.defName))),
-                new TableDataGetter<SpecialResearchOpportunityDef>("alternates", (SpecialResearchOpportunityDef d) => d.alternates == null ? "NULL" : string.Join(",", d.alternates.Select(a => a.defName))),
-                new TableDataGetter<SpecialResearchOpportunityDef>("alternates (terrain)", (SpecialResearchOpportunityDef d) => d.alternateTerrains == null ? "NULL" : string.Join(",", d.alternateTerrains.Select(a => a.defName)))
+                new TableDataGetter<SpecialResearchOpportunityDef>("project", (SpecialResearchOpportunityDef d) => d.project?.defName ?? "NULL"),
+                new TableDataGetter<SpecialResearchOpportunityDef>("rare", (SpecialResearchOpportunityDef d) => d.rare),
+                new TableDataGetter<SpecialResearchOpportunityDef>("freebie", (SpecialResearchOpportunityDef d) => d.freebie),
+                new TableDataGetter<SpecialResearchOpportunityDef>("thiCount", (SpecialResearchOpportunityDef d) => d.things == null ? "0" : d.things.Count),
+                new TableDataGetter<SpecialResearchOpportunityDef>("terCount", (SpecialResearchOpportunityDef d) => d.terrains == null ? "0" : d.terrains.Count),
+                new TableDataGetter<SpecialResearchOpportunityDef>("recCount", (SpecialResearchOpportunityDef d) => d.recipes == null ? "0" : d.recipes.Count),
+                new TableDataGetter<SpecialResearchOpportunityDef>("things", (SpecialResearchOpportunityDef d) => d.things == null ? "NULL" : string.Join(", ", d.things.Select(a => a.defName))),
+                new TableDataGetter<SpecialResearchOpportunityDef>("terrains", (SpecialResearchOpportunityDef d) => d.terrains == null ? "NULL" : string.Join(", ", d.terrains.Select(a => a.defName))),
+                new TableDataGetter<SpecialResearchOpportunityDef>("recipes", (SpecialResearchOpportunityDef d) => d.recipes == null ? "NULL" : string.Join(", ", d.recipes.Select(a => a.defName))),
             };
             DebugTables.MakeTablesDialog<SpecialResearchOpportunityDef>(allDefs, entries.ToArray());
+        }
+
+        [DebugOutput(category = CATEGORY, name = "List alternates")]
+        public static void AlternatesListing()
+        {
+            IEnumerable<AlternateResearchSubjectsDef> allDefs = DefDatabase<AlternateResearchSubjectsDef>.AllDefs;
+            var entries = new List<TableDataGetter<AlternateResearchSubjectsDef>>
+            {
+                new TableDataGetter<AlternateResearchSubjectsDef>("defName", (AlternateResearchSubjectsDef d) => d.defName),
+                new TableDataGetter<AlternateResearchSubjectsDef>("label", (AlternateResearchSubjectsDef d) => d.label),
+                new TableDataGetter<AlternateResearchSubjectsDef>("originals", (AlternateResearchSubjectsDef d) => d.originals == null ? "NULL" : string.Join(", ", d.originals.Select(a => a.defName))),
+                new TableDataGetter<AlternateResearchSubjectsDef>("originalTerrains", (AlternateResearchSubjectsDef d) => d.originalTerrains == null ? "NULL" : string.Join(", ", d.originalTerrains.Select(a => a.defName))),
+                new TableDataGetter<AlternateResearchSubjectsDef>("altEqCount", (AlternateResearchSubjectsDef d) => d.alternatesEquivalent == null ? "0" : d.alternatesEquivalent.Count),
+                new TableDataGetter<AlternateResearchSubjectsDef>("altSiCount", (AlternateResearchSubjectsDef d) => d.alternatesSimilar == null ? "0" : d.alternatesSimilar.Count),
+                new TableDataGetter<AlternateResearchSubjectsDef>("altEqCountTer", (AlternateResearchSubjectsDef d) => d.alternateEquivalentTerrains == null ? "0" : d.alternateEquivalentTerrains.Count),
+                new TableDataGetter<AlternateResearchSubjectsDef>("altSCountTer", (AlternateResearchSubjectsDef d) => d.alternateSimilarTerrains == null ? "0" : d.alternateSimilarTerrains.Count),
+                new TableDataGetter<AlternateResearchSubjectsDef>("altEqCountRec", (AlternateResearchSubjectsDef d) => d.alternateEquivalentRecipes == null ? "0" : d.alternateEquivalentRecipes.Count),
+                new TableDataGetter<AlternateResearchSubjectsDef>("altSiCountRec", (AlternateResearchSubjectsDef d) => d.alternateSimilarRecipes == null ? "0" : d.alternateSimilarRecipes.Count),
+                new TableDataGetter<AlternateResearchSubjectsDef>("alternatesEquivalent", (AlternateResearchSubjectsDef d) => d.alternatesEquivalent == null ? "NULL" : string.Join(", ", d.alternatesEquivalent.Select(a => a.defName))),
+                new TableDataGetter<AlternateResearchSubjectsDef>("alternatesSimilar", (AlternateResearchSubjectsDef d) => d.alternatesSimilar == null ? "NULL" : string.Join(", ", d.alternatesSimilar.Select(a => a.defName))),
+                new TableDataGetter<AlternateResearchSubjectsDef>("alternateEquivalentTerrains", (AlternateResearchSubjectsDef d) => d.alternateEquivalentTerrains == null ? "NULL" : string.Join(", ", d.alternateEquivalentTerrains.Select(a => a.defName))),
+                new TableDataGetter<AlternateResearchSubjectsDef>("alternateSimilarTerrains", (AlternateResearchSubjectsDef d) => d.alternateSimilarTerrains == null ? "NULL" : string.Join(", ", d.alternateSimilarTerrains.Select(a => a.defName))),
+                new TableDataGetter<AlternateResearchSubjectsDef>("alternateEquivalentRecipes", (AlternateResearchSubjectsDef d) => d.alternateEquivalentRecipes == null ? "NULL" : string.Join(", ", d.alternateEquivalentRecipes.Select(a => a.defName))),
+                new TableDataGetter<AlternateResearchSubjectsDef>("alternateSimilarRecipes", (AlternateResearchSubjectsDef d) => d.alternateSimilarRecipes == null ? "NULL" : string.Join(", ", d.alternateSimilarRecipes.Select(a => a.defName))),
+            };
+            DebugTables.MakeTablesDialog<AlternateResearchSubjectsDef>(allDefs, entries.ToArray());
         }
     }
 }

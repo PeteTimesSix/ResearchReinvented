@@ -25,22 +25,39 @@ namespace PeteTimesSix.ResearchReinvented.OpportunityJobPickers
             }
             else
             {
-                var def = thingRequirement.thingDef;
-                if(def.EverHaulable)
+                HashSet<JobDef> jobs = new HashSet<JobDef>();
+                foreach(var thingDef in thingRequirement.AllThings)
                 {
-                    return AtBenchOnly;
-                }
-                else
-                {
-                    if (def.Minifiable) 
+                    if (thingDef.EverHaulable)
                     {
-                        return InPlaceOrMinifiedAtBench;
+                        jobs.AddRange(AtBenchOnly);
+                        //return AtBenchOnly;
                     }
                     else
                     {
-                        return InPlaceOnly;
+                        if (thingDef.Minifiable)
+                        {
+                            jobs.AddRange(InPlaceOrMinifiedAtBench);
+                            //return InPlaceOrMinifiedAtBench;
+                        }
+                        else
+                        {
+                            jobs.AddRange(InPlaceOnly);
+                            //return InPlaceOnly;
+                        }
                     }
                 }
+                /*if (jobs.Count == 0)
+                {
+                    Log.ErrorOnce("RR: Got no job set for AnalyseInPlaceOrMinified for thing: " + thingRequirement.PrimaryThingDef, 524562 + thingRequirement.PrimaryThingDef.shortHash);
+                    return InPlaceOnly;
+                }
+                if (jobs.Count > 1)
+                {
+                    Log.WarningOnce("RR: Got mismatched job sets for AnalyseInPlaceOrMinified for thing: " + thingRequirement.PrimaryThingDef, 121202 + thingRequirement.PrimaryThingDef.shortHash);
+                    return InPlaceOnly;
+                }*/
+                return jobs.ToList();
             }
         }
     }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs> 		
+    <PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_22222350_CookMealLavish_Meat</defName>
+		<originalRecipes>
+			<li>CookMealLavish_Meat</li>
+		</originalRecipes>
+		<alternateEquivalentRecipes>
+			<li>CookMealLavishBulk_Meat</li>
+		</alternateEquivalentRecipes>
+		<alternateSimilarRecipes>
+			<li>CookMealLavishBulk_Meat</li>
+		</alternateSimilarRecipes>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-1118051173_CookMealLavish_Veg</defName>
+		<originalRecipes>
+			<li>CookMealLavish_Veg</li>
+		</originalRecipes>
+		<alternateEquivalentRecipes>
+			<li>CookMealLavishBulk_Veg</li>
+		</alternateEquivalentRecipes>
+		<alternateSimilarRecipes>
+			<li>CookMealLavishBulk_Veg</li>
+		</alternateSimilarRecipes>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_733640891_CookMealFine_Meat</defName>
+		<originalRecipes>
+			<li>CookMealFine_Meat</li>
+		</originalRecipes>
+		<alternateEquivalentRecipes>
+			<li>CookMealFineBulk_Meat</li>
+		</alternateEquivalentRecipes>
+		<alternateSimilarRecipes>
+			<li>CookMealFineBulk_Meat</li>
+		</alternateSimilarRecipes>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+		<defName>RR_alts_-959556592_CookMealFine_Veg</defName>
+		<originalRecipes>
+			<li>CookMealFine_Veg</li>
+		</originalRecipes>
+		<alternateEquivalentRecipes>
+			<li>CookMealFineBulk_Veg</li>
+		</alternateEquivalentRecipes>
+		<alternateSimilarRecipes>
+			<li>CookMealFineBulk_Veg</li>
+		</alternateSimilarRecipes>
+	</PeteTimesSix.ResearchReinvented.Defs.AlternateResearchSubjectsDef>
+
+
+</Defs>

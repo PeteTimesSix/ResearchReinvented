@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <PeteTimesSix.ResearchReinvented.Defs.SettingsPresetDef>
+    <defName>SettingsPreset_RR_Vanilla</defName>
+    <label>vanilla</label>
+    <description>A settings preset that behaves nearly identically to vanilla Rimworld.</description>
+	<priority>10</priority>
+	<categorySettingPresets>
+		<li>
+			<category>Theory</category>
+			
+			<importanceMultiplier>0.0</importanceMultiplier>
+			<importanceMultiplierCounted>0.0</importanceMultiplierCounted>
+			<infiniteOverflow>true</infiniteOverflow>
+			<targetIterations>1.0</targetIterations>
+			<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>Books</category>
+			
+			<importanceStatic>1.0</importanceStatic>
+			<importanceMultiplier>0.0</importanceMultiplier>
+			<importanceMultiplierCounted>0.0</importanceMultiplierCounted>
+			<targetIterations>2.0</targetIterations>
+			<researchSpeedMultiplier>1.0</researchSpeedMultiplier>
+		</li>
+		<li>
+			<category>Social</category>
+			<enabled>false</enabled>
+		</li>
+		<li>
+			<category>Prototyping</category>
+			<enabled>false</enabled>
+		</li>
+		<li>
+			<category>Clinical</category>
+			<enabled>false</enabled>
+		</li>
+		<li>
+			<category>Tooling</category>
+			<enabled>false</enabled>
+		</li>
+		<li>
+			<category>ReverseEngineering</category>
+			<enabled>false</enabled>
+		</li>
+		<li>
+			<category>ForwardEngineering</category>
+			<enabled>false</enabled>
+		</li>
+		<li>
+			<category>Logistics</category>
+			<enabled>false</enabled>
+		</li>
+		<li>
+			<category>Geology</category>
+			<enabled>false</enabled>
+		</li>
+		<li>
+			<category>Biology</category>
+			<enabled>false</enabled>
+		</li>
+		<li>
+			<category>Chemistry</category>
+			<enabled>false</enabled>
+		</li>
+		<li>
+			<category>Gastronomy</category>
+			<enabled>false</enabled>
+		</li>
+		<li>
+			<category>Material</category>
+			<enabled>false</enabled>
+		</li>
+	</categorySettingPresets>
+  </PeteTimesSix.ResearchReinvented.Defs.SettingsPresetDef>
+</Defs>

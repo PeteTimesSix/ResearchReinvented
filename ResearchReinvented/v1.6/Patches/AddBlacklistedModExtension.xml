@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationConditional">
+		<xpath>Defs/RecipeDef[defName="CremateCorpse"]/modExtensions</xpath>
+		<nomatch Class="PatchOperationAdd">
+		  <xpath>Defs/RecipeDef[defName="CremateCorpse"]</xpath>
+		  <value>
+			<modExtensions/>
+		  </value>
+		</nomatch>
+    </Operation>
+	<Operation Class="PatchOperationAdd">
+		  <xpath>Defs/RecipeDef[defName="CremateCorpse"]/modExtensions</xpath>
+		<value>
+			<li Class="PeteTimesSix.ResearchReinvented.Rimworld.DefModExtensions.Blacklisted"/>
+		</value>
+	</Operation>
+	
+	<Operation Class="PatchOperationConditional">
+		<xpath>Defs/RecipeDef[defName="BurnWeapon"]/modExtensions</xpath>
+		<nomatch Class="PatchOperationAdd">
+		  <xpath>Defs/RecipeDef[defName="BurnWeapon"]</xpath>
+		  <value>
+			<modExtensions/>
+		  </value>
+		</nomatch>
+    </Operation>
+	<Operation Class="PatchOperationAdd">
+		  <xpath>Defs/RecipeDef[defName="BurnWeapon"]/modExtensions</xpath>
+		<value>
+			<li Class="PeteTimesSix.ResearchReinvented.Rimworld.DefModExtensions.Blacklisted"/>
+		</value>
+	</Operation>
+	
+	<Operation Class="PatchOperationConditional">
+		<xpath>Defs/RecipeDef[defName="BurnApparel"]/modExtensions</xpath>
+		<nomatch Class="PatchOperationAdd">
+		  <xpath>Defs/RecipeDef[defName="BurnApparel"]</xpath>
+		  <value>
+			<modExtensions/>
+		  </value>
+		</nomatch>
+    </Operation>
+	<Operation Class="PatchOperationAdd">
+		  <xpath>Defs/RecipeDef[defName="BurnApparel"]/modExtensions</xpath>
+		<value>
+			<li Class="PeteTimesSix.ResearchReinvented.Rimworld.DefModExtensions.Blacklisted"/>
+		</value>
+	</Operation>
+	
+	<Operation Class="PatchOperationConditional">
+		<xpath>Defs/RecipeDef[defName="BurnDrugs"]/modExtensions</xpath>
+		<nomatch Class="PatchOperationAdd">
+		  <xpath>Defs/RecipeDef[defName="BurnDrugs"]</xpath>
+		  <value>
+			<modExtensions/>
+		  </value>
+		</nomatch>
+    </Operation>
+	<Operation Class="PatchOperationAdd">
+		  <xpath>Defs/RecipeDef[defName="BurnDrugs"]/modExtensions</xpath>
+		<value>
+			<li Class="PeteTimesSix.ResearchReinvented.Rimworld.DefModExtensions.Blacklisted"/>
+		</value>
+	</Operation>
+</Patch>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase" MayRequire="ludeon.rimworld.odyssey">
+		<defName>RR_basicGravtech_1</defName>
+		<project>BasicGravtech</project>
+		<things>
+			<li>GravEngine</li>
+		</things>
+	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase" MayRequire="ludeon.rimworld.odyssey">
+		<defName>RR_basicGravtech_2</defName>
+		<project>BasicGravtech</project>
+		<things>
+			<li>ShuttleEngine</li>
+		</things>
+	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
+
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase" MayRequire="ludeon.rimworld.odyssey">
+		<defName>RR_orbitalTech</defName>
+		<project>OrbitalTech</project>
+		<things>
+			<li>AncientPipes</li>
+			<li MayRequire="ludeon.rimworld.odyssey">AncientPipe</li>
+		</things>
+	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
+</Defs>

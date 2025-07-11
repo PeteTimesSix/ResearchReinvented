@@ -194,5 +194,5 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.UI
 
 			return words;
 		}
-	}
+    }
 }

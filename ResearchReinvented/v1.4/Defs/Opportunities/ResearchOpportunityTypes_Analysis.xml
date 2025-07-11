@@ -67,42 +67,42 @@
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="AnalysisOpportunity">
 		<defName>AnalyseIngredients</defName>
 		<header_Direct>material analysis</header_Direct>
-		<shortDesc_Direct>Determine material properties of {0} that are particularily applicable to current research.</shortDesc_Direct>
+		<shortDesc_Direct>Determine material properties of {0}.</shortDesc_Direct>
 		<category_Direct>Material</category_Direct>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="AnalysisOpportunity">
 		<defName>AnalyseDrug</defName>
 		<header_Direct>chemical compound analysis</header_Direct>
-		<shortDesc_Direct>Analyse chemical properties of {0} that are particularily applicable to current research.</shortDesc_Direct>
+		<shortDesc_Direct>Analyze chemical properties of {0}.</shortDesc_Direct>
 		<category_Direct>Chemistry</category_Direct>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="AnalysisOpportunity">
 		<defName>AnalyseIngredientsFood</defName>
 		<header_Direct>ingredient analysis</header_Direct>
-		<shortDesc_Direct>Analyse nutritional and gastronomical properties of {0} that are particularily applicable to current research.</shortDesc_Direct>
+		<shortDesc_Direct>Analyze nutritional and gastronomical properties of {0}.</shortDesc_Direct>
 		<category_Direct>Gastronomy</category_Direct>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="AnalysisOpportunity">
 		<defName>AnalyseIngredientsRawFood</defName>
 		<header_Direct>ingredient analysis</header_Direct>
-		<shortDesc_Direct>Analyse nutritional and gastronomical properties of {0} that are particularily applicable to current research.</shortDesc_Direct>
+		<shortDesc_Direct>Analyze nutritional and gastronomical properties of {0}.</shortDesc_Direct>
 		<category_Direct>Gastronomy</category_Direct>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
 	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="AnalysisOpportunity">
 		<defName>AnalyseFuelDrug</defName>
 		<header_Direct>active ingredient analysis</header_Direct>
-		<shortDesc_Direct>Determine active components of {0} that are particularily applicable to current research.</shortDesc_Direct>
+		<shortDesc_Direct>Determine active components of {0}.</shortDesc_Direct>
 		<category_Direct>Chemistry</category_Direct>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	
 		<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="AnalysisOpportunity">
 		<defName>AnalyseFuelFlammable</defName>
 		<header_Direct>fuel efficiency analysis</header_Direct>
-		<shortDesc_Direct>Analyse energy density of {0}.</shortDesc_Direct>
+		<shortDesc_Direct>Measure energy density of {0}.</shortDesc_Direct>
 		<category_Direct>Logistics</category_Direct>
 	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
 	

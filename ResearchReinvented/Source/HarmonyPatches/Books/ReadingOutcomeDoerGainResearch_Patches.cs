@@ -141,6 +141,8 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Books
             {
                 if (!ReadingOutcomeDoerGainResearch_Proxies.IsProjectVisible(__instance, project) || project.IsFinished)
                     continue;
+                if (reader.WorkTypeIsDisabled(WorkTypeDefOf.Research))
+                    continue;
 
                 var opportunity = ResearchOpportunityManager.Instance.GetOpportunitiesFilterForProjects(OpportunityAvailability.Available, HandlingMode.Special_Books, values.Keys, (op) => op.requirement.MetBy(project)).FirstOrDefault();
                 if (opportunity != null)

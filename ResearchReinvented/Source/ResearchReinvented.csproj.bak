@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C1B28428-5A33-4A00-B4D9-6E38D6D7B442}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PeteTimesSix.ResearchReinvented</RootNamespace>
+    <AssemblyName>ResearchReinvented</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <LangVersion>9.0</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>embedded</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\v1.4\Assemblies\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>embedded</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\v1.6\Assemblies\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>5</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Data\BaseResearchAmounts.cs" />
+    <Compile Include="Data\CategorySettingsFinal.cs" />
+    <Compile Include="Data\CategorySettingsPreset.cs" />
+    <Compile Include="Data\CategorySettingsChanges.cs" />
+    <Compile Include="DefGenerators\AlternateResearchSubjectDefGenerator.cs" />
+    <Compile Include="DefOfs\ApparelLayerDefOf_Custom.cs" />
+    <Compile Include="DefOfs\EffecterDefOf_Custom.cs" />
+    <Compile Include="DefOfs\InteractionDefOf_Custom.cs" />
+    <Compile Include="DefOfs\JobDefOf_Custom.cs" />
+    <Compile Include="DefOfs\PrisonerInteractionModeDefOf_Custom.cs" />
+    <Compile Include="DefOfs\ResearchOpportunityCategoryDefOf.cs" />
+    <Compile Include="DefOfs\SettingsPresetDefOf.cs" />
+    <Compile Include="DefOfs\StatDefOf_Custom.cs" />
+    <Compile Include="DefOfs\ThingDefOf_Custom.cs" />
+    <Compile Include="Defs\AlternateResearchSubjectDef.cs" />
+    <Compile Include="Defs\RaresListDef.cs" />
+    <Compile Include="Defs\SettingsPresetDef.cs" />
+    <Compile Include="Defs\SpecialResearchOpportunityDef.cs" />
+    <Compile Include="Extensions\BuildableDefExtensions.cs" />
+    <Compile Include="Extensions\DefExtensions.cs" />
+    <Compile Include="Extensions\RecipeDefExtensions.cs" />
+    <Compile Include="Extensions\ResearchProjectDefExtensions.cs" />
+    <Compile Include="Extensions\ThingDefExtensions.cs" />
+    <Compile Include="HarmonyPatches\ApparelLayerDef_Patches.cs" />
+    <Compile Include="HarmonyPatches\BackCompatability_BackCompatibleDefName_Patches.cs" />
+    <Compile Include="HarmonyPatches\Books\ReadingOutcomeDoerGainResearch_Patches.cs" />
+    <Compile Include="HarmonyPatches\DebugPatches.cs" />
+    <Compile Include="HarmonyPatches\DesignationCategoryDef_Patches.cs" />
+    <Compile Include="HarmonyPatches\Ingestibles\Recipe_AdministerIngestible_Patches.cs" />
+    <Compile Include="HarmonyPatches\Ingestibles\Thing_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\Blueprint_TryReplaceWithSolidThing_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\JobDriver_ConstructFinishFrame_MakeNewToils_Patches.cs" />
+    <Compile Include="HarmonyPatches\Medicine\SurgeryOutcomeComp_MedicineQuality_Patches.cs" />
+    <Compile Include="HarmonyPatches\Medicine\TendUtility_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\Bill_Medical_Notify_IterationCompleted_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\Frame_FailConstruction_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\Toils_Recipe_DoRecipeWork_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\Toils_Recipe_MakeUnfinishedThingIfNeeded_Patches.cs" />
+    <Compile Include="HarmonyPatches\Social\FactionDialogMaker_FactionDialogFor_Patches.cs" />
+    <Compile Include="Managers\AlternatesKeeper.cs" />
+    <Compile Include="Managers\FactionLectureManager.cs" />
+    <Compile Include="Managers\OpportunityFactories\OF_AnalysisRequirements.cs" />
+    <Compile Include="ModCompat\CombatExtended\_CombatExtended.cs" />
+    <Compile Include="ModCompat\CombatExtended\Harmony_PawnRenderer_DrawBodyApparel_Patches.cs" />
+    <Compile Include="ModCompat\DubsMintMenus\DMM_Patch_BillStack_DoListing_Patches.cs" />
+    <Compile Include="ModCompat\DubsMintMenus\DMM_Patch_HealthCardUtility_Patches.cs" />
+    <Compile Include="ModCompat\DubsMintMenus\_DubsMintMenus.cs" />
+    <Compile Include="ModCompat\HumanoidAlienRaces\_HumanoidAlienRaces.cs" />
+    <Compile Include="ModCompat\OptionalPatches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\DesignationCategoryDef_Patches.cs" />
+    <Compile Include="HarmonyPatches\DefGenerator_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\BillStack_DoListing_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\Designators_GizmoOnGUI_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\Designator_Build_Visible_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\Frame_CompleteConstruction_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\GenConstruct_CanConstruct_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\Bill_PawnAllowedToStartAnew_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\WorkToBuild_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\GenRecipe_PostProcessProduct_Patches.cs" />
+    <Compile Include="HarmonyPatches\Prototypes\PrototypeUtilities.cs" />
+    <Compile Include="HarmonyPatches\RecipeDef_Patches.cs" />
+    <Compile Include="HarmonyPatches\ResearchManager_Patches.cs" />
+    <Compile Include="HarmonyPatches\WorkGiver_Research_Patches.cs" />
+    <Compile Include="Managers\OpportunityFactories\MasterFactory.cs" />
+    <Compile Include="Managers\OpportunityFactories\OF_CompProps.cs" />
+    <Compile Include="Managers\OpportunityFactories\OF_Factions.cs" />
+    <Compile Include="Managers\OpportunityFactories\OF_Plants.cs" />
+    <Compile Include="Managers\OpportunityFactories\OF_Recipes.cs" />
+    <Compile Include="Managers\OpportunityFactories\OF_Specials.cs" />
+    <Compile Include="Managers\OpportunityFactories\OF_Unlocks.cs" />
+    <Compile Include="Managers\PrototypeKeeper.cs" />
+    <Compile Include="Managers\PrototypeTerrainGrid.cs" />
+    <Compile Include="ModCompat\ResearchData\_ResearchData.cs" />
+    <Compile Include="Opportunities\ResearchOpportunityCategoryTotalsStore.cs" />
+    <Compile Include="OpportunityComps\ROComp_RequiresFaction.cs" />
+    <Compile Include="OpportunityComps\ROComp_RequiresFactionlessPawn.cs" />
+    <Compile Include="OpportunityComps\ROComp_RequiresTerrain.cs" />
+    <Compile Include="OpportunityComps\ROComp_RequiresRecipe.cs" />
+    <Compile Include="OpportunityComps\ROComp_RequiresMatchingBook.cs" />
+    <Compile Include="OpportunityComps\ROComp_RequiresThing.cs" />
+    <Compile Include="OpportunityComps\ROComp_RequiresIngredients.cs" />
+    <Compile Include="OpportunityComps\ROComp_RequiresNothing.cs" />
+    <Compile Include="OpportunityJobPickers\JobPickerMaker.cs" />
+    <Compile Include="OpportunityJobPickers\JobPicker_AnalyseInPlaceOrMinified.cs" />
+    <Compile Include="OpportunityJobPickers\JobPicker_FromOpportunityDef.cs" />
+    <Compile Include="OpportunityJobPickers\JobPicker_NoJob.cs" />
+    <Compile Include="OpportunityJobPickers\OpportunityJobPickerBase.cs" />
+    <Compile Include="ResearchReinvented_Debug.cs" />
+    <Compile Include="Rimworld\Comps\CompProperties\CompProperties_ResearchKit.cs" />
+    <Compile Include="Rimworld\Comps\Comp_ResearchKit.cs" />
+    <Compile Include="Rimworld\DefModExtensions\Blacklisted.cs" />
+    <Compile Include="Rimworld\DefModExtensions\RarityMarker.cs" />
+    <Compile Include="Rimworld\InteractionWorkers\InteractionWorker_Brainstorm.cs" />
+    <Compile Include="Rimworld\InteractionWorkers\InteractionWorker_LearnScienceFromPrisoner.cs" />
+    <Compile Include="Rimworld\InteractionWorkers\InteractionWorker_ScienceInterrogation.cs" />
+    <Compile Include="Rimworld\JobDrivers\JobDriver_Analyse.cs" />
+    <Compile Include="Rimworld\JobDrivers\JobDriver_AnalyseTerrain.cs" />
+    <Compile Include="Rimworld\JobDrivers\JobDriver_AnalyseInPlace.cs" />
+    <Compile Include="Rimworld\JobDrivers\JobDriver_InterrogatePrisoner.cs" />
+    <Compile Include="Rimworld\JobDrivers\JobDriver_LearnRemotely.cs" />
+    <Compile Include="Rimworld\JobDrivers\JobDriver_ResearchRR.cs" />
+    <Compile Include="Rimworld\JobDrivers\JobDriver_RRBase.cs" />
+    <Compile Include="Rimworld\Jobs\TypedJobMaker.cs" />
+    <Compile Include="Rimworld\MiscData\FieldResearchHelper.cs" />
+    <Compile Include="Rimworld\RR_UniqueIDsManager.cs" />
+    <Compile Include="Rimworld\SurgeryComps\SurgeryOutcomeComp_ExperimentalSurgeryModifier.cs" />
+    <Compile Include="Rimworld\SurgeryComps\SurgeryOutcomeComp_ExperimentalSurgeryClamp.cs" />
+    <Compile Include="Rimworld\Toils\Toils_ClearArea.cs" />
+    <Compile Include="Rimworld\Toils\Toils_Goto_Custom.cs" />
+    <Compile Include="Rimworld\Toils\Toils_Haul_Custom.cs" />
+    <Compile Include="Rimworld\UI\Dialogs\Dialog_AlternateMapper.cs" />
+    <Compile Include="Rimworld\UI\MainButtonWorker_ToggleResearchReinventedTab.cs" />
+    <Compile Include="Rimworld\ResearchManagerAccess.cs" />
+    <Compile Include="OpportunityComps\ResearchOpportunityComp.cs" />
+    <Compile Include="Rimworld\MiscData\IngredientCountExposable.cs" />
+    <Compile Include="Rimworld\UI\MainTabWindow_ResearchReinvented.cs" />
+    <Compile Include="Rimworld\UI\Widgets_Extra.cs" />
+    <Compile Include="Rimworld\WorkGivers\WorkGiver_Analyse.cs" />
+    <Compile Include="Rimworld\WorkGivers\WorkGiver_AnalyseTerrain.cs" />
+    <Compile Include="Rimworld\WorkGivers\WorkGiver_LearnRemotely.cs" />
+    <Compile Include="Rimworld\WorkGivers\WorkGiver_ResearcherRR.cs" />
+    <Compile Include="Rimworld\WorkGivers\WorkGiver_AnalyseInPlace.cs" />
+    <Compile Include="Rimworld\WorkGivers\WorkGiver_Warden_Interrogate.cs" />
+    <Compile Include="StatWorkers\StatWorker_RemoteResearchSpeedFactor.cs" />
+    <Compile Include="StringsCache.cs" />
+    <Compile Include="Utilities\AdjacencyHelper.cs" />
+    <Compile Include="Utilities\CacheClearer.cs" />
+    <Compile Include="Utilities\CircularBuffer.cs" />
+    <Compile Include="Utilities\CustomMinifyUtility.cs" />
+    <Compile Include="Utilities\CustomWidgets\CategoriesVisualizer.cs" />
+    <Compile Include="Utilities\CustomWidgets\CustomFloatRange.cs" />
+    <Compile Include="Opportunities\ResearchOpportunity.cs" />
+    <Compile Include="Managers\ResearchOpportunityManager.cs" />
+    <Compile Include="Managers\ResearchOpportunityPrefabs.cs" />
+    <Compile Include="Defs\ResearchOpportunityCategoryDef.cs" />
+    <Compile Include="Defs\ResearchOpportunityTypeDef.cs" />
+    <Compile Include="DefOfs\ResearchOpportunityTypeDefOf.cs" />
+    <Compile Include="ResearchReinventedMod.cs" />
+    <Compile Include="ResearchReinvented_Settings.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rimworld\DebugMenuEntries.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Rimworld\MiscData\PatchOperationMultiplyValue.cs" />
+    <Compile Include="Rimworld\Tests.cs" />
+    <Compile Include="Rimworld\Textures.cs" />
+    <Compile Include="Utilities\ExposableList.cs" />
+    <Compile Include="Utilities\ListingExtensions.cs" />
+    <Compile Include="Extensions\RacePropertiesExtensions.cs" />
+    <Compile Include="Utilities\PawnExtensions.cs" />
+    <Compile Include="Utilities\ThingChecks.cs" />
+    <Compile Include="Utilities\TranspilerUtils.cs" />
+    <Compile Include="Utilities\UIComponents.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Install.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Misc-Tests\" />
+    <Folder Include="Rimworld\StatWorkers\" />
+    <Folder Include="Rimworld\UI\ITabs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Krafs.Rimworld.Ref">
+      <Version>1.6.4494-beta</Version>
+    </PackageReference>
+    <PackageReference Include="Lib.Harmony">
+      <Version>2.3.6</Version>
+      <ExcludeAssets>runtime</ExcludeAssets>
+      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  
+	
+	<PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef ParentName="ResearchOpportunityBase">
+		<defName>AnalyseProductionFacility</defName>				
+		<handledBy>Special_Tooling</handledBy>
+		<jobPickerClass>PeteTimesSix.ResearchReinvented.OpportunityJobPickers.JobPicker_NoJob</jobPickerClass>
+		<header_Direct>technique exploration</header_Direct>
+		<shortDesc_Direct>Passively practice with differing tools and methodologies while performing any work at {0}.\n\nAffected by (while working here):\nWorker speed stat (by recipe type)\nWorker research speed stat</shortDesc_Direct>
+		<category_Direct>Tooling</category_Direct>
+		<hintIcons Inherit="false">
+			<li>UI/hintIcons/wrench</li>
+		</hintIcons>
+	</PeteTimesSix.ResearchReinvented.Defs.ResearchOpportunityTypeDef>
+</Defs>

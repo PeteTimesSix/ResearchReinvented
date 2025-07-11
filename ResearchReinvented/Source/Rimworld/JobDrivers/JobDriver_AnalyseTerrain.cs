@@ -31,7 +31,13 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			ResearchOpportunity opportunity = WorkGiver_AnalyseTerrain.OpportunityCache[TargetCell.GetTerrain(pawn.Map)].FirstOrDefault();
+            var terrainAt = pawn.Map.terrainGrid.TopTerrainAt(pawn.Map.cellIndices.CellToIndex(TargetCell));
+            if (terrainAt == null)
+            {
+                terrainAt = pawn.Map.terrainGrid.FoundationAt(pawn.Map.cellIndices.CellToIndex(TargetCell));
+            }
+
+            ResearchOpportunity opportunity = WorkGiver_AnalyseTerrain.OpportunityCache[terrainAt].FirstOrDefault();
 			//ResearchOpportunity opportunity = ResearchOpportunityManager.instance.GetOpportunityForJob(this.job);
 			ResearchProjectDef currentProject = Find.ResearchManager.GetProject();
 
@@ -57,12 +63,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 			research.defaultDuration = 60 * 10;
 			research.FailOnCannotTouch(TargetCellIndex, PathEndMode.Touch);
 			research.activeSkill = (() => SkillDefOf.Intellectual);
-			research.tickAction = delegate ()
+			research.tickIntervalAction = (int delta) =>
 			{
 				Pawn actor = research.actor;
 				float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true) * 0.00825f;
 				num *= FieldResearchHelper.GetFieldResearchSpeedFactor(actor, opportunity.project);
-				bool finished = opportunity.ResearchTickPerformed(num, actor);
+				bool finished = opportunity.ResearchTickPerformed(num, actor, delta);
 				if (finished)
 					this.ReadyForNextToil();
 			};

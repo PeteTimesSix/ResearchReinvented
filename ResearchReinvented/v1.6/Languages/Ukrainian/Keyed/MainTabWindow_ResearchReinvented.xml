@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<RR_no_project_selected>Немає активного проєкту</RR_no_project_selected>
+	<RR_enable_compact_mode>Плитки</RR_enable_compact_mode>
+	<RR_disable_compact_mode>Таблиця</RR_disable_compact_mode>
+	<RR_uncollapse_category>Розгорнути</RR_uncollapse_category>
+	<RR_collapse_category>Згорнути</RR_collapse_category>
+	<RR_uncollapse_all>Розгорнути все</RR_uncollapse_all>
+	<RR_collapse_all>Згорнути все</RR_collapse_all>
+	
+	<RR_OpportunityBlocked_Finished_short>Готово</RR_OpportunityBlocked_Finished_short>
+	<RR_OpportunityBlocked_CategoryFinished_short>Готово</RR_OpportunityBlocked_CategoryFinished_short>
+	<RR_OpportunityBlocked_ResearchTooLow_short>Заблоковано </RR_OpportunityBlocked_ResearchTooLow_short>
+	<RR_OpportunityBlocked_ResearchTooHigh_short>Некорисний</RR_OpportunityBlocked_ResearchTooHigh_short>
+	<RR_OpportunityBlocked_ReasonUnknown_short>Заблоковано ???</RR_OpportunityBlocked_ReasonUnknown_short>
+	
+	<RR_OpportunityBlocked_Finished>Завершено</RR_OpportunityBlocked_Finished>
+	<RR_OpportunityBlocked_CategoryFinished>Категорія завершена\nБільше нічого вчити</RR_OpportunityBlocked_CategoryFinished>
+	<RR_OpportunityBlocked_ResearchTooLow>Заблоковано\nПотрібен більший загальний прогрес</RR_OpportunityBlocked_ResearchTooLow>
+	<RR_OpportunityBlocked_ResearchTooHigh>Заблоковано\nЗараз неможливо дізнатися більше</RR_OpportunityBlocked_ResearchTooHigh>
+	<RR_OpportunityBlocked_ReasonUnknown>Заблоковано\nПРИЧИНА НЕВІДОМА ПОВІДОМТЕ ЯК БАГ</RR_OpportunityBlocked_ReasonUnknown>
+</LanguageData>

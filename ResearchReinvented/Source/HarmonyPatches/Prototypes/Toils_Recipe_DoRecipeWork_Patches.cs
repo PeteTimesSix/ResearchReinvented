@@ -18,19 +18,16 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
    [HarmonyPatch(typeof(Toils_Recipe), nameof(Toils_Recipe.DoRecipeWork))]
     public static class Toils_Recipe_DoRecipeWork_Patches
     {
-        public const int tickModulo = 20;
-
         [HarmonyPostfix]
         public static void Toils_Recipe_DoRecipeWork_Postfix(Toil __result)
         {
-            __result.AddPreTickAction(() =>
+            __result.AddPreTickIntervalAction((int delta) =>
             {
                 var toil = __result;
                 var actor = toil.actor;
-                if (!actor.IsHashIntervalTick(tickModulo))
-                    return;
+                var curJob = actor.CurJob;
 
-                var bench = actor.CurJob.GetTarget(TargetIndex.A).Thing;
+                var bench = curJob.GetTarget(TargetIndex.A).Thing;
                 if (bench != null)
                 {
                     if (!actor.CanEverDoResearch())
@@ -40,43 +37,14 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 
                     if (opportunity != null)
                     {
-                        float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true) * 0.00825f;
-                        num *= FieldResearchHelper.GetFieldResearchSpeedFactor(actor, opportunity.project);
-                        opportunity.ResearchTickPerformed(num, actor, tickModulo);
+                        float workStatMult = 1.0f;
+                        if(actor.skills != null)
+                            workStatMult = ((curJob.RecipeDef.workSpeedStat == null) ? 1f : actor.GetStatValue(curJob.RecipeDef.workSpeedStat));
+                        float num = workStatMult * actor.GetStatValue(StatDefOf.ResearchSpeed, true) * 0.00825f;
+                        opportunity.ResearchTickPerformed(num, actor, delta);
                     }
                 }
             });
-
-            /*Action initAction = null;
-
-            initAction = () =>
-            {
-                //find tooling opportunity and do research
-                var toil = __result;
-                var actor = toil.actor;
-                var bench = toil.actor.CurJob.GetTarget(TargetIndex.A).Thing;
-                if (bench != null)
-                {
-                    var opportunity = ResearchOpportunityManager.Instance.GetFirstFilteredOpportunity(OpportunityAvailability.Available | OpportunityAvailability.ResearchTooLow, HandlingMode.Special_Tooling, bench);
-                    //.GetCurrentlyAvailableOpportunities()
-                    //.Where(o => o.def.handledBy.HasFlag(HandlingMode.Special_Tooling) && o.requirement.MetBy(bench))
-                    //.FirstOrDefault();
-                    if (opportunity != null)
-                    {
-                        if (ResearchReinvented_Debug.debugPrintouts)
-                            Log.Message($"pawn {actor.LabelCap} started work on {bench.LabelCap} and there's an opportunity {opportunity.ShortDesc}");
-
-                        __result.AddPreTickAction(() =>
-                        {
-                            float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true);
-                            num *= FieldResearchHelper.GetFieldResearchSpeedFactor(actor, opportunity.project);
-                            opportunity.ResearchTickPerformed(num, actor);
-                        });
-                    }
-                    __result.tickAction -= initAction;
-                }
-            };
-            __result.tickAction += initAction;*/
         }
     }
 }

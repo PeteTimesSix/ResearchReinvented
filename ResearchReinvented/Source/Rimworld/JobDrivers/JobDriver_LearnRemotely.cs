@@ -84,12 +84,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
                 token.hasException = true;
                 FactionLectureManager.Instance.PutOnCooldown((opportunity.requirement as ROComp_RequiresFaction).faction);
             };
-            research.tickAction = () =>
+            research.tickIntervalAction = (int delta) =>
             {
                 Pawn actor = research.actor;
                 float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true) * 0.00825f;
-                actor.GainComfortFromCellIfPossible(true);
-                bool finished = opportunity.ResearchTickPerformed(num, actor);
+                actor.GainComfortFromCellIfPossible(1, true);
+                bool finished = opportunity.ResearchTickPerformed(num, actor, delta);
                 if (finished)
                     this.ReadyForNextToil();
             };

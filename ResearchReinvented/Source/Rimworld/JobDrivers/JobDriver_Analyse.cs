@@ -75,21 +75,21 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
             yield return findPlaceTarget;
             yield return Toils_Haul.PlaceHauledThingInCell(TargetThingPlacementIndex, findPlaceTarget, false, false);
             Toil research = new Toil();
-            research.tickAction = () =>
+            research.tickIntervalAction = (int delta) =>
             {
                 Pawn actor = research.actor;
                 float num = actor.GetStatValue(StatDefOf.ResearchSpeed, true) * 0.00825f;
                 num *= ResearchBench.GetStatValue(StatDefOf.ResearchSpeedFactor, true);
-                actor.GainComfortFromCellIfPossible(true);
+                actor.GainComfortFromCellIfPossible(1, true);
                 if (ResearchData.active && ResearchReinventedMod.Settings.researchDataCompatMode == ResearchData.ResearchDataCompatMode.AllBenchResearch)
                 {
                     var fuelComp = ResearchBench.GetComp<CompRefuelable>();
                     if (fuelComp != null && fuelComp.Props.consumeFuelOnlyWhenUsed)
                     {
-                        fuelComp.ConsumeTickFuel();
+                        fuelComp.ConsumeTickIntervalFuel(delta);
                     }
                 }
-                bool finished = opportunity.ResearchTickPerformed(num, actor);
+                bool finished = opportunity.ResearchTickPerformed(num, actor, delta);
                 if (finished)
                     this.ReadyForNextToil();
             };

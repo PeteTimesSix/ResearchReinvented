@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  
+	<PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef ParentName="SpecialResearchOpportunityBase" MayRequire="ludeon.rimworld.royalty">
+		<defName>RR_toxicSpewer</defName>
+		<project>VenomSynthesis</project>
+		<things>
+			<li MayRequire="ludeon.rimworld.royalty">ToxicSpewer</li>
+		</things>
+		<rare>true</rare>
+	</PeteTimesSix.ResearchReinvented.Defs.SpecialResearchOpportunityDef>
+
+</Defs>

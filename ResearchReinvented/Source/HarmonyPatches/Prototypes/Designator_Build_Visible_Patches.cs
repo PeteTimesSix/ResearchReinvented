@@ -20,11 +20,11 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
         {
             var enumerator = instructions.GetEnumerator();
 
-            var research_check_instructions = new CodeInstruction[] {
-                new CodeInstruction(OpCodes.Ldarg_0),
-                new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(Designator_Build), "entDef")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.PropertyGetter(typeof(BuildableDef), nameof(BuildableDef.IsResearchFinished))),
-                new CodeInstruction(OpCodes.Brtrue_S)
+            var research_check_instructions = new CodeMatch[] {
+                new CodeMatch(OpCodes.Ldarg_0),
+                new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(Designator_Build), "entDef")),
+                new CodeMatch(OpCodes.Callvirt, AccessTools.PropertyGetter(typeof(BuildableDef), nameof(BuildableDef.IsResearchFinished))),
+                new CodeMatch(OpCodes.Brtrue_S),
             };
 
             var jump_new = new CodeInstruction(OpCodes.Brtrue_S);
@@ -36,30 +36,20 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
             };
 
 
-            var iteratedOver = TranspilerUtils.IterateTo(enumerator, research_check_instructions, out CodeInstruction[] matchedInstructions, out bool found);
+            var codeMatcher = new CodeMatcher(instructions);
 
-            foreach (var instruction in iteratedOver)
-                yield return instruction;
+            codeMatcher.MatchEndForward(research_check_instructions);
+            if (codeMatcher.IsInvalid)
+                goto invalid;
+            jump_new.operand = codeMatcher.Operand;
+            codeMatcher.Advance(1);
+            codeMatcher.Insert(add_prototype_check_instructions);
 
-            if (!found)
-            {
-                Log.Warning("Designator_Build_Visible_Patches - failed to apply patch (instructions not found)");
-                goto finalize;
-            }
-            else
-            {
-                jump_new.operand = matchedInstructions.First(c => c.opcode == OpCodes.Brtrue_S).operand;
-                
-                foreach (var checkInstruction in add_prototype_check_instructions)
-                    yield return checkInstruction;
-            }
+            return codeMatcher.InstructionEnumeration();
 
-        finalize:
-            //output remaining instructions
-            while (enumerator.MoveNext())
-            {
-                yield return enumerator.Current;
-            }
+        invalid:
+            Log.Warning("RR: Designator_Build_Visible_Patches - failed to apply patch (instructions not found)");
+            return instructions;
         }
 
         private static bool GetIsAvailableForPrototyping(BuildableDef buildable)

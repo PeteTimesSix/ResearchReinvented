@@ -5,7 +5,7 @@
 		<defName>BasicResearch</defName>
 		<jobDef>RR_Research</jobDef>
 		<header_Direct>basic research</header_Direct>
-		<shortDesc_Direct>Theorise from fundamentals.</shortDesc_Direct>
+		<shortDesc_Direct>Theorize from fundamentals.</shortDesc_Direct>
 		<category_Direct>Theory</category_Direct>
 		<hintIcons>
 			<li>UI/hintIcons/books</li>

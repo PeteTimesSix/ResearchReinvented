@@ -40,7 +40,8 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
                 new CodeInstruction(OpCodes.Ldarg_2),
                 new CodeInstruction(OpCodes.Ldarg_1),
                 new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(RecipeDef), nameof(RecipeDef.workSkill))),
-                new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(QualityUtility), nameof(QualityUtility.GenerateQualityCreatedByPawn), new Type[] { typeof(Pawn), typeof(SkillDef) }))
+                new CodeInstruction(OpCodes.Ldc_I4_1),
+                new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(QualityUtility), nameof(QualityUtility.GenerateQualityCreatedByPawn), new Type[] { typeof(Pawn), typeof(SkillDef), typeof(bool) }))
             };
 
             var add_prototype_decrease_instructions = new CodeInstruction[] {

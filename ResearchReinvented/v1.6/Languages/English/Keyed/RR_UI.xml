@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<RR_PrototypePrefix>[Prototype]</RR_PrototypePrefix>
+	<RR_PrototypeLabel>Prototype</RR_PrototypeLabel>
+	
+	<RR_ExperimentalSurgeryPrefix>[Experimental]</RR_ExperimentalSurgeryPrefix>
+	<RR_ExperimentalSurgeryLabel>Experimental</RR_ExperimentalSurgeryLabel>
+	
+	<RR_EquivalentResearchBench>Equivalent research bench</RR_EquivalentResearchBench>
+	<RR_EquivalentResearchBench_desc>This kit provides portable versions of the tools available at this type of research bench.</RR_EquivalentResearchBench_desc>
+	<RR_EquivalentResearchFacilities>Equivalent research facilities</RR_EquivalentResearchFacilities>
+	<RR_EquivalentResearchFacilities_desc>This kit provides portable versions of these research facilities.</RR_EquivalentResearchFacilities_desc>
+	<RR_RemoteConnectionFacility>Remote connection facility</RR_RemoteConnectionFacility>
+	<RR_RemoteConnectionFacility_desc>Establishes connection to research benches (and their networked facilities) through this facility.</RR_RemoteConnectionFacility_desc>
+	<RR_UplinkResearchSpeedFactor>Research speed factor (via uplink)</RR_UplinkResearchSpeedFactor>
+	<RR_UplinkResearchSpeedFactor_desc>Research speed multiplier provided by remote connection to the research facility.</RR_UplinkResearchSpeedFactor_desc>
+	
+	<RR_CategoryFinishedBook>Category finished</RR_CategoryFinishedBook>
+</LanguageData>

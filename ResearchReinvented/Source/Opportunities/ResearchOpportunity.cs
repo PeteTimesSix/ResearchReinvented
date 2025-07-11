@@ -51,15 +51,13 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
         public ResearchOpportunityTypeDef def;
 
         public ResearchOpportunityComp requirement;
-        //public List<ResearchProjectDef> otherResearchPrerequisites;
-        //public List<MemeDef> memePrerequisites;
 
         public string debug_source;
 
         private float maximumProgress = 0;
         private float currentProgress = 0;
         private bool isForcedRare;
-        private bool isAlternate;
+        private bool isForcedFreebie;
 
         public ResearchRelation relation = ResearchRelation.Direct;
         public float importance;
@@ -83,12 +81,9 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
 
         public float ProgressFraction => Progress / MaximumProgress;
         public bool IsFinished => ProgressFraction >= 1f;
-
         public bool IsRare => isForcedRare ? true : requirement.IsRare;
+        public bool IsFreebie => isForcedFreebie ? true : requirement.IsFreebie;
 
-        public bool IsAlternate => isAlternate;
-
-        //public bool IsValid => requirement != null && requirement.IsValid;
 
         private List<JobDef> _jobDefsCached;
         public List<JobDef> JobDefs { 
@@ -110,15 +105,6 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
                     return OpportunityAvailability.Finished;
                 var categoryAvailable = def.GetCategory(relation).GetCurrentAvailability(this.project);
                 return categoryAvailable;
-                /*if(categoryAvailable == OpportunityAvailability.Available)
-                {
-                    if (def.handledBy == HandlingMode.Special_Prototype)
-                    {
-                        if (otherResearchPrerequisites.Any(r => !r.IsFinished))
-                            return OpportunityAvailability.ResearchPrerequisitesNotMet;
-                    }
-                }
-                return OpportunityAvailability.Available;*/
             }
         }
 
@@ -127,7 +113,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             //deserialization only
         }
 
-        public ResearchOpportunity(ResearchProjectDef project, ResearchOpportunityTypeDef def, ResearchRelation relation, ResearchOpportunityComp requirement, string debug_source, float importance = 1f, bool forceRare = false, bool isAlternate = false)
+        public ResearchOpportunity(ResearchProjectDef project, ResearchOpportunityTypeDef def, ResearchRelation relation, ResearchOpportunityComp requirement, string debug_source, float importance = 1f, bool forceRare = false, bool forceFreebie = false)
         {
             this.project = project;
             this.def = def;
@@ -136,7 +122,7 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             this.loadID = RR_UniqueIDsManager.instance.GetNextResearchOpportunityID();
             this.importance = importance;
             this.isForcedRare = forceRare;
-            this.isAlternate = isAlternate;
+            this.isForcedFreebie = forceFreebie;
             this.debug_source = debug_source; 
         }
 
@@ -145,19 +131,6 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             maximumProgress = maxProgress; 
         }
 
-        /*public void AdjustMaxProgress(float fractionMultiplierTotal, float importanceCategoryTotal) 
-        {
-            float categoryTargetFraction = def.GetCategory(relation).targetFractionMultiplier / fractionMultiplierTotal;
-            categoryTargetFraction *= def.GetCategory(relation).overflowMultiplier;
-            var maxProgress = def.GetCategory(relation).infiniteOverflow ? float.MaxValue : project.baseCost * categoryTargetFraction;
-            if (!this.isRare)
-            {
-                maxProgress /= Mathf.Min(importanceCategoryTotal, def.GetCategory(relation).targetIterations);
-                maxProgress *= importance;
-            }
-            maximumProgress = Mathf.Min(maxProgress, project.baseCost);
-        }*/
-
         public TaggedString ShortDesc 
         {
             get 
@@ -165,8 +138,6 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
                 return $"[{project}] - [{def.GetCategory(relation).label}] - [{def.label}]: {requirement.ShortDesc} ({currentProgress} / {maximumProgress})";
             }
         }
-
-
 
         public TaggedString HintText
         {
@@ -184,7 +155,6 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             Scribe_Defs.Look(ref def, "def");
 
             Scribe_Deep.Look(ref requirement, "requirement");
-            //Scribe_Collections.Look(ref otherResearchPrerequisites, "otherResearchPrerequisites", LookMode.Def);
 
             Scribe_Values.Look(ref maximumProgress, "maximumProgress");
             Scribe_Values.Look(ref currentProgress, "currentProgress");
@@ -195,7 +165,6 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             Scribe_Values.Look(ref importance, "importance");
 
             Scribe_Values.Look(ref isForcedRare, "isForcedRare");
-            Scribe_Values.Look(ref isAlternate, "isAlternate");
         }
 
         private bool ResearchPerformed(float amount, Pawn researcher, float? moteAmount, string moteSubjectName = null, float moteOffsetHint = 0f)
@@ -213,6 +182,11 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
 
             if (currentProgress + amount >= MaximumProgress)
                 amount = MaximumProgress - currentProgress;
+            if (moteAmount.HasValue)
+            {
+                if (currentProgress + moteAmount >= MaximumProgress)
+                    moteAmount = MaximumProgress - currentProgress;
+            }
             currentProgress += amount;
             if (researcher != null)
             {
@@ -222,8 +196,6 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
                 {
                     if (moteAmount.HasValue)
                     {
-                        if (currentProgress + moteAmount >= MaximumProgress)
-                            moteAmount = MaximumProgress - currentProgress;
                         DoResearchProgressMote(researcher, moteAmount.Value, moteSubjectName, moteOffsetHint);
                     }
                 }
@@ -240,13 +212,13 @@ namespace PeteTimesSix.ResearchReinvented.Opportunities
             return project.IsFinished || this.IsFinished;
         }
 
-        public bool ResearchTickPerformed(float amount, Pawn researcher, int tickModulo = 1, int moteModulo = 600)
+        public bool ResearchTickPerformed(float amount, Pawn researcher, int tickDelta = 1, int moteModulo = 600)
         {
             if (!researcher.WorkTypeIsDisabled(WorkTypeDefOf.Research))
             {
-                researcher.skills.Learn(SkillDefOf.Intellectual, 0.1f * tickModulo);
+                researcher.skills.Learn(SkillDefOf.Intellectual, 0.1f * tickDelta);
 
-                var tickAmount = amount * tickModulo;
+                var tickAmount = amount * tickDelta;
                 int? moteAmount = null;
                 if (researcher.IsHashIntervalTick(moteModulo))
                     moteAmount = (int)(amount * moteModulo);
