@@ -36,6 +36,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
                 {
                     ex.list.Reverse();
                     Log.Error($"RR: Reached a depth of 200 while recursively crawling the tech tree! This almost certainly means there's a loop in it. Looped projects: "+string.Join(" -> ", ex.list.Select(def => $"{def.label} ({def.defName})")));
+                    ancestorsTree[project] = new HashSet<ResearchProjectDef>();
                 }
             }
         }
