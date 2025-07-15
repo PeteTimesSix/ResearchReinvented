@@ -18,14 +18,7 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             get { 
                 if(ancestorsTree == null)
                 {
-                    try
-                    {
-                        PrepareAncestryTree();
-                    }
-                    catch(RecursiveAncestorLoopException)
-                    {
-                        Log.Error($"RR: Reached a depth of 1000 while recursively crawling the tech tree! This almost certainly means there's a loop in it.");
-                    }
+                    PrepareAncestryTree();
                 }
                 return ancestorsTree; 
             }
@@ -35,39 +28,69 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
             ancestorsTree = new();
             foreach(var project in DefDatabase<ResearchProjectDef>.AllDefsListForReading)
             {
-                ancestorsTree[project] = GetAllPrerequisites(project, 0);
+                try
+                {
+                    ancestorsTree[project] = GetAllPrerequisites(project, 0);
+                }
+                catch(RecursiveAncestorLoopException ex)
+                {
+                    ex.list.Reverse();
+                    Log.Error($"RR: Reached a depth of 200 while recursively crawling the tech tree! This almost certainly means there's a loop in it. Looped projects: "+string.Join(" -> ", ex.list.Select(def => $"{def.label} ({def.defName})")));
+                }
             }
         }
 
         private static HashSet<ResearchProjectDef> GetAllPrerequisites(ResearchProjectDef project, int depth)
         {
-            if (depth > 1000)
-                throw new RecursiveAncestorLoopException();
+            if (depth > 200)
+                throw new RecursiveAncestorLoopException(project);
 
-            if (!ancestorsTree.ContainsKey(project))
+            try
             {
-                HashSet<ResearchProjectDef> newSet = new HashSet<ResearchProjectDef>();
-                if (project.prerequisites != null)
+                if (!ancestorsTree.ContainsKey(project))
                 {
-                    foreach (var prereq in project.prerequisites)
+                    HashSet<ResearchProjectDef> newSet = new HashSet<ResearchProjectDef>();
+                    if (project.prerequisites != null)
                     {
-                        newSet.AddRange(GetAllPrerequisites(prereq, depth + 1));
+                        foreach (var prereq in project.prerequisites)
+                        {
+                            if (prereq == project)
+                                continue; //apparently people use project with themselves as a requirement for SHENANIGANS. What fun!
+                            newSet.AddRange(GetAllPrerequisites(prereq, depth + 1));
+                        }
                     }
-                }
-                if (project.hiddenPrerequisites != null)
-                {
-                    foreach (var prereq in project.hiddenPrerequisites)
+                    if (project.hiddenPrerequisites != null)
                     {
-                        newSet.AddRange(GetAllPrerequisites(prereq, depth + 1));
+                        foreach (var prereq in project.hiddenPrerequisites)
+                        {
+                            if (prereq == project)
+                                continue; //apparently people use project with themselves as a requirement for SHENANIGANS. What fun!
+                            newSet.AddRange(GetAllPrerequisites(prereq, depth + 1));
+                        }
                     }
+                    ancestorsTree[project] = newSet;
                 }
-                ancestorsTree[project] = newSet;
+                var returnSet = new HashSet<ResearchProjectDef> { project };
+                returnSet.AddRange(ancestorsTree[project]);
+                return returnSet;
             }
-            var returnSet = new HashSet<ResearchProjectDef> { project };
-            returnSet.AddRange(ancestorsTree[project]);
-            return returnSet;
+            catch (RecursiveAncestorLoopException ex)
+            {
+                ex.list.Add(project);
+                throw;
+            }
         }
-        private class RecursiveAncestorLoopException : InvalidOperationException { }
+        private class RecursiveAncestorLoopException : InvalidOperationException
+        {
+            public List<ResearchProjectDef> list = new();
+            private ResearchProjectDef project;
+
+            public RecursiveAncestorLoopException() { }
+            public RecursiveAncestorLoopException(ResearchProjectDef project)
+            {
+                list.Add(project); 
+            }
+        }
 
         public static void MakeFromUnlocks(ResearchProjectDef project, OpportunityFactoryCollectionsSetForRelation collections)
         {
