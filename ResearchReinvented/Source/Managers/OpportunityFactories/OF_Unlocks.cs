@@ -84,7 +84,6 @@ namespace PeteTimesSix.ResearchReinvented.Managers.OpportunityFactories
         private class RecursiveAncestorLoopException : InvalidOperationException
         {
             public List<ResearchProjectDef> list = new();
-            private ResearchProjectDef project;
 
             public RecursiveAncestorLoopException() { }
             public RecursiveAncestorLoopException(ResearchProjectDef project)

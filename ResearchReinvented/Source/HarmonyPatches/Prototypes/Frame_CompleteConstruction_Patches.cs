@@ -16,7 +16,7 @@ using Verse;
 namespace PeteTimesSix.ResearchReinvented.HarmonyPatches.Prototypes
 {
     [HarmonyPatch(typeof(Frame), nameof(Frame.CompleteConstruction))]
-    [HarmonyBefore(new string[]{ "OskarPotocki.VEF" })]
+    [HarmonyBefore(new string[]{ "OskarPotocki.VEF", "Uuugggg.rimworld.Replace_Stuff.main" })]
     public static class Frame_CompleteConstruction_Patches
     {
 

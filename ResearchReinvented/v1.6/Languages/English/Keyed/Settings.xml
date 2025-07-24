@@ -71,16 +71,14 @@
 	
 	<RR_setting_modCompat_combatExtended>Combat Extended</RR_setting_modCompat_combatExtended>
 	<RR_setting_modCompat_dubsMintMenus>Dubs Mint Menus</RR_setting_modCompat_dubsMintMenus>
-	<RR_setting_modCompat_humanoidAlienRaces>Humanoid Alien Races detected.</RR_setting_modCompat_humanoidAlienRaces>
-	<RR_setting_modCompat_researchData>Research Data detected.</RR_setting_modCompat_researchData>
+	<RR_setting_modCompat_humanoidAlienRaces>Humanoid Alien Races</RR_setting_modCompat_humanoidAlienRaces>
+	<RR_setting_modCompat_researchData>Research Data</RR_setting_modCompat_researchData>
 	
 	<RR_setting_modCompat_researchData_mode>Compatibility mode</RR_setting_modCompat_researchData_mode>
 	<RR_modCompat_researchData_mode_TheoryOnly>Theory only</RR_modCompat_researchData_mode_TheoryOnly>
 	<RR_modCompat_researchData_mode_TheoryOnly_tooltip>Research Data "fuel" will only be needed and consumed by theory research.</RR_modCompat_researchData_mode_TheoryOnly_tooltip>
 	<RR_modCompat_researchData_mode_AllBenchResearch>All research</RR_modCompat_researchData_mode_AllBenchResearch>
 	<RR_modCompat_researchData_mode_AllBenchResearch_tooltip>Research Data "fuel" will be needed and consumed by any research done at a research bench.</RR_modCompat_researchData_mode_AllBenchResearch_tooltip>
-	<RR_setting_modCompat_notDetected_researchData>Research Data not detected.</RR_setting_modCompat_notDetected_researchData>
-	
 	
 	<!--- Obsolete -->
 	<RR_setting_debugPrintouts>Enable debug mode</RR_setting_debugPrintouts>
