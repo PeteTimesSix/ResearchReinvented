@@ -61,6 +61,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
             if (!prisoner.guest.IsInteractionEnabled(PrisonerInteractionModeDefOf_Custom.RR_ScienceInterrogation))
                 return false;
 
+            if (prisoner.InMentalState)
+                return false;
+
             if (pawn.WorkTypeIsDisabled(WorkTypeDefOf.Research))
             {
                 JobFailReason.Is(StringsCache.JobFail_IncapableOfResearch, null);
