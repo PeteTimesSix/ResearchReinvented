@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!--v1.6\Defs\Opportunities\ResearchOpportunityTypes_Tooling.xml-->
+
+  <!-- technique exploration -->
+  <AnalyseProductionFacility.header_Direct>освоение техники</AnalyseProductionFacility.header_Direct>
+  <!-- Passively practice with differing tools and methodologies while performing any work at {0}.\n\nAffected by (while working here):\nWorker speed stat (by recipe type)\nWorker research speed stat -->
+  <AnalyseProductionFacility.shortDesc_Direct>Практика использования различных инструментов и технологий, для {0}.\n\nЧто влияет (скорость работы):\n-Скорость работы (по типу рецепта)\n-Скорость исследования</AnalyseProductionFacility.shortDesc_Direct>
+</LanguageData>

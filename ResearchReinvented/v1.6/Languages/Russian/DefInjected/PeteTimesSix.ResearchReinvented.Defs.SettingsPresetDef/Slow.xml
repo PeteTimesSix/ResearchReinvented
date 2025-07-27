@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!--v1.6\Defs\Settings\SettingsPreset_Slow.xml-->
+
+  <!-- peer reviewed -->
+  <SettingsPreset_RR_Slow.label>рецензируемый</SettingsPreset_RR_Slow.label>
+  <!-- A slower, vanilla-like research speed settings preset. -->
+  <SettingsPreset_RR_Slow.description>Более медленная, похожая на ванильную предустановку скорость исследования.</SettingsPreset_RR_Slow.description>
+</LanguageData>

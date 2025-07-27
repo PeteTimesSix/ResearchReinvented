@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!--v1.6\Defs\Settings\ResearchWhatever.xml-->
+
+  <!-- holywood science -->
+  <SettingsPreset_RR_VisualScience.label>голивудская наука</SettingsPreset_RR_VisualScience.label>
+  <!-- Research whatever is available at the same speed, with no restrictions on required amounts or variable research speed. Focused on aesthetics over complex mechanics. -->
+  <SettingsPreset_RR_VisualScience.description>Исследуйте все, что доступно, с одинаковой скоростью, без ограничений на требуемые объемы или скорость исследования. Основное внимание уделяется эстетике, а не сложной механике.</SettingsPreset_RR_VisualScience.description>
+</LanguageData>

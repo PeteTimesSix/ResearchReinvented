@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!--v1.6\Defs\Opportunities\ResearchOpportunityTypes_AnalysisFloor.xml-->
+
+  <!-- reverse engineer floor -->
+  <AnalyseFloor.header_Direct>Разбор пола</AnalyseFloor.header_Direct>
+  <!-- gather construction experience -->
+  <AnalyseFloor.header_Ancestor>получить опыт строительства</AnalyseFloor.header_Ancestor>
+  <!-- Reverse engineer construction approach of {0}.\n\nAffected by (in the field):\nResearch kit research speed stat\nResearcher research speed stat -->
+  <AnalyseFloor.shortDesc_Direct>Разобрать {0} для изучения.\n\nЧто влияет на полевое исследование:\n-Скорость исследования исследовательского набора\n-Скорость исследования</AnalyseFloor.shortDesc_Direct>
+  <!-- Inspect construction methodology used in construction of {0}.\n\nAffected by (in the field):\nResearch kit research speed stat\nResearcher research speed stat -->
+  <AnalyseFloor.shortDesc_Ancestor>Изучить методы строительства, использованные при строительстве {0}.\n\nЧто влияет на полевое исследование:\n-Скорость исследования исследовательского набора\n-Скорость исследования</AnalyseFloor.shortDesc_Ancestor>
+  
+  <!-- soil analysis -->
+  <AnalyseSoil.header_Direct>анализ почвы</AnalyseSoil.header_Direct>
+  <!-- Analyze soil contents of {0}.\n\nAffected by (in the field):\nResearch kit research speed stat\nResearcher research speed stat -->
+  <AnalyseSoil.shortDesc_Direct>Анализ почвенного содержимого {0}.\n\nЧто влияет на полевое исследование:\n-Скорость исследования исследовательского набора\n-Скорость исследования</AnalyseSoil.shortDesc_Direct>
+  
+  <!-- terrain analysis -->
+  <AnalyseTerrain.header_Direct>анализ поверхности</AnalyseTerrain.header_Direct>
+  <!-- Analyze {0}.\n\n\Affected by (in the field):\nResearch kit research speed stat\nResearcher research speed stat -->
+  <AnalyseTerrain.shortDesc_Direct>Анализ {0}.\n\nЧто влияет на полевое исследование:\n-Скорость исследования исследовательского набора\n-Скорость исследования</AnalyseTerrain.shortDesc_Direct>
+</LanguageData>

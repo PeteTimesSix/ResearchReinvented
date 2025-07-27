@@ -1,93 +1,155 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
+  	<!--v1.6\Languages\English\Keyed\Settings.xml-->
+
+	<!-- Global config -->
 	<RR_setting_tab_GLOBAL_CONFIG>Глобальные настройки</RR_setting_tab_GLOBAL_CONFIG>
+	<!-- Category presets -->
 	<RR_setting_tab_CATEGORY_PRESETS>Пресеты категорий</RR_setting_tab_CATEGORY_PRESETS>
+	<!-- Category config -->
 	<RR_setting_tab_CATEGORY_CONFIG>Настройка категорий</RR_setting_tab_CATEGORY_CONFIG>
+	<!-- Mod integrations -->
 	<RR_setting_tab_MOD_INTEGRATIONS>Интеграция модов</RR_setting_tab_MOD_INTEGRATIONS>
 	
+	<!-- Configure global Research Reinvented settings. -->
 	<RR_setting_tab_GLOBAL_CONFIG_tooltip>Настройка основных параметров Research Reinvented.</RR_setting_tab_GLOBAL_CONFIG_tooltip>
+	<!-- Select a preset of research point distribution between opportunity categories. -->
 	<RR_setting_tab_CATEGORY_PRESETS_tooltip>Выберите пресет распределения очков исследования между категориями возможностей.</RR_setting_tab_CATEGORY_PRESETS_tooltip>
+	<!-- Configure individual research opportunity categories. -->
 	<RR_setting_tab_CATEGORY_CONFIG_tooltip>Настройте отдельные категории возможностей для исследования.</RR_setting_tab_CATEGORY_CONFIG_tooltip>
+	<!-- Display and configure optional integrations with other mods. -->
 	<RR_setting_tab_MOD_INTEGRATIONS_tooltip>Отображение и настройка опциональных интеграций с другими модами.</RR_setting_tab_MOD_INTEGRATIONS_tooltip>
-	
+
+	<!-- Changes in settings. Regenerate? -->
+	<RR_setting_fixupButton>Изменения в настройках. Восстановить?</RR_setting_fixupButton>
+	<!-- Clear all currently generated opportunities? This will NOT reset research progress! -->
+	<RR_setting_fixupConfirm>Очистить все текущие возможности? Это не приведет к перезапуску результатов исследований!</RR_setting_fixupConfirm>
+	<!-- Changes made here will not correctly apply to research projects already started (including progress gained from reading schematics).\nIf you are currently in game you will be prompted for applying a fix after closing this window, otherwise a fix button will be available in the in-game menu after loading a save with older settings.\n(The fix is not applied automatically in case you want to avoid accidentally double-dipping). -->
+	<RR_setting_changeWarning>Изменения, внесенные здесь, не будут корректно применяться к уже начатым исследовательским проектам (включая прогресс, достигнутый при чтении схем).\nЕсли вы в данный момент находитесь в игре, вам будет предложено применить исправление после закрытия этого окна, в противном случае кнопка исправления будет доступна во внутриигровом меню после загрузки сохранения со старыми настройками.\n(Исправление не применяется автоматически, если вы хотите избежать случайного двойного погружения).</RR_setting_changeWarning>
+
+	<!-- Show progress motes -->
 	<RR_setting_showProgressMotes>Отображать прогресс</RR_setting_showProgressMotes>
-	<RR_setting_defaultCompactMode_showProgressMotes_tooltip>Когда эта функция включена, над персонажами, добившимися значительного прогресса в исследованиях, на короткое время появляются моты (исчезающие сообщения).</RR_setting_defaultCompactMode_showProgressMotes_tooltip>
+	<!-- When enabled, motes (floating messages) will briefly appear above pawns that have made significant research progress. -->
+	<RR_setting_defaultCompactMode_showProgressMotes_tooltip>При включении, над персонажами, добившимися значительного прогресса в исследованиях, на короткое время появятся пузыри (исчезающие сообщения).</RR_setting_defaultCompactMode_showProgressMotes_tooltip>
 	
+	<!-- Research window defaults to compact mode -->
 	<RR_setting_defaultCompactMode>Окно исследования по умолчанию находится в компактном режиме</RR_setting_defaultCompactMode>
+	<!-- When enabled, the research opportunities list window will default to compact mode. -->
 	<RR_setting_defaultCompactMode_tooltip>Если эта функция включена, окно списка возможностей для исследований по умолчанию находится в компактном режиме.</RR_setting_defaultCompactMode_tooltip>
 	
+
+	<!-- Allow field research without research kit -->
+	<RR_setting_kitlessResearch>Разрешить проведение полевых исследований без исследовательского набора</RR_setting_kitlessResearch>
+	<!-- When enabled, field research can be performed without any research kit for research projects that only require a simple research table/kit. -->
+	<RR_setting_kitlessResearch_tooltip>При включении функции полевые исследования могут проводиться без исследовательского набора для исследований, которым требуется только простой исследовательский стол.</RR_setting_kitlessResearch_tooltip>
 	
-	<RR_setting_kitlessResearch>Проведение полевых исследований без исследовательского набора</RR_setting_kitlessResearch>
-	<RR_setting_kitlessResearch_tooltip>Если эта функция включена, полевые исследования можно проводить без исследовательского набора, для которых требуется только простой исследовательский стол.</RR_setting_kitlessResearch_tooltip>
+	<!-- Allow field research without kit for neolithic technologies -->
+	<RR_setting_kitlessNeolithicResearch>Разрешить проводить полевые исследования без набора для неолитических технологий</RR_setting_kitlessNeolithicResearch>
+	<!-- When enabled, field research can be performed without any research kit for research projects that are of neolithic tech level. -->
+	<RR_setting_kitlessNeolithicResearch_tooltip>При включении функции позволяют проводить полевые исследования без набора для неолитических технологий</RR_setting_kitlessNeolithicResearch_tooltip>
 	
-	<RR_setting_kitlessNeolithicResearch>Проведение полевых исследований без исследовательского набора для неолитических технологий</RR_setting_kitlessNeolithicResearch>
-	<RR_setting_kitlessNeolithicResearch_tooltip>Если эта функция включена, полевые исследования можно проводить без исследовательского набора, которые находятся на неолитическом уровне.</RR_setting_kitlessNeolithicResearch_tooltip>
 	
+	<!-- Disable prototype bill cancellation -->
+	<RR_setting_disablePrototypeBillCancellation>Отключить прототипы</RR_setting_disablePrototypeBillCancellation>
+	<!-- Some people experience issues where switching or finishing research results in cancelled construction or bills. Toggle this setting on to disable the function responsible - note that you will be able to exploit prototype bills/constructions by switching research! -->
+	<RR_setting_disablePrototypeBillCancellation_tooltip>У некоторых пользователей возникают проблемы, когда переключение или завершение исследований приводит к отмене строительства или чертежей. Включите этот параметр, чтобы отключить соответствующую функцию - обратите внимание, что вы можете использовать чертежи/построеные прототипы при переключение исследования!</RR_setting_disablePrototypeBillCancellation_tooltip>
+	
+	<!-- Select category -->
 	<RR_setting_category_selector>Выбор категории</RR_setting_category_selector>
 	
-	<RR_setting_category_enabled>Категория активна</RR_setting_category_enabled>
-	<RR_setting_category_enabled_tooltip>Переключите этот пункт, чтобы отключить эту категорию возможностей для исследования.</RR_setting_category_enabled_tooltip>
+	<!-- Category enabled -->
+	<RR_setting_category_enabled>Можно исследовать</RR_setting_category_enabled>
+	<!-- Toggle this to disable this category of research opportunities entirely. -->
+	<RR_setting_category_enabled_tooltip>Снимите галочку, чтобы отключить эту категорию для исслледований.</RR_setting_category_enabled_tooltip>
 	
+	<!-- Available at overall progress -->
 	<RR_setting_category_availableAtOverallProgress>Доступно для общего прогресса</RR_setting_category_availableAtOverallProgress>
+	<!-- Controls during which phase of research is this category available. -->
 	<RR_setting_category_availableAtOverallProgress_tooltip>Контролирует, на каком этапе исследования доступна эта категория.</RR_setting_category_availableAtOverallProgress_tooltip>
 	
-	<RR_setting_category_importanceStatic>Фиксированная важность</RR_setting_category_importanceStatic>
-	<RR_setting_category_importanceStatic_tooltip>Важность данной категории, основанная непосредственно на самом проекте, используемая при расчёте количества очков исследования, распределяемых на эту категорию.</RR_setting_category_importanceStatic_tooltip>
+	<!-- Static project cost fraction -->
+	<RR_setting_category_importanceStatic>Фиксированные баллы</RR_setting_category_importanceStatic>
+	<!-- How many research points this category will give, based only on the cost of the project itself.\nThese points are in addition to any given from the distributed points system.\n\nA value of 100% means projects can be completed entirely by doing only this category. -->
+	<RR_setting_category_importanceStatic_tooltip>Количество исследовательских баллов, начисляемых в этой категории, зависит только от стоимости самого проекта.\nЭти баллы являются дополнением к любым баллам, полученным в системе распределения баллов.\n\nЗначение 100% означает, что проекты могут быть завершены полностью только в рамках этой категории.</RR_setting_category_importanceStatic_tooltip>
 	
-	<RR_setting_category_importanceMultiplier>Важность</RR_setting_category_importanceMultiplier>
-	<RR_setting_category_importanceMultiplier_tooltip>Важность данной категории относительно других, используемая при расчёте количества очков исследования, распределяемых на эту категорию.</RR_setting_category_importanceMultiplier_tooltip>
+	<!-- Distributed project cost weight -->
+	<RR_setting_category_importanceMultiplier>Значимость категории</RR_setting_category_importanceMultiplier>
+	<!-- When distributing the project research points, this value determines how many points it will give relative to other categories.\n\nHigher value means more points. -->
+	<RR_setting_category_importanceMultiplier_tooltip>При распределении баллов за исследование проекта это значение определяет, сколько баллов он получит по отношению к другим категориям.\n\nБолее высокое значение означает большее количество баллов.</RR_setting_category_importanceMultiplier_tooltip>
 	
-	<RR_setting_category_importanceMultiplierCounted>Учёт важности</RR_setting_category_importanceMultiplierCounted>
-	<RR_setting_category_importanceMultiplierCounted_tooltip>Важность данной категории относительно других, используемая при расчёте количества очков исследования, которые будут распределены между другими категориями. Значение должно быть меньше или равно значению в пункте «Важность».</RR_setting_category_importanceMultiplierCounted_tooltip>
+	<!-- Weight counted for other categories -->
+	<RR_setting_category_importanceMultiplierCounted>Важность категории</RR_setting_category_importanceMultiplierCounted>
+	<!-- Used when calculating the research points distributed to other categories.\nMust be smaller or equal to the actual importance multiplier.\n\nLower value here means fewer points from this category are required to complete the project, and setting it to 0% makes it entirely optional. -->
+	<RR_setting_category_importanceMultiplierCounted_tooltip>Используется при расчете баллов за исследования, распределенных по другим категориям.\nЗначение должно быть меньше или равно "Значимость категории".\n\nМеньшее значение здесь означает, что для завершения проекта требуется меньшее количество баллов из этой категории, а установка значения в 0% делает категорию совершенно необязательной.</RR_setting_category_importanceMultiplierCounted_tooltip>
 	
-	<RR_setting_category_targetIterations>Количество итераций</RR_setting_category_targetIterations>
-	<RR_setting_category_targetIterations_tooltip>ММаксимальное количество возможностей, необходимых для полного выполнения данной категории.</RR_setting_category_targetIterations_tooltip>
+	<!-- Required completions -->
+	<RR_setting_category_targetIterations>Максимальное количество возможностей</RR_setting_category_targetIterations>
+	<!-- The maximum individual opportunities required to fully complete this category.\nAutomatically reduced for projects with fewer generated opportunities. -->
+	<RR_setting_category_targetIterations_tooltip>Максимальное количество возможностей исследований, необходимых для полного заполнения этой категории.\nАвтоматически сокращается для проектов с меньшим количеством генерируемых возможностей.</RR_setting_category_targetIterations_tooltip>
 	
-	<RR_setting_category_infiniteOverflow>Бесконечный поток</RR_setting_category_infiniteOverflow>
-	<RR_setting_category_infiniteOverflow_tooltip>Разрешить исследованиям этой категории продолжаться, пока есть возможности такого типа.</RR_setting_category_infiniteOverflow_tooltip>
+	<!-- Infinite overflow -->
+	<RR_setting_category_infiniteOverflow>Бесконечная категория</RR_setting_category_infiniteOverflow>
+	<!-- Allow research in this category to continue as long as there are more opportunities of this type available, even after the points maximum is reached. -->
+	<RR_setting_category_infiniteOverflow_tooltip>Разрешить продолжать исследования в этой категории до тех пор, пока будут доступны дополнительные возможности такого типа, даже после достижения максимального количества баллов.</RR_setting_category_infiniteOverflow_tooltip>
 	
+	<!-- Research speed multiplier -->
 	<RR_setting_category_researchSpeedMultiplier>Множитель скорости исследования</RR_setting_category_researchSpeedMultiplier>
-	<RR_setting_category_researchSpeedMultiplier_tooltip>Возможности этой категории будут иметь скорость исследования, умноженную на установленный процент.</RR_setting_category_researchSpeedMultiplier_tooltip>
+	<!-- Opportunities of this category will have their research speed multiplied by the set percentage.\n\nFor most categories, this is a multiplier applied to the pawn's normal research speed stat. -->
+	<RR_setting_category_researchSpeedMultiplier_tooltip>Скорость исследований в этой категории будет умножена на установленный процент.\n\nДля большинства категорий это коэффициент, применяемый к обычной скорости исследования пешки.</RR_setting_category_researchSpeedMultiplier_tooltip>
 	
+	<!-- Distributed weight multiplier -->
 	<RR_setting_category_fractionAxis>Общий множитель скорости исследования</RR_setting_category_fractionAxis>
+	<!-- Research speed -->
 	<RR_setting_category_researchSpeedAxis>Скорость исследования</RR_setting_category_researchSpeedAxis>
 	
-	<RR_setting_category_resetToDefault>Сброс к предустановленным значениям по умолчанию</RR_setting_category_resetToDefault>
+	<!-- Reset to preset default -->
+	<RR_setting_category_resetToDefault>Сброс к значениям по умолчанию</RR_setting_category_resetToDefault>
 	
 	
 	<!--- Mod compat -->
 	
-	<RR_setting_modCompat_active>{0} патч активен.</RR_setting_modCompat_active>
-	<RR_setting_modCompat_fail>{0} патч не сработал.</RR_setting_modCompat_fail>
+	<!-- {0} patch active. -->
+	<RR_setting_modCompat_active>{0} патч применен.</RR_setting_modCompat_active>
+	<!-- {0} patch failed. -->
+	<RR_setting_modCompat_fail>{0} ошибка патча.</RR_setting_modCompat_fail>
+	<!-- {0} not detected. -->
 	<RR_setting_modCompat_notDetected>{0} не обнаружен.</RR_setting_modCompat_notDetected>
 	
-	<RR_setting_modCompat_detected_combatExtended>Используется «Combat Extended».</RR_setting_modCompat_detected_combatExtended>
-	<RR_setting_modCompat_notDetected_combatExtended>«Combat Extended» не используется.</RR_setting_modCompat_notDetected_combatExtended>
+	<!-- Combat Extended -->
+	<RR_setting_modCompat_combatExtended>Combat Extended</RR_setting_modCompat_combatExtended>
+	<!-- Dubs Mint Menus -->
+	<RR_setting_modCompat_dubsMintMenus>Dubs Mint Menus</RR_setting_modCompat_dubsMintMenus>
+	<!-- Humanoid Alien Races -->
+	<RR_setting_modCompat_humanoidAlienRaces>Humanoid Alien Races</RR_setting_modCompat_humanoidAlienRaces>
+	<!-- Research Data -->
+	<RR_setting_modCompat_researchData>Research Data</RR_setting_modCompat_researchData>
 	
-	<RR_setting_modCompat_detected_dubsMintMenus>Используется «Dubs Mint Menus».</RR_setting_modCompat_detected_dubsMintMenus>
-	<RR_setting_modCompat_notDetected_dubsMintMenus>«Dubs Mint Menus» не используется.</RR_setting_modCompat_notDetected_dubsMintMenus>
-	
-	<RR_setting_modCompat_detected_humanoidAlienRaces>Используется «Humanoid Alien Races».</RR_setting_modCompat_detected_humanoidAlienRaces>
-	<RR_setting_modCompat_notDetected_humanoidAlienRaces>«Humanoid Alien Races» не используется.</RR_setting_modCompat_notDetected_humanoidAlienRaces>
-	
-	<RR_setting_modCompat_detected_researchData>Используется «Research Data».</RR_setting_modCompat_detected_researchData>
-	<RR_setting_modCompat_notDetected_researchData>«Research Data» не используется.</RR_setting_modCompat_notDetected_researchData>
-	
+	<!-- Compatibility mode -->
 	<RR_setting_modCompat_researchData_mode>Режим совместимости</RR_setting_modCompat_researchData_mode>
-	<RR_modCompat_researchData_mode_TheoryOnly>Только теоретика</RR_modCompat_researchData_mode_TheoryOnly>
-	<RR_modCompat_researchData_mode_TheoryOnly_tooltip>«Топливо» из мода «Research Data» будет расходоваться только при теоретических исследованиях.</RR_modCompat_researchData_mode_TheoryOnly_tooltip>
+	<!-- Theory only -->
+	<RR_modCompat_researchData_mode_TheoryOnly>Только теоритические</RR_modCompat_researchData_mode_TheoryOnly>
+	<!-- Research Data "fuel" will only be needed and consumed by theory research. -->
+	<RR_modCompat_researchData_mode_TheoryOnly_tooltip>«Топливо» будет расходоваться только при теоретических исследованиях.</RR_modCompat_researchData_mode_TheoryOnly_tooltip>
+	<!-- All research -->
 	<RR_modCompat_researchData_mode_AllBenchResearch>Все исследования</RR_modCompat_researchData_mode_AllBenchResearch>
-	<RR_modCompat_researchData_mode_AllBenchResearch_tooltip>«Топливо» из мода «Research Data» будет расходоваться любым исследованием, проводимым на исследовательском стенде..</RR_modCompat_researchData_mode_AllBenchResearch_tooltip>
-	
+	<!-- Research Data "fuel" will be needed and consumed by any research done at a research bench. -->
+	<RR_modCompat_researchData_mode_AllBenchResearch_tooltip>«Топливо» будет необходимо для любых исследований, проводимых на исследовательском столе.</RR_modCompat_researchData_mode_AllBenchResearch_tooltip>
 	
 	<!--- Obsolete -->
+
+	<!-- Enable debug mode -->
 	<RR_setting_debugPrintouts>Включить режим отладки</RR_setting_debugPrintouts>
-	<RR_setting_debugPrintouts_tooltip>Если включить эту функцию, будут активны различные функции для разработчика.</RR_setting_debugPrintouts_tooltip>
+	<!-- When enabled, various developer printouts and visuals will be active. -->
+	<RR_setting_debugPrintouts_tooltip>При включении, будут активны различные функции для разработчика.</RR_setting_debugPrintouts_tooltip>
 	
+	<!-- Target fraction multiplier -->
 	<RR_setting_category_targetFractionMultiplier>Конкретный множитель долей</RR_setting_category_targetFractionMultiplier>
-	<RR_setting_category_targetFractionMultiplier_tooltip>Сгенерированные возможности пытаются распределить стоимость исследования в соответствии с относительными размерами долей категорий, в зависимости от этого значения.</RR_setting_category_targetFractionMultiplier_tooltip>
+	<!-- The generated opportunities try to split the research cost of the project according to the relative fraction sizes of categories, depending on this value. -->
+	<RR_setting_category_targetFractionMultiplier_tooltip>Сгенерированные возможности будут распределить стоимость исследования в соответствии с относительными размерами долей категорий, в зависимости от этого значения.</RR_setting_category_targetFractionMultiplier_tooltip>
 	
+	<!-- Extra fraction multiplier -->
 	<RR_setting_category_extraFractionMultiplier>Дополнительный множитель частей</RR_setting_category_extraFractionMultiplier>
+	<!-- Additional research allowed for this category that is not included in the initial fraction assigned to it. -->
 	<RR_setting_category_extraFractionMultiplier_tooltip>Дополнительные исследования, предусмотренные для этой категории, которые не включены в первоначально присвоенную ей часть.</RR_setting_category_extraFractionMultiplier_tooltip>
 	
 </LanguageData>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!--v1.6\Defs\Opportunities\ResearchOpportunityTypes_Clinical.xml-->
+
+  <!-- medicine efficacy trial -->
+  <AnalyseMedicine.header_Direct>испытание эффективности медикаментов</AnalyseMedicine.header_Direct>
+  <!-- Determine efficacy of {0} as applied during surgeries and wound treatment.\n\nAffected by (after surgery and tending):\nSurgeon research speed stat\nPatient (if awake) research speed stat -->
+  <AnalyseMedicine.shortDesc_Direct>Определить эффективность {0} при проведении операций и лечении ран.\n\nЧто влияет (хирургические операции и уход за больными):\n-Скорость исследования хирурга\n-Скорость исследования пациента(если он бодрствует)</AnalyseMedicine.shortDesc_Direct>
+  
+  <!-- drug trial -->
+  <TrialDrug.header_Direct>испытание препаратов</TrialDrug.header_Direct>
+  <!-- Observe the effects of {0} by administering it to living subjects or self-trials.\n\nAffected by (on drug application):\nDoctor research speed stat\nPatient (if awake) research speed stat -->
+  <TrialDrug.shortDesc_Direct>Изучить влияния эффектов {0}, введя его живым испытуемым или испытав на себе.\n\nЧто влияет (применение препарата):\n-Скорость исследования хирурга\n-Скорость исследования пациента(если он бодрствует)</TrialDrug.shortDesc_Direct>
+  
+  <!-- experimental surgery -->
+  <PrototypeSurgery.header_Direct>экспериментальная хирургия</PrototypeSurgery.header_Direct>
+  <!-- Attempt an experimental surgical procedure: {0}.\n\nAffected by (after surgery):\nSurgeon research speed stat -->
+  <PrototypeSurgery.shortDesc_Direct>Попробовать провести экспериментальную операцию: {0}.\n\nЧто влияет (хирургические операции):\n-Скорость исследования хирурга</PrototypeSurgery.shortDesc_Direct>
+</LanguageData>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!--v1.6\Defs\Opportunities\ResearchOpportunityTypes_Prototype.xml-->
+  
+  <!-- prototype construction -->
+  <PrototypeConstruction.header_Direct>конструкция прототипа</PrototypeConstruction.header_Direct>
+  <!-- Construct a prototype of {0}.\n\nAffected by (after construction success or failure):\nWorker construction speed\nWorker research speed stat -->
+  <PrototypeConstruction.shortDesc_Direct>Сконструировать прототип {0}.\n\nЧто влияет (в случае успеха или неудачи):\n-Скорость строительства\n-Скорость исследования</PrototypeConstruction.shortDesc_Direct>
+  
+  <!-- prototype construction -->
+  <PrototypeTerrainConstruction.header_Direct>конструкция прототипа</PrototypeTerrainConstruction.header_Direct>
+  <!-- Construct a prototype of {0}.\n\nAffected by (after construction success or failure):\nWorker construction speed\nWorker research speed stat -->
+  <PrototypeTerrainConstruction.shortDesc_Direct>Сконструировать прототип {0}.\n\nЧто влияет (в случае успеха или неудачи):\n-Скорость строительства\n-Скорость исследования</PrototypeTerrainConstruction.shortDesc_Direct>
+  
+  <!-- prototype production -->
+  <PrototypeProduction.header_Direct>изготовление прототипа</PrototypeProduction.header_Direct>
+  <!-- Produce a prototype of {0} at the appropriate production facility.\n\nAffected by (after production):\nCrafter speed (by recipe)\nCrafter research speed stat -->
+  <PrototypeProduction.shortDesc_Direct>Изготовить прототип {0} на соответствующем верстаке.\n\nЧто влияет (производство):\n-Скорость работы (по рецепту)\n-Скорость исследования</PrototypeProduction.shortDesc_Direct>
+</LanguageData>

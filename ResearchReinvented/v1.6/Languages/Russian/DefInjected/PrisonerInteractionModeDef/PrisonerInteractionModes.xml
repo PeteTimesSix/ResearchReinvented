@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!--v1.6\Defs\PrisonerInteractionModes.xml-->
+
+  <!-- knowledge extraction -->
+  <RR_ScienceInterrogation.label>получение знаний</RR_ScienceInterrogation.label>
+  <!-- Extract useful knowledge relating to current research project. -->
+  <RR_ScienceInterrogation.description>Получить полезные знания, относящиеся к текущему исследованию.</RR_ScienceInterrogation.description>
+</LanguageData>

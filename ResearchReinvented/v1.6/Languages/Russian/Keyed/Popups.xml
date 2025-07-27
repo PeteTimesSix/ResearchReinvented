@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
+  	<!--v1.6\Languages\English\Keyed\Popups.xml-->
+
+	<!-- {0} now ready: {1} -->
 	<RR_opportunityTypeReady>{0} готово: {1}</RR_opportunityTypeReady>
+	<!-- {0} now ready: {1} and {2} others -->
 	<RR_opportunityTypeReady_Many>{0} готово: {1} и {2} других</RR_opportunityTypeReady_Many>
 </LanguageData>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!--v1.6\Defs\Opportunities\ResearchOpportunityTypes_Analysis.xml-->
+
+  <!-- reverse engineer -->
+  <Analyse.header_Direct>Разоборка</Analyse.header_Direct>
+  <!-- gather manufacturing experience -->
+  <Analyse.header_Ancestor>Изучить практику производства</Analyse.header_Ancestor>
+  <!-- Nondestructively reverse engineer {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat\n\nAffected by (in the field):\nResearch kit research speed stat\nResearcher research speed stat -->
+  <Analyse.shortDesc_Direct>Неразрушаемая разборка {0}.\n\nЧто влияет на лабороторное исследование:\n-Скорость исследования на лабораторном столе\n-Скорость исследования\n\nЧто влияет на полевое исследование:\n-Скорость исследования исследовательского набора\n-Скорость исследования</Analyse.shortDesc_Direct>
+  <!-- Inspect production methodology used in creation of {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat\n\nAffected by (in the field):\nResearch kit research speed stat\nResearcher research speed stat -->
+  <Analyse.shortDesc_Ancestor>Изучить методологию производства, использованную при создании {0}.\n\nЧто влияет на лабороторное исследование:\n-Скорость исследования на лабораторном столе\n-Скорость исследования\n\nЧто влияет на полевое исследование:\n-Скорость исследования исследовательского набора\n-Скорость исследования</Analyse.shortDesc_Ancestor>
+  
+  <!-- observe -->
+  <AnalysePawn.header_Direct>Наблюдать</AnalysePawn.header_Direct>
+  <!-- observe -->
+  <AnalysePawn.header_Ancestor>Наблюдать</AnalysePawn.header_Ancestor>
+  <!-- Observe a {0} in motion.\n\nAffected by (in the field):\nResearch kit research speed stat\nResearcher research speed stat -->
+  <AnalysePawn.shortDesc_Direct>Наблюдать за {0} в действии.\n\nЧто влияет на полевое исследование:\n-Скорость исследования исследовательского набора\n-Скорость исследования</AnalysePawn.shortDesc_Direct>
+  <!-- Observe a {0} in motion.\n\nAffected by (in the field):\nResearch kit research speed stat\nResearcher research speed stat -->
+  <AnalysePawn.shortDesc_Ancestor>Наблюдать за {0} в действии.</AnalysePawn.shortDesc_Ancestor>
+  
+  <!-- observe -->
+  <AnalysePawnNonFlesh.header_Direct>Наблюдать</AnalysePawnNonFlesh.header_Direct>
+  <!-- observe -->
+  <AnalysePawnNonFlesh.header_Ancestor>Наблюдать</AnalysePawnNonFlesh.header_Ancestor>
+  <!-- Observe a {0} in motion.\n\nAffected by (in the field):\nResearch kit research speed stat\nResearcher research speed stat -->
+  <AnalysePawnNonFlesh.shortDesc_Direct>Наблюдать за {0} в действии.\n\nЧто влияет на полевое исследование:\n-Скорость исследования исследовательского набора\n-Скорость исследования</AnalysePawnNonFlesh.shortDesc_Direct>
+  <!-- Observe a {0} in motion.\n\nAffected by (in the field):\nResearch kit research speed stat\nResearcher research speed stat -->
+  <AnalysePawnNonFlesh.shortDesc_Ancestor>Наблюдать за {0} в действии.</AnalysePawnNonFlesh.shortDesc_Ancestor>
+  
+  <!-- dissect -->
+  <AnalyseDissect.header_Direct>Вскрыть</AnalyseDissect.header_Direct>
+  <!-- dissect -->
+  <AnalyseDissect.header_Ancestor>Вскрыть</AnalyseDissect.header_Ancestor>
+  <!-- Dissect a {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat -->
+  <AnalyseDissect.shortDesc_Direct>Вскрыть {0}.\n\nЧто влияет на лабороторное исследование:\n-Скорость исследования на лабораторном столе\n-Скорость исследования</AnalyseDissect.shortDesc_Direct>
+  <!-- Dissect a {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat -->
+  <AnalyseDissect.shortDesc_Ancestor>Вскрыть {0}.</AnalyseDissect.shortDesc_Ancestor>
+  
+  <!-- examine internals -->
+  <AnalyseDissectNonFlesh.header_Direct>изучить органы</AnalyseDissectNonFlesh.header_Direct>
+  <!-- examine internals -->
+  <AnalyseDissectNonFlesh.header_Ancestor>изучить органы</AnalyseDissectNonFlesh.header_Ancestor>
+  <!-- Examine the internal workings of a {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat -->
+  <AnalyseDissectNonFlesh.shortDesc_Direct>Изучить внутренние органы {0}.\n\nЧто влияет на лабороторное исследование:\n-Скорость исследования на лабораторном столе\n-Скорость исследования</AnalyseDissectNonFlesh.shortDesc_Direct>
+  <!-- Examine the internal workings of a {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat -->
+  <AnalyseDissectNonFlesh.shortDesc_Ancestor>Изучить внутренние органы {0}.</AnalyseDissectNonFlesh.shortDesc_Ancestor>
+  
+  <!-- observe plant growth (at location) -->
+  <AnalysePlant.header_Direct>наблюдать за ростом растений (На территории)</AnalysePlant.header_Direct>
+  <!-- Observe {0} growth in a suitable habitat.\n\nAffected by (in the field):\nResearch kit research speed stat\nResearcher research speed stat -->
+  <AnalysePlant.shortDesc_Direct>Наблюдать за ростом {0} в подходящих условиях.\n\nЧто влияет на полевое исследование:\n-Скорость исследования исследовательского набора\n-Скорость исследования</AnalysePlant.shortDesc_Direct>
+  
+  <!-- examine harvest products -->
+  <AnalyseHarvestProduct.header_Direct>изучить урожай</AnalyseHarvestProduct.header_Direct>
+  <!-- Examine harvest production of {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat -->
+  <AnalyseHarvestProduct.shortDesc_Direct>Изучить урожай {0}.\n\nЧто влияет на лабороторное исследование:\n-Скорость исследования на лабораторном столе\n-Скорость исследования</AnalyseHarvestProduct.shortDesc_Direct>
+  
+  <!-- material analysis -->
+  <AnalyseIngredients.header_Direct>анализ материалов</AnalyseIngredients.header_Direct>
+  <!-- Determine material properties of {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat -->
+  <AnalyseIngredients.shortDesc_Direct>Пронализировать свойства {0}.\n\nЧто влияет на лабороторное исследование:\n-Скорость исследования на лабораторном столе\n-Скорость исследования</AnalyseIngredients.shortDesc_Direct>
+  
+  <!-- chemical compound analysis -->
+  <AnalyseDrug.header_Direct>анализ химических соединений</AnalyseDrug.header_Direct>
+  <!-- Analyse chemical properties of {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat -->
+  <AnalyseDrug.shortDesc_Direct>Проанализировать химические свойства {0}.\n\nЧто влияет на лабороторное исследование:\n-Скорость исследования на лабораторном столе\n-Скорость исследования</AnalyseDrug.shortDesc_Direct>
+  
+  <!-- ingredient analysis -->
+  <AnalyseIngredientsFood.header_Direct>анализ компонентов</AnalyseIngredientsFood.header_Direct>
+  <!-- Analyze nutritional and gastronomical properties of {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat -->
+  <AnalyseIngredientsFood.shortDesc_Direct>Проанализировать питательные и вкусовые качества {0}.\n\nЧто влияет на лабороторное исследование:\n-Скорость исследования на лабораторном столе\n-Скорость исследования</AnalyseIngredientsFood.shortDesc_Direct>
+  
+  <!-- ingredient analysis -->
+  <AnalyseIngredientsRawFood.header_Direct>анализ компонентов</AnalyseIngredientsRawFood.header_Direct>
+  <!-- Analyze nutritional and gastronomical properties of {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat -->
+  <AnalyseIngredientsRawFood.shortDesc_Direct>Проанализировать питательные и вкусовые качества {0}.\n\nЧто влияет на лабороторное исследование:\n-Скорость исследования на лабораторном столе\n-Скорость исследования</AnalyseIngredientsRawFood.shortDesc_Direct>
+  
+  <!-- active ingredient analysis -->
+  <AnalyseFuelDrug.header_Direct>анализ активных компонентов</AnalyseFuelDrug.header_Direct>
+  <!-- Determine active components of {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat -->
+  <AnalyseFuelDrug.shortDesc_Direct>Определить активные компоненты {0}.\n\nЧто влияет на лабороторное исследование:\n-Скорость исследования на лабораторном столе\n-Скорость исследования</AnalyseFuelDrug.shortDesc_Direct>
+  
+  <!-- fuel efficiency analysis -->
+  <AnalyseFuelFlammable.header_Direct>анализ топливной эффективности</AnalyseFuelFlammable.header_Direct>
+  <!-- Measure energy density of {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat -->
+  <AnalyseFuelFlammable.shortDesc_Direct>Проанализировать энергетическую ценость {0}.\n\nЧто влияет на лабороторное исследование:\n-Скорость исследования на лабораторном столе\n-Скорость исследования</AnalyseFuelFlammable.shortDesc_Direct>
+  
+  <!-- resupply material analysis -->
+  <AnalyseFuel.header_Direct>анализ способов пополнения запасов</AnalyseFuel.header_Direct>
+  <!-- Determine an efficient method of resupply of {0}.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat -->
+  <AnalyseFuel.shortDesc_Direct>Определите эффективный метод пополнения запасов {0}.\n\nЧто влияет на лабороторное исследование:\n-Скорость исследования на лабораторном столе\n-Скорость исследования</AnalyseFuel.shortDesc_Direct>
+</LanguageData>

@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
-	<RR_jobFail_incapableOfResearch>Не способен исследовать</RR_jobFail_incapableOfResearch>
-	<RR_jobFail_needResearchKit>Нужен исследовательский набор, пригодный для анализа</RR_jobFail_needResearchKit>
-	<RR_jobFail_needResearchBench>Невозможно найти или добраться до исследовательского стола, чтобы провести анализ</RR_jobFail_needResearchBench>
+  	<!--v1.6\Languages\English\Keyed\Jobs.xml-->
+
+	<!-- Incapable of research -->
+	<RR_jobFail_incapableOfResearch>Не способен исследовать.</RR_jobFail_incapableOfResearch>
+	<!-- Need a research kit capable of analysis -->
+	<RR_jobFail_needResearchKit>Нужен исследовательский набор, пригодный для анализа.</RR_jobFail_needResearchKit>
+	<!-- Cannot find or reach a research bench capable of analysis -->
+	<RR_jobFail_needResearchBench>Невозможно найти или добраться до исследовательского стола, чтобы провести анализ.</RR_jobFail_needResearchBench>
+	<!-- This is a prototype -->
 	<RR_jobFail_isPrototype>Это прототип</RR_jobFail_isPrototype>
-	<RR_jobReport_ScienceInterrogation>Допрашивает заключённого</RR_jobReport_ScienceInterrogation>
-	<RR_jobFail_PrisonerHasNothingToTeach>Заключённый не знает ничего полезного</RR_jobFail_PrisonerHasNothingToTeach>
+	<!-- Interrogating prisoner {0}. -->
+	<RR_jobReport_ScienceInterrogation>Допрашивает заключённого {0}.</RR_jobReport_ScienceInterrogation>
+	<!-- Prisoner has nothing to teach -->
+	<RR_jobFail_PrisonerHasNothingToTeach>Заключённый не знает ничего полезного.</RR_jobFail_PrisonerHasNothingToTeach>
 </LanguageData>

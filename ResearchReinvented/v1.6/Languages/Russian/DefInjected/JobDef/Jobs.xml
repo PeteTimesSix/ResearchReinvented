@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!--v1.6\Defs\Jobs.xml-->
+
+  <!-- examining {0}. -->
+  <RR_AnalyseInPlace.reportString>изучает {0}.</RR_AnalyseInPlace.reportString>
+  <!-- examining {0} at {1}. -->
+  <RR_Analyse.reportString>изучает {0}, используя {1}.</RR_Analyse.reportString>
+  <!-- analysing terrain. -->
+  <RR_AnalyseTerrain.reportString>оценивает поверхность.</RR_AnalyseTerrain.reportString>
+  <!-- researching. -->
+  <RR_Research.reportString>исследует.</RR_Research.reportString>
+  <!-- interrogating {0}. -->
+  <RR_InterrogatePrisoner.reportString>допрашивает {0}.</RR_InterrogatePrisoner.reportString>
+  <!-- learning at {0}. -->
+  <RR_LearnRemotely.reportString>учится {0}.</RR_LearnRemotely.reportString>
+</LanguageData>
