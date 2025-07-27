@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!--v1.6\Defs\Opportunities\ResearchOpportunityTypes_Theory.xml-->
+
+  <!-- basic research -->
+  <BasicResearch.header_Direct>фундаментальные исследования</BasicResearch.header_Direct>
+  <!-- Theorize from fundamentals.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat -->
+  <BasicResearch.shortDesc_Direct>Теоретизировать, отталкиваясь от основ.\n\nЧто влияет на лабороторное исследование:\n-Скорость исследования на лабораторном столе\n-Скорость исследования</BasicResearch.shortDesc_Direct>
+</LanguageData>

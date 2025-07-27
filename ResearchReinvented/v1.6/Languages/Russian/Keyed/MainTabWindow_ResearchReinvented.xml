@@ -1,22 +1,43 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
-	<RR_no_project_selected>Нет действующего проекта</RR_no_project_selected>
-	<RR_enable_compact_mode>Плитки</RR_enable_compact_mode>
-	<RR_disable_compact_mode>Таблица</RR_disable_compact_mode>
+  	<!--v1.6\Languages\English\Keyed\MainTabWindow_ResearchReinvented.xml-->
+
+	<!-- No active project -->
+	<RR_no_project_selected>Нет активного проекта</RR_no_project_selected>
+	<!-- Cleared this tick. Unpause to update. -->
+	<RR_cleared_this_tick>Отметка снята. Снимите паузу для обновления.</RR_cleared_this_tick>
+	<!-- Compact -->
+	<RR_enable_compact_mode>Компактно</RR_enable_compact_mode>
+	<!-- Details -->
+	<RR_disable_compact_mode>Детали</RR_disable_compact_mode>
+	<!-- Expand -->
 	<RR_uncollapse_category>Развернуть</RR_uncollapse_category>
+	<!-- Collapse -->
 	<RR_collapse_category>Свернуть</RR_collapse_category>
+	<!-- Expand All -->
 	<RR_uncollapse_all>Развернуть все</RR_uncollapse_all>
+	<!-- Collapse All -->
 	<RR_collapse_all>Свернуть все</RR_collapse_all>
 	
+	<!-- Done -->
 	<RR_OpportunityBlocked_Finished_short>Готово</RR_OpportunityBlocked_Finished_short>
+	<!-- Done -->
 	<RR_OpportunityBlocked_CategoryFinished_short>Готово</RR_OpportunityBlocked_CategoryFinished_short>
+	<!-- Locked  -->
 	<RR_OpportunityBlocked_ResearchTooLow_short>Недоступно </RR_OpportunityBlocked_ResearchTooLow_short>
-	<RR_OpportunityBlocked_ResearchTooHigh_short>Бесполезно</RR_OpportunityBlocked_ResearchTooHigh_short>
+	<!-- Not useful -->
+	<RR_OpportunityBlocked_ResearchTooHigh_short>Не применимо</RR_OpportunityBlocked_ResearchTooHigh_short>
+	<!-- Locked ??? -->
 	<RR_OpportunityBlocked_ReasonUnknown_short>Недоступно ???</RR_OpportunityBlocked_ReasonUnknown_short>
 	
+	<!-- Finished -->
 	<RR_OpportunityBlocked_Finished>Завершено</RR_OpportunityBlocked_Finished>
+	<!-- Category finished\nNothing more to learn -->
 	<RR_OpportunityBlocked_CategoryFinished>Эта категория исследований завершена\nБольше изучить не получится</RR_OpportunityBlocked_CategoryFinished>
+	<!-- Locked\nMore overall progress needed -->
 	<RR_OpportunityBlocked_ResearchTooLow>Недоступно\nПрогресс исследования слишком мал</RR_OpportunityBlocked_ResearchTooLow>
+	<!-- Locked\nCannot learn more now -->
 	<RR_OpportunityBlocked_ResearchTooHigh>Недоступно\nНельзя изучить больше, чем исследовано сейчас</RR_OpportunityBlocked_ResearchTooHigh>
+	<!-- Locked\nREASON UNKNOWN REPORT AS BUG -->
 	<RR_OpportunityBlocked_ReasonUnknown>Недоступно\nПРИЧИНА НЕИЗВЕСТНА, СООБЩИТЕ КАК ОБ ОШИБКЕ</RR_OpportunityBlocked_ReasonUnknown>
 </LanguageData>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!--v1.6\Defs\Opportunities\ResearchOpportunityTypes_Books.xml-->
+
+  <!-- schematics study -->
+  <SchematicStudy.header_Direct>изучение схем</SchematicStudy.header_Direct>
+  <!-- Study of directly related schematics.\n\nAffected by (while reading):\nReader research speed stat -->
+  <SchematicStudy.shortDesc_Direct>Подробно изучить схему.\n\nЧто влияет на время чтения:\n-Скорость чтения</SchematicStudy.shortDesc_Direct>
+  
+  <!-- techprint study -->
+  <AnalyseTechprint.header_Direct>изучение чертежей</AnalyseTechprint.header_Direct>
+  <!-- Study {0} in detail.\n\nAffected by (at bench):\nBench research speed stat\nResearcher research speed stat -->
+  <AnalyseTechprint.shortDesc_Direct>Детально изучить {0}.\n\nЧто влияет на лабороторное исследование:\n-Скорость исследования на лабораторном столе\n-Скорость исследования</AnalyseTechprint.shortDesc_Direct>
+</LanguageData>

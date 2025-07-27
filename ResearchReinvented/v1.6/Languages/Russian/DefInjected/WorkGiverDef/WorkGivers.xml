@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!--v1.6\Defs\WorkGivers.xml-->
+
+  <!-- analyse -->
+  <RR_Analyse.label>анализировать</RR_Analyse.label>
+  <!-- analyse -->
+  <RR_Analyse.verb>анализирует</RR_Analyse.verb>
+  <!-- analysing -->
+  <RR_Analyse.gerund>анализировать</RR_Analyse.gerund>
+  
+  <!-- analyse in place -->
+  <RR_AnalyseInPlace.label>анализировать тут</RR_AnalyseInPlace.label>
+  <!-- analyse -->
+  <RR_AnalyseInPlace.verb>анализирует</RR_AnalyseInPlace.verb>
+  <!-- analysing -->
+  <RR_AnalyseInPlace.gerund>анализировать</RR_AnalyseInPlace.gerund>
+  
+  <!-- analyse terrain -->
+  <RR_AnalyseTerrain.label>анализировать местность</RR_AnalyseTerrain.label>
+  <!-- analyse -->
+  <RR_AnalyseTerrain.verb>анализировать</RR_AnalyseTerrain.verb>
+  <!-- analysing -->
+  <RR_AnalyseTerrain.gerund>анализировать образцы почвы</RR_AnalyseTerrain.gerund>
+  
+  <!-- learn from allies -->
+  <RR_LearnRemotely.label>учиться у союзников</RR_LearnRemotely.label>
+  <!-- learn -->
+  <RR_LearnRemotely.verb>учиться</RR_LearnRemotely.verb>
+  <!-- learning at -->
+  <RR_LearnRemotely.gerund>учится у</RR_LearnRemotely.gerund>
+  
+  <!-- do research -->
+  <RR_ResearchRR.label>проводить исследования</RR_ResearchRR.label>
+  <!-- research -->
+  <RR_ResearchRR.verb>исследование</RR_ResearchRR.verb>
+  <!-- researching at -->
+  <RR_ResearchRR.gerund>исследовать</RR_ResearchRR.gerund>
+  
+  <!-- do research -->
+  <RR_InterrogatePrisoner.label>проводить исследования</RR_InterrogatePrisoner.label>
+  <!-- interrogate -->
+  <RR_InterrogatePrisoner.verb>допрашивать</RR_InterrogatePrisoner.verb>
+  <!-- interrogating -->
+  <RR_InterrogatePrisoner.gerund>допрашивать</RR_InterrogatePrisoner.gerund>
+</LanguageData>

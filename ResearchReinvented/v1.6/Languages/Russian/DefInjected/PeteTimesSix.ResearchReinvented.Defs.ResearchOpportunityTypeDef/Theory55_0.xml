@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LanguageData>
-  <!--v1.5\Defs\Opportunities\ResearchOpportunityTypes_Theory.xml-->
-  <!--                         basic research -->
-  <BasicResearch.header_Direct>фундаментальные исследования</BasicResearch.header_Direct>
-  <!--                            Theorise from fundamentals. -->
-  <BasicResearch.shortDesc_Direct>Теоретизировать, отталкиваясь от основ.</BasicResearch.shortDesc_Direct>
-</LanguageData>

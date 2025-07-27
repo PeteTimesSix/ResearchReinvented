@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!--v1.6\Defs\Stats.xml-->
+
+  <!-- field research speed multiplier -->
+  <FieldResearchSpeedMultiplier.label>множитель скорости полевых исследований</FieldResearchSpeedMultiplier.label>
+  <!-- Affects how fast this person performs research in the field. -->
+  <FieldResearchSpeedMultiplier.description>Влияет на то, как быстро пешка проводит исследования в полевых условиях.</FieldResearchSpeedMultiplier.description>
+</LanguageData>

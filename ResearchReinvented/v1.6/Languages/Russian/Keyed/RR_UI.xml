@@ -1,19 +1,34 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
+  	<!--v1.6\Languages\English\Keyed\RR_UI.xml-->
+
+	<!-- [Prototype] -->
 	<RR_PrototypePrefix>[Прототип]</RR_PrototypePrefix>
+	<!-- Prototype -->
 	<RR_PrototypeLabel>Прототип</RR_PrototypeLabel>
 	
+	<!-- [Experimental] -->
 	<RR_ExperimentalSurgeryPrefix>[Экспериментально]</RR_ExperimentalSurgeryPrefix>
+	<!-- Experimental -->
 	<RR_ExperimentalSurgeryLabel>Экспериментально</RR_ExperimentalSurgeryLabel>
 	
+	<!-- Equivalent research bench -->
 	<RR_EquivalentResearchBench>Аналог исследовательского стола</RR_EquivalentResearchBench>
+	<!-- This kit provides portable versions of the tools available at this type of research bench. -->
 	<RR_EquivalentResearchBench_desc>Этот набор содержит портативные версии инструментов, доступных на этом исследовательком столе.</RR_EquivalentResearchBench_desc>
+	<!-- Equivalent research facilities -->
 	<RR_EquivalentResearchFacilities>Аналог исследовательским постройкам</RR_EquivalentResearchFacilities>
+	<!-- This kit provides portable versions of these research facilities. -->
 	<RR_EquivalentResearchFacilities_desc>Данный набор представляет собой портативные версии исследовательских построек.</RR_EquivalentResearchFacilities_desc>
+	<!-- Remote connection facility -->
 	<RR_RemoteConnectionFacility>Возможность удалённого подключения</RR_RemoteConnectionFacility>
+	<!-- Establishes connection to research benches (and their networked facilities) through this facility. -->
 	<RR_RemoteConnectionFacility_desc>Устанавливает связь с исследовательскими столами (По сети) через этот модуль</RR_RemoteConnectionFacility_desc>
+	<!-- Research speed factor (via uplink) -->
 	<RR_UplinkResearchSpeedFactor>Коэффициент скорости исследования (По сети)</RR_UplinkResearchSpeedFactor>
+	<!-- Research speed multiplier provided by remote connection to the research facility. -->
 	<RR_UplinkResearchSpeedFactor_desc>Множитель скорости исследования, обеспечиваемый удалённым подключением к исследовательскому оборудованию.</RR_UplinkResearchSpeedFactor_desc>
 	
+	<!-- Category finished -->
 	<RR_CategoryFinishedBook>Категория исследований завершена</RR_CategoryFinishedBook>
 </LanguageData>

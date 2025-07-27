@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <!--                      project -->
+  <!--v1.6\Defs\MainButtons.xml-->
+
+  <!-- project -->
   <ResearchReinvented.label>проект</ResearchReinvented.label>
-  <!--                            Manage current research project. -->
+  <!-- Manage current research project. -->
   <ResearchReinvented.description>Управление текущим исследовательским проектом.</ResearchReinvented.description>
 </LanguageData>

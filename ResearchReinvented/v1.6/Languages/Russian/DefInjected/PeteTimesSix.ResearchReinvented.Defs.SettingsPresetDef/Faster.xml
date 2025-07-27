@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <!--                            full steam ahead -->
-  <SettingsPreset_RR_Faster.label>полным ходом</SettingsPreset_RR_Faster.label>
-  <!--                                  Faster research settings preset. -->
+  <!--v1.6\Defs\Settings\SettingsPreset_Faster.xml-->
+
+  <!-- full steam ahead -->
+  <SettingsPreset_RR_Faster.label>полный вперёд</SettingsPreset_RR_Faster.label>
+  <!-- Faster research settings preset. -->
   <SettingsPreset_RR_Faster.description>Пресет настроек для ускоренного исследования.</SettingsPreset_RR_Faster.description>
 </LanguageData>

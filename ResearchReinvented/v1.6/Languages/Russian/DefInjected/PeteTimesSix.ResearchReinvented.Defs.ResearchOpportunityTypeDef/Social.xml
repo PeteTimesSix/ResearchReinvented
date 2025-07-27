@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!--v1.6\Defs\Opportunities\ResearchOpportunityTypes_Social.xml-->
+
+  <!-- brainstorming -->
+  <Brainstorming.header_Direct>мозговой штурм</Brainstorming.header_Direct>
+  <!-- Brainstorm new ideas and approaches during social exchanges between members of {0}.\n\nAffected by (after conversation):\nParticipant research speed stat -->
+  <Brainstorming.shortDesc_Direct>Мозговой штурм новых идей и подходов в процессе общения между участниками {0}.\n\nЧто влияет (социальное взаимодействие):\n-Скорость исследования участников</Brainstorming.shortDesc_Direct>
+  
+  <!-- learn faction knowledge -->
+  <GainFactionKnowledge.header_Direct>получить знания фракции</GainFactionKnowledge.header_Direct>
+  <!-- Learn applicable knowledge from members of {0}, either by cooperative exchange of ideas, or extracting information from prisoners.\n\nAffected by (after conversation/interrogation):\nWarden/speaker research speed stat\nWarden/speaker social skill\nPrisoner/counterpart research speed stat\nPrisoner/counterpart social skill\nPrisoner/counterpart mood -->
+  <GainFactionKnowledge.shortDesc_Direct>Получить полезные знания от членов {0}, либо благодаря общению, либо выбивая информацию у заключенных.\n\nЧто влияет (разговор/допрос):\n-Скорость исследования надзирателя\n-Социальные навыки надзирателя\n-Скорость исследования заключенного\n-Социальные навыки заключенного\n-Настроение заключенного</GainFactionKnowledge.shortDesc_Direct>
+  
+  <!-- learn outsider knowledge -->
+  <GainFactionlessKnowledge.header_Direct>получить знания чужаков</GainFactionlessKnowledge.header_Direct>
+  <!-- Learn applicable knowledge from outsiders that are not members of any faction.\n\nAffected by (after conversation/interrogation):\nWarden/speaker research speed stat\nWarden/speaker social skill\nPrisoner/counterpart research speed stat\nPrisoner/counterpart social skill\nPrisoner/counterpart mood -->
+  <GainFactionlessKnowledge.shortDesc_Direct>Получите полезные знания от чужаков, которые не являются членами какой-либо фракции.\n\nЧто влияет (разговор/допрос):\n-Скорость исследования надзирателя\n-Социальные навыки надзирателя\n-Скорость исследования заключенного\n-Социальные навыки заключенного\n-Настроение заключенного</GainFactionlessKnowledge.shortDesc_Direct>
+</LanguageData>
