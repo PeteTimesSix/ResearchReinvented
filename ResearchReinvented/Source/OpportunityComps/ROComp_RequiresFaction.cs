@@ -21,7 +21,7 @@ namespace PeteTimesSix.ResearchReinvented.OpportunityComps
         public override bool IsRare => false;
         public override bool IsFreebie => false;
         public override bool MetBy(Def def) => faction.def == def;
-        public override bool MetBy(Thing thing) => thing is Pawn pawn && MetByFaction(pawn.Faction);
+        public override bool MetBy(Thing thing) => thing is Pawn pawn && MetByFaction(pawn.GetExtraHomeFaction() ?? pawn.Faction);
         public bool MetByFaction(Faction faction) => faction == this.faction;
         public override bool IsValid => faction != null;
 
