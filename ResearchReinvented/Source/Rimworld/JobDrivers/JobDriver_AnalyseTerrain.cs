@@ -30,14 +30,10 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
-		{
-            var terrainAt = pawn.Map.terrainGrid.TopTerrainAt(pawn.Map.cellIndices.CellToIndex(TargetCell));
-            if (terrainAt == null)
-            {
-                terrainAt = pawn.Map.terrainGrid.FoundationAt(pawn.Map.cellIndices.CellToIndex(TargetCell));
-            }
+        {
+			var opportunityAt = WorkGiver_AnalyseTerrain.FindOpportunityAt(pawn.Map, TargetCell);
+			var opportunity = opportunityAt?.opportunity;
 
-            ResearchOpportunity opportunity = WorkGiver_AnalyseTerrain.OpportunityCache[terrainAt].FirstOrDefault();
 			//ResearchOpportunity opportunity = ResearchOpportunityManager.instance.GetOpportunityForJob(this.job);
 			ResearchProjectDef currentProject = Find.ResearchManager.GetProject();
 

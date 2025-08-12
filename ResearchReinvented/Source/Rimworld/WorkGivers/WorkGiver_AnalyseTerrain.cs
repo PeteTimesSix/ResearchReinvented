@@ -19,6 +19,7 @@ using Verse.Noise;
 
 namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 {
+	public enum TerrainLayer { TEMP, TOP, FOUNDATION }
 
 	public class WorkGiver_AnalyseTerrain : WorkGiver_Scanner
 	{
@@ -54,11 +55,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 
 		public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)
-        {
-            if (Find.ResearchManager.GetProject() == null)
-                return Enumerable.Empty<IntVec3>();
+		{
+			if (Find.ResearchManager.GetProject() == null)
+				return Enumerable.Empty<IntVec3>();
 
-            return pawn.Map.areaManager.Home.ActiveCells;//.Where(c => (analysableTerrains.Contains(c.GetTerrain(pawn.Map))));
+			return pawn.Map.areaManager.Home.ActiveCells;//.Where(c => (analysableTerrains.Contains(c.GetTerrain(pawn.Map))));
 		}
 
 		public override bool ShouldSkip(Pawn pawn, bool forced = false)
@@ -70,8 +71,6 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			return !MatchingOpportunities.Any();
 		}
 
-		private enum TerrainLayer { TERRAIN, FOUNDATION }
-
 		public override bool HasJobOnCell(Pawn pawn, IntVec3 cell, bool forced = false)
 		{
 			ResearchProjectDef currentProj = Find.ResearchManager.GetProject();
@@ -81,66 +80,59 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			if (cacheBuiltOnTick != Find.TickManager.TicksAbs)
 			{
 				BuildCache();
-            }
+			}
 
-			var usingFoundation = false;
-            var terrainAt = pawn.Map.terrainGrid.TopTerrainAt(pawn.Map.cellIndices.CellToIndex(cell));
-			//Log.Message("Terrain at " + cell.ToString() + terrainAt?.defName ?? "null");
+			var opportunity = FindOpportunityAt(pawn.Map, cell);
 
-            if (terrainAt == null || !OpportunityCache.ContainsKey(terrainAt))
-			{
-				usingFoundation = true;
-                terrainAt = pawn.Map.terrainGrid.FoundationAt(pawn.Map.cellIndices.CellToIndex(cell));
-                //Log.Message("Foundation at " + cell.ToString() + terrainAt?.defName ?? "null");
-                if (terrainAt == null || !OpportunityCache.ContainsKey(terrainAt))
-					return false;
-            }
-
-			var opportunity = OpportunityCache[terrainAt].FirstOrDefault();
-			if(opportunity == null)
+			if (opportunity == null)
 				return false;
 
-            if (currentProj.HasAnyPrerequisites() && !FieldResearchHelper.GetValidResearchKits(pawn, currentProj).Any())
-            {
-                JobFailReason.Is(StringsCache.JobFail_NeedResearchKit, null);
-                return false;
-            }
+			if (currentProj.HasAnyPrerequisites() && !FieldResearchHelper.GetValidResearchKits(pawn, currentProj).Any())
+			{
+				JobFailReason.Is(StringsCache.JobFail_NeedResearchKit, null);
+				return false;
+			}
 
-			if (opportunity.relation != ResearchRelation.Ancestor)
-            {
-                var isPrototype = false;
-                if (!usingFoundation)
-					isPrototype = PrototypeKeeper.Instance.IsTerrainPrototype(cell, pawn.Map);
-                else
-                    isPrototype = PrototypeKeeper.Instance.IsFoundationTerrainPrototype(cell, pawn.Map);
+			if (opportunity.Value.opportunity.relation != ResearchRelation.Ancestor)
+			{
+				var isPrototype = false;
+				switch (opportunity.Value.type)
+				{
+					case TerrainLayer.TEMP:
+						break;
+					case TerrainLayer.TOP:
+						isPrototype = PrototypeKeeper.Instance.IsTerrainPrototype(cell, pawn.Map);
+						break;
+					case TerrainLayer.FOUNDATION:
+						isPrototype = PrototypeKeeper.Instance.IsFoundationTerrainPrototype(cell, pawn.Map);
+						break;
+
+				}
 
 				if (isPrototype)
-                {
-                    JobFailReason.Is(StringsCache.JobFail_IsPrototype, null);
-                    return false;
-                }
-            }
+				{
+					JobFailReason.Is(StringsCache.JobFail_IsPrototype, null);
+					return false;
+				}
+			}
 
-            return
+			return
 				!cell.IsForbidden(pawn) &&
 				pawn.CanReserve(cell, 1, -1, null, forced) &&
 				new HistoryEvent(HistoryEventDefOf.Researching, pawn.Named(HistoryEventArgsNames.Doer)).Notify_PawnAboutToDo_Job();
 		}
 
 		public override Job JobOnCell(Pawn pawn, IntVec3 cell, bool forced = false)
-        {
-            var usingFoundation = false;
-            var terrainAt = pawn.Map.terrainGrid.TopTerrainAt(pawn.Map.cellIndices.CellToIndex(cell));
+		{
+			var opportunityAt = FindOpportunityAt(pawn.Map, cell);
 
-            if (!OpportunityCache.ContainsKey(terrainAt))
-            {
-                usingFoundation = true;
-                terrainAt = pawn.Map.terrainGrid.FoundationAt(pawn.Map.cellIndices.CellToIndex(cell));
-            }
+			if (opportunityAt == null)
+			{
+				Log.Warning($"JobOnCell could not find opportunity at {cell.ToString()} but HasJobOnCell approved it!");
+				return null;
+			}
 
-            var opportunity = OpportunityCache[terrainAt].First();
-
-			var jobDef = opportunity.JobDefs.First(j => j.driverClass == DriverClass);
+			var jobDef = opportunityAt.Value.opportunity.JobDefs.First(j => j.driverClass == DriverClass);
 			Job job = JobMaker.MakeJob(jobDef, cell, expiryInterval: 1500, checkOverrideOnExpiry: true);
 			//ResearchOpportunityManager.instance.AssociateJobWithOpportunity(pawn, job, opportunity);
 			return job;
@@ -148,11 +140,18 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override float GetPriority(Pawn pawn, TargetInfo target)
 		{
-			var terrainAt = target.Cell.GetTerrain(pawn.Map);
-			var opportunity = OpportunityCache[terrainAt].First();
-
 			var cell = target.Cell;
-			var dist = cell.DistanceTo(pawn.Position);
+
+            var opportunityAt = FindOpportunityAt(pawn.Map, cell);
+
+            if (opportunityAt == null)
+            {
+                Log.Warning($"GetPriority could not find opportunity at {cell.ToString()} but HasJobOnCell approved it!");
+                return 0;
+            }
+			var opportunity = opportunityAt.Value.opportunity;
+
+            var dist = cell.DistanceTo(pawn.Position);
 
 			if (dist < 4f)
 				dist = (4f - dist) + 4f; //decrease priority for very nearby cells
@@ -163,6 +162,38 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			var retVal = prio * pawn.GetStatValue(StatDefOf_Custom.FieldResearchSpeedMultiplier, true) * opportunity.def.GetCategory(opportunity.relation).Settings.researchSpeedMultiplier;
 
 			return retVal;
+		}
+
+		public static (TerrainLayer type, ResearchOpportunity opportunity)? FindOpportunityAt(Map map, IntVec3 cell)
+		{
+			{
+				var tempTerrainAt = map.terrainGrid.TempTerrainAt(map.cellIndices.CellToIndex(cell));
+				if (tempTerrainAt != null)
+				{
+					var opportunity = OpportunityCache.TryGetValue(tempTerrainAt)?.FirstOrDefault();
+					if (opportunity != null)
+						return (TerrainLayer.TEMP, opportunity);
+				}
+			}
+			{
+				var topTerrainAt = map.terrainGrid.TopTerrainAt(map.cellIndices.CellToIndex(cell));
+				if (topTerrainAt != null)
+				{
+					var opportunity = OpportunityCache.TryGetValue(topTerrainAt)?.FirstOrDefault();
+					if (opportunity != null)
+						return (TerrainLayer.TOP, opportunity);
+				}
+			}
+			{
+				var foundationAt = map.terrainGrid.FoundationAt(map.cellIndices.CellToIndex(cell));
+				if (foundationAt != null)
+				{
+					var opportunity = OpportunityCache.TryGetValue(foundationAt)?.FirstOrDefault();
+					if (opportunity != null)
+						return (TerrainLayer.FOUNDATION, opportunity);
+				}
+			}
+			return null;
 		}
 
 
@@ -197,12 +228,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 					continue;
 				}
 				foreach(var terrainDef in terrainDefs)
-                {
-                    if (!_opportunityCache.ContainsKey(terrainDef))
-                        _opportunityCache[terrainDef] = new HashSet<ResearchOpportunity>();
+				{
+					if (!_opportunityCache.ContainsKey(terrainDef))
+						_opportunityCache[terrainDef] = new HashSet<ResearchOpportunity>();
 
-                    _opportunityCache[terrainDef].Add(opportunity);
-                }
+					_opportunityCache[terrainDef].Add(opportunity);
+				}
 			}
 			cacheBuiltOnTick = Find.TickManager.TicksAbs;
 			//Log.Message("built terrain opportunity cache on tick " + cacheBuiltOnTick);
