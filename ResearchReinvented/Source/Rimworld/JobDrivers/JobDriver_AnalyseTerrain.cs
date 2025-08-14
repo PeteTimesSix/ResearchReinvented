@@ -31,7 +31,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 
 		protected override IEnumerable<Toil> MakeNewToils()
         {
-			var opportunityAt = WorkGiver_AnalyseTerrain.FindOpportunityAt(pawn.Map, TargetCell);
+			var opportunityAt = WorkGiver_AnalyseTerrain.FindOpportunityAt(pawn.Map, TargetCell, pawn);
 			var opportunity = opportunityAt?.opportunity;
 
 			//ResearchOpportunity opportunity = ResearchOpportunityManager.instance.GetOpportunityForJob(this.job);

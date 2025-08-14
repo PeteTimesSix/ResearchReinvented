@@ -82,7 +82,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 				BuildCache();
 			}
 
-			var opportunity = FindOpportunityAt(pawn.Map, cell);
+			var opportunity = FindOpportunityAt(pawn.Map, cell, pawn);
 
 			if (opportunity == null)
 				return false;
@@ -124,7 +124,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override Job JobOnCell(Pawn pawn, IntVec3 cell, bool forced = false)
 		{
-			var opportunityAt = FindOpportunityAt(pawn.Map, cell);
+			var opportunityAt = FindOpportunityAt(pawn.Map, cell, pawn);
 
 			if (opportunityAt == null)
 			{
@@ -142,7 +142,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		{
 			var cell = target.Cell;
 
-            var opportunityAt = FindOpportunityAt(pawn.Map, cell);
+            var opportunityAt = FindOpportunityAt(pawn.Map, cell, pawn);
 
             if (opportunityAt == null)
             {
@@ -164,7 +164,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			return retVal;
 		}
 
-		public static (TerrainLayer type, ResearchOpportunity opportunity)? FindOpportunityAt(Map map, IntVec3 cell)
+		public static (TerrainLayer type, ResearchOpportunity opportunity)? FindOpportunityAt(Map map, IntVec3 cell, Pawn pawn)
 		{
 			{
 				var tempTerrainAt = map.terrainGrid.TempTerrainAt(map.cellIndices.CellToIndex(cell));
