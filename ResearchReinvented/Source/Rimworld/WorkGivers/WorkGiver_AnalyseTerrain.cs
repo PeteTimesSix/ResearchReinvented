@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Verse;
@@ -82,7 +83,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 				BuildCache();
 			}
 
-			var opportunity = FindOpportunityAt(pawn.Map, cell);
+			var opportunity = FindOpportunityAt(pawn, cell);
 
 			if (opportunity == null)
 				return false;
@@ -124,7 +125,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
 		public override Job JobOnCell(Pawn pawn, IntVec3 cell, bool forced = false)
 		{
-			var opportunityAt = FindOpportunityAt(pawn.Map, cell);
+			var opportunityAt = FindOpportunityAt(pawn, cell);
 
 			if (opportunityAt == null)
 			{
@@ -142,7 +143,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 		{
 			var cell = target.Cell;
 
-            var opportunityAt = FindOpportunityAt(pawn.Map, cell);
+            var opportunityAt = FindOpportunityAt(pawn, cell);
 
             if (opportunityAt == null)
             {
@@ -164,31 +165,31 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			return retVal;
 		}
 
-		public static (TerrainLayer type, ResearchOpportunity opportunity)? FindOpportunityAt(Map map, IntVec3 cell)
+        public static (TerrainLayer type, ResearchOpportunity opportunity)? FindOpportunityAt(Pawn pawn, IntVec3 cell)
 		{
 			{
-				var tempTerrainAt = map.terrainGrid.TempTerrainAt(map.cellIndices.CellToIndex(cell));
+				var tempTerrainAt = pawn.Map.terrainGrid.TempTerrainAt(pawn.Map.cellIndices.CellToIndex(cell));
 				if (tempTerrainAt != null)
 				{
-					var opportunity = OpportunityCache.TryGetValue(tempTerrainAt)?.FirstOrDefault();
+					var opportunity = FilterCacheFor(tempTerrainAt, pawn)?.FirstOrDefault();
 					if (opportunity != null)
 						return (TerrainLayer.TEMP, opportunity);
 				}
 			}
 			{
-				var topTerrainAt = map.terrainGrid.TopTerrainAt(map.cellIndices.CellToIndex(cell));
+				var topTerrainAt = pawn.Map.terrainGrid.TopTerrainAt(pawn.Map.cellIndices.CellToIndex(cell));
 				if (topTerrainAt != null)
 				{
-					var opportunity = OpportunityCache.TryGetValue(topTerrainAt)?.FirstOrDefault();
+					var opportunity = FilterCacheFor(topTerrainAt, pawn)?.FirstOrDefault();
 					if (opportunity != null)
 						return (TerrainLayer.TOP, opportunity);
 				}
 			}
 			{
-				var foundationAt = map.terrainGrid.FoundationAt(map.cellIndices.CellToIndex(cell));
+				var foundationAt = pawn.Map.terrainGrid.FoundationAt(pawn.Map.cellIndices.CellToIndex(cell));
 				if (foundationAt != null)
 				{
-					var opportunity = OpportunityCache.TryGetValue(foundationAt)?.FirstOrDefault();
+					var opportunity = FilterCacheFor(foundationAt, pawn)?.FirstOrDefault();
 					if (opportunity != null)
 						return (TerrainLayer.FOUNDATION, opportunity);
 				}
@@ -238,5 +239,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			cacheBuiltOnTick = Find.TickManager.TicksAbs;
 			//Log.Message("built terrain opportunity cache on tick " + cacheBuiltOnTick);
 		}
-	}
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static HashSet<ResearchOpportunity> FilterCacheFor(TerrainDef terrainDef, Pawn pawn)
+        {
+            return OpportunityCache.TryGetValue(terrainDef);
+        }
+    }
 }

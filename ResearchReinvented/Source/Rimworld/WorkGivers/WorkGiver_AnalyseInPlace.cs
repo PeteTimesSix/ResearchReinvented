@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Verse;
@@ -78,7 +79,7 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
             if (!pawn.CanReserve(thing, 1, -1, null, forced))
                 return false;
 
-            var opportunity = OpportunityCache[thing.def].FirstOrDefault();
+            var opportunity = FilterCacheFor(thing, pawn).FirstOrDefault();
             if (PrototypeKeeper.Instance.IsPrototype(thing) && opportunity.relation != ResearchRelation.Ancestor)
             {
                 JobFailReason.Is(StringsCache.JobFail_IsPrototype, null);
@@ -106,9 +107,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
             return new HistoryEvent(HistoryEventDefOf.Researching, pawn.Named(HistoryEventArgsNames.Doer)).Notify_PawnAboutToDo_Job();
         }
 
-		public override Job JobOnThing(Pawn pawn, Thing thing, bool forced = false)
+        public override Job JobOnThing(Pawn pawn, Thing thing, bool forced = false)
 		{
-			var opportunity = OpportunityCache[thing.def].First();
+			var opportunity = FilterCacheFor(thing, pawn).First();
 
 			var jobDef = opportunity.JobDefs.First(j => j.driverClass == DriverClass);
 			Job job = JobMaker.MakeJob(jobDef, thing, expiryInterval: 1500, checkOverrideOnExpiry: true);
@@ -197,5 +198,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 
             cacheBuiltOnTick = Find.TickManager.TicksAbs;
 		}
-	}
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static HashSet<ResearchOpportunity> FilterCacheFor(Thing thing, Pawn pawn)
+        {
+            return OpportunityCache[thing.def];
+        }
+    }
 }
