@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Verse;
@@ -72,9 +73,9 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
             if (!pawn.CanReserve(t, 1, -1, null, forced))
                 return false;
 
-            var thingDef = MinifyUtility.GetInnerIfMinified(t).def;
+            Thing actualThing = MinifyUtility.GetInnerIfMinified(t);
 
-			var opportunity = OpportunityCache[thingDef].FirstOrDefault();
+			var opportunity = FilterCacheFor(actualThing, pawn).FirstOrDefault();
 			if (PrototypeKeeper.Instance.IsPrototype(t) &&  opportunity.relation != ResearchRelation.Ancestor)
             {
                 JobFailReason.Is(StringsCache.JobFail_IsPrototype, null);
@@ -99,15 +100,15 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
         {
             var researchBench = GetBestResearchBench(pawn);
 
-			var thingDef = MinifyUtility.GetInnerIfMinified(t).def;
+			Thing actualThing = MinifyUtility.GetInnerIfMinified(t);
 
-			if(!OpportunityCache.ContainsKey(thingDef)) 
+			if(!OpportunityCache.ContainsKey(actualThing.def)) 
 			{
-				Log.Warning($"opportunity cache did not contain {thingDef} for thing {t}");
+				Log.Warning($"opportunity cache did not contain {actualThing.def} for thing {t}");
 				return null;
 			}
 
-			var opportunity = OpportunityCache[thingDef].First();
+			var opportunity = FilterCacheFor(actualThing, pawn).First();
 
 			JobDef jobDef = opportunity.JobDefs.First(j => j.driverClass == DriverClass);
 			Job job = JobMaker.MakeJob(jobDef, t, expiryInterval: 20000, checkOverrideOnExpiry: true);
@@ -246,5 +247,11 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 			cacheBuiltOnTick = Find.TickManager.TicksAbs;
 		}
 
-	}
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static HashSet<ResearchOpportunity> FilterCacheFor(Thing thing, Pawn pawn)
+        {
+            return OpportunityCache[thing.def];
+        }
+
+    }
 }
