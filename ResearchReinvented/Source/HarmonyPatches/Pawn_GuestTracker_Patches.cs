@@ -16,7 +16,7 @@ namespace PeteTimesSix.ResearchReinvented.HarmonyPatches
         [HarmonyPostfix]
         public static void Postfix(Pawn_GuestTracker __instance, GuestStatus guestStatus)
         {
-            if( guestStatus == GuestStatus.Prisoner && ResearchReinventedMod.Settings.disablePrototypeBillCancellation )
+            if( guestStatus == GuestStatus.Prisoner && ResearchReinventedMod.Settings.enableScienceInterrogationByDefault )
                 __instance.ToggleNonExclusiveInteraction(PrisonerInteractionModeDefOf_Custom.RR_ScienceInterrogation, true);
         }
     }
