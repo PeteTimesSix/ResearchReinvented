@@ -68,6 +68,7 @@
     <Compile Include="HarmonyPatches\DesignationCategoryDef_Patches.cs" />
     <Compile Include="HarmonyPatches\Ingestibles\Recipe_AdministerIngestible_Patches.cs" />
     <Compile Include="HarmonyPatches\Ingestibles\Thing_Patches.cs" />
+    <Compile Include="HarmonyPatches\Pawn_GuestTracker_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\Blueprint_TryReplaceWithSolidThing_Patches.cs" />
     <Compile Include="HarmonyPatches\Prototypes\JobDriver_ConstructFinishFrame_MakeNewToils_Patches.cs" />
     <Compile Include="HarmonyPatches\Medicine\SurgeryOutcomeComp_MedicineQuality_Patches.cs" />

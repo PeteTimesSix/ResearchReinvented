@@ -39,6 +39,7 @@ namespace PeteTimesSix.ResearchReinvented
 
         public bool disablePrototypeBillCancellation = true;
 
+        public bool enableScienceInterrogationByDefault = true;
 
         public List<CategorySettingsChanges> categorySettingChanges = new List<CategorySettingsChanges>();
         public List<CategorySettingsFinal> categorySettings = new List<CategorySettingsFinal>();
@@ -66,6 +67,8 @@ namespace PeteTimesSix.ResearchReinvented
             Scribe_Values.Look(ref kitlessNeolithicResearch, "kitlessNeolithicResearch", true);
 
             Scribe_Values.Look(ref disablePrototypeBillCancellation, "disablePrototypeBillCancellation", true);
+
+            Scribe_Values.Look(ref enableScienceInterrogationByDefault, "enableScienceInterrogationByDefault", true);
 
             Scribe_Collections.Look(ref categorySettingChanges, "categorySettingChanges", LookMode.Deep);
 
@@ -127,6 +130,8 @@ namespace PeteTimesSix.ResearchReinvented
             listingStandard.CheckboxLabeled("RR_setting_kitlessNeolithicResearch".Translate(), ref kitlessNeolithicResearch, "RR_setting_kitlessNeolithicResearch_tooltip".Translate());
 
             listingStandard.CheckboxLabeled("RR_setting_disablePrototypeBillCancellation".Translate(), ref disablePrototypeBillCancellation, "RR_setting_disablePrototypeBillCancellation_tooltip".Translate());
+
+            listingStandard.CheckboxLabeled("RR_setting_enableScienceInterrogationByDefault".Translate(), ref enableScienceInterrogationByDefault, "RR_setting_enableScienceInterrogationByDefault_tooltip".Translate());
 
             float remainingHeight = inRect.height - listingStandard.CurHeight;
             listingStandard.Gap(remainingHeight - Text.LineHeight * 1.5f);
