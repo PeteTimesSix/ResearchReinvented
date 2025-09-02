@@ -83,7 +83,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 			research.AddEndCondition(() => opportunity.IsFinished || opportunity.CurrentAvailability != OpportunityAvailability.Available ? JobCondition.Succeeded : JobCondition.Ongoing);
 			research.WithEffect(EffecterDefOf.Research, ResearchBenchIndex);
 			research.AddFailCondition(() => !ResearchBench.CanUseNow());
-			research.defaultCompleteMode = ToilCompleteMode.Never;
+			research.defaultCompleteMode = ToilCompleteMode.Delay;
+			research.defaultDuration = 4000;
 			research.FailOnCannotTouch(TargetIndex.A, PathEndMode.InteractionCell);
 			research.activeSkill = (() => SkillDefOf.Intellectual);
 			yield return research;
