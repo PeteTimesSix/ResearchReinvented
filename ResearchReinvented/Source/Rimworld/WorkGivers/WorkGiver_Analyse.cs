@@ -215,17 +215,22 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.WorkGivers
 				{
                     var list = new List<Thing>();
                     _things[map] = list;
-                    foreach (var thing in map.listerThings.ThingsInGroup(ThingRequestGroup.HaulableEver))
+                    var checkAddThing = (Thing thing) =>
                     {
                         if (!thing.FactionAllowsAnalysis())
-                            continue;
+                            return;
 
                         var unminifiedThing = thing.GetInnerIfMinified();
                         var thingDef = unminifiedThing.def;
 
                         if (_opportunityCache.ContainsKey(thingDef))
                             list.Add(thing);
-                    }
+                    };
+                    foreach (var thing in map.listerThings.ThingsInGroup(ThingRequestGroup.HaulableEver))
+                        checkAddThing(thing);
+                    foreach (IHaulSource item2 in map.haulDestinationManager.AllHaulSourcesListForReading)
+                        foreach (Thing item3 in item2.GetDirectlyHeldThings())
+                            checkAddThing(item3);
                 }
                 {
                     ResearchProjectDef currentProj = Find.ResearchManager.GetProject();

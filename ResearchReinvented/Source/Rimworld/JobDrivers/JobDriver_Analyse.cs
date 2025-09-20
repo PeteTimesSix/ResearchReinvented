@@ -66,9 +66,12 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 
             yield return Toils_Reserve.Reserve(TargetThingIndex);
             yield return Toils_Reserve.Reserve(ResearchBenchIndex);
-            yield return Toils_Goto.GotoThing(TargetThingIndex, PathEndMode.ClosestTouch).FailOnSomeonePhysicallyInteracting(TargetThingIndex).FailOnDestroyedNullOrForbidden(TargetThingIndex);
+            yield return Toils_Goto.GotoThing(TargetThingIndex, PathEndMode.ClosestTouch, canGotoSpawnedParent: true)
+                .FailOnSomeonePhysicallyInteracting(TargetThingIndex)
+                .FailOnDestroyedNullOrForbidden(TargetThingIndex)
+                .FailOnSelfAndParentsDespawnedOrNull(TargetThingIndex);
             yield return Toils_Reserve.Release(TargetThingIndex);
-            yield return Toils_Haul.StartCarryThing(TargetThingIndex, putRemainderInQueue: false);
+            yield return Toils_Haul.StartCarryThing(TargetThingIndex, putRemainderInQueue: false, canTakeFromInventory: true);
             yield return Toils_Goto.GotoThing(ResearchBenchIndex, PathEndMode.InteractionCell).FailOnDestroyedOrNull(TargetThingIndex);
             yield return Toils_ClearCell.ClearDefaultIngredientPlaceCell(ResearchBenchIndex);
             Toil findPlaceTarget = Toils_JobTransforms.SetTargetToIngredientPlaceCell(ResearchBenchIndex, TargetThingIndex, TargetThingPlacementIndex);
