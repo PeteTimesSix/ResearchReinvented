@@ -40,8 +40,29 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
 
         protected override IEnumerable<Toil> MakeNewToils()
 		{
-			var unminifiedThing = TargetThing.GetInnerIfMinified();
-			ResearchOpportunity opportunity = WorkGiver_Analyse.OpportunityCache[unminifiedThing.def].FirstOrDefault();
+			Thing targetThing = TargetThing;
+			if (targetThing == null)
+			{
+				Log.WarningOnce($"RR: Resumed JobDriver_Analyse job {this.job} has no target thing; cancelling stale job.", 456653 + pawn.thingIDNumber);
+				yield return Toils_General.Wait(1);
+				yield break;
+			}
+
+			var unminifiedThing = targetThing.GetInnerIfMinified();
+			if (unminifiedThing == null)
+			{
+				Log.WarningOnce($"RR: Resumed JobDriver_Analyse job {this.job} resolved to a null inner thing; cancelling stale job.", 456655 + pawn.thingIDNumber);
+				yield return Toils_General.Wait(1);
+				yield break;
+			}
+
+			HashSet<ResearchOpportunity> matchingOpportunities;
+			ResearchOpportunity opportunity = null;
+			if (WorkGiver_Analyse.OpportunityCache.TryGetValue(unminifiedThing.def, out matchingOpportunities))
+			{
+				opportunity = matchingOpportunities.FirstOrDefault();
+			}
+
             //ResearchOpportunity opportunity = ResearchOpportunityManager.instance.GetOpportunityForJob(this.job);
             ResearchProjectDef currentProject = Find.ResearchManager.GetProject();
 
