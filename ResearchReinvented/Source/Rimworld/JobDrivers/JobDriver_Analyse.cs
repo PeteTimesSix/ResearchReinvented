@@ -135,8 +135,8 @@ namespace PeteTimesSix.ResearchReinvented.Rimworld.JobDrivers
                 }
                 return opportunity.ProgressFraction;
             }, false, -0.5f);
-            research.defaultCompleteMode = ToilCompleteMode.Never;
-            //research.defaultDuration = JobEndInterval;
+            research.defaultCompleteMode = ToilCompleteMode.Delay;
+            research.defaultDuration = JobEndInterval;
             research.activeSkill = (() => SkillDefOf.Intellectual);
             yield return research;
             yield return Toils_Jump.JumpIf(research, () => !opportunity.IsFinished);
